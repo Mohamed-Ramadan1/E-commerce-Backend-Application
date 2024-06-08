@@ -1,0 +1,9 @@
+**
+The first 3 features are 
+
+1) Auth 
+--- auth using normal email
+--- auth using OAouth
+--- adding the base rule of authorization 
+--- adding jwt virefication 
+2)

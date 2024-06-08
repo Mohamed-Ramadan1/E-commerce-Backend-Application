@@ -1,0 +1,32 @@
+E-commerce project planning
+***
+website that have many product and the customer have the ability to buy products on the website and make a lot of other actions. 
+
+The Website--//**
+the website not just middle part between the trader and the customer it also have its products 
+the website has a powerful admin dashboard that mange the both site analyses 
+also mange the customers requests and accounts 
+also mange the shops and traders accounts 
+
+
+The trader--//**
+website has many shops were the user can request to become a trader on the website after give some data 
+if the trader request accepted he can create his shop and start selling products on the website 
+the website will take a percentage from the trader and he has a dashboard where he can control his shop 
+see the orders and the canceled orders and his earned amount money can add products or remove products update 
+the price or freezing products where the frozen products will not appear on the shop the trader can get some analyses 
+about his shop growth ,growth amount and best sealer product on his website 
+
+
+The customer--//**
+The customer can navigate throw the website and see different products with the ability for filter search sort the products based on his criteria 
+the customer can add products to his shopping cart and buy them or can adding them to the wish list and buy them latter 
+the customer can make order and cancel orders and also can create return request the user can see his orders history.
+the user can rating the products he bought and the shop also 
+the user can manage his account and the user will receive  messages and alerts from the website and the user also will have free shipping if 
+he bought with specific amount of money and he has free return for 30 day and ability to contact with the customer services 
+
+
+
+** the Operation manger can mange the orders and see all the details of the orders and mange the entire process of ship the products to to customers
+
