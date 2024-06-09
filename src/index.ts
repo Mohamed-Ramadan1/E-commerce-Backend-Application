@@ -1,14 +1,15 @@
-import express, { Application, Request, Response } from "express";
-import exampleRoute from "./routes/exampleRoute";
+import app from "./app";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+dotenv.config();
 
-const app: Application = express();
-const port: number = 3000;
+const port: string = process.env.PORT || "3000";
 
-// Use the example route
-app.use("/api", exampleRoute);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+
+const DB: string = process.env.DATABASE;
+mongoose.connect(DB).then(() => {
+  console.log("Database is connected");
 });
 
 app.listen(port, () => {
