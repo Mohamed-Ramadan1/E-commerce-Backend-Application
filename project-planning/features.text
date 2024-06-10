@@ -1,0 +1,15 @@
+1) whish list 
+	create update delete
+	get getAll	
+
+2)Shoping card
+	add delete update 
+	get getAll
+
+3)Reviews 
+	create update delete
+	get getAll
+
+40)Bought items 
+	create update delete 
+	get getAll
