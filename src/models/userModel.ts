@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-interface IUser {
+export interface IUser {
   name: string;
   email: string;
   phoneNumber: string;
@@ -11,6 +11,7 @@ interface IUser {
   passwordConfirmation: string | undefined;
   role: string;
   isModified: (path: string) => boolean;
+  comparePassword(candidatePassword: string): Promise<boolean>;
 }
 const userSchema = new Schema(
   {
@@ -44,6 +45,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+      selected: false,
     },
     passwordConfirmation: {
       type: String,
@@ -72,6 +74,29 @@ userSchema.pre<IUser>("save", function (next) {
   this.passwordConfirmation = undefined;
   next();
 });
+
+/**
+ * Compares a candidate password with the stored hashed password.
+ *
+ * @param candidatePassword - The password provided by the user.
+ * @returns A promise that resolves to a boolean indicating whether the candidate password matches the stored hashed password.
+ *
+ * @remarks
+ * This method uses bcrypt.compare to compare the candidate password with the stored hashed password.
+ * It is an asynchronous method and should be awaited when used.
+ *
+ * @example
+ * ```typescript
+ * const user = await User.findOne({ email: 'user@example.com' });
+ * const isMatch = await user.comparePassword('candidatePassword');
+ * console.log(isMatch); // Output: true or false
+ * ```
+ */
+userSchema.methods.comparePassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  return bcrypt.compare(candidatePassword, this.password);
+};
 
 const User = model<IUser>("User", userSchema);
 

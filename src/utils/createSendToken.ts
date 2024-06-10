@@ -25,3 +25,24 @@ export const createSendToken = (user: any, statusCode: number, res: any) => {
     },
   });
 };
+
+export const createLogOutToken = (user: any, statusCode: number, res: any) => {
+  (user: any, statusCode: number, res: any) => {
+    const token = sign({ id: user._id }, process.env.JWT_SECRET as Secret, {
+      expiresIn: 1,
+    });
+
+    res.cookie("jwt", "", {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true,
+    });
+
+    res.status(statusCode).json({
+      status: "success",
+      token,
+      data: {
+        user,
+      },
+    });
+  };
+};
