@@ -1,12 +1,16 @@
 import { Schema, model } from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 interface IUser {
   name: string;
   email: string;
   phoneNumber: string;
   password: string;
-  passwordConfirmation: string;
+  photo?: string;
+  photoPublicId?: string;
+  passwordConfirmation: string | undefined;
   role: string;
+  isModified: (path: string) => boolean;
 }
 const userSchema = new Schema(
   {
@@ -18,6 +22,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
+      trim: true,
       validate: [validator.isEmail, "Invalid email"],
     },
     phoneNumber: {
@@ -28,6 +34,12 @@ const userSchema = new Schema(
         },
         message: "Invalid phone number",
       },
+    },
+    photo: {
+      type: String,
+    },
+    photoPublicId: {
+      type: String,
     },
     password: {
       type: String,
@@ -53,6 +65,14 @@ const userSchema = new Schema(
     timestamps: true,
   }
 );
+
+userSchema.pre<IUser>("save", function (next) {
+  if (!this.isModified("password")) return next();
+  this.password = bcrypt.hashSync(this.password, 12);
+  this.passwordConfirmation = undefined;
+  next();
+});
+
 const User = model<IUser>("User", userSchema);
 
 export default User;
