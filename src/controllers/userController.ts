@@ -4,6 +4,10 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IUser } from "../models/user.interface";
+import {
+  RequestWithMongoDbId,
+  RequestWithUser,
+} from "../shared-interfaces/request.interface";
 import { sendResponse } from "../utils/sendResponse";
 
 export const getAllUsers = catchAsync(
@@ -19,7 +23,7 @@ export const getAllUsers = catchAsync(
 );
 
 export const getUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const user = await User.findById(req.params.id);
     if (!user) {
       return next(new AppError("User not found", 404));
@@ -33,17 +37,11 @@ export const getUser = catchAsync(
 );
 
 export const createUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { name, email, phoneNumber, password, passwordConfirmation } =
       req.body;
 
-    const user = await User.create({
-      name,
-      email,
-      phoneNumber,
-      password,
-      passwordConfirmation,
-    });
+    const user = await User.create(req.body);
     if (!user) {
       return next(new AppError("something went wrong", 400));
     }
@@ -56,7 +54,7 @@ export const createUser = catchAsync(
 );
 
 export const updateUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -73,7 +71,7 @@ export const updateUser = catchAsync(
 );
 
 export const deleteUser = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const user = await User.findByIdAndDelete(req.params.id);
     if (!user) {
       return next(new AppError("User not found", 404));

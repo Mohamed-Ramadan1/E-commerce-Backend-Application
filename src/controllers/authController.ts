@@ -4,9 +4,13 @@ import catchAsync from "../utils/catchAsync";
 import User from "../models/userModel";
 import { IUser } from "../models/user.interface";
 import { createSendToken, createLogOutToken } from "../utils/createSendToken";
-
+import {
+  LoginRequest,
+  LogoutRequest,
+  RequestWithUser,
+} from "../shared-interfaces/request.interface";
 export const signUpWithEmail = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { name, email, phoneNumber, password, passwordConfirmation } =
       req.body;
 
@@ -23,7 +27,7 @@ export const signUpWithEmail = catchAsync(
 );
 
 export const loginWithEmail = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: LoginRequest, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
     const user = (await User.findOne({ email }).select(
       "+password"
@@ -36,7 +40,7 @@ export const loginWithEmail = catchAsync(
 );
 
 export const logout = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: LogoutRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return next(new AppError("No user logged in", 401));
     }

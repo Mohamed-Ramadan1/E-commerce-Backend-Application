@@ -4,7 +4,7 @@ import {
   loginWithEmail,
   logout,
 } from "../controllers/authController";
-import { protect, restrictTo } from "../middlewares/authMiddleware";
+import { protect } from "../middlewares/authMiddleware";
 const router = Router();
 
 router.route("/signup").post(signUpWithEmail);

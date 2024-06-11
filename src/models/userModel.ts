@@ -34,7 +34,7 @@ const userSchema: Schema<IUser> = new Schema(
     password: {
       type: String,
       required: true,
-      selected: false,
+      select: false,
     },
     passwordConfirmation: {
       type: String,

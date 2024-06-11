@@ -8,7 +8,10 @@ import AppError from "../utils/ApplicationError";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
 import { sendResponse } from "../utils/sendResponse";
-
+import {
+  RequestWithMongoDbId,
+  RequestWithProduct,
+} from "../shared-interfaces/request.interface";
 export const getAllProducts = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const products = await Product.find();
@@ -22,7 +25,7 @@ export const getAllProducts = catchAsync(
   }
 );
 export const getProduct = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const product = await Product.findById(req.params.id);
     if (!product) {
       return next(new AppError("Product not found", 404));
@@ -38,7 +41,7 @@ export const getProduct = catchAsync(
 );
 
 export const createProduct = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithProduct, res: Response, next: NextFunction) => {
     const product = await Product.create(req.body);
     if (!product) {
       return next(new AppError("something went wrong", 400));
@@ -54,7 +57,7 @@ export const createProduct = catchAsync(
 );
 
 export const updateProduct = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -64,7 +67,6 @@ export const updateProduct = catchAsync(
     }
 
     const response: ApiResponse<IProduct | null> = {
-      // Data is IProduct or null
       status: "success",
       data: product,
     };
@@ -74,7 +76,7 @@ export const updateProduct = catchAsync(
 );
 
 export const deleteProduct = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {
       return next(new AppError("Product not found", 404));
