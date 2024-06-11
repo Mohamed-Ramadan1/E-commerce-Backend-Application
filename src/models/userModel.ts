@@ -1,19 +1,8 @@
-import { Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-export interface IUser {
-  name: string;
-  email: string;
-  phoneNumber: string;
-  password: string;
-  photo?: string;
-  photoPublicId?: string;
-  passwordConfirmation: string | undefined;
-  role: string;
-  isModified: (path: string) => boolean;
-  comparePassword(candidatePassword: string): Promise<boolean>;
-}
-const userSchema = new Schema(
+import { IUser } from "./user.interface";
+const userSchema: Schema<IUser> = new Schema(
   {
     name: {
       type: String,
@@ -98,6 +87,6 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const User = model<IUser>("User", userSchema);
+const User: Model<IUser> = model<IUser>("User", userSchema);
 
 export default User;

@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
-import User, { IUser } from "../models/userModel";
+import User from "../models/userModel";
+import { IUser } from "../models/user.interface";
 import { createSendToken, createLogOutToken } from "../utils/createSendToken";
 
 export const signUpWithEmail = catchAsync(
@@ -34,11 +35,11 @@ export const loginWithEmail = catchAsync(
   }
 );
 
-// export const logout = catchAsync(
-//   async (req: Request, res: Response, next: NextFunction) => {
-//     createLogOutToken(req.user._id, 200, res);
-//     res.status(200).json({
-//       status: "success",
-//     });
-//   }
-// );
+export const logout = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return next(new AppError("No user logged in", 401));
+    }
+    createLogOutToken(req.user, 200, res);
+  }
+);

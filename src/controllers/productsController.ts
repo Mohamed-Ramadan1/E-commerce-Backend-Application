@@ -1,5 +1,5 @@
-import Product from "../models/productsModel";
-import { IProduct } from "../models/products.interface";
+import Product from "../models/productModel";
+import { IProduct } from "../models/product.interface";
 
 import { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catchAsync";

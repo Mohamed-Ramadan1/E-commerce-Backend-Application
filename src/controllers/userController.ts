@@ -2,17 +2,19 @@ import User from "../models/userModel";
 import { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import { ApiResponse } from "../shared-interfaces/response.interface";
+import { IUser } from "../models/user.interface";
+import { sendResponse } from "../utils/sendResponse";
 
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.find();
-    res.status(200).json({
+    const response: ApiResponse<IUser[]> = {
       status: "success",
       results: users.length,
-      data: {
-        users,
-      },
-    });
+      data: users,
+    };
+    sendResponse(200, response, res);
   }
 );
 
@@ -22,12 +24,11 @@ export const getUser = catchAsync(
     if (!user) {
       return next(new AppError("User not found", 404));
     }
-    res.status(200).json({
+    const response: ApiResponse<IUser> = {
       status: "success",
-      data: {
-        user,
-      },
-    });
+      data: user,
+    };
+    sendResponse(200, response, res);
   }
 );
 
@@ -46,12 +47,11 @@ export const createUser = catchAsync(
     if (!user) {
       return next(new AppError("something went wrong", 400));
     }
-    res.status(201).json({
+    const response: ApiResponse<IUser> = {
       status: "success",
-      data: {
-        user,
-      },
-    });
+      data: user,
+    };
+    sendResponse(201, response, res);
   }
 );
 
@@ -64,12 +64,11 @@ export const updateUser = catchAsync(
     if (!user) {
       return next(new AppError("User not found", 404));
     }
-    res.status(200).json({
+    const response: ApiResponse<IUser> = {
       status: "success",
-      data: {
-        user,
-      },
-    });
+      data: user,
+    };
+    sendResponse(200, response, res);
   }
 );
 
@@ -79,9 +78,10 @@ export const deleteUser = catchAsync(
     if (!user) {
       return next(new AppError("User not found", 404));
     }
-    res.status(204).json({
+    const response: ApiResponse<null> = {
       status: "success",
       data: null,
-    });
+    };
+    sendResponse(204, response, res);
   }
 );
