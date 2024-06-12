@@ -7,6 +7,9 @@ export interface LoginRequest extends Request {
     email: string;
     password: string;
   };
+  headers: {
+    authorization: string;
+  };
 }
 
 export interface LogoutRequest extends Request {
@@ -16,7 +19,6 @@ export interface LogoutRequest extends Request {
 export interface RequestWithUser extends Request {
   body: IUser;
 }
-
 
 export interface RequestWithMongoDbId extends Request {
   params: {
