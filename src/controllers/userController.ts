@@ -1,4 +1,5 @@
 import User from "../models/userModel";
+import ShoppingCart from "../models/shoppingCartModel";
 import { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
@@ -40,13 +41,11 @@ export const getUser = catchAsync(
 
 export const createUser = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const { name, email, phoneNumber, password, passwordConfirmation } =
-      req.body;
-
     const user = await User.create(req.body);
     if (!user) {
       return next(new AppError("something went wrong", 400));
     }
+    await ShoppingCart.create({ user: user._id });
     const response: ApiResponse<IUser> = {
       status: "success",
       data: user,

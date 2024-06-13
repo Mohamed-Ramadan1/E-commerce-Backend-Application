@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import ShoppingCart from "../models/shoppingCartModel";
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
 import User from "../models/userModel";
@@ -9,6 +10,7 @@ import {
   AuthUserRequest,
   RequestWithUser,
 } from "../shared-interfaces/request.interface";
+import { IShoppingCart } from "../models/shoppingCart.interface";
 export const signUpWithEmail = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { name, email, phoneNumber, password, passwordConfirmation } =
@@ -22,6 +24,14 @@ export const signUpWithEmail = catchAsync(
       passwordConfirmation,
     });
 
+    if (!user) {
+      return next(new AppError("Fail to sign the new user  ", 500));
+    }
+    const shoppingCart: IShoppingCart = await ShoppingCart.create({
+      user: user._id,
+    });
+    user.shoppingCart = shoppingCart._id;
+    await user.save({ validateBeforeSave: false });
     createSendToken(user, 201, res);
   }
 );

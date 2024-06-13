@@ -28,6 +28,10 @@ const userSchema: Schema<IUser> = new Schema(
         message: "Invalid phone number",
       },
     },
+    shoppingCart: {
+      type: Schema.Types.ObjectId,
+      ref: "ShoppingCart",
+    },
     photo: {
       type: String,
     },
