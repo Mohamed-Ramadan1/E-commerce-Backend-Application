@@ -2,7 +2,7 @@ import { Request } from "express";
 import { IProduct } from "../models/product.interface";
 import { IUser } from "../models/user.interface";
 
-import { Types, Schema } from "mongoose";
+import { Types } from "mongoose";
 export interface LoginRequest extends Request {
   body: {
     email: string;

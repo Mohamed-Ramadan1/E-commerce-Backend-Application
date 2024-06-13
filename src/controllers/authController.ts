@@ -35,6 +35,14 @@ export const loginWithEmail = catchAsync(
     if (!user || !(await (user as any).comparePassword(password))) {
       return next(new AppError("Email or password not correct ", 401));
     }
+    if (user.active === false) {
+      return next(
+        new AppError(
+          "Your account has been un activate  contact support to know more information",
+          401
+        )
+      );
+    }
     createSendToken(user, 200, res);
   }
 );

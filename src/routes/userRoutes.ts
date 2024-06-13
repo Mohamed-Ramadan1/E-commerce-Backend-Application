@@ -5,6 +5,9 @@ import {
   getUser,
   updateUser,
   deleteUser,
+  getMe,
+  deleteMe,
+  deactivateMe,
 } from "../controllers/userController";
 import {
   getShoppingCart,
@@ -17,6 +20,9 @@ const router = Router();
 
 router.use(protect);
 
+router.route("/me").get(getMe).delete(deleteMe);
+
+router.route("/me/deactivate").patch(deactivateMe);
 router
   .route("/")
   .get(restrictTo("admin"), getAllUsers)

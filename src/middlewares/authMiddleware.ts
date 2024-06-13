@@ -25,6 +25,14 @@ export const protect = catchAsync(
         new AppError("The user belonging to this token no longer exists", 401)
       );
     }
+    if (user.active === false) {
+      return next(
+        new AppError(
+          "Your account has been activated please contact support for more information.",
+          401
+        )
+      );
+    }
     req.user = user;
     next();
   }

@@ -7,6 +7,7 @@ import { IUser } from "../models/user.interface";
 import {
   RequestWithMongoDbId,
   RequestWithUser,
+  AuthUserRequest,
 } from "../shared-interfaces/request.interface";
 import { sendResponse } from "../utils/sendResponse";
 
@@ -81,5 +82,63 @@ export const deleteUser = catchAsync(
       data: null,
     };
     sendResponse(204, response, res);
+  }
+);
+
+// User Profile operations
+
+// Update my account info not password (check if pass or conf pass exist return err else update )
+
+//update my account password
+
+// unActive my account
+export const deactivateMe = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return next(new AppError("User not found", 404));
+    }
+
+    user.active = false;
+    await user.save({ validateBeforeSave: false });
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      data: null,
+    };
+    sendResponse(200, response, res);
+  }
+);
+//delete my account (with consedration fo delete other rleated data like wishlist items and shoping cart )
+export const deleteMe = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const me = await User.findById(req.user._id);
+
+    if (!me) {
+      return next(new AppError("Your not authorized ", 401));
+    }
+
+    await User.deleteOne({ _id: req.user._id });
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      data: null,
+    };
+    sendResponse(204, response, res);
+  }
+);
+//get me
+export const getMe = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const me = await User.findById(req.user._id);
+    if (!me) {
+      return next(new AppError("Your not authorized ", 401));
+    }
+    const response: ApiResponse<IUser> = {
+      status: "success",
+      data: me as IUser,
+    };
+    sendResponse(200, response, res);
   }
 );

@@ -51,6 +51,19 @@ const userSchema: Schema<IUser> = new Schema(
       enum: ["user", "admin", "trader"],
       default: "user",
     },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+    active: {
+      type: Boolean,
+      default: true,
+    },
+    emailToken: {
+      type: String,
+    },
+    verified: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
