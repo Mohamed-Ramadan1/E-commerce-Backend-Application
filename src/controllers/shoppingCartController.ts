@@ -22,3 +22,4 @@ export const removeItemFromShoppingCart = catchAsync(
 export const clearShoppingCart = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {}
 );
+
