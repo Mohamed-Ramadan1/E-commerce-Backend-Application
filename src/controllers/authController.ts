@@ -6,7 +6,7 @@ import { IUser } from "../models/user.interface";
 import { createSendToken, createLogOutToken } from "../utils/createSendToken";
 import {
   LoginRequest,
-  LogoutRequest,
+  AuthUserRequest,
   RequestWithUser,
 } from "../shared-interfaces/request.interface";
 export const signUpWithEmail = catchAsync(
@@ -40,7 +40,7 @@ export const loginWithEmail = catchAsync(
 );
 
 export const logout = catchAsync(
-  async (req: LogoutRequest, res: Response, next: NextFunction) => {
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     if (!req.user) {
       return next(new AppError("No user logged in", 401));
     }

@@ -9,7 +9,6 @@ import userRoutes from "./routes/userRoutes";
 
 import productRoutes from "./routes/productsRoutes";
 
-import shoppingCartRoutes from "./routes/shoppingCartRoutes";
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
 
@@ -30,7 +29,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
-app.use("/api/v1/shopping-cart", shoppingCartRoutes);
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
