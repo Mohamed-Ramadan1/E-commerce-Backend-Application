@@ -8,9 +8,10 @@ import {
   RequestWithMongoDbId,
   RequestWithUser,
   AuthUserRequest,
+  RequestUpdateUserPassword,
 } from "../shared-interfaces/request.interface";
 import { sendResponse } from "../utils/sendResponse";
-
+import { createSendToken } from "../utils/createSendToken";
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.find();
@@ -90,14 +91,48 @@ export const deleteUser = catchAsync(
 // Update my account info not password (check if pass or conf pass exist return err else update )
 
 //update my account password
+export const updateMyPassword = catchAsync(
+  async (req: RequestUpdateUserPassword, res: Response, next: NextFunction) => {
+    const { currentPassword, newPassword, passwordConfirmation } = req.body;
+    if (!currentPassword || !newPassword || !passwordConfirmation) {
+      return next(
+        new AppError(
+          "Please provide all required data currentPassword, password, passwordConfirmation",
+          400
+        )
+      );
+    }
+    // Check if the new password and confirmation password match
+    if (newPassword !== passwordConfirmation) {
+      return next(
+        new AppError("Password and password confirmation do not match", 400)
+      );
+    }
 
+    const user = await User.findById(req.user._id).select("+password");
+    // now check if the current password is correct or not and based on the result update the password
+    if (!user) {
+      return next(new AppError("You are not authorized", 401));
+    }
+    const isMatch = await user.comparePassword(currentPassword, user.password);
+
+    if (!isMatch) {
+      return next(new AppError("Current password is incorrect", 401));
+    }
+    user.password = newPassword;
+    user.passwordConfirmation = passwordConfirmation;
+    await user.save();
+
+    createSendToken(user, 200, res);
+  }
+);
 // unActive my account
 export const deactivateMe = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const user = await User.findById(req.user._id);
 
     if (!user) {
-      return next(new AppError("User not found", 404));
+      return next(new AppError("You are not authorized", 401));
     }
 
     user.active = false;
@@ -110,7 +145,7 @@ export const deactivateMe = catchAsync(
     sendResponse(200, response, res);
   }
 );
-//delete my account (with consedration fo delete other rleated data like wishlist items and shoping cart )
+//delete my account (with consedration fo delete other rleated data like wishlist items andB shoping cart )
 export const deleteMe = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const me = await User.findById(req.user._id);

@@ -15,5 +15,8 @@ export interface IUser extends Document {
   verified: boolean;
   emailToken: string;
   isModified: (path: string) => boolean;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  comparePassword(
+    candidatePassword: string,
+    userPassword: string
+  ): Promise<boolean>;
 }

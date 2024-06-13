@@ -32,7 +32,10 @@ export const loginWithEmail = catchAsync(
     const user = (await User.findOne({ email }).select(
       "+password"
     )) as IUser | null;
-    if (!user || !(await (user as any).comparePassword(password))) {
+    if (
+      !user ||
+      !(await (user as any).comparePassword(password, user.password))
+    ) {
       return next(new AppError("Email or password not correct ", 401));
     }
     if (user.active === false) {

@@ -95,9 +95,10 @@ userSchema.pre<IUser>("save", function (next) {
  * ```
  */
 userSchema.methods.comparePassword = async function (
-  candidatePassword: string
+  candidatePassword: string,
+  userPassword: string
 ): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password);
+  return bcrypt.compare(candidatePassword, userPassword);
 };
 
 const User: Model<IUser> = model<IUser>("User", userSchema);

@@ -48,3 +48,15 @@ export interface RequestWithProductAndUser extends Request {
     id: string;
   };
 }
+
+export interface RequestUpdateUserPassword extends Request, AuthUserRequest {
+  user: IUser;
+  headers: {
+    authorization: string;
+  };
+  body: {
+    currentPassword: string;
+    newPassword: string;
+    passwordConfirmation: string;
+  };
+}

@@ -8,6 +8,7 @@ import {
   getMe,
   deleteMe,
   deactivateMe,
+  updateMyPassword,
 } from "../controllers/userController";
 import {
   getShoppingCart,
@@ -22,7 +23,8 @@ router.use(protect);
 
 router.route("/me").get(getMe).delete(deleteMe);
 
-router.route("/me/deactivate").patch(deactivateMe);
+router.patch("/me/deactivate", deactivateMe);
+router.patch("/me/password", updateMyPassword);
 router
   .route("/")
   .get(restrictTo("admin"), getAllUsers)
