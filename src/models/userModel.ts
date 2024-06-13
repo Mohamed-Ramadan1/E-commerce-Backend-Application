@@ -16,6 +16,9 @@ const userSchema: Schema<IUser> = new Schema(
       trim: true,
       validate: [validator.isEmail, "Invalid email"],
     },
+    address: {
+      type: String,
+    },
     phoneNumber: {
       type: String,
       validate: {

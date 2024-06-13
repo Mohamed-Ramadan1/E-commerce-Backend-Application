@@ -89,6 +89,36 @@ export const deleteUser = catchAsync(
 // User Profile operations
 
 // Update my account info not password (check if pass or conf pass exist return err else update )
+export const updateMyInfo = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    if (
+      req.body.password ||
+      req.body.passwordConfirmation ||
+      req.body.role ||
+      req.body.verified ||
+      req.body.active ||
+      req.body.passwordResetToken ||
+      req.body.passwordResetExpires ||
+      req.body.emailToken
+    ) {
+      return next(
+        new AppError("You can't preform this action using this route.", 400)
+      );
+    }
+    const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) {
+      return next(new AppError("You are not authorized", 401));
+    }
+    const response: ApiResponse<IUser> = {
+      status: "success",
+      data: user,
+    };
+    sendResponse(200, response, res);
+  }
+);
 
 //update my account password
 export const updateMyPassword = catchAsync(

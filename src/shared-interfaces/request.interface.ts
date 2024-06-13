@@ -49,7 +49,7 @@ export interface RequestWithProductAndUser extends Request {
   };
 }
 
-export interface RequestUpdateUserPassword extends Request, AuthUserRequest {
+export interface RequestUpdateUserPassword extends Request {
   user: IUser;
   headers: {
     authorization: string;
