@@ -29,11 +29,11 @@ const cartItemSchema: Schema<ICartItem> = new Schema(
   },
   { timestamps: true }
 );
-cartItemSchema.pre("save", function (next) {
-  this.populate({
-    path: "product",
-  });
-  next();
-});
+// cartItemSchema.pre("save", function (next) {
+//   this.populate({
+//     path: "product",
+//   });
+//   next();
+// });
 const CartItem: Model<ICartItem> = model<ICartItem>("CartItem", cartItemSchema);
 export default CartItem;
