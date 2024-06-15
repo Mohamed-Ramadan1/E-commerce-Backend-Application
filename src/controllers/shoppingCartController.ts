@@ -1,5 +1,4 @@
 import catchAsync from "../utils/catchAsync";
-import { Types } from "mongoose";
 import AppError from "../utils/ApplicationError";
 import ShoppingCart from "../models/shoppingCartModel";
 import Product from "../models/productModel";
@@ -20,6 +19,7 @@ export const getShoppingCart = catchAsync(
     const userShopCart = await ShoppingCart.findOne({
       user: req.user._id,
     });
+
     if (!userShopCart) {
       return next(new AppError("something went wrong", 400));
     }
@@ -54,6 +54,16 @@ export const addItemToShoppingCart = catchAsync(
       cart: req.user.shoppingCart,
       product: productId,
     });
+
+    if (
+      userShoppingCartItem &&
+      userShoppingCartItem.quantity + quantity > product.stock_quantity
+    ) {
+      return next(
+        new AppError(" stock quantity  less than your required quantity", 400)
+      );
+    }
+
     if (userShoppingCartItem) {
       userShoppingCartItem.quantity += quantity;
       await userShoppingCartItem.save();
@@ -78,10 +88,38 @@ export const addItemToShoppingCart = catchAsync(
 );
 
 export const removeItemFromShoppingCart = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    
-  }
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {}
 );
+
 export const clearShoppingCart = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    console.log(req.user._id);
+    const userShopCart = await ShoppingCart.findOneAndUpdate(
+      { user: req.user._id },
+      {
+        items: [],
+        total_quantity: 0,
+        total_discount: 0,
+        total_price: 0,
+        total_shipping_cost: 0,
+        payment_status: "pending",
+        payment_method: "cash",
+      },
+      {
+        new: true,
+      }
+    );
+    await CartItem.deleteMany({
+      cart: req.user.shoppingCart,
+    });
+    console.log(userShopCart);
+    if (!userShopCart) {
+      return next(new AppError("You are not authorized", 401));
+    }
+    const response: ApiResponse<IShoppingCart> = {
+      status: "success",
+      data: userShopCart,
+    };
+    sendResponse(200, response, res);
+  }
 );

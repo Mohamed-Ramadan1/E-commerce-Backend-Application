@@ -7,4 +7,6 @@ export interface ICartItem extends Document {
   quantity: number;
   price: number;
   discount: number;
+  priceAfterDiscount: number;
+  calculateTotalPrice(): void;
 }

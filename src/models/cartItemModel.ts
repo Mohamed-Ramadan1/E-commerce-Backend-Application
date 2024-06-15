@@ -21,19 +21,38 @@ const cartItemSchema: Schema<ICartItem> = new Schema(
     price: {
       type: Number,
       required: true,
+      default: 0,
     },
     discount: {
       type: Number,
       default: 0,
     },
+    priceAfterDiscount: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
   },
   { timestamps: true }
 );
-// cartItemSchema.pre("save", function (next) {
-//   this.populate({
-//     path: "product",
-//   });
-//   next();
-// });
+
+cartItemSchema.methods.calculateTotalPrice = function () {
+  this.price = this.product.price * this.quantity;
+  if (this.discount > 0) {
+    this.discount = this.product.discount * this.quantity;
+    this.priceAfterDiscount = this.price - this.discount;
+  }
+};
+cartItemSchema.pre<ICartItem>("save", function (next) {
+  this.calculateTotalPrice();
+  next();
+});
+cartItemSchema.pre<ICartItem>(/^find/, function (next) {
+  this.populate({
+    path: "product",
+    select: "name price discount price quantity",
+  });
+  next();
+});
 const CartItem: Model<ICartItem> = model<ICartItem>("CartItem", cartItemSchema);
 export default CartItem;

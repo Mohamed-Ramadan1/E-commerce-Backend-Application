@@ -1,6 +1,6 @@
-import { Schema, Model, model } from "mongoose";
+import { Schema, model } from "mongoose";
 import { IShoppingCart } from "./shoppingCart.interface";
-const ShoppingCartSchema: Schema<IShoppingCart> = new Schema(
+const shoppingCartSchema = new Schema<IShoppingCart>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -23,17 +23,24 @@ const ShoppingCartSchema: Schema<IShoppingCart> = new Schema(
   { timestamps: true }
 );
 
-// Pre-save hook to calculate totals
+// pre find hook populate the products
+shoppingCartSchema.methods.calculateTotals = function () {
+  console.log(this);
+};
 
-ShoppingCartSchema.methods.calculateTotals = function () {};
-// ShoppingCartSchema.pre("save", function (next) {
-//   this.calculateTotals();
-//   next();
-// });
+// pre save hook calculate the total price
+shoppingCartSchema.pre<IShoppingCart>("save", function (next) {
+  this.calculateTotals();
+  console.log("traggerdown");
+  next();
+});
 
-const ShoppingCart: Model<IShoppingCart> = model<IShoppingCart>(
-  "ShoppingCart",
-  ShoppingCartSchema
-);
+// pre save hook calculate the total price
+shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
+  this.populate("items");
+  next();
+});
+
+const ShoppingCart = model<IShoppingCart>("ShoppingCart", shoppingCartSchema);
 
 export default ShoppingCart;
