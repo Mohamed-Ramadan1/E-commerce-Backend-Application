@@ -78,10 +78,19 @@ export const addItemToShoppingCart = catchAsync(
       userShopCart.items.push(shopCartItem._id);
       await userShopCart.save();
     }
+    const updatedShopCart: IShoppingCart | null = await ShoppingCart.findById(
+      req.user.shoppingCart
+    );
+    if (!updatedShopCart) {
+      return next(new AppError("something went wrong", 400));
+    }
+    updatedShopCart.calculateTotals();
+    updatedShopCart.save();
+
     const response: ApiResponse<IShoppingCart> = {
       status: "success",
       results: 1,
-      data: userShopCart,
+      data: updatedShopCart,
     };
     sendResponse(200, response, res);
   }

@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { ICartItem } from "./cartItem.interface";
 import { IShoppingCart } from "./shoppingCart.interface";
 const shoppingCartSchema = new Schema<IShoppingCart>(
   {
@@ -22,20 +23,27 @@ const shoppingCartSchema = new Schema<IShoppingCart>(
   },
   { timestamps: true }
 );
+shoppingCartSchema.methods.calculateTotals = async function () {
+  this.total_quantity = this.items.reduce(
+    (total: number, item: ICartItem) => total + item.quantity,
+    0
+  );
 
-// pre find hook populate the products
-shoppingCartSchema.methods.calculateTotals = function () {
-  console.log(this);
+  this.total_discount = this.items.reduce(
+    (total: number, item: ICartItem) => total + item.discount,
+    0
+  );
+  this.total_price = this.items.reduce(
+    (total: number, item: ICartItem) =>
+      total + item.priceAfterDiscount * item.quantity,
+    0
+  );
+
+  // Assuming a flat shipping cost per item for simplicity
+  const shippingCostPerItem = 5;
+  this.total_shipping_cost = this.total_quantity * shippingCostPerItem;
 };
 
-// pre save hook calculate the total price
-shoppingCartSchema.pre<IShoppingCart>("save", function (next) {
-  this.calculateTotals();
-  console.log("traggerdown");
-  next();
-});
-
-// pre save hook calculate the total price
 shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
   this.populate("items");
   next();

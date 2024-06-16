@@ -38,15 +38,15 @@ const cartItemSchema: Schema<ICartItem> = new Schema(
 
 cartItemSchema.methods.calculateTotalPrice = function () {
   this.price = this.product.price * this.quantity;
-  if (this.discount > 0) {
-    this.discount = this.product.discount * this.quantity;
-    this.priceAfterDiscount = this.price - this.discount;
-  }
+
+  this.discount = this.product.discount * this.quantity;
+  this.priceAfterDiscount = this.price - this.discount;
 };
 cartItemSchema.pre<ICartItem>("save", function (next) {
   this.calculateTotalPrice();
   next();
 });
+
 cartItemSchema.pre<ICartItem>(/^find/, function (next) {
   this.populate({
     path: "product",
