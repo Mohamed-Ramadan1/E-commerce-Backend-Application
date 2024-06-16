@@ -41,7 +41,7 @@ router.route("/:id/shopping-cart").get(getShoppingCart);
 
 router.route("/:id/shopping-cart/items").post(addItemToShoppingCart);
 router
-  .route("/:id/shopping-cart/items/:itemId")
+  .route("/:id/shopping-cart/items/:productId")
   .delete(removeItemFromShoppingCart);
 router.route("/:id/shopping-cart/clear").delete(clearShoppingCart);
 

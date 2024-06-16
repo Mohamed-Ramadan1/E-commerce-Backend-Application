@@ -95,9 +95,44 @@ export const addItemToShoppingCart = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
 export const removeItemFromShoppingCart = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {}
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const shoppingCartId = req.user.shoppingCart;
+
+    // Find the user's shopping cart
+    const userShopCart = await ShoppingCart.findById(shoppingCartId);
+    if (!userShopCart) {
+      return next(new AppError("Shopping cart not found", 400));
+    }
+
+    // Find the cart item to be removed
+    const userShoppingCartItem = await CartItem.findOne({
+      cart: shoppingCartId,
+      product: req.params.productId,
+    });
+    if (!userShoppingCartItem) {
+      return next(new AppError("Product not found in the shopping cart", 404));
+    }
+
+    // Delete the cart item
+    await CartItem.findByIdAndDelete(userShoppingCartItem._id);
+
+    // Remove the item from the shopping cart's items array
+    userShopCart.items = userShopCart.items.filter(
+      (itemId) => !itemId.equals(userShoppingCartItem._id)
+    );
+
+    // Calculate and update totals
+    userShopCart.calculateTotals();
+    await userShopCart.save();
+
+    // Send the updated shopping cart in the response
+    const response: ApiResponse<IShoppingCart> = {
+      status: "success",
+      data: userShopCart,
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 export const clearShoppingCart = catchAsync(
