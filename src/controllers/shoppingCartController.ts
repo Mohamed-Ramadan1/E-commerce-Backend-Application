@@ -66,6 +66,7 @@ export const addItemToShoppingCart = catchAsync(
 
     if (userShoppingCartItem) {
       userShoppingCartItem.quantity += quantity;
+      // userShoppingCartItem.calculateTotalPrice();
       await userShoppingCartItem.save();
     }
     if (!userShoppingCartItem) {
@@ -75,6 +76,8 @@ export const addItemToShoppingCart = catchAsync(
         quantity,
         price: product.price,
       });
+      // shopCartItem.calculateTotalPrice();
+      // await shopCartItem.save();
       userShopCart.items.push(shopCartItem._id);
       await userShopCart.save();
     }
@@ -95,6 +98,7 @@ export const addItemToShoppingCart = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
 export const removeItemFromShoppingCart = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const shoppingCartId = req.user.shoppingCart;

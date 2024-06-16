@@ -23,7 +23,7 @@ const shoppingCartSchema = new Schema<IShoppingCart>(
   },
   { timestamps: true }
 );
-shoppingCartSchema.methods.calculateTotals = async function () {
+shoppingCartSchema.methods.calculateTotals = function () {
   this.total_quantity = this.items.reduce(
     (total: number, item: ICartItem) => total + item.quantity,
     0
@@ -34,8 +34,7 @@ shoppingCartSchema.methods.calculateTotals = async function () {
     0
   );
   this.total_price = this.items.reduce(
-    (total: number, item: ICartItem) =>
-      total + item.priceAfterDiscount * item.quantity,
+    (total: number, item: ICartItem) => total + item.priceAfterDiscount,
     0
   );
 

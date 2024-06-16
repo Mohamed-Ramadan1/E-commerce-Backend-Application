@@ -36,14 +36,18 @@ const cartItemSchema: Schema<ICartItem> = new Schema(
   { timestamps: true }
 );
 
-cartItemSchema.methods.calculateTotalPrice = function () {
-  this.price = this.product.price * this.quantity;
-
-  this.discount = this.product.discount * this.quantity;
-  this.priceAfterDiscount = this.price - this.discount;
+cartItemSchema.methods.calculateTotalPrice = async function () {
+  const product = await this.model("Product").findById(this.product);
+  if (product) {
+    this.price = product.price * this.quantity;
+    this.discount = product.discount * this.quantity;
+    this.priceAfterDiscount = this.price - this.discount;
+  }
 };
-cartItemSchema.pre<ICartItem>("save", function (next) {
-  this.calculateTotalPrice();
+
+// Pre-save middleware to calculate total price before saving
+cartItemSchema.pre<ICartItem>("save", async function (next) {
+  await this.calculateTotalPrice();
   next();
 });
 
