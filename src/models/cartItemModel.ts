@@ -46,15 +46,14 @@ cartItemSchema.methods.calculateTotalPrice = async function () {
 };
 
 // Pre-save middleware to calculate total price before saving
-cartItemSchema.pre<ICartItem>("save", async function (next) {
-  await this.calculateTotalPrice();
+cartItemSchema.pre<ICartItem>("save", function (next) {
+  this.calculateTotalPrice();
   next();
 });
 
 cartItemSchema.pre<ICartItem>(/^find/, function (next) {
   this.populate({
     path: "product",
-    select: "name price discount price quantity",
   });
   next();
 });

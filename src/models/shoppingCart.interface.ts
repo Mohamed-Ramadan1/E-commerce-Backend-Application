@@ -1,4 +1,5 @@
 import { Types, Document } from "mongoose";
+import { IProduct } from "./product.interface";
 export interface IShoppingCart extends Document {
   _id: Types.ObjectId;
   user: Types.ObjectId;

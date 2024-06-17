@@ -66,7 +66,6 @@ export const addItemToShoppingCart = catchAsync(
 
     if (userShoppingCartItem) {
       userShoppingCartItem.quantity += quantity;
-      // userShoppingCartItem.calculateTotalPrice();
       await userShoppingCartItem.save();
     }
     if (!userShoppingCartItem) {
@@ -76,8 +75,7 @@ export const addItemToShoppingCart = catchAsync(
         quantity,
         price: product.price,
       });
-      // shopCartItem.calculateTotalPrice();
-      // await shopCartItem.save();
+
       userShopCart.items.push(shopCartItem._id);
       await userShopCart.save();
     }
@@ -160,7 +158,6 @@ export const clearShoppingCart = catchAsync(
     await CartItem.deleteMany({
       cart: req.user.shoppingCart,
     });
-    console.log(userShopCart);
     if (!userShopCart) {
       return next(new AppError("You are not authorized", 401));
     }

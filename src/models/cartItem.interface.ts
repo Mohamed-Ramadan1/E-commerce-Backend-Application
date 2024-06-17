@@ -1,5 +1,5 @@
 import { Document, Types } from "mongoose";
-
+import { IProduct } from "./product.interface";
 export interface ICartItem extends Document {
   _id: Types.ObjectId;
   cart: Types.ObjectId;

@@ -44,7 +44,10 @@ shoppingCartSchema.methods.calculateTotals = function () {
 };
 
 shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
-  this.populate("items");
+  this.populate({
+    path: "items",
+    
+  });
   next();
 });
 
