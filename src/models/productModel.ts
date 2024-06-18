@@ -25,6 +25,11 @@ const ProductSchema: Schema<IProduct> = new Schema(
   },
   { timestamps: true }
 );
+ProductSchema.index({ name: 1 });
+ProductSchema.index({ category: 1 });
+ProductSchema.index({ brand: 1 });
+ProductSchema.index({ price: 1 });
+ProductSchema.index({ availability_status: 1 });
 
 const Product: Model<IProduct> = mongoose.model<IProduct>(
   "Product",

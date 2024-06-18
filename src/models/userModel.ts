@@ -107,7 +107,7 @@ userSchema.methods.comparePassword = async function (
 ): Promise<boolean> {
   return bcrypt.compare(candidatePassword, userPassword);
 };
-
+userSchema.index({ email: 1 });
 const User: Model<IUser> = model<IUser>("User", userSchema);
 
 export default User;

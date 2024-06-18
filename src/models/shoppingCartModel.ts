@@ -46,10 +46,13 @@ shoppingCartSchema.methods.calculateTotals = function () {
 shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
   this.populate({
     path: "items",
-    
   });
   next();
 });
+// Adding indexes to improve query performance
+shoppingCartSchema.index({ user: 1 });
+shoppingCartSchema.index({ payment_status: 1 });
+shoppingCartSchema.index({ payment_method: 1 });
 
 const ShoppingCart = model<IShoppingCart>("ShoppingCart", shoppingCartSchema);
 
