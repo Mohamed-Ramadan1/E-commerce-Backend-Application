@@ -1,7 +1,8 @@
 import { Request } from "express";
 import { IProduct } from "../models/product.interface";
+import { IShoppingCart } from "../models/shoppingCart.interface";
 import { IUser } from "../models/user.interface";
-
+import { ICartItem } from "../models/cartItem.interface";
 import { Types } from "mongoose";
 export interface LoginRequest extends Request {
   body: {
@@ -36,6 +37,9 @@ export interface RequestWithProduct extends Request {
 
 export interface RequestWithProductAndUser extends Request {
   user: IUser;
+  userShopCart: IShoppingCart;
+  product: IProduct;
+  userShoppingCartItem: ICartItem | null;
   body: {
     productId: Types.ObjectId;
     quantity: number;
@@ -58,5 +62,18 @@ export interface RequestUpdateUserPassword extends Request {
     currentPassword: string;
     newPassword: string;
     passwordConfirmation: string;
+  };
+}
+
+export interface CheckoutRequest extends Request, AuthUserRequest {
+  user: IUser;
+  shoppingCart: IShoppingCart;
+  shipAddress: string;
+  headers: {
+    authorization: string;
+  };
+
+  body: {
+    shippingAddress?: string;
   };
 }

@@ -18,6 +18,7 @@ import {
   clearShoppingCart,
 } from "../controllers/shoppingCartController";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
+import { checkItemValidity } from "../middlewares/shoppingCartMiddleware";
 const router = Router();
 
 router.use(protect);
@@ -39,7 +40,9 @@ router
 
 router.route("/:id/shopping-cart").get(getShoppingCart);
 
-router.route("/:id/shopping-cart/items").post(addItemToShoppingCart);
+router
+  .route("/:id/shopping-cart/items")
+  .post(checkItemValidity, addItemToShoppingCart);
 router
   .route("/:id/shopping-cart/items/:productId")
   .delete(removeItemFromShoppingCart);

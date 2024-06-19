@@ -14,6 +14,10 @@ const OrderSchema: Schema = new Schema<IOrder>(
         required: true,
       },
     ],
+    itemsQuantity: {
+      type: Number,
+      required: true,
+    },
     totalPrice: {
       type: Number,
       required: true,
@@ -23,7 +27,7 @@ const OrderSchema: Schema = new Schema<IOrder>(
       required: true,
       default: 0,
     },
-    totalShippingCost: {
+    shippingCost: {
       type: Number,
       required: true,
       default: 0,
@@ -31,8 +35,7 @@ const OrderSchema: Schema = new Schema<IOrder>(
     paymentStatus: {
       type: String,
       required: true,
-      enum: ["pending", "paid"],
-      default: "pending",
+      enum: ["payment_on_delivery", "paid"],
     },
     paymentMethod: {
       type: String,
@@ -49,35 +52,14 @@ const OrderSchema: Schema = new Schema<IOrder>(
       type: String,
       required: true,
     },
-    shippingMethod: {
-      type: String,
-      required: true,
-    },
-    shippingCost: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
+
     orderStatus: {
       type: String,
       required: true,
       enum: ["processing", "completed", "cancelled", "refunded"],
       default: "processing",
     },
-    customerNotes: {
-      type: String,
-    },
-    internalNotes: {
-      type: String,
-    },
+
     discountCodes: {
       type: [String],
     },
@@ -86,14 +68,7 @@ const OrderSchema: Schema = new Schema<IOrder>(
       required: true,
       default: 0,
     },
-    currency: {
-      type: String,
-      required: true,
-      default: "USD",
-    },
-    trackingNumber: {
-      type: String,
-    },
+
     estimatedDeliveryDate: {
       type: Date,
     },

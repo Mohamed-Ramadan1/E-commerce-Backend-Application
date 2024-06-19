@@ -25,7 +25,7 @@ const ProductSchema: Schema<IProduct> = new Schema(
   },
   { timestamps: true }
 );
-ProductSchema.index({ name: 1 });
+// ProductSchema.index({ name: 1 });
 ProductSchema.index({ category: 1 });
 ProductSchema.index({ brand: 1 });
 ProductSchema.index({ price: 1 });

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model,Types } from "mongoose";
 import { ICartItem } from "./cartItem.interface";
 import { IShoppingCart } from "./shoppingCart.interface";
 const shoppingCartSchema = new Schema<IShoppingCart>(

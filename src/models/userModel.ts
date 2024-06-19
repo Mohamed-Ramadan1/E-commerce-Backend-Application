@@ -19,6 +19,9 @@ const userSchema: Schema<IUser> = new Schema(
     address: {
       type: String,
     },
+    shippingAddress: {
+      type: String,
+    },
     phoneNumber: {
       type: String,
       validate: {

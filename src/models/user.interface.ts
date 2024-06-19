@@ -13,6 +13,7 @@ export interface IUser extends Document {
   passwordResetExpires?: Date;
   role: string;
   address?: string;
+  shippingAddress?: string;
   active: boolean;
   verified: boolean;
   emailToken: string;
