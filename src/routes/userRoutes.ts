@@ -19,6 +19,7 @@ import {
 } from "../controllers/shoppingCartController";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 import { checkItemValidity } from "../middlewares/shoppingCartMiddleware";
+import { upload } from "../middlewares/multerMiddleware";
 const router = Router();
 
 router.use(protect);
@@ -27,7 +28,7 @@ router.route("/me").get(getMe).delete(deleteMe);
 
 router.patch("/me/deactivate", deactivateMe);
 router.patch("/me/password", updateMyPassword);
-router.patch("/me/info", updateMyInfo);
+router.patch("/me/info", upload.single("photo"), updateMyInfo);
 router
   .route("/")
   .get(restrictTo("admin"), getAllUsers)

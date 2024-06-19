@@ -13,6 +13,9 @@ import {
 } from "../shared-interfaces/request.interface";
 import { sendResponse } from "../utils/sendResponse";
 import { createSendToken } from "../utils/createSendToken";
+import cloudinary from "cloudinary";
+import { promises as fs } from "fs";
+
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.find();
@@ -41,7 +44,7 @@ export const getUser = catchAsync(
 
 export const createUser = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const user = await User.create(req.body);
+    const user: IUser = await User.create(req.body);
     if (!user) {
       return next(new AppError("something went wrong", 400));
     }
@@ -56,10 +59,14 @@ export const createUser = catchAsync(
 
 export const updateUser = catchAsync(
   async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const user: IUser | null = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (!user) {
       return next(new AppError("User not found", 404));
     }
@@ -104,7 +111,16 @@ export const updateMyInfo = catchAsync(
         new AppError("You can't preform this action using this route.", 400)
       );
     }
-    const user = await User.findByIdAndUpdate(req.user._id, req.body, {
+
+    const updatedObject = { ...req.body };
+    if (req.file) {
+      const response = await cloudinary.v2.uploader.upload(req.file.path);
+      await fs.unlink(req.file.path);
+      updatedObject.photo = response.secure_url;
+      updatedObject.photoPublicId = response.public_id;
+    }
+
+    const user = await User.findByIdAndUpdate(req.user._id, updatedObject, {
       new: true,
       runValidators: true,
     });
