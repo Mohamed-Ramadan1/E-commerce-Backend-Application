@@ -16,6 +16,7 @@ import { IOrder } from "../models/order.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
 import { sendResponse } from "../utils/sendResponse";
 import Stripe from "stripe";
+import { IUser } from "../models/user.interface";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-04-10",
@@ -46,6 +47,18 @@ const updateProductsStockQuantity = async (
       await product.save();
     }
   }
+};
+const updateUserPurchaseHistory = async (
+  user: IUser,
+  shoppingCart: IShoppingCart
+) => {
+  const productIds = shoppingCart.items.map((item: any) => item.product._id);
+  for (const productId of productIds) {
+    if (!user.purchaseHistory.includes(productId)) {
+      user.purchaseHistory.push(productId);
+    }
+  }
+  await user.save({ validateBeforeSave: false });
 };
 
 const clearShoppingCart = async (shoppingCart: IShoppingCart) => {
@@ -84,6 +97,7 @@ export const checkoutWithCash = catchAsync(
 
     // Update the stock quantity of the products
     await updateProductsStockQuantity(shoppingCart._id, next);
+    await updateUserPurchaseHistory(user, shoppingCart);
     // deleting the cart items form cart item collection
     await CartItem.deleteMany({
       cart: shoppingCart._id,
@@ -101,7 +115,6 @@ export const checkoutWithCash = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
 
 // latest to anther development stage.
 export const checkoutWithStripe = catchAsync(

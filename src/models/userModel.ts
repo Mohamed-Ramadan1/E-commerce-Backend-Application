@@ -24,7 +24,7 @@ const userSchema: Schema<IUser> = new Schema(
     },
     phoneNumber: {
       type: String,
-      
+
       validate: {
         validator: function (this: IUser) {
           return validator.isMobilePhone(this.phoneNumber);
@@ -38,7 +38,8 @@ const userSchema: Schema<IUser> = new Schema(
     },
     photo: {
       type: String,
-      default :"https://res.cloudinary.com/deqgzvkxp/image/upload/v1718812055/defaultProileImg_j1ilwv.png"
+      default:
+        "https://res.cloudinary.com/deqgzvkxp/image/upload/v1718812055/defaultProileImg_j1ilwv.png",
     },
     photoPublicId: {
       type: String,
@@ -63,6 +64,12 @@ const userSchema: Schema<IUser> = new Schema(
       enum: ["user", "admin", "trader"],
       default: "user",
     },
+    purchaseHistory: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
     passwordResetToken: String,
     passwordResetExpires: Date,
     active: {

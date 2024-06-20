@@ -3,13 +3,18 @@ import path from "path";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
+import mongoSanitize from "express-mongo-sanitize";
 
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
-
 import productRoutes from "./routes/productsRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
 import checkoutRoutes from "./routes/checkoutRoutes";
+import reviewRoutes from "./routes/reviewRoutes";
+
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
 
@@ -21,7 +26,26 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+// Set security HTTP headers
+app.use(helmet());
+
+// Enable CORS
+app.use(cors());
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+app.use(limiter);
+
+// Data sanitization against NoSQL injection
+app.use(mongoSanitize());
+
+// Parse cookies
 app.use(cookieParser());
+
+// Body parser
 app.use(express.json());
 
 //serving static files
@@ -32,6 +56,7 @@ app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/wishlist", wishlistRoutes);
 app.use("/api/v1/checkout", checkoutRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

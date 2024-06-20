@@ -1,8 +1,8 @@
 import User from "../models/userModel";
 import ShoppingCart from "../models/shoppingCartModel";
-import { NextFunction, Request, Response } from "express";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import { NextFunction, Request, Response } from "express";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IUser } from "../models/user.interface";
 import {
@@ -15,6 +15,8 @@ import { sendResponse } from "../utils/sendResponse";
 import { createSendToken } from "../utils/createSendToken";
 import cloudinary from "cloudinary";
 import { promises as fs } from "fs";
+import Wishlist from "../models/wishlistModel";
+import CartItem from "../models/cartItemModel";
 
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -30,7 +32,7 @@ export const getAllUsers = catchAsync(
 
 export const getUser = catchAsync(
   async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
-    const user = await User.findById(req.params.id);
+    const user: IUser | null = await User.findById(req.params.id);
     if (!user) {
       return next(new AppError("User not found", 404));
     }
@@ -44,7 +46,7 @@ export const getUser = catchAsync(
 
 export const createUser = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    const user: IUser = await User.create(req.body);
+    const user: IUser | null = await User.create(req.body);
     if (!user) {
       return next(new AppError("something went wrong", 400));
     }
@@ -80,10 +82,16 @@ export const updateUser = catchAsync(
 
 export const deleteUser = catchAsync(
   async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user: IUser | null = await User.findByIdAndDelete(req.params.id);
+
     if (!user) {
       return next(new AppError("User not found", 404));
     }
+    // delete the user shopping cart user cart items  and user wishlist items
+    await Wishlist.deleteMany({ user: user._id });
+    await ShoppingCart.deleteOne({ user: user._id });
+    await CartItem.deleteMany({ cart: user.shoppingCart });
+
     const response: ApiResponse<null> = {
       status: "success",
       data: null,
@@ -174,7 +182,7 @@ export const updateMyPassword = catchAsync(
 // unActive my account
 export const deactivateMe = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const user = await User.findById(req.user._id);
+    const user: IUser | null = await User.findById(req.user._id);
 
     if (!user) {
       return next(new AppError("You are not authorized", 401));
@@ -193,13 +201,16 @@ export const deactivateMe = catchAsync(
 //delete my account (with consedration fo delete other rleated data like wishlist items andB shoping cart )
 export const deleteMe = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const me = await User.findById(req.user._id);
+    const me: IUser | null = await User.findByIdAndDelete(req.user._id);
 
     if (!me) {
       return next(new AppError("Your not authorized ", 401));
     }
 
-    await User.deleteOne({ _id: req.user._id });
+    // delete the user shopping cart user cart items  and user wishlist items
+    await Wishlist.deleteMany({ user: me._id });
+    await ShoppingCart.deleteOne({ user: me._id });
+    await CartItem.deleteMany({ cart: me.shoppingCart });
 
     const response: ApiResponse<null> = {
       status: "success",
@@ -211,7 +222,7 @@ export const deleteMe = catchAsync(
 //get me
 export const getMe = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const me = await User.findById(req.user._id);
+    const me: IUser | null = await User.findById(req.user._id);
     if (!me) {
       return next(new AppError("Your not authorized ", 401));
     }

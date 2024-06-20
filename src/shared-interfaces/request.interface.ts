@@ -4,6 +4,7 @@ import { IShoppingCart } from "../models/shoppingCart.interface";
 import { IUser } from "../models/user.interface";
 import { ICartItem } from "../models/cartItem.interface";
 import { Types } from "mongoose";
+
 export interface LoginRequest extends Request {
   body: {
     email: string;
@@ -75,5 +76,20 @@ export interface CheckoutRequest extends Request, AuthUserRequest {
 
   body: {
     shippingAddress?: string;
+  };
+}
+
+export interface ReviewRequest extends Request {
+  user: IUser;
+  headers: {
+    authorization: string;
+  };
+  body: {
+    rating?: number;
+    comment?: string;
+    productId?: Types.ObjectId;
+  };
+  params: {
+    id?: string;
   };
 }
