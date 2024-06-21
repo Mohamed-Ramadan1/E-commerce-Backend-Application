@@ -1,9 +1,10 @@
 import { Document, Types } from "mongoose";
+import { ICartItem } from "./cartItem.interface";
 
 export interface IOrder extends Document {
   _id: Types.ObjectId;
   user: Types.ObjectId;
-  items: Types.ObjectId[];
+  items: ICartItem[];
   itemsQuantity: number;
   totalPrice: number;
   totalDiscount: number;

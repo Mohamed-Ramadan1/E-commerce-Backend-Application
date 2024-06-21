@@ -1,5 +1,31 @@
 import { Schema, model, Types, Model } from "mongoose";
 import { IOrder } from "./order.interface";
+import { ICartItem } from "./cartItem.interface";
+
+const itemsSchema = new Schema<ICartItem>({
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
+  quantity: {
+    type: Number,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  discount: {
+    type: Number,
+    required: true,
+  },
+  priceAfterDiscount: {
+    type: Number,
+    required: true,
+  },
+});
+
 const OrderSchema: Schema = new Schema<IOrder>(
   {
     user: {
@@ -7,13 +33,7 @@ const OrderSchema: Schema = new Schema<IOrder>(
       ref: "User",
       required: true,
     },
-    items: [
-      {
-        type: Types.ObjectId,
-        ref: "Product",
-        required: true,
-      },
-    ],
+    items: [itemsSchema],
     itemsQuantity: {
       type: Number,
       required: true,

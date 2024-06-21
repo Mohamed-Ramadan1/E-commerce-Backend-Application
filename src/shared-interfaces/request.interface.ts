@@ -27,6 +27,7 @@ export interface RequestWithUser extends Request {
 }
 
 export interface RequestWithMongoDbId extends Request {
+  user?: IUser;
   params: {
     id: string;
   };
@@ -91,5 +92,11 @@ export interface ReviewRequest extends Request {
   };
   params: {
     id?: string;
+  };
+}
+
+export interface AuthUserRequestWithID extends AuthUserRequest {
+  params: {
+    id: string;
   };
 }
