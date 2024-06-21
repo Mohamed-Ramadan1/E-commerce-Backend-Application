@@ -100,3 +100,11 @@ export interface AuthUserRequestWithID extends AuthUserRequest {
     id: string;
   };
 }
+
+export interface SupportTicketRequest extends AuthUserRequest {
+  body: {
+    subject: string;
+    description: string;
+    category: string;
+  };
+}

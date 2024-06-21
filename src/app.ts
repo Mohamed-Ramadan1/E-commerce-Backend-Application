@@ -15,6 +15,7 @@ import wishlistRoutes from "./routes/wishlistRoutes";
 import checkoutRoutes from "./routes/checkoutRoutes";
 import reviewRoutes from "./routes/reviewRoutes";
 import ordersRoutes from "./routes/ordersRoutes";
+import SupportTicketsRoutes from "./routes/supportTicketsRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -59,6 +60,7 @@ app.use("/api/v1/wishlist", wishlistRoutes);
 app.use("/api/v1/checkout", checkoutRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", ordersRoutes);
+app.use("/api/v1/support-tickets", SupportTicketsRoutes);
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

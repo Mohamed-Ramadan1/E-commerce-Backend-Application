@@ -14,6 +14,7 @@ export interface IOrder extends Document {
   shippingAddress: string;
   shippingCost: number;
   orderStatus: "processing" | "completed" | "cancelled" | "refunded";
+  archived: boolean;
   customerNotes?: string;
   internalNotes?: string;
   discountCodes?: string[];

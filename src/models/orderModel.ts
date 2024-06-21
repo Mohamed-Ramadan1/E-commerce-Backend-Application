@@ -88,6 +88,10 @@ const OrderSchema: Schema = new Schema<IOrder>(
       required: true,
       default: 0,
     },
+    archived: {
+      type: Boolean,
+      default: false,
+    },
 
     estimatedDeliveryDate: {
       type: Date,

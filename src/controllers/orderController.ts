@@ -1,8 +1,7 @@
 import Order from "../models/orderModel";
-import Product from "../models/productModel";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { IOrder } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { sendResponse } from "../utils/sendResponse";
@@ -10,11 +9,12 @@ import {
   AuthUserRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
-
+// get all user orders
 export const getOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const orders: IOrder[] | null = await Order.find({
       user: req.user._id,
+      archived: false,
     });
     const response: ApiResponse<IOrder[]> = {
       status: "success",
@@ -24,7 +24,7 @@ export const getOrders = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
+// get single user order
 export const getOrder = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findOne({
@@ -42,6 +42,7 @@ export const getOrder = catchAsync(
   }
 );
 
+//cancel the order
 export const cancelOrder = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findOneAndUpdate(
@@ -68,17 +69,73 @@ export const cancelOrder = catchAsync(
   }
 );
 
-/*
-1) cancel the order
-2) update the shipping order status 
-3) archive order 
-4) 
-5)
-6)
-*/
+// archive order
+export const archiveOrder = catchAsync(
+  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+    const order: IOrder | null = await Order.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        user: req.user._id,
+      },
+      {
+        archived: true,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!order) {
+      return next(new AppError("Order not found", 404));
+    }
+    const response: ApiResponse<IOrder> = {
+      status: "success",
+      data: order,
+    };
+    sendResponse(200, response, res);
+  }
+);
 
-// admin controllers.
+// unarchive order
+export const unarchiveOrder = catchAsync(
+  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+    const order: IOrder | null = await Order.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        user: req.user._id,
+      },
+      {
+        archived: false,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!order) {
+      return next(new AppError("Order not found", 404));
+    }
+    const response: ApiResponse<IOrder> = {
+      status: "success",
+      data: order,
+    };
+    sendResponse(200, response, res);
+  }
+);
 
-// export const getOrder = catchAsync(
-//     async (req: Request, res: Response, next: NextFunction) => {}
-//   );
+// get all archived orders
+export const getArchivedOrders = catchAsync(
+  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+    const orders: IOrder[] | null = await Order.find({
+      user: req.user._id,
+      archived: true,
+    });
+
+    const response: ApiResponse<IOrder[]> = {
+      status: "success",
+      results: orders.length,
+      data: orders,
+    };
+    sendResponse(200, response, res);
+  }
+);
