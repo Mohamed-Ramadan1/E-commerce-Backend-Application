@@ -1,7 +1,7 @@
 import { Schema, Model, model } from "mongoose";
 import { ICartItem } from "./cartItem.interface";
 
-const cartItemSchema: Schema<ICartItem> = new Schema(
+export const cartItemSchema: Schema<ICartItem> = new Schema(
   {
     cart: {
       type: Schema.Types.ObjectId,

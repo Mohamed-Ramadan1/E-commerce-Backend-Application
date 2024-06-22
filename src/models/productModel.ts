@@ -2,7 +2,7 @@ import mongoose, { Schema, Model } from "mongoose";
 
 import { IProduct } from "./product.interface";
 
-const ProductSchema: Schema<IProduct> = new Schema(
+export const productSchema: Schema<IProduct> = new Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -26,14 +26,14 @@ const ProductSchema: Schema<IProduct> = new Schema(
   { timestamps: true }
 );
 // ProductSchema.index({ name: 1 });
-ProductSchema.index({ category: 1 });
-ProductSchema.index({ brand: 1 });
-ProductSchema.index({ price: 1 });
-ProductSchema.index({ availability_status: 1 });
+productSchema.index({ category: 1 });
+productSchema.index({ brand: 1 });
+productSchema.index({ price: 1 });
+productSchema.index({ availability_status: 1 });
 
 const Product: Model<IProduct> = mongoose.model<IProduct>(
   "Product",
-  ProductSchema
+  productSchema
 );
 
 export default Product;

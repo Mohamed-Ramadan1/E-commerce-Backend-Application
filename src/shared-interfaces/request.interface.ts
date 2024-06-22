@@ -3,7 +3,7 @@ import { IProduct } from "../models/product.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
 import { IUser } from "../models/user.interface";
 import { ICartItem } from "../models/cartItem.interface";
-import { Types } from "mongoose";
+import { Types, Schema } from "mongoose";
 
 export interface LoginRequest extends Request {
   body: {
@@ -106,5 +106,18 @@ export interface SupportTicketRequest extends AuthUserRequest {
     subject: string;
     description: string;
     category: string;
+  };
+}
+export interface ReturnItemsRequest extends AuthUserRequest {
+  returnedProduct: ICartItem;
+  body: {
+    orderId: Schema.Types.ObjectId;
+    productId: Schema.Types.ObjectId;
+    quantity: number;
+    returnReason: string;
+    comments?: string;
+  };
+  params: {
+    id?: string;
   };
 }

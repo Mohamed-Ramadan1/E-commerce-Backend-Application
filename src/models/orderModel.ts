@@ -76,7 +76,7 @@ const OrderSchema: Schema = new Schema<IOrder>(
     orderStatus: {
       type: String,
       required: true,
-      enum: ["processing", "completed", "cancelled", "refunded"],
+      enum: ["processing", "delivered", "cancelled", "refunded"],
       default: "processing",
     },
 
