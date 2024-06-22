@@ -8,7 +8,7 @@ export interface IReturnRequest extends Document {
 
   quantity: number;
   returnReason: string;
-  returnStatus: "Pending" | "Approved" | "Rejected";
+  returnStatus: "Pending" | "Approved" | "Rejected"| "Cancelled";
   refundAmount: number;
   comments?: string;
   approvalDate?: Date;

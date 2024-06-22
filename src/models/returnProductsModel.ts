@@ -25,7 +25,7 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
     },
     returnStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected"],
+      enum: ["Pending", "Approved", "Rejected","Cancelled"],
       default: "Pending",
     },
     refundAmount: {

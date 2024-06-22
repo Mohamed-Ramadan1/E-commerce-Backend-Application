@@ -52,36 +52,175 @@ export const requestReturnItems = catchAsync(
 );
 
 export const cancelReturnRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id)
+      return next(new AppError("Invalid request provide request ID", 400));
+
+    const returnRequest: IReturnRequest | null =
+      await ReturnProduct.findByIdAndUpdate(
+        id,
+        {
+          returnStatus: "Cancelled",
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    if (!returnRequest) {
+      return next(new AppError("No return request with this ID", 404));
+    }
+    const response: ApiResponse<IReturnRequest> = {
+      status: "success",
+      data: returnRequest,
+    };
+    sendResponse(200, response, res);
+  }
 );
 export const getAllMyReturnItems = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const user: IUser = req.user;
+    const returnRequests: IReturnRequest[] = await ReturnProduct.find({
+      user: user._id,
+    });
+    const response: ApiResponse<IReturnRequest[]> = {
+      status: "success",
+      data: returnRequests,
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 export const getMyReturnRequestItem = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id)
+      return next(new AppError("Invalid request provide request ID", 400));
+
+    const returnRequest: IReturnRequest | null = await ReturnProduct.findOne({
+      _id: id,
+      user: req.user._id,
+    });
+    if (!returnRequest) {
+      return next(new AppError("No return request with this ID", 404));
+    }
+    const response: ApiResponse<IReturnRequest> = {
+      status: "success",
+      data: returnRequest,
+    };
+    sendResponse(200, response, res);
+  }
 );
 
-export const updateReturnItemRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
 export const deleteReturnItemRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id)
+      return next(new AppError("Invalid request provide request ID", 400));
+
+    const returnRequest: IReturnRequest | null =
+      await ReturnProduct.findByIdAndDelete({
+        _id: id,
+        user: req.user._id,
+      });
+    if (!returnRequest) {
+      return next(new AppError("No return request with this ID", 404));
+    }
+    const response: ApiResponse<IReturnRequest> = {
+      status: "success",
+      data: returnRequest,
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 // ----------------------------------------------------------------
 
 //admin Operations
 export const getAllReturnItemsRequests = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const returnRequests: IReturnRequest[] = await ReturnProduct.find();
+    const response: ApiResponse<IReturnRequest[]> = {
+      status: "success",
+      data: returnRequests,
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 export const getReturnItemRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id)
+      return next(new AppError("Invalid request provide request ID", 400));
+
+    const returnRequest: IReturnRequest | null = await ReturnProduct.findById(
+      id
+    );
+    if (!returnRequest) {
+      return next(new AppError("No return request with this ID", 404));
+    }
+    const response: ApiResponse<IReturnRequest> = {
+      status: "success",
+      data: returnRequest,
+    };
+    sendResponse(200, response, res);
+  }
 );
+// this need more work on hte part of refund the mony to the user
 export const approveReturnItems = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id)
+      return next(new AppError("Invalid request provide request ID", 400));
+
+    const returnRequest: IReturnRequest | null =
+      await ReturnProduct.findByIdAndUpdate(
+        id,
+        {
+          returnStatus: "Approved",
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    if (!returnRequest) {
+      return next(new AppError("No return request with this ID", 404));
+    }
+    const response: ApiResponse<IReturnRequest> = {
+      status: "success",
+      data: returnRequest,
+    };
+    sendResponse(200, response, res);
+  }
 );
 export const rejectReturnItems = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    if (!id)
+      return next(new AppError("Invalid request provide request ID", 400));
+
+    const returnRequest: IReturnRequest | null =
+      await ReturnProduct.findByIdAndUpdate(
+        id,
+        {
+          returnStatus: "Rejected",
+        },
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    if (!returnRequest) {
+      return next(new AppError("No return request with this ID", 404));
+    }
+    const response: ApiResponse<IReturnRequest> = {
+      status: "success",
+      data: returnRequest,
+    };
+    sendResponse(200, response, res);
+  }
 );
+
