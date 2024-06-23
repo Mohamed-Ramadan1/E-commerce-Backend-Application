@@ -17,6 +17,7 @@ import reviewRoutes from "./routes/reviewRoutes";
 import ordersRoutes from "./routes/ordersRoutes";
 import supportTicketsRoutes from "./routes/supportTicketsRoutes";
 import returnProductsRoutes from "./routes/returnProductsRoutes";
+import adminOrdersRoutes from "./routes/adminOrdersRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -61,6 +62,7 @@ app.use("/api/v1/wishlist", wishlistRoutes);
 app.use("/api/v1/checkout", checkoutRoutes);
 app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", ordersRoutes);
+app.use("/api/v1/orders/admin", adminOrdersRoutes);
 app.use("/api/v1/support-tickets", supportTicketsRoutes);
 app.use("/api/v1/return-products", returnProductsRoutes);
 
