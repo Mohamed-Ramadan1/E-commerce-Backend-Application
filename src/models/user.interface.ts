@@ -1,10 +1,10 @@
-import { Document, Types } from "mongoose";
+import { Document, Schema, Types } from "mongoose";
 export interface IUser extends Document {
   _id: Types.ObjectId;
   name: string;
   email: string;
   phoneNumber: string;
-  shoppingCart: Types.ObjectId;
+  shoppingCart: Schema.Types.ObjectId;
   photo?: string;
   photoPublicId?: string;
   password: string;

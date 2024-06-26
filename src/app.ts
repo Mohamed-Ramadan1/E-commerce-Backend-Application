@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === "development") {
 app.use(helmet());
 
 // Enable CORS
-app.use(cors());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // Rate limiting
 const limiter = rateLimit({

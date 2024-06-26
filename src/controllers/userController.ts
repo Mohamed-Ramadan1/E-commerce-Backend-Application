@@ -18,6 +18,7 @@ import { promises as fs } from "fs";
 import Wishlist from "../models/wishlistModel";
 import CartItem from "../models/cartItemModel";
 
+// admin operations
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const users = await User.find();
@@ -233,3 +234,6 @@ export const getMe = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// forgot my password
+// reset my password
