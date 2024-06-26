@@ -21,7 +21,7 @@ import CartItem from "../models/cartItemModel";
 // admin operations
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const users = await User.find();
+    const users: IUser[] | null = await User.find();
     const response: ApiResponse<IUser[]> = {
       status: "success",
       results: users.length,
@@ -129,10 +129,14 @@ export const updateMyInfo = catchAsync(
       updatedObject.photoPublicId = response.public_id;
     }
 
-    const user = await User.findByIdAndUpdate(req.user._id, updatedObject, {
-      new: true,
-      runValidators: true,
-    });
+    const user: IUser | null = await User.findByIdAndUpdate(
+      req.user._id,
+      updatedObject,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (!user) {
       return next(new AppError("You are not authorized", 401));
     }
@@ -163,12 +167,17 @@ export const updateMyPassword = catchAsync(
       );
     }
 
-    const user = await User.findById(req.user._id).select("+password");
+    const user: IUser | null = await User.findById(req.user._id).select(
+      "+password"
+    );
     // now check if the current password is correct or not and based on the result update the password
     if (!user) {
       return next(new AppError("You are not authorized", 401));
     }
-    const isMatch = await user.comparePassword(currentPassword, user.password);
+    const isMatch: boolean = await user.comparePassword(
+      currentPassword,
+      user.password
+    );
 
     if (!isMatch) {
       return next(new AppError("Current password is incorrect", 401));

@@ -93,7 +93,7 @@ export const checkoutWithCash = catchAsync(
     };
 
     // create the order
-    const userOrder = await Order.create(orderObject);
+    const userOrder: IOrder = await Order.create(orderObject);
 
     // Update the stock quantity of the products
     await updateProductsStockQuantity(shoppingCart._id, next);

@@ -196,6 +196,7 @@ export const approveReturnItems = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
 export const rejectReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;

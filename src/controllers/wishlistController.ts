@@ -6,9 +6,12 @@ import { NextFunction, Request, Response } from "express";
 import { AuthUserRequest } from "../shared-interfaces/request.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { sendResponse } from "../utils/sendResponse";
+
 export const getWishlist = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const wishlist = await Wishlist.find({ user: req.user._id });
+    const wishlist: IWishlistItem[] | null = await Wishlist.find({
+      user: req.user._id,
+    });
     const response: ApiResponse<IWishlistItem[]> = {
       status: "success",
       results: wishlist.length,
@@ -20,7 +23,7 @@ export const getWishlist = catchAsync(
 
 export const addItemToWishlist = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const existWishlistItem = await Wishlist.findOne({
+    const existWishlistItem: IWishlistItem | null = await Wishlist.findOne({
       user: req.user._id,
       product: req.params.productId,
     });
@@ -28,7 +31,7 @@ export const addItemToWishlist = catchAsync(
       return next(new AppError("Item already on the wishlist", 400));
     }
 
-    const wishlistItem = await Wishlist.create({
+    const wishlistItem: IWishlistItem = await Wishlist.create({
       user: req.user._id,
       product: req.params.productId,
     });
@@ -46,8 +49,7 @@ export const addItemToWishlist = catchAsync(
 
 export const removeItemFromWishlist = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    console.log(req.params);
-    const wishlistItem = await Wishlist.findOneAndDelete({
+    const wishlistItem: IWishlistItem | null = await Wishlist.findOneAndDelete({
       user: req.user._id,
       __id: req.params.productId,
     });

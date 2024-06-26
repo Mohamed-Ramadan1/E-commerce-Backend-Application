@@ -6,11 +6,15 @@ export const createSendToken = (
   statusCode: number,
   res: Response
 ) => {
-  const token = sign({ id: user._id }, process.env.JWT_SECRET as Secret, {
-    expiresIn: process.env.JWT_EXPIRES_IN,
-  });
+  const token: string = sign(
+    { id: user._id },
+    process.env.JWT_SECRET as Secret,
+    {
+      expiresIn: process.env.JWT_EXPIRES_IN,
+    }
+  );
 
-  const cookieOptions = {
+  const cookieOptions: object = {
     expires: new Date(
       Date.now() +
         parseInt(process.env.JWT_COOKIE_EXPIRES_IN || "0") * 24 * 60 * 60 * 1000
@@ -36,9 +40,13 @@ export const createLogOutToken = (
   statusCode: number,
   res: Response
 ) => {
-  const token = sign({ id: user._id }, process.env.JWT_SECRET as Secret, {
-    expiresIn: 1,
-  });
+  const token: string = sign(
+    { id: user._id },
+    process.env.JWT_SECRET as Secret,
+    {
+      expiresIn: 1,
+    }
+  );
 
   res.cookie("jwt", "", {
     expires: new Date(Date.now() + 10 * 1000),

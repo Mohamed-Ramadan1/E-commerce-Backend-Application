@@ -9,6 +9,7 @@ import {
   AuthUserRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
+
 // get all user orders
 export const getOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {

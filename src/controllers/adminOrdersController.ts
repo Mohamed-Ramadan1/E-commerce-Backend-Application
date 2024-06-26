@@ -34,7 +34,7 @@ export const getOrder = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const order = await Order.findById(id);
+    const order: IOrder | null = await Order.findById(id);
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
@@ -51,7 +51,7 @@ export const updateOrderStatusToShipped = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const order = await Order.findByIdAndUpdate(
+    const order: IOrder | null = await Order.findByIdAndUpdate(
       id,
       {
         shippingStatus: "shipped",
@@ -77,7 +77,7 @@ export const updateOrderStatusToDelivered = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
-    const order = await Order.findByIdAndUpdate(
+    const order: IOrder | null = await Order.findByIdAndUpdate(
       id,
       {
         orderStatus: "delivered",

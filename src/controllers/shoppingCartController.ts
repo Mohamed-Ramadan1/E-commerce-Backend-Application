@@ -11,10 +11,11 @@ import {
   RequestWithProductAndUser,
 } from "../shared-interfaces/request.interface";
 import CartItem from "../models/cartItemModel";
+import { ICartItem } from "../models/cartItem.interface";
 
 export const getShoppingCart = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const userShopCart = await ShoppingCart.findOne({
+    const userShopCart: IShoppingCart | null = await ShoppingCart.findOne({
       user: req.user._id,
     });
 
@@ -71,13 +72,15 @@ export const removeItemFromShoppingCart = catchAsync(
     const shoppingCartId = req.user.shoppingCart;
 
     // Find the user's shopping cart
-    const userShopCart = await ShoppingCart.findById(shoppingCartId);
+    const userShopCart: IShoppingCart | null = await ShoppingCart.findById(
+      shoppingCartId
+    );
     if (!userShopCart) {
       return next(new AppError("Shopping cart not found", 400));
     }
 
     // Find the cart item to be removed
-    const userShoppingCartItem = await CartItem.findOne({
+    const userShoppingCartItem: ICartItem | null = await CartItem.findOne({
       cart: shoppingCartId,
       product: req.params.productId,
     });
@@ -109,21 +112,22 @@ export const removeItemFromShoppingCart = catchAsync(
 export const clearShoppingCart = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     console.log(req.user._id);
-    const userShopCart = await ShoppingCart.findOneAndUpdate(
-      { user: req.user._id },
-      {
-        items: [],
-        total_quantity: 0,
-        total_discount: 0,
-        total_price: 0,
-        total_shipping_cost: 0,
-        payment_status: "pending",
-        payment_method: "cash",
-      },
-      {
-        new: true,
-      }
-    );
+    const userShopCart: IShoppingCart | null =
+      await ShoppingCart.findOneAndUpdate(
+        { user: req.user._id },
+        {
+          items: [],
+          total_quantity: 0,
+          total_discount: 0,
+          total_price: 0,
+          total_shipping_cost: 0,
+          payment_status: "pending",
+          payment_method: "cash",
+        },
+        {
+          new: true,
+        }
+      );
     await CartItem.deleteMany({
       cart: req.user.shoppingCart,
     });

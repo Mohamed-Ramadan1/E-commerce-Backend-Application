@@ -11,12 +11,13 @@ import {
   RequestWithUser,
 } from "../shared-interfaces/request.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
+
 export const signUpWithEmail = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
     const { name, email, phoneNumber, password, passwordConfirmation } =
       req.body;
 
-    const user = await User.create({
+    const user: IUser | null = await User.create({
       name,
       email,
       phoneNumber,
@@ -39,9 +40,10 @@ export const signUpWithEmail = catchAsync(
 export const loginWithEmail = catchAsync(
   async (req: LoginRequest, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-    const user = (await User.findOne({ email }).select(
+    const user: IUser | null = await User.findOne({ email }).select(
       "+password"
-    )) as IUser | null;
+    );
+    
     if (
       !user ||
       !(await (user as any).comparePassword(password, user.password))
