@@ -11,6 +11,7 @@ import {
   RequestWithUser,
 } from "../shared-interfaces/request.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
+import sendVerificationMail from "../utils/confirmEmail";
 
 export const signUpWithEmail = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {
@@ -31,8 +32,11 @@ export const signUpWithEmail = catchAsync(
     const shoppingCart: IShoppingCart = await ShoppingCart.create({
       user: user._id,
     });
+
     user.shoppingCart = shoppingCart._id;
+
     await user.save({ validateBeforeSave: false });
+    sendVerificationMail(user);
     createSendToken(user, 201, res);
   }
 );
@@ -43,7 +47,7 @@ export const loginWithEmail = catchAsync(
     const user: IUser | null = await User.findOne({ email }).select(
       "+password"
     );
-    
+
     if (
       !user ||
       !(await (user as any).comparePassword(password, user.password))

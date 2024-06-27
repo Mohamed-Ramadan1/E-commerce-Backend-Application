@@ -115,3 +115,8 @@ export const checkoutWithCash = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// payment on stripe this will completed on the last when i implement the front end
+export const checkoutWithStripe = catchAsync(
+  async (req: CheckoutRequest, res: Response, next: NextFunction) => {}
+);
