@@ -3,6 +3,9 @@ import { NextFunction, Request, Response } from "express";
 import AppError from "../utils/ApplicationError";
 import jwt from "jsonwebtoken";
 import User from "../models/userModel";
+import { ResetPasswordRequest } from "../shared-interfaces/request.interface";
+import { IUser } from "../models/user.interface";
+import crypto from "crypto";
 
 export const protect = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

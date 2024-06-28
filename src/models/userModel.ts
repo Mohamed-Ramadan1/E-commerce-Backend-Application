@@ -50,6 +50,7 @@ const userSchema: Schema<IUser> = new Schema(
       type: String,
       required: true,
       select: false,
+      minlength: 8,
     },
     passwordConfirmation: {
       type: String,
@@ -132,7 +133,7 @@ userSchema.methods.createEmailVerificationToken = function () {
 };
 
 userSchema.methods.createPasswordResetToken = function () {
-  const resetToken: string = crypto.randomBytes(32).toString("hex");
+  const resetToken = crypto.randomBytes(32).toString("hex");
   this.passwordResetToken = crypto
     .createHash("sha256")
     .update(resetToken)

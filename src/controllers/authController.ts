@@ -128,41 +128,46 @@ export const forgotPassword = catchAsync(
   }
 );
 
-// export const resetPassword = catchAsync(
-//   async (req: ResetPasswordRequest, res: Response, next: NextFunction) => {
-//     const { token } = req.params;
-//     const { password, passwordConfirmation } = req.body;
+export const resetPassword = catchAsync(
+  async (req: ResetPasswordRequest, res: Response, next: NextFunction) => {
+    const { token } = req.params;
+    const { password, passwordConfirmation } = req.body;
 
-//     if (!password || !passwordConfirmation) {
-//       return next(
-//         new AppError("Please provide password and password confirmation", 400)
-//       );
-//     }
+    if (!password || !passwordConfirmation) {
+      return next(
+        new AppError("Please provide password and password confirmation", 400)
+      );
+    }
 
-//     if (password !== passwordConfirmation) {
-//       return next(new AppError("Passwords do not match", 400));
-//     }
+    if (password !== passwordConfirmation) {
+      return next(new AppError("Passwords do not match", 400));
+    }
 
-//     const user: IUser | null = await User.findOne({
-//       passwordResetToken: token,
-//       passwordResetExpires: { $gt: Date.now() },
-//     });
+    if (password.length < 8) {
+      return next(new AppError("Password must be at least 8 characters", 400));
+    }
 
-//     console.log(user);
-//     if (!user) {
-//       return next(new AppError("Invalid token or expired token", 400));
-//     }
+    const resetToken = crypto.createHash("sha256").update(token).digest("hex");
 
-//     user.password = req.body.password;
-//     user.passwordConfirmation = req.body.passwordConfirmation;
-//     user.passwordResetToken = undefined;
-//     user.passwordResetExpires = undefined;
-//     await user.save();
+    const user: IUser | null = await User.findOne({
+      passwordResetToken: resetToken,
+      passwordResetExpires: { $gt: Date.now() },
+    });
 
-//     res.status(200).json({
-//       status: "success",
-//       message:
-//         "Password has been reset successfully please login with your new password",
-//     });
-//   }
-// );
+    if (!user) {
+      return next(new AppError("Invalid token or expired token", 400));
+    }
+
+    user.password = req.body.password;
+    user.passwordConfirmation = req.body.passwordConfirmation;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.status(200).json({
+      status: "success",
+      message:
+        "Password has been reset successfully please login with your new password",
+    });
+  }
+);
