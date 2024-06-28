@@ -26,6 +26,22 @@ export interface RequestWithUser extends Request {
   body: IUser;
 }
 
+export interface ForgotPasswordRequest extends Request {
+  body: {
+    email: string;
+  };
+}
+
+export interface ResetPasswordRequest extends Request {
+  body: {
+    password: string;
+    passwordConfirmation: string;
+  };
+  params: {
+    token: string;
+  };
+}
+
 export interface RequestWithMongoDbId extends Request {
   user?: IUser;
   params: {

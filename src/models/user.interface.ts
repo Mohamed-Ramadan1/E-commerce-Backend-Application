@@ -17,8 +17,10 @@ export interface IUser extends Document {
   shippingAddress?: string;
   active: boolean;
   verified: boolean;
-  emailToken: string;
+  emailVerificationToken: string | undefined;
   isModified: (path: string) => boolean;
+  createEmailVerificationToken: () => string;
+  createPasswordResetToken: () => string;
   comparePassword(
     candidatePassword: string,
     userPassword: string

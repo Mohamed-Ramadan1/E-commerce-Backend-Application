@@ -2,6 +2,8 @@ import { Model, Schema, model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import { IUser } from "./user.interface";
+import crypto from "crypto";
+
 const userSchema: Schema<IUser> = new Schema(
   {
     name: {
@@ -76,7 +78,7 @@ const userSchema: Schema<IUser> = new Schema(
       type: Boolean,
       default: true,
     },
-    emailToken: {
+    emailVerificationToken: {
       type: String,
     },
     verified: {
@@ -88,6 +90,8 @@ const userSchema: Schema<IUser> = new Schema(
     timestamps: true,
   }
 );
+
+userSchema.index({ email: 1 });
 
 userSchema.pre<IUser>("save", function (next) {
   if (!this.isModified("password")) return next();
@@ -119,7 +123,27 @@ userSchema.methods.comparePassword = async function (
 ): Promise<boolean> {
   return bcrypt.compare(candidatePassword, userPassword);
 };
-userSchema.index({ email: 1 });
+
+userSchema.methods.createEmailVerificationToken = function () {
+  const token: string = crypto.randomBytes(32).toString("hex");
+  this.emailVerificationToken = token;
+  this.emailVerificationExpires = Date.now() + 3600000; // 1 hour
+  return token;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken: string = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.passwordResetExpires = Date.now() + 3600000; // 1 hour
+
+  console.log("Generated Reset Token:", resetToken);
+  console.log("Hashed Reset Token:", this.passwordResetToken);
+  return resetToken;
+};
+
 const User: Model<IUser> = model<IUser>("User", userSchema);
 
 export default User;
