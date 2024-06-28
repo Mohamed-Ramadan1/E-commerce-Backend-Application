@@ -13,8 +13,8 @@ import {
   ResetPasswordRequest,
 } from "../shared-interfaces/request.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
-import sendVerificationMail from "../utils/confirmEmail";
-import sendResetPasswordEmail from "../utils/resetPasswordEmail";
+import sendVerificationMail from "../utils/emails/accountVerificationEmail";
+import sendResetPasswordEmail from "../utils/emails/resetPasswordEmail";
 import crypto from "crypto";
 
 export const signUpWithEmail = catchAsync(

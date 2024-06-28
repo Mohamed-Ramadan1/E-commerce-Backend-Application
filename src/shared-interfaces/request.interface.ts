@@ -53,6 +53,13 @@ export interface RequestWithProduct extends Request {
   body: IProduct;
 }
 
+export interface DecrementProductQuantityRequest extends AuthUserRequest {
+  body: {
+    productId: Types.ObjectId;
+    quantity: number;
+  };
+}
+
 export interface RequestWithProductAndUser extends Request {
   user: IUser;
   userShopCart: IShoppingCart;

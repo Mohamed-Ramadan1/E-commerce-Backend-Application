@@ -16,6 +16,7 @@ import {
   getShoppingCart,
   addItemToShoppingCart,
   removeItemFromShoppingCart,
+  decreaseItemQuantity,
   clearShoppingCart,
 } from "../controllers/shoppingCartController";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
@@ -40,6 +41,7 @@ router
   .patch(restrictTo("admin"), updateUser)
   .delete(restrictTo("admin"), deleteUser);
 
+// shopping cart routes for the user
 router.route("/:id/shopping-cart").get(getShoppingCart);
 
 router
@@ -48,6 +50,7 @@ router
 router
   .route("/:id/shopping-cart/items/:productId")
   .delete(removeItemFromShoppingCart);
+router.route("/:id/shopping-cart/decrement").patch(decreaseItemQuantity);
 router.route("/:id/shopping-cart/clear").delete(clearShoppingCart);
 
 export default router;

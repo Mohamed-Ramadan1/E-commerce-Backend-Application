@@ -9,6 +9,7 @@ import { IShoppingCart } from "../models/shoppingCart.interface";
 import {
   AuthUserRequest,
   RequestWithProductAndUser,
+  DecrementProductQuantityRequest,
 } from "../shared-interfaces/request.interface";
 import CartItem from "../models/cartItemModel";
 import { ICartItem } from "../models/cartItem.interface";
@@ -106,6 +107,43 @@ export const removeItemFromShoppingCart = catchAsync(
       data: userShopCart,
     };
     sendResponse(200, response, res);
+  }
+);
+
+export const decreaseItemQuantity = catchAsync(
+  async (
+    req: DecrementProductQuantityRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    /*
+     product id 
+     check if hte product exist on the user shoping cart 
+      if it exist decrease the quantity by one
+    if the quantity is 1 delete the item from the cart
+    */
+    const { productId, quantity } = req.body;
+    const { user } = req;
+    if (!productId || !quantity) {
+      return next(new AppError("Product id and quantity are required", 400));
+    }
+    const shoppingCartItem: ICartItem | null = await CartItem.findOne({
+      cart: user.shoppingCart,
+      product: productId,
+    });
+    if (!shoppingCartItem) {
+      return next(new AppError("Product not found in the shopping cart ", 404));
+    }
+    if (shoppingCartItem.quantity === 1) {
+      await CartItem.findByIdAndDelete(shoppingCartItem._id);
+    } else {
+      shoppingCartItem.quantity -= quantity;
+      await shoppingCartItem.save();
+    }
+    res.status(200).json({
+      status: "success",
+      message: "Product quantity updated successfully",
+    });
   }
 );
 
