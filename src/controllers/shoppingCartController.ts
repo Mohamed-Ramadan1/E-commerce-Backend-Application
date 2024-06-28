@@ -124,6 +124,7 @@ export const decreaseItemQuantity = catchAsync(
     */
     const { productId, quantity } = req.body;
     const { user } = req;
+
     if (!productId || !quantity) {
       return next(new AppError("Product id and quantity are required", 400));
     }
@@ -131,15 +132,27 @@ export const decreaseItemQuantity = catchAsync(
       cart: user.shoppingCart,
       product: productId,
     });
+
     if (!shoppingCartItem) {
       return next(new AppError("Product not found in the shopping cart ", 404));
     }
     if (shoppingCartItem.quantity === 1) {
       await CartItem.findByIdAndDelete(shoppingCartItem._id);
-    } else {
-      shoppingCartItem.quantity -= quantity;
-      await shoppingCartItem.save();
     }
+    shoppingCartItem.quantity -= quantity;
+    await shoppingCartItem.save();
+    const userShopCart: IShoppingCart | null = await ShoppingCart.findById(
+      user.shoppingCart
+    );
+
+    if (!userShopCart) {
+      return next(
+        new AppError("Something went wrong with your shopping-Cart", 404)
+      );
+    }
+    userShopCart.calculateTotals();
+    await userShopCart.save();
+
     res.status(200).json({
       status: "success",
       message: "Product quantity updated successfully",

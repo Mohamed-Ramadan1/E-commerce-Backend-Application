@@ -17,6 +17,7 @@ import { IShoppingCart } from "../models/shoppingCart.interface";
 import { sendResponse } from "../utils/sendResponse";
 import Stripe from "stripe";
 import { IUser } from "../models/user.interface";
+import checkoutConfirmationEmail from "../utils/emails/checkoutConfirmationEmail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-04-10",
@@ -105,7 +106,7 @@ export const checkoutWithCash = catchAsync(
 
     // clear the shopping cart
     await clearShoppingCart(shoppingCart);
-
+    checkoutConfirmationEmail(user, userOrder);
     // generate the response object
     const response: ApiResponse<IOrder> = {
       status: "success",
