@@ -9,6 +9,10 @@ import {
   AuthUserRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
+import { IUser } from "../models/user.interface";
+import User from "../models/userModel";
+
+import confirmOrderCancelled from "../utils/emails/cancelOrderVerificationEmail";
 
 // get all user orders
 export const getOrders = catchAsync(
@@ -62,6 +66,11 @@ export const cancelOrder = catchAsync(
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
+
+    const user = (await User.findById(order.user)) as IUser;
+
+    // send cancellation confirmation email
+    confirmOrderCancelled(user, order);
     const response: ApiResponse<IOrder> = {
       status: "success",
       data: order,

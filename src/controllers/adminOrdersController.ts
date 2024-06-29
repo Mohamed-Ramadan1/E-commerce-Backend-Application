@@ -9,6 +9,11 @@ import {
   AuthUserRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
+import { IUser } from "../models/user.interface";
+import User from "../models/userModel";
+import confirmOrderShippedSuccessfully from "../utils/emails/shippingOrderEmail";
+
+import confirmOrderDelivered from "../utils/emails/deliverOrderEmail";
 
 /*
 get all orders 
@@ -64,6 +69,11 @@ export const updateOrderStatusToShipped = catchAsync(
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
+    const user = (await User.findById(order.user)) as IUser;
+
+    // send shipping confirmation email
+    confirmOrderShippedSuccessfully(user, order);
+
     const response: ApiResponse<IOrder> = {
       status: "success",
       data: order,
@@ -90,6 +100,9 @@ export const updateOrderStatusToDelivered = catchAsync(
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
+    const user = (await User.findById(order.user)) as IUser;
+    // send delivery confirmation email
+    confirmOrderDelivered(user, order);
     const response: ApiResponse<IOrder> = {
       status: "success",
       data: order,
