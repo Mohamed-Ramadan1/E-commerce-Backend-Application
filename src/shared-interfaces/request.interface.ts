@@ -4,6 +4,8 @@ import { IShoppingCart } from "../models/shoppingCart.interface";
 import { IUser } from "../models/user.interface";
 import { ICartItem } from "../models/cartItem.interface";
 import { Types, Schema } from "mongoose";
+import { IOrder } from "../models/order.interface";
+import { IRefundRequest } from "../models/refund.interface";
 
 export interface LoginRequest extends Request {
   body: {
@@ -139,6 +141,23 @@ export interface ReturnItemsRequest extends AuthUserRequest {
     quantity: number;
     returnReason: string;
     comments?: string;
+  };
+  params: {
+    id?: string;
+  };
+}
+
+export interface RefundRequestReq extends AuthUserRequest {
+  order: IOrder;
+  userToRefund: IUser;
+  refundRequest: IRefundRequest;
+
+  body: {
+    order?: string;
+    user?: string;
+    refundAmount?: number;
+    refundMethod?: "stripe" | "giftCard";
+    refundType?: "return" | "cancellation";
   };
   params: {
     id?: string;

@@ -15,7 +15,6 @@ const refundRequestSchema: Schema = new Schema<IRefundRequest>(
     processedBy: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
     refundAmount: {
       type: Number,
@@ -33,12 +32,11 @@ const refundRequestSchema: Schema = new Schema<IRefundRequest>(
     },
     refundStatus: {
       type: String,
-      enum: ["pending", "processing", "completed", "rejected"],
+      enum: ["pending", "processing", "confirmed", "rejected"],
       default: "pending",
     },
     refundProcessedAt: {
       type: Date,
-      required: false,
     },
   },
   { timestamps: true }

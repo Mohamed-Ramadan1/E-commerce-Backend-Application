@@ -8,7 +8,7 @@ export interface IRefundRequest extends Document {
   refundAmount: number;
   refundMethod: "stripe" | "giftCard";
   refundType: "return" | "cancellation";
-  refundStatus: "pending" | "processing" | "completed" | "rejected";
+  refundStatus: "pending" | "processing" | "confirmed" | "rejected";
   refundProcessedAt: Date;
   createdAt: Date;
   updatedAt: Date;

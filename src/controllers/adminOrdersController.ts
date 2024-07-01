@@ -20,6 +20,10 @@ get all orders
 get order
 update order status
 update shipping status
+
+cancel order 
+
+
 */
 
 //get All Orders

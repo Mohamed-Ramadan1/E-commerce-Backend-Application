@@ -25,8 +25,13 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
     },
     returnStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected","Cancelled"],
+      enum: ["Pending", "Approved", "Rejected", "Cancelled"],
       default: "Pending",
+    },
+    receivedItemsStatus: {
+      type: String,
+      enum: ["Received", "Not Received"],
+      default: "Not Received",
     },
     refundAmount: {
       type: Number,

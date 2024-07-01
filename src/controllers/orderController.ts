@@ -13,6 +13,8 @@ import { IUser } from "../models/user.interface";
 import User from "../models/userModel";
 
 import confirmOrderCancelled from "../utils/emails/cancelOrderVerificationEmail";
+import RefundRequest from "../models/refundModel";
+import refundRequestCreatedEmail from "../utils/emails/refundRequestConfirmationEmail";
 
 // get all user orders
 export const getOrders = catchAsync(
@@ -50,30 +52,42 @@ export const getOrder = catchAsync(
 //cancel the order
 export const cancelOrder = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
-    const order: IOrder | null = await Order.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        user: req.user._id,
-      },
-      {
-        orderStatus: "cancelled",
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const order: IOrder | null = await Order.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
+
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
+    if (order.orderStatus === "cancelled") {
+      return next(new AppError("Order is already cancelled", 400));
+    }
 
+    order.orderStatus = "cancelled";
+    await order.save();
     const user = (await User.findById(order.user)) as IUser;
 
+    // check if the user payment with the credit card and if it create the refund request and send email with the refund data
+    if (
+      order.paymentMethod === "credit_card" &&
+      order.paymentStatus === "paid"
+    ) {
+      const refundRequest = await RefundRequest.create({
+        user: user._id,
+        order: order._id,
+        refundAmount: order.totalPrice.toFixed(2),
+        refundMethod: "giftCard",
+        refundType: "cancellation",
+      });
+      //send the email by the data of refund
+      refundRequestCreatedEmail(user, refundRequest);
+    }
     // send cancellation confirmation email
     confirmOrderCancelled(user, order);
     const response: ApiResponse<IOrder> = {
       status: "success",
-      data: order,
+      message: "Order cancelled successfully",
     };
     sendResponse(200, response, res);
   }
@@ -82,22 +96,18 @@ export const cancelOrder = catchAsync(
 // archive order
 export const archiveOrder = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
-    const order: IOrder | null = await Order.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        user: req.user._id,
-      },
-      {
-        archived: true,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const order: IOrder | null = await Order.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
+    if (order.archived === true) {
+      return next(new AppError("Order is already archived", 400));
+    }
+    order.archived = true;
+    await order.save();
     const response: ApiResponse<IOrder> = {
       status: "success",
       data: order,
@@ -109,22 +119,18 @@ export const archiveOrder = catchAsync(
 // unarchive order
 export const unarchiveOrder = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
-    const order: IOrder | null = await Order.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        user: req.user._id,
-      },
-      {
-        archived: false,
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
+    const order: IOrder | null = await Order.findOne({
+      _id: req.params.id,
+      user: req.user._id,
+    });
     if (!order) {
       return next(new AppError("Order not found", 404));
     }
+    if (order.archived === false) {
+      return next(new AppError("Order is already unarchived", 400));
+    }
+    order.archived = false;
+    await order.save();
     const response: ApiResponse<IOrder> = {
       status: "success",
       data: order,

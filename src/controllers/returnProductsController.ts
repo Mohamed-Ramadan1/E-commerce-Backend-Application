@@ -1,9 +1,11 @@
 import ReturnProduct from "../models/returnProductsModel";
 import Order from "../models/orderModel";
-import Product from "../models/productModel";
+import RefundRequest from "../models/refundModel";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { IReturnRequest } from "../models/returnProducts.interface";
+import { IRefundRequest } from "../models/refund.interface";
+import { IOrder } from "../models/order.interface";
 import { NextFunction, Request, Response } from "express";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { sendResponse } from "../utils/sendResponse";
@@ -13,6 +15,8 @@ import {
 } from "../shared-interfaces/request.interface";
 import { ICartItem } from "../models/cartItem.interface";
 import { IUser } from "../models/user.interface";
+import User from "../models/userModel";
+import refundRequestForReturnedItemsEmail from "../utils/emails/refundRequestForReturnedItemsEmail";
 
 // ----------------------------------------------------------------
 //Users Operations
@@ -179,6 +183,7 @@ export const approveReturnItems = catchAsync(
       await ReturnProduct.findByIdAndUpdate(
         id,
         {
+          receivedItemsStatus: "Received",
           returnStatus: "Approved",
         },
         {
@@ -189,6 +194,22 @@ export const approveReturnItems = catchAsync(
     if (!returnRequest) {
       return next(new AppError("No return request with this ID", 404));
     }
+
+    // create the refund request and send confirmation email to the user
+    // get the order and the user
+    const user = (await User.findById(returnRequest.user)) as IUser;
+    const order = (await Order.findById(returnRequest.order)) as IOrder;
+    const refundRequest: IRefundRequest = await RefundRequest.create({
+      order: order._id,
+      user: user._id,
+      refundAmount: returnRequest.refundAmount,
+      refundMethod: "giftCard",
+      refundType: "return",
+      refundStatus: "pending",
+    });
+    // send email to the user to tell him items received and refund mony request created
+    refundRequestForReturnedItemsEmail(user, refundRequest, returnRequest);
+
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,

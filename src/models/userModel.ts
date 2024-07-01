@@ -38,6 +38,10 @@ const userSchema: Schema<IUser> = new Schema(
       type: Schema.Types.ObjectId,
       ref: "ShoppingCart",
     },
+    giftCard: {
+      type: Number,
+      default: 0,
+    },
     photo: {
       type: String,
       default:

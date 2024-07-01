@@ -5,10 +5,10 @@ export interface IReturnRequest extends Document {
   user: Schema.Types.ObjectId;
   order: Schema.Types.ObjectId;
   product: IProduct;
-
   quantity: number;
   returnReason: string;
-  returnStatus: "Pending" | "Approved" | "Rejected"| "Cancelled";
+  returnStatus: "Pending" | "Approved" | "Rejected" | "Cancelled";
+  receivedItemsStatus: "Received" | "Not Received";
   refundAmount: number;
   comments?: string;
   approvalDate?: Date;

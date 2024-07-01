@@ -13,7 +13,7 @@ export interface IOrder extends Document {
   shippingStatus: "pending" | "shipped";
   shippingAddress: string;
   shippingCost: number;
-  orderStatus: "processing" | "delivered" | "cancelled" | "refunded";
+  orderStatus: "processing" | "delivered" | "cancelled";
   archived: boolean;
   customerNotes?: string;
   internalNotes?: string;
