@@ -1,4 +1,5 @@
 import Order from "../models/orderModel";
+import RefundRequest from "../models/refundModel";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { NextFunction, Response } from "express";
@@ -12,8 +13,9 @@ import {
 import { IUser } from "../models/user.interface";
 import User from "../models/userModel";
 import confirmOrderShippedSuccessfully from "../utils/emails/shippingOrderEmail";
-
 import confirmOrderDelivered from "../utils/emails/deliverOrderEmail";
+import confirmOrderCancellation from "../utils/emails/adminOrderCancellationOrdreConfirmation";
+import refundRequestCreatedEmail from "../utils/emails/refundRequestConfirmationEmail";
 
 /*
 get all orders 
@@ -21,7 +23,7 @@ get order
 update order status
 update shipping status
 
- TODO: cancel order 
+
  TODO: Get orders status
 
 
@@ -51,6 +53,49 @@ export const getOrder = catchAsync(
     const response: ApiResponse<IOrder> = {
       status: "success",
       data: order,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+//cancel the order
+export const cancelOrder = catchAsync(
+  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+    const order: IOrder | null = await Order.findOne({
+      _id: req.params.id,
+    });
+
+    if (!order) {
+      return next(new AppError("No order found with this id", 404));
+    }
+    if (order.orderStatus === "cancelled") {
+      return next(new AppError("Order is already cancelled", 400));
+    }
+
+    order.orderStatus = "cancelled";
+    await order.save();
+    const user = (await User.findById(order.user)) as IUser;
+
+    // check if the user payment with the credit card and if it create the refund request and send email with the refund data
+    if (
+      order.paymentMethod === "credit_card" &&
+      order.paymentStatus === "paid"
+    ) {
+      const refundRequest = await RefundRequest.create({
+        user: user._id,
+        order: order._id,
+        refundAmount: order.totalPrice.toFixed(2),
+        refundMethod: "giftCard",
+        refundType: "cancellation",
+      });
+      //send the email by the data of refund
+      refundRequestCreatedEmail(user, refundRequest);
+    }
+    // send cancellation confirmation email
+    confirmOrderCancellation(user, order);
+    const response: ApiResponse<IOrder> = {
+      status: "success",
+      message: "Order cancelled successfully",
     };
     sendResponse(200, response, res);
   }

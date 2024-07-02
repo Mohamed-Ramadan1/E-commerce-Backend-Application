@@ -52,6 +52,9 @@ const OrderSchema: Schema = new Schema<IOrder>(
       required: true,
       default: 0,
     },
+    phoneNumber: {
+      type: String,
+    },
     paymentStatus: {
       type: String,
       required: true,

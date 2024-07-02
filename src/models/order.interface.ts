@@ -12,6 +12,7 @@ export interface IOrder extends Document {
   paymentMethod: "cash" | "credit_card";
   shippingStatus: "pending" | "shipped";
   shippingAddress: string;
+  phoneNumber: string;
   shippingCost: number;
   orderStatus: "processing" | "delivered" | "cancelled";
   archived: boolean;

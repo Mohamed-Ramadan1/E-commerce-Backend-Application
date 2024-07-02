@@ -76,7 +76,7 @@ const clearShoppingCart = async (shoppingCart: IShoppingCart) => {
 export const checkoutWithCash = catchAsync(
   async (req: CheckoutRequest, res: Response, next: NextFunction) => {
     //extract the shipping address, shopping cart and user from the request object
-    const { shipAddress, shoppingCart, user } = req;
+    const { shipAddress, shoppingCart, user, phoneNumber } = req;
 
     // Order object
     const orderObject: object = {
@@ -85,6 +85,7 @@ export const checkoutWithCash = catchAsync(
       itemsQuantity: shoppingCart.total_quantity,
       totalDiscount: shoppingCart.total_discount,
       shippingAddress: shipAddress,
+      phoneNumber: phoneNumber,
       totalPrice: shoppingCart.total_price + shoppingCart.total_shipping_cost,
       shippingCost: shoppingCart.total_shipping_cost,
       paymentStatus: "payment_on_delivery",

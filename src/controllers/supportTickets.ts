@@ -10,6 +10,7 @@ import {
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { sendResponse } from "../utils/sendResponse";
 import { ISupportTicket } from "../models/supportTickets.interface";
+import supportTicketReceivedConfirmationEmail from "../utils/emails/supportTicketRecivedConfirmationEmail";
 
 export const getSupportTickets = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -50,6 +51,8 @@ export const openSupportTicket = catchAsync(
       description,
       category,
     });
+
+    supportTicketReceivedConfirmationEmail(req.user, supportTicket);
     const response: ApiResponse<ISupportTicket> = {
       status: "success",
       data: supportTicket,

@@ -96,12 +96,15 @@ export interface CheckoutRequest extends Request, AuthUserRequest {
   user: IUser;
   shoppingCart: IShoppingCart;
   shipAddress: string;
+  phoneNumber: string;
+
   headers: {
     authorization: string;
   };
 
   body: {
     shippingAddress?: string;
+    phoneNumber?: string;
   };
 }
 

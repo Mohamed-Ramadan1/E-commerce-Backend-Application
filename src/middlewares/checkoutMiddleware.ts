@@ -26,6 +26,7 @@ export const checkCartAvailability = catchAsync(
     // check if the user provided a shipping address on the request or on his account or not
     const shipAddress: string | undefined =
       req.user.shippingAddress || req.body.shippingAddress;
+
     if (!shipAddress) {
       return next(
         new AppError(
@@ -35,10 +36,22 @@ export const checkCartAvailability = catchAsync(
       );
     }
 
+    const phoneNumber: string | undefined =
+      req.user.phoneNumber || req.body.phoneNumber;
+    if (!phoneNumber) {
+      return next(
+        new AppError(
+          "Please provide a phone number or add phone number to your profile ",
+          400
+        )
+      );
+    }
+
     // pass the shopping cart and the shipping address to the request object
     const transformedCart = new ShoppingCart(userShopCart);
     req.shoppingCart = transformedCart;
     req.shipAddress = shipAddress;
+    req.phoneNumber = phoneNumber;
 
     // retrieve the products from the cart items and check if the product is available in the stock or not
     for (const cartItem of userShopCart.items) {
