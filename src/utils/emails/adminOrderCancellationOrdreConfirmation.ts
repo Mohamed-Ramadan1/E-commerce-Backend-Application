@@ -9,12 +9,15 @@ const confirmOrderCancellation = (user: IUser, order: IOrder) => {
     to: user.email,
     subject: "Your Order has been Cancelled",
     html: `
-      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-        <h2 style="color: #E74C3C;">Hello ${user.name},</h2>
+      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; font-size:1rem;">
+        <h2 style="color: #E74C3C; ">Hello ${user.name},</h2>
         <p>We are writing to confirm that your order with ID <strong>${order._id}</strong> has been  cancelled. 
-        its seems to be issue with the order. if you have any questions or need further assistance, please do not hesitate to contact our customer support team.
-        if you paid for the order, the amount will be refunded to your account. soon as possible.
+        its seems to be issue with the order.
+        
+      
         </p>
+        <p>  if you paid for the order,
+         the amount will be refunded to your account. soon as possible.</p>
         <p>If you have any questions or need further assistance, please do not hesitate to contact our customer support team.</p>
         <p style="margin-top: 20px;">Best regards,<br>E-commerce Application Team</p>
       </div>

@@ -63,6 +63,14 @@ export const cancelOrder = catchAsync(
     if (order.orderStatus === "cancelled") {
       return next(new AppError("Order is already cancelled", 400));
     }
+    if (order.orderStatus === "delivered") {
+      return next(
+        new AppError(
+          "Order is already delivered, you can't cancel delivered orders.",
+          400
+        )
+      );
+    }
 
     order.orderStatus = "cancelled";
     await order.save();
