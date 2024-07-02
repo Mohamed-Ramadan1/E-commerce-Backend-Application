@@ -38,7 +38,7 @@ export const signUpWithEmail = catchAsync(
     });
 
     user.shoppingCart = shoppingCart._id;
-    // genrate verficatin token and send it with the email and late the verfiication to the last stage
+    // generate verification token and send it with the email and late the verification to the last stage
     const verificationToken: string = user.createEmailVerificationToken();
     user.emailVerificationToken = verificationToken;
     await user.save({ validateBeforeSave: false });
@@ -48,7 +48,7 @@ export const signUpWithEmail = catchAsync(
   }
 );
 
-// recieved the verification email and comapre the one that inserted on the database
+// received the verification email and compare the one that inserted on the database
 export const verifyEmail = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { token } = req.params;

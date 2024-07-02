@@ -21,7 +21,8 @@ get order
 update order status
 update shipping status
 
-cancel order 
+ TODO: cancel order 
+ TODO: Get orders status
 
 
 */

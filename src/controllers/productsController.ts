@@ -13,6 +13,7 @@ import {
   RequestWithProduct,
 } from "../shared-interfaces/request.interface";
 
+// get all products
 export const getAllProducts = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const products: IProduct[] | null = await Product.find();
@@ -26,6 +27,7 @@ export const getAllProducts = catchAsync(
   }
 );
 
+// get product by id
 export const getProduct = catchAsync(
   async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.findById(req.params.id);
@@ -42,6 +44,7 @@ export const getProduct = catchAsync(
   }
 );
 
+// create a new product
 export const createProduct = catchAsync(
   async (req: RequestWithProduct, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.create(req.body);
@@ -58,6 +61,7 @@ export const createProduct = catchAsync(
   }
 );
 
+// update product
 export const updateProduct = catchAsync(
   async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.findByIdAndUpdate(
@@ -81,6 +85,7 @@ export const updateProduct = catchAsync(
   }
 );
 
+// delete product
 export const deleteProduct = catchAsync(
   async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.findByIdAndDelete(

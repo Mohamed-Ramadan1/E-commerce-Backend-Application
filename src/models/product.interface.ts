@@ -13,7 +13,8 @@ export interface IProduct extends Document {
   videos: string[];
   color: string;
   material: string;
-  rating: number;
+  averageRating: number;
+  totalReviews: number;
   shipping_cost: number;
   shipping_methods: string[];
   availability_status: string;

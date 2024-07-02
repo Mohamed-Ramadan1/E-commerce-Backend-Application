@@ -243,6 +243,3 @@ export const getMe = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-// forgot my password
-// reset my password

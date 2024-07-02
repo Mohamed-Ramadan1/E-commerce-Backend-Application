@@ -13,7 +13,6 @@ import {
   AuthUserRequest,
   ReturnItemsRequest,
 } from "../shared-interfaces/request.interface";
-import { ICartItem } from "../models/cartItem.interface";
 import { IUser } from "../models/user.interface";
 import User from "../models/userModel";
 import refundRequestForReturnedItemsEmail from "../utils/emails/refundRequestForReturnedItemsEmail";
@@ -172,7 +171,7 @@ export const getReturnItemRequest = catchAsync(
     sendResponse(200, response, res);
   }
 );
-// this need more work on hte part of refund the mony to the user
+
 export const approveReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;

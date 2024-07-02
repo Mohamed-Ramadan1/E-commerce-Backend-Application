@@ -1,6 +1,4 @@
 import RefundRequest from "../models/refundModel";
-import User from "../models/userModel";
-import Order from "../models/orderModel";
 import { IRefundRequest } from "../models/refund.interface";
 import { NextFunction, Request, Response } from "express";
 import { sendResponse } from "../utils/sendResponse";
@@ -11,8 +9,6 @@ import {
   AuthUserRequest,
   RefundRequestReq,
 } from "../shared-interfaces/request.interface";
-import { IUser } from "../models/user.interface";
-import { IOrder } from "../models/order.interface";
 import refundSuccessConfirmationEmail from "../utils/emails/refundsuccessConfirmationEmail";
 /*
 -- create refund request
@@ -26,6 +22,8 @@ import refundSuccessConfirmationEmail from "../utils/emails/refundsuccessConfirm
 -- get refund request (confirmed)
 
 */
+
+// all controller in this file related to the admins only
 
 export const createRefundRequest = catchAsync(
   async (req: RefundRequestReq, res: Response, next: NextFunction) => {

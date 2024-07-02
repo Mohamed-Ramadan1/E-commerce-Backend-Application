@@ -2,7 +2,7 @@ import Wishlist from "../models/wishlistModel";
 import { IWishlistItem } from "../models/wishlist.interface";
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { AuthUserRequest } from "../shared-interfaces/request.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { sendResponse } from "../utils/sendResponse";
