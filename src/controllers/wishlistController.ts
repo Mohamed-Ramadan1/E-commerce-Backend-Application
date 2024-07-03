@@ -1,10 +1,17 @@
-import Wishlist from "../models/wishlistModel";
-import { IWishlistItem } from "../models/wishlist.interface";
-import AppError from "../utils/ApplicationError";
-import catchAsync from "../utils/catchAsync";
+// system imports
 import { NextFunction, Response } from "express";
+
+// models imports
+import Wishlist from "../models/wishlistModel";
+
+// interface imports
+import { IWishlistItem } from "../models/wishlist.interface";
 import { AuthUserRequest } from "../shared-interfaces/request.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
+
+// utils imports
+import AppError from "../utils/ApplicationError";
+import catchAsync from "../utils/catchAsync";
 import { sendResponse } from "../utils/sendResponse";
 
 export const getWishlist = catchAsync(

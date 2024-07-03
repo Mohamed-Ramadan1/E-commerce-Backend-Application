@@ -1,20 +1,27 @@
-import Order from "../models/orderModel";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+// system imports
 import { NextFunction, Response } from "express";
+
+import Order from "../models/orderModel";
+import User from "../models/userModel";
+import RefundRequest from "../models/refundModel";
+
+// interface imports
 import { IOrder } from "../models/order.interface";
+import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { sendResponse } from "../utils/sendResponse";
 import {
   AuthUserRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
-import { IUser } from "../models/user.interface";
-import User from "../models/userModel";
 
-import confirmOrderCancelled from "../utils/emails/cancelOrderVerificationEmail";
-import RefundRequest from "../models/refundModel";
-import refundRequestCreatedEmail from "../utils/emails/refundRequestConfirmationEmail";
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
+
+//emails imports
+import confirmOrderCancelled from "../emails/users/cancelOrderVerificationEmail";
+import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmationEmail";
 
 // get all user orders
 export const getOrders = catchAsync(

@@ -1,5 +1,5 @@
-import createMailTransporter from "./email";
-import { IUser } from "../../models/user.interface.js";
+import createMailTransporter from "../mailTransporter";
+import { IUser } from "../../models/user.interface";
 
 const sendVerificationMail = (user: IUser) => {
   const transport = createMailTransporter();
@@ -13,7 +13,7 @@ const sendVerificationMail = (user: IUser) => {
         <p>Thank you for registering with our E-commerce application. Please verify your email by clicking the link below:</p>
         <p>
           <a href="http://127.0.0.1:3000/api/v1/auth/verify-email/${user.emailVerificationToken}" 
-             style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">
+            style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #4CAF50; text-decoration: none; border-radius: 5px;">
             Verify your email
           </a>
         </p>

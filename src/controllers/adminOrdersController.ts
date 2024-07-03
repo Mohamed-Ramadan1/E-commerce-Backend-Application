@@ -1,21 +1,30 @@
+// system imports
+import { NextFunction, Response } from "express";
+
+// models imports
 import Order from "../models/orderModel";
 import RefundRequest from "../models/refundModel";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import { NextFunction, Response } from "express";
+import User from "../models/userModel";
+
+// interface imports
 import { IOrder } from "../models/order.interface";
+import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { sendResponse } from "../utils/sendResponse";
 import {
   AuthUserRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
-import { IUser } from "../models/user.interface";
-import User from "../models/userModel";
-import confirmOrderShippedSuccessfully from "../utils/emails/shippingOrderEmail";
-import confirmOrderDelivered from "../utils/emails/deliverOrderEmail";
-import confirmOrderCancellation from "../utils/emails/adminOrderCancellationOrdreConfirmation";
-import refundRequestCreatedEmail from "../utils/emails/refundRequestConfirmationEmail";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
+
+// emails imports
+import confirmOrderShippedSuccessfully from "../emails/admins/shippingOrderEmail";
+import confirmOrderDelivered from "../emails/admins/deliverOrderEmail";
+import confirmOrderCancellation from "../emails/admins/adminOrderCancellationOrdreConfirmation";
+import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmationEmail";
 
 /*
 get all orders 
@@ -23,9 +32,7 @@ get order
 update order status
 update shipping status
 
-
  TODO: Get orders status
-
 
 */
 

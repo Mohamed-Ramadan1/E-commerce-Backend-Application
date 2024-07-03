@@ -1,23 +1,33 @@
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import Order from "../models/orderModel";
-// import CartItem from "../models/cartItemModel";
+// system imports
 import { Response, NextFunction } from "express";
 
-import { CheckoutRequest } from "../shared-interfaces/request.interface";
+// model imports
+import Order from "../models/orderModel";
 import CartItem from "../models/cartItemModel";
 import Product from "../models/productModel";
-import { ICartItem } from "../models/cartItem.interface";
 import ShoppingCart from "../models/shoppingCartModel";
-import { ObjectId } from "mongoose";
+
+// interface imports
+import { IUser } from "../models/user.interface";
+import { ICartItem } from "../models/cartItem.interface";
 import { IProduct } from "../models/product.interface";
-import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IOrder } from "../models/order.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
+import { ApiResponse } from "../shared-interfaces/response.interface";
+
+import { CheckoutRequest } from "../shared-interfaces/request.interface";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
+
+// modules imports
+import { ObjectId } from "mongoose";
 import Stripe from "stripe";
-import { IUser } from "../models/user.interface";
-import checkoutConfirmationEmail from "../utils/emails/checkoutConfirmationEmail";
+
+// emails imports
+import checkoutConfirmationEmail from "../emails/users/checkoutConfirmationEmail";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-04-10",

@@ -1,15 +1,25 @@
-import RefundRequest from "../models/refundModel";
-import { IRefundRequest } from "../models/refund.interface";
+// system imports
 import { NextFunction, Request, Response } from "express";
-import { sendResponse } from "../utils/sendResponse";
+
+// models imports
+import RefundRequest from "../models/refundModel";
+
+// interface imports
+import { IRefundRequest } from "../models/refund.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
 import {
   AuthUserRequest,
   RefundRequestReq,
 } from "../shared-interfaces/request.interface";
-import refundSuccessConfirmationEmail from "../utils/emails/refundsuccessConfirmationEmail";
+
+// utils
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
+
+// emails imports
+import refundSuccessConfirmationEmail from "../emails/admins/refundsuccessConfirmationEmail";
+
 /*
 -- create refund request
 -- get all refund  requests (not-confirmed)

@@ -1,17 +1,21 @@
-import Product from "../models/productModel";
-import { IProduct } from "../models/product.interface";
-
+// system imports
 import { NextFunction, Request, Response } from "express";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
 
+// models imports
+import Product from "../models/productModel";
+
+// interface imports
+import { IProduct } from "../models/product.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-
-import { sendResponse } from "../utils/sendResponse";
 import {
   RequestWithMongoDbId,
   RequestWithProduct,
 } from "../shared-interfaces/request.interface";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
 
 // get all products
 export const getAllProducts = catchAsync(

@@ -1,18 +1,24 @@
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import ShoppingCart from "../models/shoppingCartModel";
-// import CartItem from "../models/cartItemModel";
+// system imports
 import { Response, NextFunction } from "express";
+
+// modals imports
+import ShoppingCart from "../models/shoppingCartModel";
+import CartItem from "../models/cartItemModel";
+
+// interface imports
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { sendResponse } from "../utils/sendResponse";
 import { IShoppingCart } from "../models/shoppingCart.interface";
+import { ICartItem } from "../models/cartItem.interface";
 import {
   AuthUserRequest,
   RequestWithProductAndUser,
   DecrementProductQuantityRequest,
 } from "../shared-interfaces/request.interface";
-import CartItem from "../models/cartItemModel";
-import { ICartItem } from "../models/cartItem.interface";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
 
 export const getShoppingCart = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {

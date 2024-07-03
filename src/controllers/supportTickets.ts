@@ -1,16 +1,25 @@
-import SupportTicket from "../models/supportTicketsModel";
-import AppError from "../utils/ApplicationError";
-import catchAsync from "../utils/catchAsync";
+// system imports
 import { NextFunction, Response } from "express";
+
+// models imports
+import SupportTicket from "../models/supportTicketsModel";
+
+//interface imports
 import {
   AuthUserRequest,
   SupportTicketRequest,
   AuthUserRequestWithID,
 } from "../shared-interfaces/request.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { sendResponse } from "../utils/sendResponse";
 import { ISupportTicket } from "../models/supportTickets.interface";
-import supportTicketReceivedConfirmationEmail from "../utils/emails/supportTicketRecivedConfirmationEmail";
+
+// utils imports
+import AppError from "../utils/ApplicationError";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
+
+// emails imports
+import supportTicketReceivedConfirmationEmail from "../emails/admins/supportTicketRecivedConfirmationEmail";
 
 export const getSupportTickets = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {

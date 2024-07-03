@@ -1,11 +1,17 @@
-import Review from "../models/reviewModel";
-import AppError from "../utils/ApplicationError";
-import catchAsync from "../utils/catchAsync";
+// system imports
 import { NextFunction, Response } from "express";
+
+// models imports
+import Review from "../models/reviewModel";
+// interface imports
 import { ReviewRequest } from "../shared-interfaces/request.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { sendResponse } from "../utils/sendResponse";
 import { IReview } from "../models/review.interface";
+
+// utils imports
+import AppError from "../utils/ApplicationError";
+import catchAsync from "../utils/catchAsync";
+import { sendResponse } from "../utils/sendResponse";
 
 export const getReviews = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {

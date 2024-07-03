@@ -1,21 +1,26 @@
+import { NextFunction, Response } from "express";
+
+// models imports
 import ReturnProduct from "../models/returnProductsModel";
 import Order from "../models/orderModel";
 import RefundRequest from "../models/refundModel";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import User from "../models/userModel";
+
+// interface imports
 import { IReturnRequest } from "../models/returnProducts.interface";
 import { IRefundRequest } from "../models/refund.interface";
 import { IOrder } from "../models/order.interface";
-import { NextFunction, Request, Response } from "express";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { sendResponse } from "../utils/sendResponse";
-import {
-  AuthUserRequest,
-  ReturnItemsRequest,
-} from "../shared-interfaces/request.interface";
+import { ReturnItemsRequest } from "../shared-interfaces/request.interface";
 import { IUser } from "../models/user.interface";
-import User from "../models/userModel";
-import refundRequestForReturnedItemsEmail from "../utils/emails/refundRequestForReturnedItemsEmail";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
+
+//emails imports
+import refundRequestForReturnedItemsEmail from "../emails/users/refundRequestForReturnedItemsEmail";
 
 // ----------------------------------------------------------------
 //Users Operations

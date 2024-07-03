@@ -1,8 +1,17 @@
+// system imports
+import { promises as fs } from "fs";
+import { NextFunction, Request, Response } from "express";
+
+// modules imports
+import cloudinary from "cloudinary";
+
+// models imports
 import User from "../models/userModel";
 import ShoppingCart from "../models/shoppingCartModel";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import { NextFunction, Request, Response } from "express";
+import Wishlist from "../models/wishlistModel";
+import CartItem from "../models/cartItemModel";
+
+// interface imports
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IUser } from "../models/user.interface";
 import {
@@ -11,12 +20,12 @@ import {
   AuthUserRequest,
   RequestUpdateUserPassword,
 } from "../shared-interfaces/request.interface";
-import { sendResponse } from "../utils/sendResponse";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
 import { createSendToken } from "../utils/createSendToken";
-import cloudinary from "cloudinary";
-import { promises as fs } from "fs";
-import Wishlist from "../models/wishlistModel";
-import CartItem from "../models/cartItemModel";
+import { sendResponse } from "../utils/sendResponse";
 
 // admin operations
 export const getAllUsers = catchAsync(

@@ -1,12 +1,10 @@
-import createMailTransporter from "./email";
+import createMailTransporter from "../mailTransporter";
 import { IUser } from "../../models/user.interface";
 import { IRefundRequest } from "../../models/refund.interface";
-import { IReturnRequest } from "../../models/returnProducts.interface";
 
-const refundRequestForReturnedItemsEmail = (
+const refundRequestCreatedEmail = (
   user: IUser,
-  refundRequest: IRefundRequest,
-  returnedItem: IReturnRequest
+  refundRequest: IRefundRequest
 ) => {
   const transport = createMailTransporter();
   const mailOptions = {
@@ -29,17 +27,6 @@ const refundRequestForReturnedItemsEmail = (
               <li style="padding: 5px 0;"><strong>Refund Status:</strong> ${refundRequest.refundStatus}</li>
             </ul>
           </div>
-          <div style="padding: 10px; background-color: #fff; border: 1px solid #ddd; border-radius: 5px; margin-top: 10px;">
-            <p style="font-size: 16px;"><strong>Return Request Details:</strong></p>
-            <ul style="list-style-type: none; padding: 0;">
-              <li style="padding: 5px 0;"><strong>Return Request ID:</strong> ${returnedItem._id}</li>
-              <li style="padding: 5px 0;"><strong>Product:</strong> ${returnedItem.product.name}</li>
-              <li style="padding: 5px 0;"><strong>Quantity:</strong> ${returnedItem.quantity}</li>
-              <li style="padding: 5px 0;"><strong>Return Reason:</strong> ${returnedItem.returnReason}</li>
-              <li style="padding: 5px 0;"><strong>Return Status:</strong> ${returnedItem.returnStatus}</li>
-              <li style="padding: 5px 0;"><strong>Received Items Status:</strong> ${returnedItem.receivedItemsStatus}</li>
-            </ul>
-          </div>
           <p style="font-size: 16px;">We will process your request shortly and keep you updated on the status.</p>
           <p style="font-size: 16px;">If you have any questions or need further assistance, please do not hesitate to contact our customer support team.</p>
           <p style="margin-top: 20px; font-size: 16px;">Best regards,<br><strong>E-commerce Application Team</strong></p>
@@ -56,4 +43,4 @@ const refundRequestForReturnedItemsEmail = (
   });
 };
 
-export default refundRequestForReturnedItemsEmail;
+export default refundRequestCreatedEmail;

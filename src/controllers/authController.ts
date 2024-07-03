@@ -1,10 +1,14 @@
+// system imports
 import { NextFunction, Request, Response } from "express";
+import crypto from "crypto";
+
+// models imports
 import ShoppingCart from "../models/shoppingCartModel";
-import AppError from "../utils/ApplicationError";
-import catchAsync from "../utils/catchAsync";
 import User from "../models/userModel";
+
+// interface imports
 import { IUser } from "../models/user.interface";
-import { createSendToken, createLogOutToken } from "../utils/createSendToken";
+import { IShoppingCart } from "../models/shoppingCart.interface";
 import {
   LoginRequest,
   AuthUserRequest,
@@ -12,10 +16,15 @@ import {
   ForgotPasswordRequest,
   ResetPasswordRequest,
 } from "../shared-interfaces/request.interface";
-import { IShoppingCart } from "../models/shoppingCart.interface";
-import sendVerificationMail from "../utils/emails/accountVerificationEmail";
-import sendResetPasswordEmail from "../utils/emails/resetPasswordEmail";
-import crypto from "crypto";
+
+// utils imports
+import AppError from "../utils/ApplicationError";
+import catchAsync from "../utils/catchAsync";
+import { createSendToken, createLogOutToken } from "../utils/createSendToken";
+
+// emails imports
+import sendVerificationMail from "../emails/users/accountVerificationEmail";
+import sendResetPasswordEmail from "../emails/users/resetPasswordEmail";
 
 export const signUpWithEmail = catchAsync(
   async (req: RequestWithUser, res: Response, next: NextFunction) => {

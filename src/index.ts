@@ -1,11 +1,10 @@
 import app from "./app";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { v2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 const port: string = process.env.PORT || "3000";
-
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
