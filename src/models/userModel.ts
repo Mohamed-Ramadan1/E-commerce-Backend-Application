@@ -90,6 +90,10 @@ const userSchema: Schema<IUser> = new Schema(
       type: Boolean,
       default: false,
     },
+    myShop: {
+      type: Schema.Types.ObjectId,
+      ref: "Shop",
+    },
   },
   {
     timestamps: true,

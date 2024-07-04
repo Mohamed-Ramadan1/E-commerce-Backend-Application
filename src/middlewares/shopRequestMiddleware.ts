@@ -1,0 +1,113 @@
+//system imports
+import { NextFunction, Request, Response } from "express";
+
+//models imports
+import ShopRequest from "../models/shopRequestModal";
+import Shop from "../models/shopModal";
+import User from "../models/userModel";
+
+// interface imports
+import { IShopRequest } from "../models/shopRequest.interface";
+import { IShop } from "../models/shop.interface";
+import { ShopRequestReq } from "../shared-interfaces/request.interface";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+
+export const validateRequestBeforeShopRequestCreation = catchAsync(
+  async (req: ShopRequestReq, res: Response, next: NextFunction) => {
+    const { shopDescription } = req.body;
+    const user = req.user;
+    if (!shopDescription) {
+      return next(
+        new AppError("Please provide shop name and description", 400)
+      );
+    }
+
+    // check if the user has verification his email or not
+    if (!user.verified) {
+      return next(
+        new AppError(
+          "You haven't verified your email. Please verify your email to proceed.",
+          400
+        )
+      );
+    }
+
+    // check if the user create a request or not
+    const existShopRequest = await ShopRequest.findOne({ user: user._id });
+    if (existShopRequest) {
+      return next(
+        new AppError(
+          `You have already requested to create a shop pleas wait until your request been processed , we will contact you soon as possible.`,
+          400
+        )
+      );
+    }
+    // check if the user has already shop or not
+    const existShop = await Shop.findOne({ owner: user._id });
+    if (existShop) {
+      return next(
+        new AppError(
+          "you already have a shop , you can't create a new shop. if you want to create a new shop please delete your current shop or create a new account.",
+          400
+        )
+      );
+    }
+
+    next();
+  }
+);
+
+export const validateShopRequestBeforeApprove = catchAsync(
+  async (req: ShopRequestReq, res: Response, next: NextFunction) => {
+    // get the request and validate status is pending
+    // get the request and the request still exists
+    // get the request and the request is not approved or rejected
+    // get the request and the request is not cancelled
+    // set the data attributes to the request
+
+    const shopRequest: IShopRequest | null = await ShopRequest.findOne({
+      _id: req.params.id,
+    });
+
+    if (!shopRequest) {
+      return next(new AppError("No shop request found with this ID", 404));
+    }
+    if (shopRequest.requestStatus === "cancelled") {
+      return next(
+        new AppError(
+          "This shop request is canceled and not be valid to be approved",
+          400
+        )
+      );
+    }
+    if (shopRequest.requestStatus === "approved") {
+      return next(new AppError("This shop request is already approved ", 400));
+    }
+
+    if (shopRequest.requestStatus === "rejected") {
+      return next(
+        new AppError(
+          "This shop request is already rejected and not valid to be approved. ",
+          400
+        )
+      );
+    }
+    // check if the user still exist on the system
+    const user = await User.findOne({ _id: shopRequest.user });
+    if (!user) {
+      return next(
+        new AppError(
+          "the user who created this request is no more exist .",
+          404
+        )
+      );
+    }
+
+    req.userToOpenShop = user;
+    req.shopRequest = shopRequest;
+    next();
+  }
+);

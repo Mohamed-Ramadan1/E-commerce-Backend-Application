@@ -6,6 +6,7 @@ import { ICartItem } from "../models/cartItem.interface";
 import { Types, Schema } from "mongoose";
 import { IOrder } from "../models/order.interface";
 import { IRefundRequest } from "../models/refund.interface";
+import { IShopRequest } from "../models/shopRequest.interface";
 
 export interface LoginRequest extends Request {
   body: {
@@ -165,4 +166,16 @@ export interface RefundRequestReq extends AuthUserRequest {
   params: {
     id?: string;
   };
+}
+
+export interface ShopRequestReq extends AuthUserRequest {
+  params: {
+    id?: string;
+  };
+  body: {
+    shopDescription?: string;
+    rejectionReason?: string;
+  };
+  userToOpenShop: IUser;
+  shopRequest: IShopRequest;
 }
