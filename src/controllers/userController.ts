@@ -10,6 +10,8 @@ import User from "../models/userModel";
 import ShoppingCart from "../models/shoppingCartModel";
 import Wishlist from "../models/wishlistModel";
 import CartItem from "../models/cartItemModel";
+import Shop from "../models/shopModal";
+import ShopRequest from "../models/shopRequestModal";
 
 // interface imports
 import { ApiResponse } from "../shared-interfaces/response.interface";
@@ -101,6 +103,10 @@ export const deleteUser = catchAsync(
     await Wishlist.deleteMany({ user: user._id });
     await ShoppingCart.deleteOne({ user: user._id });
     await CartItem.deleteMany({ cart: user.shoppingCart });
+    await ShopRequest.findOneAndDelete({ user: user._id });
+    if (user.myShop) {
+      await Shop.deleteOne({ _id: user.myShop });
+    }
 
     const response: ApiResponse<null> = {
       status: "success",
@@ -230,6 +236,10 @@ export const deleteMe = catchAsync(
     await Wishlist.deleteMany({ user: me._id });
     await ShoppingCart.deleteOne({ user: me._id });
     await CartItem.deleteMany({ cart: me.shoppingCart });
+    await ShopRequest.findOneAndDelete({ user: me._id });
+    if (me.myShop) {
+      await Shop.deleteOne({ _id: me.myShop });
+    }
 
     const response: ApiResponse<null> = {
       status: "success",
