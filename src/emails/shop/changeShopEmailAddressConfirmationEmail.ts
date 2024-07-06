@@ -3,7 +3,7 @@ import { IUser } from "../../models/user.interface";
 import createMailTransporter from "../mailTransporter";
 
 const verificationLink =
-  "http://localhost:3000/api/v1/shops/my-shop/update-email";
+  "http://localhost:3000/api/v1/shops/my-shop/verify-changed-email";
 const changeShopEmailAddressConfirmationEmail = (
   user: IUser,
   shop: IShop,

@@ -1,5 +1,6 @@
 // system imports
 import { NextFunction, Request, Response } from "express";
+import crypto from "crypto";
 
 // external modules imports
 import validator from "validator";
@@ -11,7 +12,10 @@ import Shop from "../models/shopModal";
 // interfaces imports
 import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
-import { ShopSettingsRequest } from "../shared-interfaces/request.interface";
+import {
+  ShopSettingsRequest,
+  VerifyShopEmailUpdating,
+} from "../shared-interfaces/request.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
@@ -80,6 +84,32 @@ export const validateBeforeUpdateShopEmailAddress = catchAsync(
     }
 
     req.shop = shop;
+    next();
+  }
+);
+
+export const validateBeforeConfirmUpdateShopEmailAddress = catchAsync(
+  async (req: VerifyShopEmailUpdating, res: Response, next: NextFunction) => {
+    const { token } = req.params;
+
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    // validate token
+    const shop: IShop | null = await Shop.findOne({
+      changeEmailVerificationToken: hashedToken,
+      changeEmailVerificationTokenExpiresAt: { $gt: new Date() },
+    });
+
+    if (!shop) {
+      return next(new AppError("Invalid token or expired token", 400));
+    }
+    const user = await User.findById(shop.owner);
+    if (!user) {
+      return next(
+        new AppError("The user belonging to this token no longer exists", 401)
+      );
+    }
+    req.shop = shop;
+    req.user = user;
     next();
   }
 );

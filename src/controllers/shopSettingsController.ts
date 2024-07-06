@@ -8,20 +8,28 @@ import Shop from "../models/shopModal";
 // interfaces imports
 import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
-import { ShopSettingsRequest } from "../shared-interfaces/request.interface";
+import {
+  ShopSettingsRequest,
+  VerifyShopEmailUpdating,
+} from "../shared-interfaces/request.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import { sendResponse } from "../utils/sendResponse";
+import AppError from "../utils/ApplicationError";
+
 // emails imports
 import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";
+import sendWelcomeEmailToNewShopEmailAddress from "../emails/shop/sendWelcomeEmailToNewShopEmailAddress";
+import successShopEmailUpdateConfirmation from "../emails/shop/successShopEmailUpdateConfirmation";
 
 /* 
 TODO: update the data of the shop.
 
 // TODO: change the email of the shop  .
 TODO: verify the email of the shop.
+
 TODO: resend the verification email.
 TODO: send a request to close the shop.
 TODO: Activate the shop.
@@ -80,33 +88,60 @@ export const updateShopEmailAddress = catchAsync(
 
 // verify changeEmail
 export const verifyChangedShopEMail = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    // recive the token
-    // validate it
-    //if failed send failed email update message confirmation and reseet all update related data on the collection
-    //if success update the email and send confimration email with update to the both user email and the new shop email
-    // send the success response
+  async (req: VerifyShopEmailUpdating, res: Response, next: NextFunction) => {
+    const { user, shop } = req;
+
+    const tempChangeEmail = shop.tempChangedEmail;
+
+    if (!tempChangeEmail) {
+      return next(
+        new AppError(
+          "something went wrong pleas tray again to request shop email change.",
+          404
+        )
+      );
+    }
+    // send the confirmation email
+
+    shop.email = tempChangeEmail;
+    shop.tempChangedEmail = undefined;
+    shop.changeEmailVerificationToken = undefined;
+    shop.changeEmailVerificationTokenExpiresAt = undefined;
+    await shop.save({ validateBeforeSave: false });
+
+    // send confirmation email to the old email
+    successShopEmailUpdateConfirmation(user, shop);
+
+    // send welcome email to the new email
+    sendWelcomeEmailToNewShopEmailAddress(tempChangeEmail, user, shop);
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      message:
+        "Shop email successfully updated your shop will be manged by the new email.",
+    };
+    sendResponse(200, response, res);
   }
 );
 
 // reset shop email to default email address (user email)
 export const resetShopEmailAddressToDefault = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
 );
 
 // get my shop
 export const getMyShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
 );
 
 export const activateShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
 );
 
 export const deactivateShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
 );
 
 export const deleteShopRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
 );

@@ -185,5 +185,16 @@ export interface ShopSettingsRequest extends AuthUserRequest {
   body: {
     email: string;
   };
+  params: {
+    token: string;
+  };
   shop: IShop;
+}
+
+export interface VerifyShopEmailUpdating extends Request {
+  params: {
+    token: string;
+  };
+  shop: IShop;
+  user: IUser;
 }
