@@ -7,6 +7,7 @@ import { Types, Schema } from "mongoose";
 import { IOrder } from "../models/order.interface";
 import { IRefundRequest } from "../models/refund.interface";
 import { IShopRequest } from "../models/shopRequest.interface";
+import { IShop } from "../models/shop.interface";
 
 export interface LoginRequest extends Request {
   body: {
@@ -178,4 +179,11 @@ export interface ShopRequestReq extends AuthUserRequest {
   };
   userToOpenShop: IUser;
   shopRequest: IShopRequest;
+}
+
+export interface ShopSettingsRequest extends AuthUserRequest {
+  body: {
+    email: string;
+  };
+  shop: IShop;
 }

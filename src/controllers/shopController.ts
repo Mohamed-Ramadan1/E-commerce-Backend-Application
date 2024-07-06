@@ -12,10 +12,10 @@ import { IShop } from "../models/shop.interface";
 // utils imports
 import catchAsync from "../utils/catchAsync";
 
+// emails imports
+import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";
+
 /* 
-TODO: update the data of the shop.
-
-
 TODO: add products to the shop.
 TODO: delete  products from the shop.
 TODO: update products in the shop.
@@ -37,10 +37,6 @@ TODO: Deactivate the shop.
 TODO: Delete the shop request.
 
 */
-
-export const updateShopInformation = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
 
 export const addProductsToShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {}
@@ -86,14 +82,3 @@ export const getSingleOrderCreatedOnShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {}
 );
 
-export const activateShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
-
-export const deactivateShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
-
-export const deleteShopRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);

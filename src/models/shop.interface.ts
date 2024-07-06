@@ -13,6 +13,10 @@ export interface IShop extends Document {
   banner?: string;
   products?: Schema.Types.ObjectId[];
   isActive: boolean;
+  tempChangedEmail: string | undefined;
+  changeEmailVerificationToken: string | undefined;
+  changeEmailVerificationTokenExpiresAt: Date | undefined;
+  createChangeEmailVerificationToken: () => string;
   createdAt: Date;
   updatedAt: Date;
 }

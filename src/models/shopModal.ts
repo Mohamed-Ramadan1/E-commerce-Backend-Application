@@ -1,7 +1,7 @@
 import { Schema, model, Model } from "mongoose";
 import { IShop } from "./shop.interface";
 import validator from "validator";
-
+import crypto from "crypto";
 const shopSchema: Schema = new Schema<IShop>(
   {
     owner: {
@@ -26,19 +26,10 @@ const shopSchema: Schema = new Schema<IShop>(
     },
     shopName: {
       type: String,
+      unique: true,
       required: true,
     },
     shopDescription: {
-      type: String,
-    },
-    categories: [String],
-    photo: {
-      type: String,
-    },
-    photoPublicId: {
-      type: String,
-    },
-    banner: {
       type: String,
     },
     products: [{ type: Schema.Types.ObjectId, ref: "Product" }],
@@ -46,11 +37,65 @@ const shopSchema: Schema = new Schema<IShop>(
       type: Boolean,
       default: true,
     },
+    categories: [String],
+    photo: {
+      type: String,
+    },
+    photoPublicId: {
+      type: String,
+      select: false,
+    },
+    banner: {
+      type: String,
+    },
+    tempChangedEmail: {
+      type: String,
+      lowercase: true,
+      validate: [validator.isEmail, "Please provide a valid email address"],
+    },
+    changeEmailVerificationToken: {
+      type: String,
+      select: false,
+    },
+    changeEmailVerificationTokenExpiresAt: {
+      type: Date,
+      select: false,
+    },
   },
   {
     timestamps: true,
   }
 );
+
+shopSchema.methods.createChangeEmailVerificationToken = function (): string {
+  const verificationToken = crypto.randomBytes(32).toString("hex");
+
+  this.changeEmailVerificationToken = crypto
+    .createHash("sha256")
+    .update(verificationToken)
+    .digest("hex");
+
+  this.changeEmailVerificationTokenExpiresAt = new Date(
+    Date.now() + 10 * 60 * 1000
+  );
+
+  console.log("Generated Change Email Verification Token:", verificationToken);
+  console.log(
+    "Hashed Change Email Verification Token:",
+    this.changeEmailVerificationToken
+  );
+
+  
+  return verificationToken;
+};
+
+shopSchema.pre<IShop>(/^find/, function (next) {
+  this.populate({
+    path: "owner",
+    select: "name email phoneNumber active verified",
+  });
+  next();
+});
 
 const Shop: Model<IShop> = model<IShop>("Shop", shopSchema);
 

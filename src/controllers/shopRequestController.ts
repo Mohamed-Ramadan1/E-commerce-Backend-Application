@@ -27,7 +27,7 @@ import approveShopRequestConfirmationEmail from "../emails/shop/approveShopReque
 //TODO: get a single shop request
 //TODO: update a shop request
 //TODO: delete a shop request
-TODO: confirm a shop request / approve a shop request
+//TODO: confirm a shop request / approve a shop request
 //TODO: reject a shop request / decline a shop request
 //TODO: Cancel a shop request
 

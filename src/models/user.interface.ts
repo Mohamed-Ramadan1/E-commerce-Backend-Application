@@ -18,7 +18,7 @@ export interface IUser extends Document {
   shippingAddress?: string;
   active: boolean;
   verified: boolean;
-  myShop: Schema.Types.ObjectId;
+  myShop: Schema.Types.ObjectId | undefined;
   emailVerificationToken: string | undefined;
   isModified: (path: string) => boolean;
   createEmailVerificationToken: () => string;
