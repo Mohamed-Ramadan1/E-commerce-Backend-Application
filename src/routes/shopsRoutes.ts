@@ -4,6 +4,7 @@ import {
   validateBeforeUpdateShopEmailAddress,
   validateBeforeConfirmUpdateShopEmailAddress,
 } from "../middlewares/shopSettingsMiddleware";
+
 import {
   updateShopInformation,
   updateShopEmailAddress,

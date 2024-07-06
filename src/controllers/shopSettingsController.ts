@@ -23,15 +23,21 @@ import AppError from "../utils/ApplicationError";
 import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";
 import sendWelcomeEmailToNewShopEmailAddress from "../emails/shop/sendWelcomeEmailToNewShopEmailAddress";
 import successShopEmailUpdateConfirmation from "../emails/shop/successShopEmailUpdateConfirmation";
+import resetShopEmailAddressToDefaultEmail from "../emails/shop/resetShopEmailAddressToDefaultEmail";
 
 /* 
 TODO: update the data of the shop.
 
 // TODO: change the email of the shop  .
-TODO: verify the email of the shop.
+//TODO: verify the email of the shop.
+//TODO: reset the email of the shop to the default email.
 
-TODO: resend the verification email.
+
+
 TODO: send a request to close the shop.
+
+//TODO: get my shop
+
 TODO: Activate the shop.
 TODO: Deactivate the shop.
 TODO: Delete the shop request.
@@ -126,12 +132,53 @@ export const verifyChangedShopEMail = catchAsync(
 
 // reset shop email to default email address (user email)
 export const resetShopEmailAddressToDefault = catchAsync(
-  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    const shopId = req.user.myShop;
+    if (!shopId) {
+      return next(
+        new AppError("You don't have a shop yet, please create one first.", 404)
+      );
+    }
+
+    const shop = (await Shop.findById(shopId)) as IShop;
+
+    if (shop.email === req.user.email) {
+      return next(
+        new AppError("Shop email is already the default email address.", 400)
+      );
+    }
+
+    shop.email = req.user.email;
+    await shop.save({ validateBeforeSave: false });
+
+    // send confirmation email to the user email address
+    resetShopEmailAddressToDefaultEmail(req.user, shop);
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: "Shop email successfully reset to the default account  email.",
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 // get my shop
 export const getMyShop = catchAsync(
-  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    const shopId = req.user.myShop;
+    if (!shopId) {
+      return next(
+        new AppError("You don't have a shop yet, please create one first.", 404)
+      );
+    }
+    const shop = (await Shop.findById(shopId)) as IShop;
+
+    const response: ApiResponse<IShop> = {
+      status: "success",
+      data: shop,
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 export const activateShop = catchAsync(
