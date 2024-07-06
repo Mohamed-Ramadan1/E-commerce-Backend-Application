@@ -13,7 +13,6 @@ import { IShop } from "../models/shop.interface";
 import catchAsync from "../utils/catchAsync";
 
 // emails imports
-import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";
 
 /* 
 TODO: add products to the shop.
@@ -81,4 +80,3 @@ export const getAllOrdersCreatedOnShop = catchAsync(
 export const getSingleOrderCreatedOnShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {}
 );
-

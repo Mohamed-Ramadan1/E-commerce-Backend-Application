@@ -29,7 +29,7 @@ router.route("/my-shop/activate").patch(activateShop);
 
 router.route("/my-shop/un-active").patch(deactivateShop);
 
-router.route("/my-shop/delete-request").patch(deleteShopRequest);
+router.route("/my-shop/delete-request").post(deleteShopRequest);
 
 router.route("/my-shop/reset-email").patch(resetShopEmailAddressToDefault);
 

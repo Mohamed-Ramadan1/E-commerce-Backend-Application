@@ -184,6 +184,7 @@ export interface ShopRequestReq extends AuthUserRequest {
 export interface ShopSettingsRequest extends AuthUserRequest {
   body: {
     email: string;
+    reason: string;
   };
   params: {
     token: string;

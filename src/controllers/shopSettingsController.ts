@@ -4,10 +4,12 @@ import { NextFunction, Request, Response } from "express";
 // models imports
 import User from "../models/userModel";
 import Shop from "../models/shopModal";
+import DeleteShopRequest from "../models/deleteShopRequest";
 
 // interfaces imports
 import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
+import { IDeleteShopRequest } from "../models/deleteShopRequest.interface";
 import {
   ShopSettingsRequest,
   VerifyShopEmailUpdating,
@@ -24,7 +26,7 @@ import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEm
 import sendWelcomeEmailToNewShopEmailAddress from "../emails/shop/sendWelcomeEmailToNewShopEmailAddress";
 import successShopEmailUpdateConfirmation from "../emails/shop/successShopEmailUpdateConfirmation";
 import resetShopEmailAddressToDefaultEmail from "../emails/shop/resetShopEmailAddressToDefaultEmail";
-
+import deleteShopRequestReceivedConfirmationEmail from "../emails/shop/deleteShopRequestReceivedConfirmationEmail";
 /* 
 TODO: update the data of the shop.
 
@@ -32,15 +34,11 @@ TODO: update the data of the shop.
 //TODO: verify the email of the shop.
 //TODO: reset the email of the shop to the default email.
 
-
-
-TODO: send a request to close the shop.
-
 //TODO: get my shop
 
-TODO: Activate the shop.
-TODO: Deactivate the shop.
-TODO: Delete the shop request.
+//TODO: Activate the shop.
+//TODO: Deactivate the shop.
+//TODO: Delete the shop request.
 
 */
 
@@ -182,13 +180,91 @@ export const getMyShop = catchAsync(
 );
 
 export const activateShop = catchAsync(
-  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    const shopId = req.user.myShop;
+    if (!shopId) {
+      return next(
+        new AppError("You don't have a shop yet, please create one first.", 404)
+      );
+    }
+    const shop = (await Shop.findById(shopId)) as IShop;
+    if (shop.isActive) {
+      return next(new AppError("Shop is already active.", 400));
+    }
+    shop.isActive = true;
+    await shop.save({ validateBeforeSave: false });
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: "Shop successfully activated.",
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 export const deactivateShop = catchAsync(
-  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    const shopId = req.user.myShop;
+    if (!shopId) {
+      return next(
+        new AppError("You don't have a shop yet, please create one first.", 404)
+      );
+    }
+    const shop: IShop = (await Shop.findById(shopId)) as IShop;
+    if (!shop.isActive) {
+      return next(new AppError("Shop is already un active.", 400));
+    }
+
+    shop.isActive = false;
+    await shop.save({ validateBeforeSave: false });
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: "Shop un activated successfully.",
+    };
+    sendResponse(200, response, res);
+  }
 );
 
 export const deleteShopRequest = catchAsync(
-  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {}
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    const reason = req.body.reason;
+    const user = req.user;
+    const shopId = req.user.myShop;
+    if (!reason) {
+      return next(
+        new AppError("Please provide a reason for deleting the shop.", 400)
+      );
+    }
+
+    // get shopping based on the shopping id
+    const shop = (await Shop.findById(shopId)) as IShop;
+
+    if (!shop) {
+      return next(
+        new AppError("You don't have a shop yet, please create one first.", 404)
+      );
+    }
+    const existDeleteRequest = await DeleteShopRequest.findOne({
+      shop: shop._id,
+    });
+    if (existDeleteRequest) {
+      return next(new AppError("Shop delete request already sent.", 400));
+    }
+    //create the delete request
+    const deleteRequest: IDeleteShopRequest = await DeleteShopRequest.create({
+      user: user._id,
+      shop: shop._id,
+      reason,
+    });
+
+    shop.isActive = false;
+    await shop.save({ validateBeforeSave: false });
+    // send a confirmation email to the shop owner
+    deleteShopRequestReceivedConfirmationEmail(user, shop, deleteRequest);
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: "Shop request successfully sent for deletion.",
+    };
+    sendResponse(200, response, res);
+  }
 );

@@ -22,6 +22,8 @@ import refundRequestRoutes from "./routes/refundRequestsRoutes";
 import shopRequestRoutes from "./routes/shopsRequestRoutes";
 import shopsRoutes from "./routes/shopsRoutes";
 import shopsManagementRoutes from "./routes/shopsManagementRoutes";
+import deleteShopsRequestsRoutes from "./routes/deleteShopsRequestsRoutes";
+import processedDeleteShopRequestRoutes from "./routes/processedDeleteShopRequestRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -75,6 +77,11 @@ app.use("/api/v1/shops-requests", shopRequestRoutes);
 app.use("/api/v1/shops", shopsRoutes);
 // this route related to the admins operations on the shops.
 app.use("/api/v1/admin/shops", shopsManagementRoutes);
+// this route related to the admins operations on the shops delete requests.
+app.use("/api/v1/delete-shops-requests", deleteShopsRequestsRoutes);
+// this route related to the admins operations on the processed shops delete requests.
+// router of the processed  shop deleted requests
+app.use("/api/v1/processed-requests", processedDeleteShopRequestRoutes);
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
