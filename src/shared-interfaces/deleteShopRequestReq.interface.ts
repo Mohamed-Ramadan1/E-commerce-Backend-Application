@@ -7,6 +7,7 @@ export interface DeleteShopRequestReq extends AuthUserRequest {
   body: {
     shopId: string;
     reason: string;
+    userId: string;
   };
   params: {
     id: string;

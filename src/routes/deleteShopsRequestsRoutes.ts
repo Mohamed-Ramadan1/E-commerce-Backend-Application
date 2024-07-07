@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { validateBeforeApproveDeleteShopRequest } from "../middlewares/deleteShopRequestMiddleware";
+import {
+  validateBeforeApproveDeleteShopRequest,
+  validateBeforeCreateDeleteShopRequest,
+} from "../middlewares/deleteShopRequestMiddleware";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 import {
   getAllDeleteShopRequests,
@@ -16,7 +19,10 @@ const router = Router();
 router.use(protect);
 router.use(restrictTo("admin"));
 
-router.route("/").get(getAllDeleteShopRequests).post(createDeleteShopRequest);
+router
+  .route("/")
+  .get(getAllDeleteShopRequests)
+  .post(validateBeforeCreateDeleteShopRequest, createDeleteShopRequest);
 router
   .route("/:id")
   .get(getDeleteShopRequest)

@@ -1,5 +1,5 @@
 // system imports
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 
 // models imports
 import DeleteShopRequest from "../models/deleteShopRequestModal";
@@ -21,10 +21,6 @@ import { sendResponse } from "../utils/sendResponse";
 import deleteShopRequestSuccessConfirmationEmail from "../emails/shop/deleteShopRequestSuccessConfirmationEmail";
 import deleteShopRequestCancellationEmail from "../emails/shop/deleteShopRequestCancellationEmail";
 import deleteShopRequestRejectionEmail from "../emails/shop/deleteShopRequestRejectionEmail";
-
-/* 
-TODO : There and problem with creating delete requests for none exists shops.
-*/
 
 export const getAllDeleteShopRequests = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
@@ -58,10 +54,16 @@ export const getDeleteShopRequest = catchAsync(
   }
 );
 
+//create a new delete shop request
 export const createDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
+    const { userId, shopId, reason } = req.body;
     const deleteShopRequest: IDeleteShopRequest =
-      await DeleteShopRequest.create(req.body);
+      await DeleteShopRequest.create({
+        user: userId,
+        shop: shopId,
+        reason,
+      });
 
     if (!deleteShopRequest) {
       return next(new AppError("Something went wrong", 400));
@@ -115,7 +117,6 @@ export const deleteDeleteShopRequest = catchAsync(
   }
 );
 
-// TODO: this three routes related to processed collection data
 // TODO: All product related to this shop should be deleted if the request approved
 export const approveDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {

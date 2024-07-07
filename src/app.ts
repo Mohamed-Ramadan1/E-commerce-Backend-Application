@@ -81,7 +81,10 @@ app.use("/api/v1/admin/shops", shopsManagementRoutes);
 app.use("/api/v1/delete-shops-requests", deleteShopsRequestsRoutes);
 // this route related to the admins operations on the processed shops delete requests.
 // router of the processed  shop deleted requests
-app.use("/api/v1/processed-requests", processedDeleteShopRequestRoutes);
+app.use(
+  "/api/v1/processed-delete-shops-requests",
+  processedDeleteShopRequestRoutes
+);
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

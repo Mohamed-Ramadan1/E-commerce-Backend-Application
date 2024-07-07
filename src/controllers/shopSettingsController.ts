@@ -247,7 +247,12 @@ export const deleteShopRequest = catchAsync(
       shop: shop._id,
     });
     if (existDeleteRequest) {
-      return next(new AppError("Shop delete request already sent.", 400));
+      return next(
+        new AppError(
+          "Delete shop request for this shop already created please wait until your request processed.",
+          400
+        )
+      );
     }
     //create the delete request
     const deleteRequest: IDeleteShopRequest = await DeleteShopRequest.create({

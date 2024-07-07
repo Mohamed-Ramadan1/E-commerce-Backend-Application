@@ -89,11 +89,11 @@ export const deleteProcessedDeleteShopRequest = catchAsync(
       return next(new AppError("Processed delete shop request not found", 404));
     }
 
-    const response: ApiResponse<IProcessedDeletedShopRequest> = {
+    const response: ApiResponse<null> = {
       status: "success",
-      data: processedDeleteShopRequest,
+      data: null,
     };
 
-    sendResponse(200, response, res);
+    sendResponse(204, response, res);
   }
 );
