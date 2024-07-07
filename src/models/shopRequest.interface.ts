@@ -6,6 +6,7 @@ export interface IShopRequest extends Document {
   shopDescription: string;
   requestStatus: "approved" | "pending" | "rejected" | "cancelled";
   processedBy: Schema.Types.ObjectId;
+  processedAt: Date;
   createdAt: Date;
   updatedAt: Date;
 }

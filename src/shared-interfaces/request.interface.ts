@@ -174,8 +174,8 @@ export interface ShopRequestReq extends AuthUserRequest {
     id?: string;
   };
   body: {
-    shopDescription?: string;
-    rejectionReason?: string;
+    shopDescription: string;
+    rejectionReason: string;
   };
   userToOpenShop: IUser;
   shopRequest: IShopRequest;

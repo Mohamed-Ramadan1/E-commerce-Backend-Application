@@ -11,6 +11,7 @@ const shopRequestSchema: Schema = new Schema<IShopRequest>(
       default: "pending",
     },
     processedBy: { type: Schema.Types.ObjectId, ref: "User" },
+    processedAt: { type: Date },
   },
   {
     timestamps: true,

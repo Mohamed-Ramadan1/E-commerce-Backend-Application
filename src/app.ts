@@ -24,6 +24,7 @@ import shopsRoutes from "./routes/shopsRoutes";
 import shopsManagementRoutes from "./routes/shopsManagementRoutes";
 import deleteShopsRequestsRoutes from "./routes/deleteShopsRequestsRoutes";
 import processedDeleteShopRequestRoutes from "./routes/processedDeleteShopRequestRoutes";
+import ProcessedCreateShopRequestRoutes from "./routes/processedCreateShopsRequestsRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -73,6 +74,8 @@ app.use("/api/v1/support-tickets", supportTicketsRoutes);
 app.use("/api/v1/return-products", returnProductsRoutes);
 app.use("/api/v1/refund-requests", refundRequestRoutes);
 app.use("/api/v1/shops-requests", shopRequestRoutes);
+//router of the processed create shop requests
+app.use("/api/v1/processed-shops-requests", ProcessedCreateShopRequestRoutes);
 // this route related to the users (shops owners) operations on their shops.
 app.use("/api/v1/shops", shopsRoutes);
 // this route related to the admins operations on the shops.

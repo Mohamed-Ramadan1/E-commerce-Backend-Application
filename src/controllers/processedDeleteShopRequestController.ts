@@ -20,6 +20,7 @@ export const getAllProcessedDeleteShopRequests = catchAsync(
 
     const response: ApiResponse<IProcessedDeletedShopRequest[]> = {
       status: "success",
+      results: processedDeleteShopRequests.length,
       data: processedDeleteShopRequests,
     };
 
