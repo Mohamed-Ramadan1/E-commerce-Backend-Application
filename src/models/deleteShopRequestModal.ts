@@ -36,10 +36,9 @@ const deleteShopRequestSchema: Schema = new Schema<IDeleteShopRequest>(
 );
 
 deleteShopRequestSchema.pre<IDeleteShopRequest>(/^find/, function (next) {
-  this.populate({ path: "user", select: "name email" });
+  this.populate({ path: "user" });
   this.populate({
     path: "shop",
-    select: "shopName email owner",
   });
   next();
 });

@@ -29,6 +29,7 @@ import AppError from "../utils/ApplicationError";
 import { createSendToken } from "../utils/createSendToken";
 import { sendResponse } from "../utils/sendResponse";
 
+// TODO : delete all related data to the user when deleting the user
 // admin operations
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

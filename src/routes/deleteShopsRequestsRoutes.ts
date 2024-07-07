@@ -1,5 +1,5 @@
 import { Router } from "express";
-
+import { validateBeforeApproveDeleteShopRequest } from "../middlewares/deleteShopRequestMiddleware";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 import {
   getAllDeleteShopRequests,
@@ -23,8 +23,14 @@ router
   .patch(updateDeleteShopRequest)
   .delete(deleteDeleteShopRequest);
 
-router.route("/:id/approve").patch(approveDeleteShopRequest);
-router.route("/:id/reject").patch(rejectDeleteShopRequest);
-router.route("/:id/cancel").patch(cancelDeleteShopRequest);
+router
+  .route("/:id/approve")
+  .patch(validateBeforeApproveDeleteShopRequest, approveDeleteShopRequest);
+router
+  .route("/:id/reject")
+  .patch(validateBeforeApproveDeleteShopRequest, rejectDeleteShopRequest);
+router
+  .route("/:id/cancel")
+  .patch(validateBeforeApproveDeleteShopRequest, cancelDeleteShopRequest);
 
 export default router;

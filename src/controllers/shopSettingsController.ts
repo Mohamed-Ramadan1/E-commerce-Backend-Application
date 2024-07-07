@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 // models imports
 import User from "../models/userModel";
 import Shop from "../models/shopModal";
-import DeleteShopRequest from "../models/deleteShopRequest";
+import DeleteShopRequest from "../models/deleteShopRequestModal";
 
 // interfaces imports
 import { IUser } from "../models/user.interface";
