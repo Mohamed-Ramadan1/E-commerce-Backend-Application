@@ -18,10 +18,7 @@ const processedCreateShopRequestsSchema: Schema =
           type: String,
           required: true,
         },
-        _id: {
-          type: Schema.Types.ObjectId,
-          required: true,
-        },
+
         role: {
           type: String,
           required: true,
@@ -50,10 +47,7 @@ const processedCreateShopRequestsSchema: Schema =
           type: String,
           required: true,
         },
-        _id: {
-          type: Schema.Types.ObjectId,
-          required: true,
-        },
+
         role: {
           type: String,
           required: true,

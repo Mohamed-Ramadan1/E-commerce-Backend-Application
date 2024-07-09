@@ -7,7 +7,6 @@ export interface IProcessedShopRequest extends Document {
     name: string;
     email: string;
     phoneNumber: string;
-    _id: Schema.Types.ObjectId;
     role: string;
   };
   shopDescription: string;
@@ -16,7 +15,6 @@ export interface IProcessedShopRequest extends Document {
     name: string;
     email: string;
     phoneNumber: string;
-    _id: Schema.Types.ObjectId;
     role: string;
   };
 

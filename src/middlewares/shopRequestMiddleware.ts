@@ -1,5 +1,5 @@
 //system imports
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
 //models imports
 import ShopRequest from "../models/shopRequestModal";
@@ -8,7 +8,7 @@ import User from "../models/userModel";
 
 // interface imports
 import { IShopRequest } from "../models/shopRequest.interface";
-import { IShop } from "../models/shop.interface";
+import { IUser } from "../models/user.interface";
 import { ShopRequestReq } from "../shared-interfaces/request.interface";
 
 // utils imports
@@ -107,6 +107,68 @@ export const validateShopRequestBeforeApprove = catchAsync(
     }
 
     req.userToOpenShop = user;
+    req.shopRequest = shopRequest;
+    next();
+  }
+);
+
+export const validateShopRequestBeforeReject = catchAsync(
+  async (req: ShopRequestReq, res: Response, next: NextFunction) => {
+    //reject the request and send reject email to the user
+    const { rejectionReason } = req.body;
+
+    if (!rejectionReason) {
+      return next(new AppError("Please provide a rejection reason", 400));
+    }
+    const shopRequest: IShopRequest | null = await ShopRequest.findById(
+      req.params.id
+    );
+
+    if (!shopRequest) {
+      return next(new AppError("Shop request not found", 404));
+    }
+    const userToOpenShop = (await User.findById(shopRequest.user)) as IUser;
+
+    if (!userToOpenShop) {
+      return next(
+        new AppError("The user who created this request is no more exist", 404)
+      );
+    }
+
+    if (shopRequest.requestStatus === "rejected") {
+      return next(new AppError("Shop request is already rejected", 400));
+    }
+    req.shopRequest = shopRequest;
+    req.userToOpenShop = userToOpenShop;
+    next();
+  }
+);
+
+export const validateShopRequestBeforeCancel = catchAsync(
+  async (req: ShopRequestReq, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+
+    const shopRequest: IShopRequest | null = await ShopRequest.findOne({
+      _id: id,
+      user: req.user._id,
+    });
+    if (!shopRequest) {
+      return next(new AppError("No shop request found with this id.", 404));
+    }
+    if (shopRequest.requestStatus === "cancelled") {
+      return next(new AppError("Shop request is already cancelled", 400));
+    }
+    if (
+      shopRequest.requestStatus === "approved" ||
+      shopRequest.requestStatus === "rejected"
+    ) {
+      return next(
+        new AppError(
+          "Cannot cancel a shop request that is already approved or rejected",
+          400
+        )
+      );
+    }
     req.shopRequest = shopRequest;
     next();
   }

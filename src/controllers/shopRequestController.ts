@@ -26,8 +26,8 @@ import approveShopRequestConfirmationEmail from "../emails/shop/approveShopReque
 import { IUser } from "../models/user.interface";
 
 /*
-TODO: implement the processed create shop request is not completed 
-TODO: fix the related problem withe the processed create shop request .
+//TODO: implement the processed create shop request is not completed 
+//TODO: fix the related problem withe the processed create shop request .
 //TODO: create a new shop request 
 //TODO: get all pending shop requests
 //TODO: get a single shop request
@@ -43,39 +43,82 @@ TODO: fix the related problem withe the processed create shop request .
  //TODO: send rejected request email
 */
 
+//-----------------
+// Helper functions
+const createShopObject = (user: IUser, shopRequest: IShopRequest) => {
+  // create object data contains the default dat of the shop
+  const shopDataObject: object = {
+    owner: user._id,
+    email: user.email,
+    phone: user.phoneNumber,
+    shopName: user.name,
+    shopDescription: shopRequest.shopDescription || "",
+  };
+  return shopDataObject;
+};
+
+const createProcessedShopRequest = async (
+  user: IUser,
+  shopRequest: IShopRequest,
+  processedBy: IUser,
+  requestStatus: string
+) => {
+  const processedRequest = await ProcessedCreateShopRequests.create({
+    user: {
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      _id: user._id,
+      role: user.role,
+    },
+    shopDescription: shopRequest.shopDescription,
+    requestStatus: requestStatus,
+    processedBy: {
+      name: processedBy.name,
+      email: processedBy.email,
+      phoneNumber: processedBy.phoneNumber,
+      _id: processedBy._id,
+      role: processedBy.role,
+    },
+    processedDate: new Date(),
+    requestCreatedDate: shopRequest.createdAt,
+    requestLastUpdatedDate: shopRequest.updatedAt,
+  });
+  if (!processedRequest) {
+    return;
+  }
+  // delete the shop request
+  await ShopRequest.findByIdAndDelete(shopRequest._id);
+};
+
+const updateAndSaveShopRequestDocument = async (
+  shopRequestStatus: "approved" | "rejected" | "cancelled",
+  shopRequest: IShopRequest,
+  processedBy: IUser
+) => {
+  shopRequest.requestStatus = shopRequestStatus;
+  shopRequest.processedBy = processedBy._id;
+  shopRequest.processedAt = new Date();
+  await shopRequest.save();
+};
+
 //--------------------------------------
 // user options
 export const cancelShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { shopRequest } = req;
 
-    const shopRequest: IShopRequest | null = await ShopRequest.findOne({
-      _id: id,
-      user: req.user._id,
-    });
-    if (!shopRequest) {
-      return next(new AppError("No shop request found", 404));
-    }
-    if (shopRequest.requestStatus === "cancelled") {
-      return next(new AppError("Shop request is already cancelled", 400));
-    }
-    if (
-      shopRequest.requestStatus === "approved" ||
-      shopRequest.requestStatus === "rejected"
-    ) {
-      return next(
-        new AppError(
-          "Cannot cancel a shop request that is already approved or rejected",
-          400
-        )
-      );
-    }
-
-    shopRequest.requestStatus = "cancelled";
-    await shopRequest.save();
+    await updateAndSaveShopRequestDocument("cancelled", shopRequest, req.user);
 
     // send cancel request email confirmation
     shopRequestCanceledEmail(req.user, shopRequest);
+
+    await createProcessedShopRequest(
+      req.user,
+      shopRequest,
+      req.user,
+      "cancelled"
+    );
 
     const response: ApiResponse<IShopRequest> = {
       status: "success",
@@ -176,15 +219,11 @@ export const confirmShopRequest = catchAsync(
     // extract the user and the shop request from the request
     const { userToOpenShop, shopRequest } = req;
 
-    // create object data contains the default dat of the shop
-    const shopDataObject: object = {
-      owner: userToOpenShop._id,
-      email: userToOpenShop.email,
-      phone: userToOpenShop.phoneNumber,
-      shopName: userToOpenShop.name,
-      shopDescription: shopRequest.shopDescription || "",
-    };
-
+    // generate the default shop data object
+    const shopDataObject: object = createShopObject(
+      userToOpenShop,
+      shopRequest
+    );
     // create the shop
     const shop: IShop = await Shop.create(shopDataObject);
 
@@ -192,40 +231,19 @@ export const confirmShopRequest = catchAsync(
     userToOpenShop.myShop = shop._id;
     await userToOpenShop.save({ validateBeforeSave: false });
 
-    // update the shop data to approve and define who approved it.
-    shopRequest.requestStatus = "approved";
-    shopRequest.processedBy = req.user._id;
-    shopRequest.processedAt = new Date();
-    await shopRequest.save({ validateBeforeSave: false });
+    // update the shop request data  and save it.
+    await updateAndSaveShopRequestDocument("approved", shopRequest, req.user);
 
     // send confirmation email to tell the user his shop has been created successfully
     approveShopRequestConfirmationEmail(userToOpenShop, shop);
 
     // create process document to save the data
-    const processedShopRequest: IProcessedShopRequest =
-      await ProcessedCreateShopRequests.create({
-        user: {
-          name: userToOpenShop.name,
-          email: userToOpenShop.email,
-          phoneNumber: userToOpenShop.phoneNumber,
-          _id: userToOpenShop._id,
-          role: userToOpenShop.role,
-        },
-        shopDescription: shopRequest.shopDescription,
-        requestStatus: "approved",
-        processedBy: {
-          name: req.user.name,
-          email: req.user.email,
-          phoneNumber: req.user.phoneNumber,
-          _id: req.user._id,
-          role: req.user.role,
-        },
-        processedDate: new Date(),
-        requestCreatedDate: shopRequest.createdAt,
-        requestLastUpdatedDate: shopRequest.updatedAt,
-      });
-    //delete the shop request
-    await ShopRequest.findByIdAndDelete(shopRequest._id);
+    await createProcessedShopRequest(
+      userToOpenShop,
+      shopRequest,
+      req.user,
+      "approved"
+    );
 
     //create json response
     const response: ApiResponse<IShopRequest> = {
@@ -241,30 +259,27 @@ export const confirmShopRequest = catchAsync(
 
 export const rejectShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
-    //reject the request and send reject email to the user
+    //extract required parameters from the request object.
     const { rejectionReason } = req.body;
+    const { shopRequest, userToOpenShop } = req;
 
-    if (!rejectionReason) {
-      return next(new AppError("Please provide a rejection reason", 400));
-    }
-    const shopRequest: IShopRequest | null = await ShopRequest.findById(
-      req.params.id
+    // update the shop request data  and save it.
+    await updateAndSaveShopRequestDocument("rejected", shopRequest, req.user);
+
+    // send rejection email to the user
+    rejectShopRequestConfirmationEmail(
+      userToOpenShop,
+      shopRequest,
+      rejectionReason
     );
 
-    if (!shopRequest) {
-      return next(new AppError("Shop request not found", 404));
-    }
-    const userToOpenShop = (await User.findById(shopRequest.user)) as IUser;
-
-    if (shopRequest.requestStatus === "rejected") {
-      return next(new AppError("Shop request is already rejected", 400));
-    }
-    shopRequest.requestStatus = "rejected";
-    shopRequest.processedBy = req.user._id;
-    shopRequest.processedAt = new Date();
-    await shopRequest.save();
-
-    rejectShopRequestConfirmationEmail(req.user, shopRequest, rejectionReason);
+    // create process document to save the data.
+    await createProcessedShopRequest(
+      userToOpenShop,
+      shopRequest,
+      req.user,
+      "rejected"
+    );
 
     const response: ApiResponse<IShopRequest> = {
       status: "success",

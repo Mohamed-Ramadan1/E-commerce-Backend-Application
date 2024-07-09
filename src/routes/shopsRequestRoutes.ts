@@ -3,6 +3,8 @@ import { protect, restrictTo } from "../middlewares/authMiddleware";
 import {
   validateRequestBeforeShopRequestCreation,
   validateShopRequestBeforeApprove,
+  validateShopRequestBeforeReject,
+  validateShopRequestBeforeCancel,
 } from "../middlewares/shopRequestMiddleware";
 
 import {
@@ -20,7 +22,9 @@ const router = Router();
 router.use(protect);
 
 // user operations
-router.route("/:id/cancel").patch(cancelShopRequest);
+router
+  .route("/:id/cancel")
+  .patch(validateShopRequestBeforeCancel, cancelShopRequest);
 
 router.use(restrictTo("admin"));
 
@@ -37,6 +41,8 @@ router
 router
   .route("/:id/approve")
   .patch(validateShopRequestBeforeApprove, confirmShopRequest);
-router.route("/:id/reject").patch(rejectShopRequest);
+router
+  .route("/:id/reject")
+  .patch(validateShopRequestBeforeReject, rejectShopRequest);
 
 export default router;
