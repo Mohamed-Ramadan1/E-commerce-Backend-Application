@@ -4,21 +4,26 @@ import { NextFunction, Request, Response } from "express";
 // models imports
 import User from "../models/userModel";
 import Shop from "../models/shopModal";
+import Product from "../models/productModel";
 
 // interfaces imports
 import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
+import { IProduct } from "../models/product.interface";
+import { ShopProductsRequest } from "../shared-interfaces/shopProductsRequest.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
-
+import AppError from "../utils/ApplicationError";
+import { ApiResponse } from "../shared-interfaces/response.interface";
+import { sendResponse } from "../utils/sendResponse";
 // emails imports
 
 /* 
 TODO: add products to the shop.
 TODO: delete  products from the shop.
 TODO: update products in the shop.
-TODO: get all products in the shop.
+//TODO: get all products in the shop.
 TODO: get a single product in the shop.
 
 TODO:  freezing product in the shop.
@@ -36,39 +41,54 @@ TODO: Deactivate the shop.
 TODO: Delete the shop request.
 
 */
-
-export const addProductsToShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+// get all products on shop
+export const getAllProducts = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {
+    const shop = (await Shop.findById(req.params.shopId)) as IShop;
+    const products: IProduct[] = await Product.find({
+      shopId: shop.id,
+    });
+    const json: ApiResponse<IProduct[]> = {
+      status: "success",
+      results: products.length,
+      data: products,
+    };
+    sendResponse(200, json, res);
+  }
 );
 
-export const deleteProductsFromShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+// add product to the shop
+export const addProduct = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {
+    const product: IProduct = await Product.create(req.body);
+    const json: ApiResponse<IProduct> = {
+      status: "success",
+      data: product,
+    };
+    sendResponse(201, json, res);
+  }
 );
 
-export const updateProductsInShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+export const deleteProduct = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {}
 );
 
-export const getAllProductsInShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+export const updateProduct = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {}
 );
 
-export const getSingleProductInShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+export const freezeProduct = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {}
 );
 
-export const freezingProductInShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+export const unfreezeProduct = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {}
 );
 
-export const unfreezingProductInShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+export const createProductDiscountCode = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {}
 );
 
-export const createDiscountCouponOnProducts = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
-
-export const deleteDiscountCouponOnProducts = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
+export const deleteProductDiscountCode = catchAsync(
+  async (req: ShopProductsRequest, res: Response, next: NextFunction) => {}
 );
