@@ -2,6 +2,7 @@ import { Schema, model, Model } from "mongoose";
 import { IShop } from "./shop.interface";
 import validator from "validator";
 import crypto from "crypto";
+
 const shopSchema: Schema = new Schema<IShop>(
   {
     owner: {
@@ -48,6 +49,10 @@ const shopSchema: Schema = new Schema<IShop>(
     banner: {
       type: String,
     },
+    bannerId: {
+      type: String,
+      select: false,
+    },
     tempChangedEmail: {
       type: String,
       lowercase: true,
@@ -85,7 +90,6 @@ shopSchema.methods.createChangeEmailVerificationToken = function (): string {
     this.changeEmailVerificationToken
   );
 
-  
   return verificationToken;
 };
 
@@ -93,6 +97,9 @@ shopSchema.pre<IShop>(/^find/, function (next) {
   this.populate({
     path: "owner",
     select: "name email phoneNumber active verified",
+  });
+  this.populate({
+    path: "products",
   });
   next();
 });

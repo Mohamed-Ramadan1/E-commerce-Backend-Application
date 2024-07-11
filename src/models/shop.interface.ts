@@ -11,6 +11,7 @@ export interface IShop extends Document {
   photo?: string;
   photoPublicId?: string;
   banner?: string;
+  bannerId?: string;
   products?: Schema.Types.ObjectId[];
   isActive: boolean;
   tempChangedEmail: string | undefined;

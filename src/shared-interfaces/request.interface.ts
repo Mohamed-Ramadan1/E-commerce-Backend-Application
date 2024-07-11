@@ -185,6 +185,13 @@ export interface ShopSettingsRequest extends AuthUserRequest {
   body: {
     email: string;
     reason: string;
+    shopName?: string;
+    shopDescription?: string;
+    shopPhoneNumber?: string;
+    photo?: string;
+    banner?: string;
+    categories?: string[];
+    owner?: string;
   };
   params: {
     token: string;

@@ -4,6 +4,8 @@ import { IProduct } from "./product.interface";
 
 export const productSchema: Schema<IProduct> = new Schema(
   {
+    sourceType: { type: String, enum: ["website", "shop"], required: true },
+    shopId: { type: Schema.Types.ObjectId, ref: "Shop" },
     name: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, required: true },

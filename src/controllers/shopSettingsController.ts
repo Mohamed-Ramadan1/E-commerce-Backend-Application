@@ -1,5 +1,8 @@
 // system imports
 import { NextFunction, Request, Response } from "express";
+import { promises as fs } from "fs";
+// external modules imports
+import cloudinary from "cloudinary";
 
 // models imports
 import User from "../models/userModel";
@@ -18,8 +21,8 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
-import { sendResponse } from "../utils/sendResponse";
 import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
 
 // emails imports
 import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";
@@ -28,7 +31,8 @@ import successShopEmailUpdateConfirmation from "../emails/shop/successShopEmailU
 import resetShopEmailAddressToDefaultEmail from "../emails/shop/resetShopEmailAddressToDefaultEmail";
 import deleteShopRequestReceivedConfirmationEmail from "../emails/shop/deleteShopRequestReceivedConfirmationEmail";
 /* 
-TODO: update the data of the shop.
+//TODO: update the data of the shop.
+//TODO: update the banner of the shop.
 
 // TODO: change the email of the shop  .
 //TODO: verify the email of the shop.
@@ -42,21 +46,77 @@ TODO: update the data of the shop.
 
 */
 
+type UpdateObject = {
+  shopName?: string;
+  description?: string;
+  phoneNumber?: string;
+  photo?: string;
+  photoPublicId?: string;
+};
+
+// Update shop data (Shop name, description, phone number, photo)
 export const updateShopInformation = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
     /* 
       update shopName 
       update shopDescription
       update shop phoneNumber
-      update categories
-  
-      ! photo and banners are related with multi file uploads
-      update photo 
-      update banner
-    
+      update shop photo
       */
+    const shop = req.shop;
+    const { shopName, shopDescription, shopPhoneNumber, photo } = req.body;
+    console.log(req.body);
+    const updateObject: UpdateObject = {};
+    if (shopName) updateObject.shopName = shopName;
+    if (shopDescription) updateObject.description = shopDescription;
+    if (shopPhoneNumber) updateObject.phoneNumber = shopPhoneNumber;
+
+    // if there file photo for the shop upload to the cloudinary and add it to the update object
+    if (req.file) {
+      const response = await cloudinary.v2.uploader.upload(req.file.path);
+      await fs.unlink(req.file.path);
+      updateObject.photo = response.secure_url;
+      updateObject.photoPublicId = response.public_id;
+    }
+
+    const updatedObject = (await Shop.findByIdAndUpdate(
+      shop._id,
+      updateObject,
+      {
+        new: true,
+      }
+    )) as IShop;
+    // create response object
+    const response: ApiResponse<IShop> = {
+      status: "success",
+      message: "Shop information updated successfully.",
+      data: updatedObject,
+    };
+    sendResponse(200, response, res);
   }
 );
+
+// update shop banner image.
+export const updateShopBanner = catchAsync(
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    // update the shop banner
+    const shop = req.shop;
+    if (req.file) {
+      const response = await cloudinary.v2.uploader.upload(req.file.path);
+      await fs.unlink(req.file.path);
+      shop.banner = response.secure_url;
+      shop.bannerId = response.public_id;
+      await shop.save();
+    }
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: "Shop banner updated successfully.",
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+
 
 // change emails
 export const updateShopEmailAddress = catchAsync(

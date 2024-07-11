@@ -113,3 +113,142 @@ export const validateBeforeConfirmUpdateShopEmailAddress = catchAsync(
     next();
   }
 );
+
+export const validateBeforeUpdateShopInfo = catchAsync(
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    /* 
+   // check if the user has a shop and the shop still exists
+    //check if the shop is active
+    //check if the user try to change shop owner
+   // check if the user tray to update categories of the shop
+    //check if the user try to update shop email or banner of the shop
+    */
+    const user = req.user;
+    const shop: IShop | null = await Shop.findOne({ owner: user._id });
+
+    // check if the user has a shop
+    if (!shop) {
+      return next(
+        new AppError(
+          "You don't have shop . you can apply for shop request to open your own shop",
+          404
+        )
+      );
+    }
+
+    // check if the shop is un-active
+    if (shop.isActive === false) {
+      return next(
+        new AppError(
+          "Your shop is un-activated you can't update the shop information",
+          400
+        )
+      );
+    }
+
+    // check if the user try to update shop-email
+    if (req.body.email) {
+      return next(
+        new AppError(
+          "You can't update the email of the shop using this route you can use rout /my-shop/update-email to update the email.",
+          400
+        )
+      );
+    }
+    // check if the user try to update shop-banner
+    if (req.body.banner) {
+      return next(
+        new AppError(
+          "You can't update the banner of the shop using this route you can use rout /my-shop/banner to update the banner.",
+          400
+        )
+      );
+    }
+    // check if the user try to update shop-categories
+    if (req.body.categories) {
+      return next(
+        new AppError(
+          "You can't update the categories of the shop using this route.",
+          400
+        )
+      );
+    }
+
+    // check if the user try to update shop-owner
+    if (req.body.owner) {
+      return next(new AppError("You can't change the shop owner.", 400));
+    }
+
+    // add the shop to the request
+    req.shop = shop;
+
+    next();
+  }
+);
+
+export const validateBeforeUpdateBanner = catchAsync(
+  async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
+    const { shopDescription, shopName, shopPhoneNumber, photo } = req.body;
+    if (shopDescription || shopName || shopPhoneNumber || photo) {
+      return next(
+        new AppError(
+          "You can't update shop description, shop name, shop phone number or photo using this route. this only for updating the shop banner",
+          400
+        )
+      );
+    }
+
+    // check if the user try to update shop-email
+    if (req.body.email) {
+      return next(
+        new AppError(
+          "You can't update the email of the shop using this route you can use rout /my-shop/update-email to update the email.",
+          400
+        )
+      );
+    }
+
+    // check if the user try to update shop-categories
+    if (req.body.categories) {
+      return next(
+        new AppError(
+          "You can't update the categories of the shop using this route.",
+          400
+        )
+      );
+    }
+
+    // check if the user try to update shop-owner
+    if (req.body.owner) {
+      return next(new AppError("You can't change the shop owner.", 400));
+    }
+
+    const user = req.user;
+    const shop: IShop | null = await Shop.findOne({ owner: user._id });
+
+    // check if the user has a shop
+    if (!shop) {
+      return next(
+        new AppError(
+          "You don't have shop . you can apply for shop request to open your own shop",
+          404
+        )
+      );
+    }
+
+    // check if the shop is un-active
+    if (shop.isActive === false) {
+      return next(
+        new AppError(
+          "Your shop is un-activated you can't update the shop information",
+          400
+        )
+      );
+    }
+
+    // add the shop to the request
+    req.shop = shop;
+
+    next();
+  }
+);

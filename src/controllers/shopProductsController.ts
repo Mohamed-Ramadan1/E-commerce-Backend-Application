@@ -72,11 +72,3 @@ export const createDiscountCouponOnProducts = catchAsync(
 export const deleteDiscountCouponOnProducts = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {}
 );
-
-export const getAllOrdersCreatedOnShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
-
-export const getSingleOrderCreatedOnShop = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);

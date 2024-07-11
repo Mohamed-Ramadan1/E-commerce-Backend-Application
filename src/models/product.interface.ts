@@ -2,6 +2,8 @@ import { Document, Types } from "mongoose";
 
 export interface IProduct extends Document {
   _id: Types.ObjectId;
+  sourceType: "website" | "shop";
+  shopId?: Types.ObjectId;
   name: string;
   description: string;
   category: string;
@@ -21,4 +23,6 @@ export interface IProduct extends Document {
   manufacturer: string;
   supplier: string;
   return_policy: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

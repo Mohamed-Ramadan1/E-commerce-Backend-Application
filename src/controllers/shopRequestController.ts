@@ -3,7 +3,6 @@ import { NextFunction, Response } from "express";
 
 //models imports
 import ShopRequest from "../models/shopRequestModal";
-import User from "../models/userModel";
 import Shop from "../models/shopModal";
 import ProcessedCreateShopRequests from "../models/processedCreateShopRequestsModal";
 
@@ -11,7 +10,6 @@ import ProcessedCreateShopRequests from "../models/processedCreateShopRequestsMo
 import { IShopRequest } from "../models/shopRequest.interface";
 import { ShopRequestReq } from "../shared-interfaces/request.interface";
 import { IShop } from "../models/shop.interface";
-import { IProcessedShopRequest } from "../models/processedCreateShopRequests.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
 // utils imports
