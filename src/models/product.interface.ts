@@ -10,6 +10,7 @@ export interface IProduct extends Document {
   brand: string;
   price: number;
   discount: number;
+  discountCodes: string[];
   stock_quantity: number;
   images: string[];
   videos: string[];
@@ -23,6 +24,7 @@ export interface IProduct extends Document {
   manufacturer: string;
   supplier: string;
   return_policy: string;
+  freezed: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

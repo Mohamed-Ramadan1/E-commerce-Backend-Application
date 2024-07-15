@@ -9,6 +9,15 @@ import {
 } from "../middlewares/shopSettingsMiddleware";
 
 import {
+  validateBeforeAddNewProduct,
+  validateBeforeUpdateProduct,
+  validateBeforeDeleteProduct,
+  validateBeforeFreezeProduct,
+  validateBeforeUnFreezeProduct,
+} from "../middlewares/shopProductsMiddleware";
+
+// shop settings controller
+import {
   updateShopInformation,
   updateShopEmailAddress,
   verifyChangedShopEMail,
@@ -19,6 +28,17 @@ import {
   deleteShopRequest,
   updateShopBanner,
 } from "../controllers/shopSettingsController";
+
+// shop products controller
+import {
+  addProduct,
+  deleteProduct,
+  updateProduct,
+  getAllProducts,
+  freezeProduct,
+  unfreezeProduct,
+} from "../controllers/shopProductsController";
+
 const router = Router();
 
 router.use(protect);
@@ -66,7 +86,31 @@ router
   .route("/my-shop/verify-changed-email/:token")
   .get(validateBeforeConfirmUpdateShopEmailAddress, verifyChangedShopEMail);
 
+//---------------------------------------------------------------------
+
 // Shop products controller.
+// get all products on shop
+router.route("/my-shop/products/:shopId").get(getAllProducts);
+
+//add new product to the shop
+router.route("/my-shop/products").post(validateBeforeAddNewProduct, addProduct);
+
+router
+  .route("/my-shop/products/:productId")
+  .patch(validateBeforeUpdateProduct, updateProduct)
+  .delete(validateBeforeDeleteProduct, deleteProduct);
+
+// Freeze a product
+router
+  .route("/my-shop/products/:productId/freeze")
+  .patch(validateBeforeFreezeProduct, freezeProduct);
+
+// Unfreeze a product
+router
+  .route("/my-shop/products/:productId/unfreeze")
+  .patch(validateBeforeUnFreezeProduct, unfreezeProduct);
+
+//---------------------------------------------------------------------
 
 // Shop Orders controller routes
 

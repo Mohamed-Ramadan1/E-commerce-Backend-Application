@@ -1,12 +1,17 @@
 import { IProduct } from "../../models/product.interface";
+import { IShop } from "../../models/shop.interface";
 import { IUser } from "../../models/user.interface";
 import createMailTransporter from "../mailTransporter";
 
-const productUpdateConfirmationEmail = (user: IUser, product: IProduct) => {
+const productUpdateConfirmationEmail = (
+  user: IUser,
+  shop: IShop,
+  product: IProduct
+) => {
   const transporter = createMailTransporter();
   const mailOptions = {
     from: "E-commerce Application <azaz123456az4@gmail.com>", // sender address
-    to: user.email, // list of receivers
+    to: shop.email, // list of receivers
     subject: "Product Update Confirmation", // Subject line
     text: `Dear ${user.name},\n\nWe are writing to confirm that your product "${product.name}" has been successfully updated in your shop. The changes are now visible to customers.\n\nBest regards,\nYour E-commerce Application Team`, // plain text body
     html: `
@@ -23,7 +28,7 @@ const productUpdateConfirmationEmail = (user: IUser, product: IProduct) => {
         </div>
         <div style="text-align: center; margin-top: 20px;">
           <p style="font-size: 12px; color: #888;">This email was sent to ${
-            user.email
+            shop.email
           } because you updated a product in your shop on our platform.</p>
           <p style="font-size: 12px; color: #888;">&copy; ${new Date().getFullYear()} Your E-commerce Application. All rights reserved.</p>
         </div>

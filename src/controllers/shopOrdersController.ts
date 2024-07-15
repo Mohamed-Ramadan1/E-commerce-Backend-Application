@@ -14,12 +14,11 @@ import catchAsync from "../utils/catchAsync";
 
 // emails imports
 export const getAllOrdersCreatedOnShop = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {}
-  );
-  
-  export const getSingleOrderCreatedOnShop = catchAsync(
-    async (req: Request, res: Response, next: NextFunction) => {}
-  );
-  
-  
-  
+  async (req: Request, res: Response, next: NextFunction) => {}
+);
+
+export const getSingleOrderCreatedOnShop = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {}
+);
+
+// this need some work

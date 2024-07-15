@@ -16,6 +16,7 @@ import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
 import { IProduct } from "../models/product.interface";
 
+// TODO : Complete this controller .
 /*
 //TODO: get all shops .
 //TODO: get shop .
@@ -48,6 +49,7 @@ export const getAllShops = catchAsync(
   }
 );
 
+// get shop
 export const getShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -63,6 +65,7 @@ export const getShop = catchAsync(
   }
 );
 
+// delete shop
 export const deleteShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -83,6 +86,7 @@ export const deleteShop = catchAsync(
   }
 );
 
+// update shop
 export const updateShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -100,7 +104,7 @@ export const updateShop = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
+// activate shop
 export const activateShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -122,6 +126,7 @@ export const activateShop = catchAsync(
   }
 );
 
+// un-active shop
 export const unActiveShop = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
