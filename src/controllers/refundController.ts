@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 
 // models imports
 import RefundRequest from "../models/refundModel";
+import ProcessedRefundRequests from "../models/processedRefundRequestsModal";
 
 // interface imports
 import { IRefundRequest } from "../models/refund.interface";
@@ -19,6 +20,8 @@ import { sendResponse } from "../utils/sendResponse";
 
 // emails imports
 import refundSuccessConfirmationEmail from "../emails/admins/refundsuccessConfirmationEmail";
+import { IUser } from "../models/user.interface";
+import { IOrder } from "../models/order.interface";
 
 /*
 -- create refund request
@@ -32,6 +35,48 @@ import refundSuccessConfirmationEmail from "../emails/admins/refundsuccessConfir
 -- get refund request (confirmed)
 
 */
+
+// Helpers functions
+
+const handelProcessedRefundRequest = async (
+  userToRefund: IUser,
+  order: IOrder,
+  refundRequest: IRefundRequest,
+  user: IUser,
+  next: NextFunction,
+  refundStatus: string
+) => {
+  // create processed document and delete the original refund request
+  const processedRefundRequest = await ProcessedRefundRequests.create({
+    user: {
+      _id: userToRefund._id,
+      email: userToRefund.email,
+      name: userToRefund.name,
+      phoneNumber: userToRefund.phoneNumber,
+    },
+    order: order,
+    processedBy: {
+      _id: user._id,
+      email: user.email,
+      name: user.name,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+    },
+    refundAmount: refundRequest.refundAmount,
+    refundMethod: refundRequest.refundMethod,
+    refundType: refundRequest.refundType,
+    refundStatus,
+    refundProcessedAt: new Date(),
+    refundCreatedAt: refundRequest.createdAt,
+    refundLastUpdate: refundRequest.updatedAt,
+  });
+
+  if (!processedRefundRequest) {
+    return next(new AppError("Error while processing refund request", 500));
+  }
+
+  await RefundRequest.deleteOne({ _id: refundRequest._id });
+};
 
 // all controller in this file related to the admins only
 
@@ -53,6 +98,7 @@ export const createRefundRequest = catchAsync(
   }
 );
 
+// get all refund requests
 export const getAllRefundRequests = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const refundRequests: IRefundRequest[] = await RefundRequest.find();
@@ -65,6 +111,7 @@ export const getAllRefundRequests = catchAsync(
   }
 );
 
+// get all refund requests not confirmed
 export const getAllRefundRequestsNotConfirmed = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const refundRequests: IRefundRequest[] = await RefundRequest.find({
@@ -78,6 +125,8 @@ export const getAllRefundRequestsNotConfirmed = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// get all refund requests confirmed
 export const getAllRefundRequestsConfirmed = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const refundRequests: IRefundRequest[] = await RefundRequest.find({
@@ -91,6 +140,7 @@ export const getAllRefundRequestsConfirmed = catchAsync(
   }
 );
 
+// get refund request by id
 export const getRefundRequest = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -111,6 +161,7 @@ export const getRefundRequest = catchAsync(
   }
 );
 
+// delete refund request
 export const deleteRefundRequest = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -132,6 +183,7 @@ export const deleteRefundRequest = catchAsync(
   }
 );
 
+// confirm refund request
 export const confirmRefundRequest = catchAsync(
   async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     // all validation happen on the middleware stage.
@@ -148,6 +200,17 @@ export const confirmRefundRequest = catchAsync(
     //send confirmation email
     refundSuccessConfirmationEmail(userToRefund, refundRequest);
 
+    // create processed refund request document and delete the original refund request.
+    handelProcessedRefundRequest(
+      userToRefund,
+      order,
+      refundRequest,
+      req.user,
+      next,
+      "confirmed"
+    );
+
+    // await ProcessedRefundRequests.create({
     const response: ApiResponse<IRefundRequest> = {
       status: "success",
       data: refundRequest,
@@ -156,8 +219,9 @@ export const confirmRefundRequest = catchAsync(
   }
 );
 
+// reject refund request
 export const rejectRefundRequest = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     const refundRequest: IRefundRequest | null = await RefundRequest.findOne({
       _id: req.params.id,
     });
@@ -167,9 +231,18 @@ export const rejectRefundRequest = catchAsync(
     if (refundRequest.refundStatus === "rejected") {
       return next(new AppError("Refund request is already rejected", 400));
     }
-
+    const { userToRefund, order } = req;
     refundRequest.refundStatus = "rejected";
     await refundRequest.save();
+
+    handelProcessedRefundRequest(
+      userToRefund,
+      order,
+      refundRequest,
+      req.user,
+      next,
+      "rejected"
+    );
     const response: ApiResponse<IRefundRequest> = {
       status: "success",
       data: refundRequest,

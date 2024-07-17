@@ -11,7 +11,7 @@ import { IRefundRequest } from "../models/refund.interface";
 
 import RefundRequest from "../models/refundModel";
 
-export const validateBeforeConfirmRefundRequest = catchAsync(
+export const validateRefundRequest = catchAsync(
   async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     const refundRequest: IRefundRequest | null = await RefundRequest.findById(
       req.params.id

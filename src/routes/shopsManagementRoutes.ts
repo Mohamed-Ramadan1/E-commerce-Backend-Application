@@ -20,16 +20,21 @@ router.use(protect);
 router.use(restrictTo("admin"));
 
 router.route("/").get(getAllShops);
-router.route("/:id").get(getShop).delete(deleteShop).patch(updateShop);
+router.route("/:shopId").get(getShop).delete(deleteShop).patch(updateShop);
 
-router.route("/:id/activate").patch(activateShop);
-router.route("/:id/un-active").patch(unActiveShop);
+router.route("/:shopId/activate").patch(activateShop);
+router.route("/:shopId/un-active").patch(unActiveShop);
 
-router.route("/:id/products").get(getAllProductsInShop);
-router.route("/:id/products/:productId").get(getSingleProductInShop);
-router.route("/:id/products/:productId/freeze").patch(freezingProductInShop);
+router.route("/:shopId/products").get(getAllProductsInShop);
+router.route("/:shopId/products/:productId").get(getSingleProductInShop);
 router
-  .route("/:id/products/:productId/unfreeze")
+  .route("/:shopId/products/:productId/freeze")
+  .patch(freezingProductInShop);
+router
+  .route("/:shopId/products/:productId/unfreeze")
   .patch(unfreezingProductInShop);
+
+router.route("/:shopId/orders").get(getAllOrdersCreatedOnShop);
+router.route("/:shopId/orders/:orderId").get(getSingleOrderCreatedOnShop);
 
 export default router;

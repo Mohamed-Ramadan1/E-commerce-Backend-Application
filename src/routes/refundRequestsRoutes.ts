@@ -11,7 +11,7 @@ import {
 } from "../controllers/refundController";
 
 import { protect, restrictTo } from "../middlewares/authMiddleware";
-import { validateBeforeConfirmRefundRequest } from "../middlewares/refundRequestsMiddleware";
+import { validateRefundRequest } from "../middlewares/refundRequestsMiddleware";
 
 const router = Router();
 
@@ -24,9 +24,7 @@ router.route("/notConfirmed").get(getAllRefundRequestsNotConfirmed);
 
 router.route("/:id").get(getRefundRequest).delete(deleteRefundRequest);
 
-router
-  .route("/:id/confirm")
-  .patch(validateBeforeConfirmRefundRequest, confirmRefundRequest);
-router.route("/:id/reject").patch(rejectRefundRequest);
+router.route("/:id/confirm").patch(validateRefundRequest, confirmRefundRequest);
+router.route("/:id/reject").patch(validateRefundRequest, rejectRefundRequest);
 
 export default router;
