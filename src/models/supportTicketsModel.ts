@@ -26,6 +26,18 @@ const supportTicketsSchema: Schema = new Schema<ISupportTicket>(
       enum: ["website issue", "account issue", "general inquiry"],
       required: true,
     },
+    processedBy: {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+      name: String,
+      email: String,
+      phoneNumber: String,
+      role: String,
+    },
+    ticketProcessedDate: Date,
+    ticketResponse: String,
   },
   {
     timestamps: true,

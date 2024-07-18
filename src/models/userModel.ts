@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { IUser } from "./user.interface";
 import crypto from "crypto";
 
-const userSchema: Schema<IUser> = new Schema(
+export const userSchema: Schema<IUser> = new Schema<IUser>(
   {
     name: {
       type: String,

@@ -131,13 +131,7 @@ export interface AuthUserRequestWithID extends AuthUserRequest {
   };
 }
 
-export interface SupportTicketRequest extends AuthUserRequest {
-  body: {
-    subject: string;
-    description: string;
-    category: string;
-  };
-}
+
 export interface ReturnItemsRequest extends AuthUserRequest {
   returnedProduct: ICartItem;
   body: {
