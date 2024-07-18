@@ -24,7 +24,12 @@ import supportTicketReceivedConfirmationEmail from "../emails/admins/supportTick
 import sendSupportTicketResponseEmail from "../emails/users/userSupportTicketResponseEmail";
 
 //---------
-// Helper functions
+// Helper functions and types
+type UpdateObject = {
+  subject?: string;
+  description?: string;
+  category?: string;
+};
 
 // create processed support ticket document and delete the original document.
 const handelProcessedSupportTicket = async (
@@ -78,11 +83,8 @@ export const openSupportTicket = catchAsync(
   }
 );
 
-//------------------------------
-// Admin controllers
-
-// get all support tickets
-export const getSupportTickets = catchAsync(
+// get all user support tickets
+export const getMySupportTickets = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
     const supportTickets: ISupportTicket[] | null = await SupportTicket.find({
       user: req.user._id,
@@ -96,15 +98,96 @@ export const getSupportTickets = catchAsync(
   }
 );
 
-// get support ticket by id
-export const getSupportTicket = catchAsync(
+// get user support ticket by id
+export const getMySupportTicket = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
     const supportTicket: ISupportTicket | null = await SupportTicket.findOne({
       _id: req.params.id,
       user: req.user._id,
     });
     if (!supportTicket) {
-      return next(new AppError("Support Ticket not found", 404));
+      return next(new AppError("Support Ticket not found with this id.", 404));
+    }
+    const response: ApiResponse<ISupportTicket> = {
+      status: "success",
+      data: supportTicket,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+// update user support ticket.
+export const updateMySupportTicket = catchAsync(
+  async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
+    const { subject, description, category } = req.body;
+    const updateBody: UpdateObject = {};
+    if (subject) updateBody["subject"] = subject;
+    if (description) updateBody["description"] = description;
+    if (category) updateBody["category"] = category;
+
+    const supportTicket: ISupportTicket | null =
+      await SupportTicket.findOneAndUpdate(
+        { _id: req.params.id, user: req.user._id },
+        updateBody,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
+    if (!supportTicket) {
+      return next(new AppError("Support Ticket not found with this id.", 404));
+    }
+    const response: ApiResponse<ISupportTicket> = {
+      status: "success",
+      data: supportTicket,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+// delete user support ticket.
+export const deleteMySupportTicket = catchAsync(
+  async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
+    const supportTicket: ISupportTicket | null =
+      await SupportTicket.findOneAndDelete({
+        _id: req.params.id,
+        user: req.user._id,
+      });
+    if (!supportTicket) {
+      return next(new AppError("Support Ticket not found with this id", 404));
+    }
+    const response: ApiResponse<ISupportTicket> = {
+      status: "success",
+      data: supportTicket,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+//------------------------------
+// Admin controllers
+
+// get all support tickets
+export const getSupportTickets = catchAsync(
+  async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
+    const supportTickets: ISupportTicket[] | null = await SupportTicket.find();
+    const response: ApiResponse<ISupportTicket[]> = {
+      status: "success",
+      results: supportTickets.length,
+      data: supportTickets,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+// get support ticket by id
+export const getSupportTicket = catchAsync(
+  async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
+    const supportTicket: ISupportTicket | null = await SupportTicket.findById({
+      _id: req.params.id,
+    });
+    if (!supportTicket) {
+      return next(new AppError("Support Ticket not found with this id.", 404));
     }
     const response: ApiResponse<ISupportTicket> = {
       status: "success",
@@ -148,16 +231,12 @@ export const createSupportTicket = catchAsync(
 export const updateSupportTicket = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
     const supportTicket: ISupportTicket | null =
-      await SupportTicket.findOneAndUpdate(
-        { _id: req.params.id, user: req.user._id },
-        req.body,
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+      await SupportTicket.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+      });
     if (!supportTicket) {
-      return next(new AppError("Support Ticket not found", 404));
+      return next(new AppError("Support Ticket not found with this id.", 404));
     }
     const response: ApiResponse<ISupportTicket> = {
       status: "success",
@@ -171,10 +250,7 @@ export const updateSupportTicket = catchAsync(
 export const deleteSupportTicket = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
     const supportTicket: ISupportTicket | null =
-      await SupportTicket.findOneAndDelete({
-        _id: req.params.id,
-        user: req.user._id,
-      });
+      await SupportTicket.findByIdAndDelete(req.params.id);
     if (!supportTicket) {
       return next(new AppError("Support Ticket not found", 404));
     }
