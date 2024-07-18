@@ -1,11 +1,10 @@
 // system imports
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { promises as fs } from "fs";
 // external modules imports
 import cloudinary from "cloudinary";
 
 // models imports
-import User from "../models/userModel";
 import Shop from "../models/shopModal";
 import DeleteShopRequest from "../models/deleteShopRequestModal";
 
@@ -115,8 +114,6 @@ export const updateShopBanner = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-
 
 // change emails
 export const updateShopEmailAddress = catchAsync(
@@ -239,6 +236,7 @@ export const getMyShop = catchAsync(
   }
 );
 
+// activate the shop
 export const activateShop = catchAsync(
   async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
     const shopId = req.user.myShop;
@@ -261,6 +259,7 @@ export const activateShop = catchAsync(
   }
 );
 
+// un activate shop
 export const deactivateShop = catchAsync(
   async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
     const shopId = req.user.myShop;
@@ -284,6 +283,7 @@ export const deactivateShop = catchAsync(
   }
 );
 
+// apply for shop delete request
 export const deleteShopRequest = catchAsync(
   async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
     const reason = req.body.reason;

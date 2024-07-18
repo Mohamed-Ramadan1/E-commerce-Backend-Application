@@ -26,7 +26,7 @@ const itemsSchema = new Schema<ICartItem>({
   },
 });
 
-const OrderSchema: Schema = new Schema<IOrder>(
+export const OrderSchema: Schema = new Schema<IOrder>(
   {
     user: {
       type: Schema.Types.ObjectId,

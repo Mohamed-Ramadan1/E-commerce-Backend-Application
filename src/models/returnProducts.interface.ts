@@ -11,7 +11,7 @@ export interface IReturnRequest extends Document {
   receivedItemsStatus: "Received" | "Not Received";
   refundAmount: number;
   comments?: string;
-  approvalDate?: Date;
+  processedDate?: Date;
   createdAt: Date;
   updatedAt: Date;
 }

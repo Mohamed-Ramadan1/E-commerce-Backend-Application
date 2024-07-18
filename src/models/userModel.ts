@@ -26,7 +26,6 @@ const userSchema: Schema<IUser> = new Schema(
     },
     phoneNumber: {
       type: String,
-
       validate: {
         validator: function (this: IUser) {
           return validator.isMobilePhone(this.phoneNumber);

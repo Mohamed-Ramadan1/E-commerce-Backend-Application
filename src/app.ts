@@ -26,6 +26,7 @@ import deleteShopsRequestsRoutes from "./routes/deleteShopsRequestsRoutes";
 import processedDeleteShopRequestRoutes from "./routes/processedDeleteShopRequestRoutes";
 import ProcessedCreateShopRequestRoutes from "./routes/processedCreateShopsRequestsRoutes";
 import processedRefundRequestsRoutes from "./routes/processedRefundRequestsRoutes";
+import processedReturnProductsRoutes from "./routes/processedReturnProductsRequestsRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -72,7 +73,12 @@ app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", ordersRoutes);
 app.use("/api/v1/orders/admin", adminOrdersRoutes);
 app.use("/api/v1/support-tickets", supportTicketsRoutes);
+
+// return products requests  routes
 app.use("/api/v1/return-products", returnProductsRoutes);
+
+// processed return products routes
+app.use("/api/v1/processed-return-products", processedReturnProductsRoutes);
 
 // the refund requests routes
 app.use("/api/v1/refund-requests", refundRequestRoutes);

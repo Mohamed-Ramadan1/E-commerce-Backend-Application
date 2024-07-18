@@ -2,23 +2,28 @@
 
 // TODO : Completed Shop settings controller
 
-
 TODO : Completed shops controller (Shops orders , shops Products, shops processed orders )
 
 TODO : Completed shops management controller 
 
+TODO : Shop support tickets controller
+
 
 TODO : processed SupportTickets 
 
-TODO : processed Orders
+ TODO : processed Orders
 
-TODO : processed Refund Requests
+// TODO : processed Return Products Requests
 
-TODO : processed Return Products Requests
+//TODO : processed Refund Requests
+
+
+
+TODO : using transactions for all the above controllers
 
 TODO : Create shops orders based on User's Orders .
 
-TODO : Create shops processed shop orders  .
+TODO : Create shops processed  orders  .
 
 TODO : Create notification system with sockit.io
 

@@ -40,7 +40,7 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
     comments: {
       type: String,
     },
-    approvalDate: {
+    processedDate: {
       type: Date,
       required: false,
     },
@@ -58,7 +58,6 @@ returnProductSChema.pre<IReturnRequest>(/^find/, function () {
   });
   this.populate({
     path: "order",
-    select: "orderStatus",
   });
   this.populate({
     path: "product",

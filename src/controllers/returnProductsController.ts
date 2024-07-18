@@ -5,12 +5,14 @@ import ReturnProduct from "../models/returnProductsModel";
 import Order from "../models/orderModel";
 import RefundRequest from "../models/refundModel";
 import User from "../models/userModel";
+import ProcessedReturnProductRequest from "../models/processedReturnProductsModal";
 
 // interface imports
 import { IReturnRequest } from "../models/returnProducts.interface";
 import { IRefundRequest } from "../models/refund.interface";
 import { IOrder } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
+import { IProduct } from "../models/product.interface";
 import { ReturnItemsRequest } from "../shared-interfaces/request.interface";
 import { IUser } from "../models/user.interface";
 
@@ -22,8 +24,52 @@ import { sendResponse } from "../utils/sendResponse";
 //emails imports
 import refundRequestForReturnedItemsEmail from "../emails/users/refundRequestForReturnedItemsEmail";
 
+// Helpers functions
+const handelProcessedReturnRequest = async (
+  request: IReturnRequest,
+  processedBy: IUser,
+  returnStatus: string
+) => {
+  // create processed request based on the original request data
+  // const order = (await Order.findById(request.order._id)) as IOrder;
+  const user = (await User.findById(request.user)) as IUser;
+  console.log(request.order);
+  const processedReturnRequest = await ProcessedReturnProductRequest.create({
+    requestId: request._id,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+    },
+    order: request.order,
+    product: request.product,
+    processedBy: {
+      _id: processedBy._id,
+      name: processedBy.name,
+      email: processedBy.email,
+      phoneNumber: processedBy.phoneNumber,
+      role: processedBy.role,
+    },
+    returnStatus: returnStatus,
+    quantity: request.quantity,
+    returnReason: request.returnReason,
+    receivedItemsStatus: request.receivedItemsStatus,
+    refundAmount: request.refundAmount,
+    comments: request.comments,
+    processedDate: request.processedDate,
+    requestCreatedAt: request.createdAt,
+    requestLastUpdate: request.updatedAt,
+  });
+  if (!processedReturnRequest) return;
+  // delete the original request
+  await ReturnProduct.findByIdAndDelete(request._id);
+};
+
 // ----------------------------------------------------------------
 //Users Operations
+
+// create return product request
 export const requestReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     // orderId   ProductId  quantity   reason
@@ -60,6 +106,7 @@ export const requestReturnItems = catchAsync(
   }
 );
 
+// cancel the request
 export const cancelReturnRequest = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -80,13 +127,18 @@ export const cancelReturnRequest = catchAsync(
     if (!returnRequest) {
       return next(new AppError("No return request with this ID", 404));
     }
+    // create processed return document and delete the old one
+    handelProcessedReturnRequest(returnRequest, req.user, "Cancelled");
+
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,
     };
+
     sendResponse(200, response, res);
   }
 );
+
 export const getAllMyReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const user: IUser = req.user;
@@ -215,6 +267,9 @@ export const approveReturnItems = catchAsync(
     // send email to the user to tell him items received and refund mony request created
     refundRequestForReturnedItemsEmail(user, refundRequest, returnRequest);
 
+    // create processed return document and delete the old one
+    handelProcessedReturnRequest(returnRequest, req.user, "Approved");
+
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,
@@ -243,6 +298,10 @@ export const rejectReturnItems = catchAsync(
     if (!returnRequest) {
       return next(new AppError("No return request with this ID", 404));
     }
+
+    // create processed return document and delete the old one
+    handelProcessedReturnRequest(returnRequest, req.user, "Rejected");
+
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,
