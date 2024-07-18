@@ -11,6 +11,7 @@ export interface ShopSupportTicketRequest extends AuthUserRequest {
     ticketResponse: string;
     userId: string;
     shopId: string;
+    status: string;
   };
   params: {
     ticketId: string;
