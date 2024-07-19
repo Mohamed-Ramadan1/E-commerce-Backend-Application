@@ -5,14 +5,24 @@ import {
   getSupportTicket,
   updateSupportTicket,
   deleteSupportTicket,
-  openSupportTicket,
   createSupportTicket,
   supportTicketResponse,
+  openSupportTicket,
+  getMySupportTickets,
+  getMySupportTicket,
+  updateMySupportTicket,
+  deleteMySupportTicket,
 } from "../controllers/supportTickets";
 const router = Router();
 router.use(protect);
 
+router.route("/me").get(getMySupportTickets);
 router.route("/me/open-ticket").post(openSupportTicket);
+router
+  .route("/me/:id")
+  .get(getMySupportTicket)
+  .patch(updateMySupportTicket)
+  .delete(deleteMySupportTicket);
 
 // admin routes
 router.use(restrictTo("admin"));

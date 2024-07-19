@@ -8,7 +8,6 @@ import User from "../models/userModel";
 // interface imports
 import { IShopSupportTicket } from "../models/shopSupportTicket.interface";
 import { ShopSupportTicketRequest } from "../shared-interfaces/shopSupportTicketRequest.interface";
-import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IShop } from "../models/shop.interface";
 // utils
 import catchAsync from "../utils/catchAsync";
@@ -109,6 +108,43 @@ export const validateBeforeCreateShopSupportTicket = catchAsync(
 // validation middleware for validation before process the support ticket
 export const validateBeforeProcessShopSupportTicket = catchAsync(
   async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {
+    // check required data exist
+    // get ticket ,get the shop , get the shop owner user
+    const { ticketId } = req.params;
+    const { ticketResponse } = req.body;
+    if (!ticketResponse) {
+      return next(new AppError("Ticket response is required", 400));
+    }
+    const supportTicket: IShopSupportTicket | null =
+      await ShopSupportTicket.findById(ticketId);
+
+    if (!supportTicket) {
+      return next(new AppError("No support ticket found  with this id.", 404));
+    }
+    const shop: IShop | null = await Shop.findById(supportTicket.shop);
+    if (!shop) {
+      return next(
+        new AppError(
+          "The shop that support ticket related to is no more exist.",
+          404
+        )
+      );
+    }
+
+    const shopOwnerUser: IUser | null = await User.findById(shop.owner);
+    if (!shopOwnerUser) {
+      return next(
+        new AppError(
+          "The shop owner that support ticket related to is no more exist.",
+          404
+        )
+      );
+    }
+
+    req.shop = shop;
+    req.ticket = supportTicket;
+    req.shopOwner = shopOwnerUser;
+
     next();
   }
 );

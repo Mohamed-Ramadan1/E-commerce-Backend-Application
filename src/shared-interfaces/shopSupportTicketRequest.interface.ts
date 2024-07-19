@@ -1,5 +1,6 @@
 import { IShop } from "../models/shop.interface";
 import { IUser } from "../models/user.interface";
+import { IShopSupportTicket } from "../models/shopSupportTicket.interface";
 import { AuthUserRequest } from "./request.interface";
 
 export interface ShopSupportTicketRequest extends AuthUserRequest {
@@ -19,4 +20,6 @@ export interface ShopSupportTicketRequest extends AuthUserRequest {
   };
   shop: IShop;
   userToCreateTicket: IUser;
+  ticket: IShopSupportTicket;
+  shopOwner: IUser;
 }

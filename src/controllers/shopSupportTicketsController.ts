@@ -45,6 +45,7 @@ type TicketUpdateObjectData = {
   img?: string;
   imgPublicId?: string;
 };
+
 //----------------------------------------------
 // Users Routes Handler
 export const openShopSupportTicket = catchAsync(
@@ -328,7 +329,37 @@ export const deleteShopSupportTicket = catchAsync(
   }
 );
 
+// TODO: implement this function after creating the processed ticket logic  to integrate with
+
 // process a shop ticket by id.
 export const processSupportTicket = catchAsync(
-  async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {}
+  async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {
+    // extract the required data from the request object (That added on the middleware part.)
+    const { shopOwner, shop, ticket } = req;
+    const { ticketResponse } = req.body;
+
+    ticket.status = "closed";
+    ticket.ticketResponse = ticketResponse;
+    ticket.ticketProcessedDate = new Date();
+    ticket.processedBy = {
+      user: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      phoneNumber: req.user.phoneNumber,
+      role: req.user.role,
+    };
+    const updatedTicket = await ticket.save();
+
+    // send the email to the user.
+    sendShopSupportTicketProcessedEmail(shop, shopOwner, updatedTicket);
+
+    // create the response object
+    const response: ApiResponse<IShopSupportTicket> = {
+      status: "success",
+      data: updatedTicket,
+    };
+
+    // send the response to the client
+    sendResponse(200, response, res);
+  }
 );

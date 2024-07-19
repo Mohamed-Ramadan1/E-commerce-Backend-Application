@@ -2,19 +2,21 @@
 
 // TODO : Completed Shop settings controller
 
-TODO : Completed shops controller (Shops orders ,shops processed orders )
-
 TODO : Completed shops management controller 
 TODO : Create shops orders based on User's Orders .
-
-TODO : Shop support tickets 
-TODO : shop processed supports tickets
-
-TODO : processed SupportTickets 
-
-!TODO : ensure user not return amount of product greater than the amount of product he bought. 
-
 TODO : Create notification system with sockit.io
+
+
+
+//TODO : Shop support tickets 
+!TODO : ensure user not return amount of product greater than the amount of product he bought. 
+!TODO : when user exist might happend there no cart avilabele dealing with this issu
+
+
+
+
+//TODO : processed SupportTickets 
+
 // TODO : processed Return Products Requests
 
 //TODO : processed Refund Requests
@@ -22,10 +24,7 @@ TODO : Create notification system with sockit.io
 
 TODO : using transactions for all the above controllers
 
-
 TODO : Create scuduler tasks to send reports for shops owners and traders.
-
-
 
 TODO : Create full analytics for the  orders ,shops and products.
 
