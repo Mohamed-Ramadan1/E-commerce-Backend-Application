@@ -14,7 +14,7 @@ export interface IUser extends Document {
   passwordResetExpires?: Date;
   role: string;
   purchaseHistory: Types.ObjectId[];
-  address?: string;
+  address: string;
   shippingAddress?: string;
   active: boolean;
   verified: boolean;

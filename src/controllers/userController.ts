@@ -1,6 +1,6 @@
 // system imports
 import { promises as fs } from "fs";
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
 // modules imports
 import cloudinary from "cloudinary";
@@ -16,12 +16,13 @@ import ShopRequest from "../models/shopRequestModal";
 // interface imports
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IUser } from "../models/user.interface";
+
 import {
-  RequestWithMongoDbId,
-  RequestWithUser,
-  AuthUserRequest,
-  RequestUpdateUserPassword,
-} from "../shared-interfaces/request.interface";
+  UserRequest,
+  UserRequestWithUpdateInfo,
+  UserUpdatePasswordRequest,
+  UserWithUserDataRequest,
+} from "../shared-interfaces/userRequest.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
@@ -29,10 +30,36 @@ import AppError from "../utils/ApplicationError";
 import { createSendToken } from "../utils/createSendToken";
 import { sendResponse } from "../utils/sendResponse";
 
-// TODO : delete all related data to the user when deleting the user
+//-----------------------------------------
+
+// Helper functions
+type DeleteResult =
+  | { deletedCount?: number }
+  | { acknowledged: boolean; deletedCount: number }
+  | null;
+
+// delete all user related data when deleting the user.
+async function cascadeUserDeletion(user: IUser) {
+  const deleteOperations: Promise<DeleteResult>[] = [
+    Wishlist.deleteMany({ user: user._id }),
+    ShoppingCart.deleteOne({ user: user._id }),
+    CartItem.deleteMany({ cart: user._id }),
+    ShopRequest.findOneAndDelete({ user: user._id }),
+  ];
+
+  if (user.myShop) {
+    deleteOperations.push(Shop.deleteOne({ _id: user.myShop }));
+  }
+
+  await Promise.all(deleteOperations);
+}
+//-----------------------------------------
+
 // admin operations
+
+// get all users
 export const getAllUsers = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     const users: IUser[] | null = await User.find();
     const response: ApiResponse<IUser[]> = {
       status: "success",
@@ -43,8 +70,9 @@ export const getAllUsers = catchAsync(
   }
 );
 
+// ger user
 export const getUser = catchAsync(
-  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     const user: IUser | null = await User.findById(req.params.id);
     if (!user) {
       return next(new AppError("User not found", 404));
@@ -57,11 +85,17 @@ export const getUser = catchAsync(
   }
 );
 
+// create new user account
 export const createUser = catchAsync(
-  async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  async (req: UserWithUserDataRequest, res: Response, next: NextFunction) => {
     const user: IUser | null = await User.create(req.body);
     if (!user) {
-      return next(new AppError("something went wrong", 400));
+      return next(
+        new AppError(
+          "something went wrong during creating the user account .",
+          400
+        )
+      );
     }
     await ShoppingCart.create({ user: user._id });
     const response: ApiResponse<IUser> = {
@@ -72,8 +106,9 @@ export const createUser = catchAsync(
   }
 );
 
+// update user data / information
 export const updateUser = catchAsync(
-  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     const user: IUser | null = await User.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -93,21 +128,16 @@ export const updateUser = catchAsync(
   }
 );
 
+// delete existing user with all his data
 export const deleteUser = catchAsync(
-  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     const user: IUser | null = await User.findByIdAndDelete(req.params.id);
 
     if (!user) {
       return next(new AppError("User not found", 404));
     }
-    // delete the user shopping cart user cart items  and user wishlist items
-    await Wishlist.deleteMany({ user: user._id });
-    await ShoppingCart.deleteOne({ user: user._id });
-    await CartItem.deleteMany({ cart: user.shoppingCart });
-    await ShopRequest.findOneAndDelete({ user: user._id });
-    if (user.myShop) {
-      await Shop.deleteOne({ _id: user.myShop });
-    }
+    // delete the all reated data to the user
+    cascadeUserDeletion(user);
 
     const response: ApiResponse<null> = {
       status: "success",
@@ -117,32 +147,68 @@ export const deleteUser = catchAsync(
   }
 );
 
+// activate user account
+export const activateUser = catchAsync(
+  async (req: UserRequest, res: Response, next: NextFunction) => {
+    const user: IUser | null = await User.findById(req.params.id);
+
+    if (!user) {
+      return next(new AppError("No user exist with this id.", 404));
+    }
+    if (user.active) {
+      return next(new AppError("User already activated", 400));
+    }
+
+    user.active = true;
+    await user.save({ validateBeforeSave: false });
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      data: null,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+// un activate user account
+export const deactivateUser = catchAsync(
+  async (req: UserRequest, res: Response, next: NextFunction) => {
+    const user: IUser | null = await User.findById(req.params.id);
+
+    if (!user) {
+      return next(new AppError("No user exist with this id.", 404));
+    }
+    if (!user.active) {
+      return next(new AppError("User already deactivated", 400));
+    }
+
+    user.active = false;
+    await user.save({ validateBeforeSave: false });
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      data: null,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+//-----------------------------------------------------------------------
 // User Profile operations
 
 // Update my account info not password (check if pass or conf pass exist return err else update )
 export const updateMyInfo = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    if (
-      req.body.password ||
-      req.body.passwordConfirmation ||
-      req.body.role ||
-      req.body.verified ||
-      req.body.active ||
-      req.body.passwordResetToken ||
-      req.body.passwordResetExpires ||
-      req.body.emailToken
-    ) {
-      return next(
-        new AppError("You can't preform this action using this route.", 400)
-      );
-    }
-
+  async (req: UserRequestWithUpdateInfo, res: Response, next: NextFunction) => {
     const updatedObject = { ...req.body };
     if (req.file) {
       const response = await cloudinary.v2.uploader.upload(req.file.path);
       await fs.unlink(req.file.path);
+
       updatedObject.photo = response.secure_url;
       updatedObject.photoPublicId = response.public_id;
+      if (req.user.photoPublicId) {
+        await cloudinary.v2.uploader.destroy(req.user.photoPublicId);
+      }
     }
 
     const user: IUser | null = await User.findByIdAndUpdate(
@@ -166,30 +232,13 @@ export const updateMyInfo = catchAsync(
 
 //update my account password
 export const updateMyPassword = catchAsync(
-  async (req: RequestUpdateUserPassword, res: Response, next: NextFunction) => {
+  async (req: UserUpdatePasswordRequest, res: Response, next: NextFunction) => {
     const { currentPassword, newPassword, passwordConfirmation } = req.body;
-    if (!currentPassword || !newPassword || !passwordConfirmation) {
-      return next(
-        new AppError(
-          "Please provide all required data currentPassword, password, passwordConfirmation",
-          400
-        )
-      );
-    }
-    // Check if the new password and confirmation password match
-    if (newPassword !== passwordConfirmation) {
-      return next(
-        new AppError("Password and password confirmation do not match", 400)
-      );
-    }
 
-    const user: IUser | null = await User.findById(req.user._id).select(
+    const user = (await User.findById(req.user._id).select(
       "+password"
-    );
-    // now check if the current password is correct or not and based on the result update the password
-    if (!user) {
-      return next(new AppError("You are not authorized", 401));
-    }
+    )) as IUser;
+
     const isMatch: boolean = await user.comparePassword(
       currentPassword,
       user.password
@@ -198,6 +247,9 @@ export const updateMyPassword = catchAsync(
     if (!isMatch) {
       return next(new AppError("Current password is incorrect", 401));
     }
+
+    // update data
+
     user.password = newPassword;
     user.passwordConfirmation = passwordConfirmation;
     await user.save();
@@ -207,16 +259,11 @@ export const updateMyPassword = catchAsync(
 );
 // unActive my account
 export const deactivateMe = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const user: IUser | null = await User.findById(req.user._id);
+  async (req: UserRequest, res: Response, next: NextFunction) => {
+    req.user.active = false;
+    await req.user.save({ validateBeforeSave: false });
 
-    if (!user) {
-      return next(new AppError("You are not authorized", 401));
-    }
-
-    user.active = false;
-    await user.save({ validateBeforeSave: false });
-
+    //create send logout token
     const response: ApiResponse<null> = {
       status: "success",
       data: null,
@@ -224,23 +271,17 @@ export const deactivateMe = catchAsync(
     sendResponse(200, response, res);
   }
 );
-//delete my account (with consedration fo delete other rleated data like wishlist items andB shoping cart )
+//delete my account
 export const deleteMe = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     const me: IUser | null = await User.findByIdAndDelete(req.user._id);
 
     if (!me) {
       return next(new AppError("Your not authorized ", 401));
     }
 
-    // delete the user shopping cart user cart items  and user wishlist items
-    await Wishlist.deleteMany({ user: me._id });
-    await ShoppingCart.deleteOne({ user: me._id });
-    await CartItem.deleteMany({ cart: me.shoppingCart });
-    await ShopRequest.findOneAndDelete({ user: me._id });
-    if (me.myShop) {
-      await Shop.deleteOne({ _id: me.myShop });
-    }
+    // delete all user related data
+    cascadeUserDeletion(me);
 
     const response: ApiResponse<null> = {
       status: "success",
@@ -249,9 +290,10 @@ export const deleteMe = catchAsync(
     sendResponse(204, response, res);
   }
 );
-//get me
+
+//get current logged in
 export const getMe = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: UserRequest, res: Response, next: NextFunction) => {
     const me: IUser | null = await User.findById(req.user._id);
     if (!me) {
       return next(new AppError("Your not authorized ", 401));

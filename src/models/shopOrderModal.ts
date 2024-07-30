@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 // imports interface of the shop-order and enums
 import {
   IShopOrder,

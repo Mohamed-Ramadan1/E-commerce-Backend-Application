@@ -4,6 +4,8 @@ import {
   getAllUsers,
   getUser,
   updateUser,
+  activateUser,
+  deactivateUser,
   deleteUser,
   getMe,
   deleteMe,
@@ -19,9 +21,16 @@ import {
   decreaseItemQuantity,
   clearShoppingCart,
 } from "../controllers/shoppingCartController";
+
+// middlewares imports.
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 import { checkItemValidity } from "../middlewares/shoppingCartMiddleware";
 import { upload } from "../middlewares/multerMiddleware";
+import {
+  validateBeforeUpdateUserInfo,
+  validateBeforeUpdateUserPassword,
+} from "../middlewares/userMiddleware";
+
 const router = Router();
 
 router.use(protect);
@@ -29,8 +38,18 @@ router.use(protect);
 router.route("/me").get(getMe).delete(deleteMe);
 
 router.patch("/me/deactivate", deactivateMe);
-router.patch("/me/password", updateMyPassword);
-router.patch("/me/info", upload.single("photo"), updateMyInfo);
+router.patch(
+  "/me/password",
+  validateBeforeUpdateUserPassword,
+  updateMyPassword
+);
+router.patch(
+  "/me/info",
+  upload.single("photo"),
+  validateBeforeUpdateUserInfo,
+  updateMyInfo
+);
+
 router
   .route("/")
   .get(restrictTo("admin"), getAllUsers)
@@ -40,6 +59,10 @@ router
   .get(restrictTo("admin"), getUser)
   .patch(restrictTo("admin"), updateUser)
   .delete(restrictTo("admin"), deleteUser);
+
+// activate and deactivate for users-accounts
+router.patch("/:id/activate", restrictTo("admin"), activateUser);
+router.patch("/:id/deactivate", restrictTo("admin"), deactivateUser);
 
 // shopping cart routes for the user
 router.route("/:id/shopping-cart").get(getShoppingCart);

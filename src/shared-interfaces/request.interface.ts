@@ -26,10 +26,6 @@ export interface AuthUserRequest extends Request {
   };
 }
 
-export interface RequestWithUser extends Request {
-  body: IUser;
-}
-
 export interface ForgotPasswordRequest extends Request {
   body: {
     email: string;
@@ -82,18 +78,6 @@ export interface RequestWithProductAndUser extends Request {
   };
 }
 
-export interface RequestUpdateUserPassword extends Request {
-  user: IUser;
-  headers: {
-    authorization: string;
-  };
-  body: {
-    currentPassword: string;
-    newPassword: string;
-    passwordConfirmation: string;
-  };
-}
-
 export interface CheckoutRequest extends Request, AuthUserRequest {
   user: IUser;
   shoppingCart: IShoppingCart;
@@ -130,7 +114,6 @@ export interface AuthUserRequestWithID extends AuthUserRequest {
     id: string;
   };
 }
-
 
 export interface ReturnItemsRequest extends AuthUserRequest {
   returnedProduct: ICartItem;

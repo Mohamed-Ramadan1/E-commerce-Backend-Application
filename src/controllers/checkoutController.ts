@@ -29,10 +29,62 @@ import Stripe from "stripe";
 // emails imports
 import checkoutConfirmationEmail from "../emails/users/checkoutConfirmationEmail";
 
+//----------------------------
+//Helper functions and types
+
+type OrderObject = {
+  user: ObjectId;
+  items: ICartItem[];
+  itemsQuantity: Number;
+  totalDiscount: Number;
+  shippingAddress: string;
+  phoneNumber: string;
+  totalPrice: Number;
+  shippingCost: Number;
+  paymentStatus: string;
+  paymentMethod: string;
+  shippingStatus: string;
+  orderStatus: string;
+};
+
+const createOrderObject = (
+  user: ObjectId,
+  items: ICartItem[],
+  itemsQuantity: Number,
+  totalDiscount: Number,
+  shippingAddress: string,
+  phoneNumber: string,
+  totalPrice: Number,
+  shippingCost: Number,
+  paymentStatus: string,
+  paymentMethod: string,
+  shippingStatus: string,
+  orderStatus: string
+) => {
+  const orderData: OrderObject = {
+    user,
+    items,
+    itemsQuantity,
+    totalDiscount,
+    shippingAddress,
+    phoneNumber,
+    totalPrice,
+    shippingCost,
+    paymentStatus,
+    paymentMethod,
+    shippingStatus,
+    orderStatus,
+  };
+  return orderData;
+};
+
+// TODO Create shop orders instance for shops based on the products they have in their shops
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-04-10",
 });
 
+// update the stock quantity after the order created.
 const updateProductsStockQuantity = async (
   shoppingCartId: ObjectId,
   next: NextFunction
@@ -59,6 +111,7 @@ const updateProductsStockQuantity = async (
     }
   }
 };
+
 const updateUserPurchaseHistory = async (
   user: IUser,
   shoppingCart: IShoppingCart
@@ -88,27 +141,27 @@ export const checkoutWithCash = catchAsync(
     //extract the shipping address, shopping cart and user from the request object
     const { shipAddress, shoppingCart, user, phoneNumber } = req;
 
-    // Order object
-    const orderObject: object = {
-      user: user._id,
-      items: shoppingCart.items,
-      itemsQuantity: shoppingCart.total_quantity,
-      totalDiscount: shoppingCart.total_discount,
-      shippingAddress: shipAddress,
-      phoneNumber: phoneNumber,
-      totalPrice: shoppingCart.total_price + shoppingCart.total_shipping_cost,
-      shippingCost: shoppingCart.total_shipping_cost,
-      paymentStatus: "payment_on_delivery",
-      paymentMethod: "cash",
-      shippingStatus: "pending",
-      orderStatus: "processing",
-    };
+    const orderObject = createOrderObject(
+      user._id,
+      shoppingCart.items as any,
+      shoppingCart.total_quantity,
+      shoppingCart.total_discount,
+      shipAddress,
+      phoneNumber,
+      shoppingCart.total_price + shoppingCart.total_shipping_cost,
+      shoppingCart.total_shipping_cost,
+      "payment_on_delivery",
+      "cash",
+      "pending",
+      "processing"
+    );
 
     // create the order
     const userOrder: IOrder = await Order.create(orderObject);
 
     // Update the stock quantity of the products
     await updateProductsStockQuantity(shoppingCart._id, next);
+
     await updateUserPurchaseHistory(user, shoppingCart);
     // deleting the cart items form cart item collection
     await CartItem.deleteMany({
@@ -132,3 +185,20 @@ export const checkoutWithCash = catchAsync(
 export const checkoutWithStripe = catchAsync(
   async (req: CheckoutRequest, res: Response, next: NextFunction) => {}
 );
+
+///////////////////////+
+// Order object
+// const orderObject: object = {
+//   user: user._id,
+//   items: shoppingCart.items,
+//   itemsQuantity: shoppingCart.total_quantity,
+//   totalDiscount: shoppingCart.total_discount,
+//   shippingAddress: shipAddress,
+//   phoneNumber: phoneNumber,
+//   totalPrice: shoppingCart.total_price + shoppingCart.total_shipping_cost,
+//   shippingCost: shoppingCart.total_shipping_cost,
+//   paymentStatus: "payment_on_delivery",
+//   paymentMethod: "cash",
+//   shippingStatus: "pending",
+//   orderStatus: "processing",
+// };

@@ -4,6 +4,17 @@ import bcrypt from "bcryptjs";
 import { IUser } from "./user.interface";
 import crypto from "crypto";
 
+// Enums
+enum UserRole {
+  USER = "user",
+  ADMIN = "admin",
+  TRADER = "trader",
+}
+
+enum DefaultValues {
+  PHOTO_URL = "https://res.cloudinary.com/deqgzvkxp/image/upload/v1718812055/defaultProileImg_j1ilwv.png",
+}
+
 export const userSchema: Schema<IUser> = new Schema<IUser>(
   {
     name: {
@@ -43,8 +54,7 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
     },
     photo: {
       type: String,
-      default:
-        "https://res.cloudinary.com/deqgzvkxp/image/upload/v1718812055/defaultProileImg_j1ilwv.png",
+      default: DefaultValues.PHOTO_URL,
     },
     photoPublicId: {
       type: String,
@@ -67,9 +77,10 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["user", "admin", "trader"],
-      default: "user",
+      enum: Object.values(UserRole),
+      default: UserRole.USER,
     },
+
     purchaseHistory: [
       {
         type: Schema.Types.ObjectId,

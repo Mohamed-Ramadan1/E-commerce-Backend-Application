@@ -3,14 +3,16 @@
 // TODO : Completed Shop settings controller
 
 TODO : Completed shops management controller 
+
 TODO : Create shops orders based on User's Orders .
+
 TODO : Create notification system with sockit.io
 
 
 
 //TODO : Shop support tickets 
 !TODO : ensure user not return amount of product greater than the amount of product he bought. 
-!TODO : when user exist might happend there no cart avilabele dealing with this issu
+// !TODO : when user exist might happen there no cart avilabel dealing with this issu
 
 
 
@@ -21,17 +23,38 @@ TODO : Create notification system with sockit.io
 
 //TODO : processed Refund Requests
 
+TODO : Create full analytics for the  orders ,shops and products.
 
 TODO : using transactions for all the above controllers
 
-TODO : Create scuduler tasks to send reports for shops owners and traders.
+TODO : Create scuduler tasks to send reports for shops owners and traders. node corn
 
-TODO : Create full analytics for the  orders ,shops and products.
 
 TODO : Create automated task for move the products form the products collection if it out of stock.
 
+TODO : Notify the shops owners and traders if the product out of stock.
+
+TODO : Integrate the payment gateway with the application.
+
+TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feailds / filter)
+
+
+TODO : Testing
+//////////////////////////////////////////////////////////
+
+
 TODO : Planning for inventory management controller
 
-TODO : planning for shopping management process
+TODO : planning for shipping management process
+
+TODO : Defind application rules and premission advanced level 
+
+TODO : Create message system between users and shops owners and traders.
+
+TODO : Create message system between admins and users 
+
+TODO : Create message system between admins and shops owners and traders.
+
+
 
 */
