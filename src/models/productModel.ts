@@ -1,14 +1,19 @@
 import mongoose, { Schema, Model } from "mongoose";
 
-import { IProduct } from "./product.interface";
+import {
+  IProduct,
+  ProductSourceType,
+  ProductCategory,
+  AvailabilityStatus,
+} from "./product.interface";
 
 export const productSchema: Schema<IProduct> = new Schema(
   {
     sourceType: {
       type: String,
-      enum: ["website", "shop"],
+      enum: Object.values(ProductSourceType),
       required: true,
-      default: "website",
+      default: ProductSourceType.Website,
     },
     shopId: {
       type: Schema.Types.ObjectId,
@@ -24,41 +29,8 @@ export const productSchema: Schema<IProduct> = new Schema(
     },
     category: {
       type: String,
+      enum: Object.values(ProductCategory),
       required: true,
-      enum: [
-        "electronics",
-        "fashion",
-        "home",
-        "health",
-        "beauty",
-        "sports",
-        "toys",
-        "books",
-        "food",
-        "miscellaneous",
-        "clothing",
-        "accessories",
-        "kitchen",
-        "outdoor",
-        "crafts",
-        "office",
-        "tools",
-        "automotive",
-        "baby",
-        "jewelry",
-        "pets",
-        "games",
-        "electronics",
-        "furniture",
-        "appliances",
-        "music",
-        "movies",
-        "software",
-        "hardware",
-        "services",
-        "digital",
-        "other",
-      ],
     },
     brand: {
       type: String,
@@ -121,8 +93,8 @@ export const productSchema: Schema<IProduct> = new Schema(
     availability_status: {
       type: String,
       required: true,
-      enum: ["available", "unavailable"],
-      default: "available",
+      enum: Object.values(AvailabilityStatus),
+      default: AvailabilityStatus.Available,
     },
     manufacturer: {
       type: String,
@@ -148,13 +120,15 @@ productSchema.index({ brand: 1 });
 productSchema.index({ price: 1 });
 productSchema.index({ availability_status: 1 });
 
-productSchema.post("save", function (doc: IProduct) {
-  const isInStock: boolean = doc.stock_quantity > 0;
-  if (!isInStock) {
-    this.availability_status = "unavailable";
-    this.save();
+// Use pre-save middleware to handle availability status
+productSchema.pre("save", function (next) {
+  if (this.stock_quantity <= 0) {
+    this.availability_status = AvailabilityStatus.Unavailable;
+  } else {
+    this.availability_status = AvailabilityStatus.Available;
   }
   // TODO: implement other logic for product availability status changes, e.g., notifying suppliers
+  next();
 });
 
 const Product: Model<IProduct> = mongoose.model<IProduct>(

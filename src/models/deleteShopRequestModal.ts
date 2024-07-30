@@ -1,5 +1,8 @@
 import { Schema, Model, model } from "mongoose";
-import { IDeleteShopRequest } from "./deleteShopRequest.interface";
+import {
+  IDeleteShopRequest,
+  RequestStatus,
+} from "./deleteShopRequest.interface";
 
 const deleteShopRequestSchema: Schema = new Schema<IDeleteShopRequest>(
   {
@@ -26,8 +29,8 @@ const deleteShopRequestSchema: Schema = new Schema<IDeleteShopRequest>(
     },
     requestStatus: {
       type: String,
-      enum: ["pending", "rejected", "cancelled", "approved"],
-      default: "pending",
+      enum: Object.values(RequestStatus),
+      default: RequestStatus.Pending,
     },
   },
   {

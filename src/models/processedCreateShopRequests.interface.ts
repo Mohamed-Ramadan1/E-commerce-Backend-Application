@@ -1,5 +1,4 @@
 import { Document, Schema } from "mongoose";
-import { IUser } from "./user.interface";
 
 export interface IProcessedShopRequest extends Document {
   _id: Schema.Types.ObjectId;

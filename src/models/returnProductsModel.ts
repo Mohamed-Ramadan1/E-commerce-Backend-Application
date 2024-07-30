@@ -1,6 +1,11 @@
 import { Schema, Model, model } from "mongoose";
-import { IReturnRequest } from "./returnProducts.interface";
+import {
+  IReturnRequest,
+  ReturnStatus,
+  ReceivedItemsStatus,
+} from "./returnProducts.interface";
 import { productSchema } from "./productModel";
+
 const returnProductSChema: Schema = new Schema<IReturnRequest>(
   {
     user: {
@@ -25,14 +30,15 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
     },
     returnStatus: {
       type: String,
-      enum: ["Pending", "Approved", "Rejected", "Cancelled"],
-      default: "Pending",
+      enum: Object.values(ReturnStatus),
+      default: ReturnStatus.Pending,
     },
     receivedItemsStatus: {
       type: String,
-      enum: ["Received", "Not Received"],
-      default: "Not Received",
+      enum: Object.values(ReceivedItemsStatus),
+      default: ReceivedItemsStatus.NotReceived,
     },
+
     refundAmount: {
       type: Number,
       required: true,

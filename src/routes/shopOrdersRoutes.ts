@@ -14,7 +14,6 @@ const router = Router();
 
 router.use(protect);
 
-router.use();
 router
   .route("/my-shop/all")
   .get(validateBeforeShopOrdersOperations, getShopOrders);

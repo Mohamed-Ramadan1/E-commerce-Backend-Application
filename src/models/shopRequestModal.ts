@@ -1,5 +1,5 @@
 import { Schema, model, Model } from "mongoose";
-import { IShopRequest } from "./shopRequest.interface";
+import { IShopRequest, RequestStatus } from "./shopRequest.interface";
 
 const shopRequestSchema: Schema = new Schema<IShopRequest>(
   {
@@ -7,8 +7,8 @@ const shopRequestSchema: Schema = new Schema<IShopRequest>(
     shopDescription: { type: String, required: true },
     requestStatus: {
       type: String,
-      enum: ["approved", "pending", "rejected", "cancelled"],
-      default: "pending",
+      enum: Object.values(RequestStatus), // Use enum values
+      default: RequestStatus.Pending, // Default value
     },
     processedBy: { type: Schema.Types.ObjectId, ref: "User" },
     processedAt: { type: Date },

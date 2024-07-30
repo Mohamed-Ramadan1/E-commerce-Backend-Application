@@ -1,5 +1,10 @@
 import { Schema, Model, model } from "mongoose";
-import { IProcessedRefundRequests } from "./processedRefundRequests.interface";
+import {
+  IProcessedRefundRequests,
+  RefundMethod,
+  RefundStatus,
+  RefundType,
+} from "./processedRefundRequests.interface";
 import { OrderSchema } from "./orderModel";
 import { productSchema } from "./productModel";
 
@@ -56,17 +61,17 @@ const processedRefundRequestSchema: Schema =
       },
       refundMethod: {
         type: String,
-        enum: ["stripe", "giftCard"],
+        enum: Object.values(RefundMethod),
         required: true,
       },
       refundType: {
         type: String,
-        enum: ["return", "cancellation"],
+        enum: Object.values(RefundType),
         required: true,
       },
       refundStatus: {
         type: String,
-        enum: ["pending", "processing", "confirmed", "rejected"],
+        enum: Object.values(RefundStatus),
         required: true,
       },
       refundProcessedAt: {

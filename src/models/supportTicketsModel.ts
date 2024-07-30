@@ -1,5 +1,9 @@
 import { Model, Schema, model } from "mongoose";
-import { ISupportTicket } from "./supportTickets.interface";
+import {
+  ISupportTicket,
+  TicketCategory,
+  TicketStatus,
+} from "./supportTickets.interface";
 
 const supportTicketsSchema: Schema = new Schema<ISupportTicket>(
   {
@@ -18,12 +22,12 @@ const supportTicketsSchema: Schema = new Schema<ISupportTicket>(
     },
     status: {
       type: String,
-      enum: ["open", "on-progress", "closed"],
-      default: "open",
+      enum: Object.values(TicketStatus), // Use enum values
+      default: TicketStatus.Open, // Use enum default value
     },
     category: {
       type: String,
-      enum: ["website issue", "account issue", "general inquiry"],
+      enum: Object.values(TicketCategory), // Use enum values
       required: true,
     },
     processedBy: {

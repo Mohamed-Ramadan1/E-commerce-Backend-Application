@@ -1,6 +1,11 @@
-import { Schema, model,Types } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 import { ICartItem } from "./cartItem.interface";
-import { IShoppingCart } from "./shoppingCart.interface";
+import {
+  IShoppingCart,
+  PaymentMethod,
+  PaymentStatus,
+} from "./shoppingCart.interface";
+
 const shoppingCartSchema = new Schema<IShoppingCart>(
   {
     user: {
@@ -14,11 +19,16 @@ const shoppingCartSchema = new Schema<IShoppingCart>(
     total_discount: { type: Number, required: true, default: 0 },
     total_price: { type: Number, required: true, default: 0 },
     total_shipping_cost: { type: Number, required: true, default: 0 },
-    payment_status: { type: String, required: true, default: "pending" },
+    payment_status: {
+      type: String,
+      enum: Object.values(PaymentStatus),
+      required: true,
+      default: PaymentStatus.Pending,
+    },
     payment_method: {
       type: String,
-      enum: ["cash", "credit_card"],
-      default: "cash",
+      enum: Object.values(PaymentMethod),
+      default: PaymentMethod.Cash,
     },
   },
   { timestamps: true }

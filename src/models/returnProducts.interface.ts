@@ -1,5 +1,18 @@
 import { Document, Schema } from "mongoose";
 import { IProduct } from "./product.interface";
+
+export enum ReturnStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Cancelled = "Cancelled",
+}
+
+export enum ReceivedItemsStatus {
+  Received = "Received",
+  NotReceived = "Not Received",
+}
+
 export interface IReturnRequest extends Document {
   _id: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
@@ -7,8 +20,8 @@ export interface IReturnRequest extends Document {
   product: IProduct;
   quantity: number;
   returnReason: string;
-  returnStatus: "Pending" | "Approved" | "Rejected" | "Cancelled";
-  receivedItemsStatus: "Received" | "Not Received";
+  returnStatus: ReturnStatus; 
+  receivedItemsStatus: ReceivedItemsStatus;
   refundAmount: number;
   comments?: string;
   processedDate?: Date;

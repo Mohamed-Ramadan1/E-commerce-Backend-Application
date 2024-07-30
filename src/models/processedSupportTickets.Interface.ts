@@ -1,5 +1,17 @@
 import { Document, Schema } from "mongoose";
-import { IUser } from "./user.interface";
+
+export enum TicketStatus {
+  Open = "open",
+  OnProgress = "on-progress",
+  Closed = "closed",
+}
+
+export enum TicketCategory {
+  WebsiteIssue = "website issue",
+  AccountIssue = "account issue",
+  GeneralInquiry = "general inquiry",
+}
+
 export interface IProcessedSupportTickets extends Document {
   _id: Schema.Types.ObjectId;
   user: {
@@ -18,8 +30,8 @@ export interface IProcessedSupportTickets extends Document {
     phoneNumber: string;
     role: string;
   };
-  status: "open" | "on-progress" | "closed";
-  category: "website issue" | "account issue" | "general inquiry";
+  status: TicketStatus;
+  category: TicketCategory;
   ticketCreatedDate: Date;
   ticketLastUpdatedDate: Date;
   ticketProcessedDate: Date;

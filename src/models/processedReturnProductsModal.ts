@@ -1,5 +1,9 @@
 import { Schema, Model, model } from "mongoose";
-import { IProcessedReturnProductRequest } from "./processedReturnProducts.interface";
+import {
+  IProcessedReturnProductRequest,
+  ReceivedItemsStatus,
+  ReturnStatus,
+} from "./processedReturnProducts.interface";
 import { OrderSchema } from "./orderModel";
 import { productSchema } from "./productModel";
 
@@ -65,12 +69,12 @@ const processedReturnProductRequestSchema: Schema =
       },
       returnStatus: {
         type: String,
-        enum: ["Pending", "Approved", "Rejected", "Cancelled"],
+        enum: Object.values(ReturnStatus),
         required: true,
       },
       receivedItemsStatus: {
         type: String,
-        enum: ["Received", "Not Received"],
+        enum: Object.values(ReceivedItemsStatus),
         required: true,
       },
       refundAmount: {

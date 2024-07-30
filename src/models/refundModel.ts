@@ -1,5 +1,10 @@
 import { Schema, Model, model } from "mongoose";
-import { IRefundRequest } from "./refund.interface";
+import {
+  IRefundRequest,
+  RefundMethod,
+  RefundStatus,
+  RefundType,
+} from "./refund.interface";
 const refundRequestSchema: Schema = new Schema<IRefundRequest>(
   {
     user: {
@@ -22,18 +27,18 @@ const refundRequestSchema: Schema = new Schema<IRefundRequest>(
     },
     refundMethod: {
       type: String,
-      enum: ["stripe", "giftCard"],
+      enum: Object.values(RefundMethod),
       required: true,
     },
     refundType: {
       type: String,
-      enum: ["return", "cancellation"],
+      enum: Object.values(RefundType),
       required: true,
     },
     refundStatus: {
       type: String,
-      enum: ["pending", "processing", "confirmed", "rejected"],
-      default: "pending",
+      enum: Object.values(RefundStatus),
+      default: RefundStatus.Pending,
     },
     refundProcessedAt: {
       type: Date,

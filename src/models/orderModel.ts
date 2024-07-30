@@ -1,5 +1,11 @@
 import { Schema, model, Types, Model } from "mongoose";
-import { IOrder } from "./order.interface";
+import {
+  IOrder,
+  PaymentMethod,
+  PaymentStatus,
+  ShippingStatus,
+  OrderStatus,
+} from "./order.interface";
 import { ICartItem } from "./cartItem.interface";
 
 const itemsSchema = new Schema<ICartItem>({
@@ -58,18 +64,18 @@ export const OrderSchema: Schema = new Schema<IOrder>(
     paymentStatus: {
       type: String,
       required: true,
-      enum: ["payment_on_delivery", "paid"],
+      enum: Object.values(PaymentStatus),
     },
     paymentMethod: {
       type: String,
       required: true,
-      enum: ["cash", "credit_card"],
+      enum: Object.values(PaymentMethod),
     },
     shippingStatus: {
       type: String,
       required: true,
-      enum: ["pending", "shipped"],
-      default: "pending",
+      enum: Object.values(ShippingStatus),
+      default: ShippingStatus.Pending,
     },
     shippingAddress: {
       type: String,
@@ -79,8 +85,8 @@ export const OrderSchema: Schema = new Schema<IOrder>(
     orderStatus: {
       type: String,
       required: true,
-      enum: ["processing", "delivered", "cancelled"],
-      default: "processing",
+      enum: Object.values(OrderStatus),
+      default: OrderStatus.Processing,
     },
 
     discountCodes: {

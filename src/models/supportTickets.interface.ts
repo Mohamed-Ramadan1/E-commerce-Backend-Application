@@ -1,12 +1,24 @@
 import { Document, Schema } from "mongoose";
 
+export enum TicketStatus {
+  Open = "open",
+  OnProgress = "on-progress",
+  Closed = "closed",
+}
+
+export enum TicketCategory {
+  WebsiteIssue = "website issue",
+  AccountIssue = "account issue",
+  GeneralInquiry = "general inquiry",
+}
+
 export interface ISupportTicket extends Document {
   _id: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
   subject: string;
   description: string;
-  status: "open" | "on-progress" | "closed";
-  category: "website issue" | "account issue" | "general inquiry";
+  status: TicketStatus;
+  category: TicketCategory;
   processedBy: {
     user: Schema.Types.ObjectId;
     name: string;
@@ -15,7 +27,7 @@ export interface ISupportTicket extends Document {
     role: string;
   };
   ticketProcessedDate: Date;
-  ticketResponse:string;
+  ticketResponse: string;
   createdAt: Date;
   updatedAt: Date;
 }

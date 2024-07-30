@@ -1,7 +1,11 @@
 import { Model, Schema, model } from "mongoose";
-import { IShopSupportTicket } from "./shopSupportTicket.interface";
+import {
+  IShopSupportTicket,
+  SupportTicketCategory,
+  SupportTicketStatus,
+} from "./shopSupportTicket.interface";
 
-const shopSupportTicketSchema = new Schema(
+const shopSupportTicketSchema = new Schema<IShopSupportTicket>(
   {
     shop: { type: Schema.Types.ObjectId, ref: "Shop", required: true },
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
@@ -9,24 +13,12 @@ const shopSupportTicketSchema = new Schema(
     description: { type: String, required: true },
     status: {
       type: String,
-      enum: ["open", "on-progress", "closed"],
-      default: "open",
+      enum: Object.values(SupportTicketStatus), // Use enum values
+      default: SupportTicketStatus.Open,
     },
     category: {
       type: String,
-      enum: [
-        "shop issue",
-        "product issue",
-        "order issue",
-        "shipping issue",
-        "return issue",
-        "refund issue",
-        "payment issue",
-        "account issue",
-        "financial issue",
-        "general inquiry",
-        "other",
-      ],
+      enum: Object.values(SupportTicketCategory), // Use enum values
       required: true,
     },
     img: { type: String },

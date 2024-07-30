@@ -1,4 +1,11 @@
-import { Document, Schema, Types } from "mongoose";
+import { Document, Schema } from "mongoose";
+
+export enum RequestStatus {
+  Pending = "pending",
+  Rejected = "rejected",
+  Cancelled = "cancelled",
+  Approved = "approved",
+}
 
 export interface IDeleteShopRequest extends Document {
   _id: Schema.Types.ObjectId;
@@ -7,7 +14,7 @@ export interface IDeleteShopRequest extends Document {
   processedBy: Schema.Types.ObjectId;
   processedAt: Date;
   reason: string;
-  requestStatus: "pending" | "rejected" | "cancelled" | "approved";
+  requestStatus: RequestStatus;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,4 +1,4 @@
-import { Document, Types, Schema } from "mongoose";
+import { Document, Schema } from "mongoose";
 export interface ICartItem extends Document {
   _id: Schema.Types.ObjectId;
   cart: Schema.Types.ObjectId;

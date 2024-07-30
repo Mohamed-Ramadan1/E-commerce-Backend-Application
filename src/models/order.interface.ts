@@ -1,6 +1,27 @@
 import { Document, Types } from "mongoose";
 import { ICartItem } from "./cartItem.interface";
 
+export enum PaymentStatus {
+  PaymentOnDelivery = "payment_on_delivery",
+  Paid = "paid",
+}
+
+export enum PaymentMethod {
+  Cash = "cash",
+  CreditCard = "credit_card",
+}
+
+export enum ShippingStatus {
+  Pending = "pending",
+  Shipped = "shipped",
+}
+
+export enum OrderStatus {
+  Processing = "processing",
+  Delivered = "delivered",
+  Cancelled = "cancelled",
+}
+
 export interface IOrder extends Document {
   _id: Types.ObjectId;
   user: Types.ObjectId;
@@ -8,13 +29,13 @@ export interface IOrder extends Document {
   itemsQuantity: number;
   totalPrice: number;
   totalDiscount: number;
-  paymentStatus: "payment_on_delivery" | "paid";
-  paymentMethod: "cash" | "credit_card";
-  shippingStatus: "pending" | "shipped";
+  paymentStatus: PaymentStatus;
+  paymentMethod: PaymentMethod;
+  shippingStatus: ShippingStatus;
   shippingAddress: string;
   phoneNumber: string;
   shippingCost: number;
-  orderStatus: "processing" | "delivered" | "cancelled";
+  orderStatus: OrderStatus;
   archived: boolean;
   customerNotes?: string;
   internalNotes?: string;

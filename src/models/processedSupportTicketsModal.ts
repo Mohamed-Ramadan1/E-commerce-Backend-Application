@@ -1,7 +1,10 @@
 import { Schema, Model, model } from "mongoose";
-import { IUser } from "./user.interface";
-import { userSchema } from "./userModel";
-import { IProcessedSupportTickets } from "./processedSupportTickets.Interface";
+
+import {
+  IProcessedSupportTickets,
+  TicketCategory,
+  TicketStatus,
+} from "./processedSupportTickets.Interface";
 const processedSupportTicketSchema: Schema =
   new Schema<IProcessedSupportTickets>(
     {
@@ -22,11 +25,13 @@ const processedSupportTicketSchema: Schema =
       },
       status: {
         type: String,
-        enum: ["open", "on-progress", "closed"],
+        enum: Object.values(TicketStatus),
+        default: TicketStatus.Open,
       },
       category: {
         type: String,
-        enum: ["website issue", "account issue", "general inquiry"],
+        enum: Object.values(TicketCategory),
+        required: true,
       },
       processedBy: {
         user: {

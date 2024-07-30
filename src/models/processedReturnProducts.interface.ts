@@ -2,6 +2,19 @@ import { Document, Schema } from "mongoose";
 import { IOrder } from "./order.interface";
 import { IProduct } from "./product.interface";
 
+// Define enums
+export enum ReturnStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Cancelled = "Cancelled",
+}
+
+export enum ReceivedItemsStatus {
+  Received = "Received",
+  NotReceived = "Not Received",
+}
+
 export interface IProcessedReturnProductRequest extends Document {
   _id: Schema.Types.ObjectId;
   requestId: Schema.Types.ObjectId;
@@ -22,8 +35,8 @@ export interface IProcessedReturnProductRequest extends Document {
   };
   quantity: number;
   returnReason: string;
-  returnStatus: "Pending" | "Approved" | "Rejected" | "Cancelled";
-  receivedItemsStatus: "Received" | "Not Received";
+  returnStatus: ReturnStatus;
+  receivedItemsStatus: ReceivedItemsStatus;
   refundAmount: number;
   comments?: string;
   processedDate?: Date;
