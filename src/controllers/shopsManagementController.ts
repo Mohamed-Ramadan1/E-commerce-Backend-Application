@@ -270,53 +270,6 @@ export const unfreezingProductInShop = catchAsync(
   }
 );
 
-//TODO: This is still not completed
-
-// get all shops order
-export const getAllShopsOrders = catchAsync(
-  async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
-    const orders: IShopOrder[] = await ShopOrder.find();
-    const response: ApiResponse<IShopOrder[]> = {
-      status: "success",
-      results: orders.length,
-      data: orders,
-    };
-    sendResponse(200, response, res);
-  }
-);
-
-// get shop order with only order id
-export const getOrder = catchAsync(
-  async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
-    const { orderId } = req.params;
-    const order: IShopOrder | null = await ShopOrder.findById(orderId);
-    if (!order) {
-      return next(new AppError("No order found with this id.", 404));
-    }
-    const response: ApiResponse<IShopOrder> = {
-      status: "success",
-      data: order,
-    };
-    sendResponse(200, response, res);
-  }
-);
-
-// delete order
-export const deleteOrder = catchAsync(
-  async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
-    const { orderId } = req.params;
-    const order: IShopOrder | null = await ShopOrder.findByIdAndDelete(orderId);
-    if (!order) {
-      return next(new AppError("No order found with this id.", 404));
-    }
-    const response: ApiResponse<IShopOrder> = {
-      status: "success",
-      message: "Order deleted successfully.",
-    };
-    sendResponse(204, response, res);
-  }
-);
-
 // get all orders on shop
 export const getAllOrdersCreatedOnShop = catchAsync(
   async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {

@@ -4,16 +4,26 @@ import {
   getShopOrder,
   getShopOrders,
   deleteShopOrder,
+  getAllOrders,
+  getOrder,
+  deleteOrder,
 } from "../controllers/shopOrdersController";
 import { validateBeforeShopOrdersOperations } from "../middlewares/shopOrdersMiddleware";
 
 const router = Router();
 
 router.use(protect);
-router.use(validateBeforeShopOrdersOperations);
 
-router.route("/").get(getShopOrders);
+router.use();
+router
+  .route("/my-shop/all")
+  .get(validateBeforeShopOrdersOperations, getShopOrders);
+router
+  .route("/my-shop/:orderId")
+  .get(validateBeforeShopOrdersOperations, getShopOrder)
+  .delete(validateBeforeShopOrdersOperations, deleteShopOrder);
 
-router.route("/:id").get(getShopOrder).delete(deleteShopOrder);
-
+router.use(restrictTo("admin"));
+router.route("/").get(getAllOrders);
+router.route("/:id").get(getOrder).delete(deleteOrder);
 export default router;

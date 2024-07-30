@@ -8,7 +8,7 @@ TODO : Create shops orders based on User's Orders .
 
 TODO : Create notification system with sockit.io
 
-
+TODO : Activate accounts request.
 
 //TODO : Shop support tickets 
 !TODO : ensure user not return amount of product greater than the amount of product he bought. 
