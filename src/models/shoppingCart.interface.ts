@@ -23,3 +23,4 @@ export interface IShoppingCart extends Document {
   payment_method: PaymentMethod;
   calculateTotals: () => void;
 }
+  

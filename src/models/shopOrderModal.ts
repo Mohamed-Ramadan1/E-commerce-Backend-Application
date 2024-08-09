@@ -1,11 +1,13 @@
 import { Schema, model } from "mongoose";
 // imports interface of the shop-order and enums
+
 import {
   IShopOrder,
   PaymentStatus,
   PaymentMethod,
   ShippingStatus,
   OrderStatus,
+  VendorType,
 } from "./shopOrder.interface";
 
 const itemsSchema = new Schema({
@@ -39,9 +41,14 @@ export const ShopOrderSchema: Schema = new Schema<IShopOrder>(
       ref: "User",
       required: true,
     },
+
     shop: {
       type: Schema.Types.ObjectId,
       ref: "Shop",
+    },
+    vendorType: {
+      type: String,
+      enum: Object.values(VendorType),
       required: true,
     },
     masterOrder: {

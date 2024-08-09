@@ -28,11 +28,17 @@ export enum OrderStatus {
   REFUNDED = "refunded",
 }
 
+export enum VendorType {
+  WEBSITE = "website",
+  SHOP = "shop",
+}
+
 // Interface with enums
 export interface IShopOrder extends Document {
   _id: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
-  shop: Schema.Types.ObjectId;
+  vendorType: VendorType;
+  shop: Schema.Types.ObjectId | undefined;
   masterOrder: Schema.Types.ObjectId;
   items: ICartItem[];
   itemsQuantity: number;

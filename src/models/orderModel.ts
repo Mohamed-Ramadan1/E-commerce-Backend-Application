@@ -1,4 +1,4 @@
-import { Schema, model, Types, Model } from "mongoose";
+import { Schema, model,  } from "mongoose";
 import {
   IOrder,
   PaymentMethod,

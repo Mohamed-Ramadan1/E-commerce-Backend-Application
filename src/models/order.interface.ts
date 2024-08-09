@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document, Schema } from "mongoose";
 import { ICartItem } from "./cartItem.interface";
 
 export enum PaymentStatus {
@@ -23,8 +23,8 @@ export enum OrderStatus {
 }
 
 export interface IOrder extends Document {
-  _id: Types.ObjectId;
-  user: Types.ObjectId;
+  _id: Schema.Types.ObjectId;
+  user: Schema.Types.ObjectId;
   items: ICartItem[];
   itemsQuantity: number;
   totalPrice: number;

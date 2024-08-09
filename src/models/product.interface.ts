@@ -47,7 +47,7 @@ export enum ProductCategory {
 export interface IProduct extends Document {
   _id: Types.ObjectId;
   sourceType: ProductSourceType;
-  shopId?: Types.ObjectId;
+  shopId: Types.ObjectId;
   name: string;
   description: string;
   category: ProductCategory;
