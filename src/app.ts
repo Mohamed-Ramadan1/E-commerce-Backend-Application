@@ -30,6 +30,7 @@ import processedReturnProductsRoutes from "./routes/processedReturnProductsReque
 import processedSupportTicketsRoutes from "./routes/processedSupportTicketsRoutes";
 import shopSupportTicketRoutes from "./routes/shopSupportTicketRoutes";
 import shopsOrdersRoutes from "./routes/shopOrdersRoutes";
+import notificationRoutes from "./routes/notificationRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -76,6 +77,7 @@ app.use("/api/v1/reviews", reviewRoutes);
 app.use("/api/v1/orders", ordersRoutes);
 app.use("/api/v1/orders/admin", adminOrdersRoutes);
 app.use("/api/v1/shop-orders", shopsOrdersRoutes);
+app.use("/api/v1/notifications", notificationRoutes);
 
 // the shop support ticket routes
 app.use("/api/v1/shop-support-tickets", shopSupportTicketRoutes);
@@ -119,4 +121,5 @@ app.use("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(globalError);
+
 export default app;

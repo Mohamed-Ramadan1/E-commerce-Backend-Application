@@ -1,4 +1,6 @@
 import { Document, Schema } from "mongoose";
+import { IUser } from "./user.interface";
+import { IShop } from "./shop.interface";
 
 export enum RequestStatus {
   Pending = "pending",
@@ -9,9 +11,9 @@ export enum RequestStatus {
 
 export interface IDeleteShopRequest extends Document {
   _id: Schema.Types.ObjectId;
-  user: Schema.Types.ObjectId;
-  shop: Schema.Types.ObjectId;
-  processedBy: Schema.Types.ObjectId;
+  user: IUser;
+  shop: IShop;
+  processedBy: IUser;
   processedAt: Date;
   reason: string;
   requestStatus: RequestStatus;

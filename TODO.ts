@@ -4,11 +4,26 @@
 
 // TODO : Completed shops management controller 
 
+
+TODO : Refactore the code interface for the modals to meet the new change on the data.
+
+TODO : Create notification system with sockit.io
+
+TODO : Activate accounts request.
+
+TODO : Google auth integration .
+
+
 TODO : Create shops orders based on User's Orders .
 
+TODO : Payment gateway integration.
+
+TODO : Products Reviews and Ratings
+
+!TODO : ensure user not return amount of product greater than the amount of product he bought. 
 
 // TODO : Shop support tickets 
-!TODO : ensure user not return amount of product greater than the amount of product he bought. 
+
 // !TODO : when user exist might happen there no cart avilabel dealing with this issu
 
 
@@ -17,12 +32,6 @@ TODO : Create shops orders based on User's Orders .
 // TODO : processed Return Products Requests
 
 //TODO : processed Refund Requests
-
-TODO : Refactore the code interface for the modals to meet the new change on the data.
-
-TODO : Create notification system with sockit.io
-
-TODO : Activate accounts request.
 
 
 

@@ -19,7 +19,7 @@ import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
 import { IProduct } from "../models/product.interface";
 
-// TODO Complete
+
 /*
 //TODO: get all shops .
 //TODO: get shop .
@@ -34,8 +34,8 @@ import { IProduct } from "../models/product.interface";
 //TODO:  freezing product in the shop.
 //TODO:  un-freezing product in the shop.
 
-TODO: get all orders created on the shop.
-TODO: get a single order created on the shop.
+//TODO: get all orders created on the shop.
+//TODO: get a single order created on the shop.
 */
 
 // get all shops.
