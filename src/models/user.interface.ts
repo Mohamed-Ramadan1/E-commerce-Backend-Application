@@ -1,5 +1,6 @@
 import { Document, Schema, Types } from "mongoose";
 export interface IUser extends Document {
+  googleId?: String;
   _id: Schema.Types.ObjectId;
   name: string;
   email: string;

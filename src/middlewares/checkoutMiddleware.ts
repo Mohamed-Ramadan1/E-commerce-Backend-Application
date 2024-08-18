@@ -20,6 +20,7 @@ export const checkCartAvailability = catchAsync(
       model: Product,
     });
 
+    console.log(userShopCart);
     if (!userShopCart) {
       const newShopCart = await ShoppingCart.create({
         user: req.user._id,
@@ -36,7 +37,12 @@ export const checkCartAvailability = catchAsync(
     }
     // check if the cart is empty
     if (userShopCart!.items.length === 0) {
-      return next(new AppError("Your shopping cart is empty", 400));
+      return next(
+        new AppError(
+          "Your shopping cart is empty please add items before you checkout.",
+          400
+        )
+      );
     }
 
     // check if the user provided a shipping address on the request or on his account or not

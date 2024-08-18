@@ -17,6 +17,11 @@ enum DefaultValues {
 
 export const userSchema: Schema<IUser> = new Schema<IUser>(
   {
+    googleId: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
     name: {
       type: String,
       required: [true, "name is required"],

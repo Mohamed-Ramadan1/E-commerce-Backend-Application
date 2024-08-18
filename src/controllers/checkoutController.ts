@@ -180,25 +180,3 @@ export const checkoutWithCash = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-// payment on stripe this will completed on the last when i implement the front end
-export const checkoutWithStripe = catchAsync(
-  async (req: CheckoutRequest, res: Response, next: NextFunction) => {}
-);
-
-///////////////////////+
-// Order object
-// const orderObject: object = {
-//   user: user._id,
-//   items: shoppingCart.items,
-//   itemsQuantity: shoppingCart.total_quantity,
-//   totalDiscount: shoppingCart.total_discount,
-//   shippingAddress: shipAddress,
-//   phoneNumber: phoneNumber,
-//   totalPrice: shoppingCart.total_price + shoppingCart.total_shipping_cost,
-//   shippingCost: shoppingCart.total_shipping_cost,
-//   paymentStatus: "payment_on_delivery",
-//   paymentMethod: "cash",
-//   shippingStatus: "pending",
-//   orderStatus: "processing",
-// };

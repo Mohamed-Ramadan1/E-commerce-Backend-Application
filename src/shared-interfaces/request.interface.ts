@@ -26,6 +26,16 @@ export interface AuthUserRequest extends Request {
   };
 }
 
+export interface SingUpRequest extends Request {
+  body: {
+    name: string;
+    email: string;
+    phoneNumber: string;
+    password: string;
+    passwordConfirmation: string;
+  };
+}
+
 export interface ForgotPasswordRequest extends Request {
   body: {
     email: string;

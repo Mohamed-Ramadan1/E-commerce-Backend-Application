@@ -4,6 +4,7 @@
 
 // TODO : Completed shops management controller 
 
+TODO checkout prcoess refactoring 
 
 TODO : Refactore the code interface for the modals to meet the new change on the data.
 

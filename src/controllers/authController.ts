@@ -12,7 +12,7 @@ import { IShoppingCart } from "../models/shoppingCart.interface";
 import {
   LoginRequest,
   AuthUserRequest,
-  RequestWithUser,
+  SingUpRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
 } from "../shared-interfaces/request.interface";
@@ -27,7 +27,7 @@ import sendVerificationMail from "../emails/users/accountVerificationEmail";
 import sendResetPasswordEmail from "../emails/users/resetPasswordEmail";
 
 export const signUpWithEmail = catchAsync(
-  async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  async (req: SingUpRequest, res: Response, next: NextFunction) => {
     const { name, email, phoneNumber, password, passwordConfirmation } =
       req.body;
 
@@ -114,11 +114,6 @@ export const logout = catchAsync(
 // tow function one for the reset password and one for the forogot funcitons
 export const forgotPassword = catchAsync(
   async (req: ForgotPasswordRequest, res: Response, next: NextFunction) => {
-    // get the email
-    // search if it exists
-    // if exists it will create the reset toekn and send it to the user email
-    //if not return message say that no account exists for this email
-
     if (!req.body.email)
       return next(new AppError("Please provide an email", 400));
 
