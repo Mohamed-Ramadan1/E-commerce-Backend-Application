@@ -1,4 +1,6 @@
-import { Types, Document, Schema } from "mongoose";
+import { Document, Schema } from "mongoose";
+import { ICartItem } from "./cartItem.interface";
+import { IUser } from "./user.interface";
 
 export enum PaymentStatus {
   Pending = "pending",
@@ -13,8 +15,8 @@ export enum PaymentMethod {
 
 export interface IShoppingCart extends Document {
   _id: Schema.Types.ObjectId;
-  user: Schema.Types.ObjectId;
-  items: Schema.Types.ObjectId[];
+  user: IUser;
+  items: ICartItem[];
   total_quantity: number;
   total_discount: number;
   total_price: number;
@@ -23,4 +25,3 @@ export interface IShoppingCart extends Document {
   payment_method: PaymentMethod;
   calculateTotals: () => void;
 }
-  

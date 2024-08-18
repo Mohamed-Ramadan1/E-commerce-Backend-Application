@@ -56,5 +56,6 @@ cartItemSchema.pre<ICartItem>(/^find/, function (next) {
   });
   next();
 });
+
 const CartItem: Model<ICartItem> = model<ICartItem>("CartItem", cartItemSchema);
 export default CartItem;

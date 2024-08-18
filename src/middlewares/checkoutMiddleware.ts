@@ -1,30 +1,19 @@
 import { Response, NextFunction } from "express";
 import ShoppingCart from "../models/shoppingCartModel";
-import Product from "../models/productModel";
 import AppError from "../utils/ApplicationError";
 import { CheckoutRequest } from "../shared-interfaces/request.interface";
 import catchAsync from "../utils/catchAsync";
-import { ICartItem } from "../models/cartItem.interface";
-import { IProduct } from "../models/product.interface";
-import { IShoppingCart } from "../models/shoppingCart.interface";
 
 export const checkCartAvailability = catchAsync(
   async (req: CheckoutRequest, res: Response, next: NextFunction) => {
-    // Populate the product field in the items array
-    const userShopCart = await ShoppingCart.findById(
-      req.user.shoppingCart
-    ).populate<{
-      items: (ICartItem & { product: IProduct })[];
-    }>({
-      path: "items.product",
-      model: Product,
-    });
-
-    console.log(userShopCart);
+    // get the user shop cart
+    const userShopCart = await ShoppingCart.findById(req.user.shoppingCart);
+    // check if the user not have a shop cart and if not create and assign new one .
     if (!userShopCart) {
       const newShopCart = await ShoppingCart.create({
         user: req.user._id,
       });
+
       req.user.shoppingCart = newShopCart._id;
       await req.user.save({ validateBeforeSave: false });
 
@@ -36,7 +25,7 @@ export const checkCartAvailability = catchAsync(
       );
     }
     // check if the cart is empty
-    if (userShopCart!.items.length === 0) {
+    if (userShopCart.items.length === 0) {
       return next(
         new AppError(
           "Your shopping cart is empty please add items before you checkout.",
@@ -58,6 +47,7 @@ export const checkCartAvailability = catchAsync(
       );
     }
 
+    // validate if the use provide a phone number or not
     const phoneNumber: string | undefined =
       req.user.phoneNumber || req.body.phoneNumber;
     if (!phoneNumber) {
@@ -70,8 +60,7 @@ export const checkCartAvailability = catchAsync(
     }
 
     // pass the shopping cart and the shipping address to the request object
-    const transformedCart = new ShoppingCart(userShopCart);
-    req.shoppingCart = transformedCart;
+    req.shoppingCart = userShopCart;
     req.shipAddress = shipAddress;
     req.phoneNumber = phoneNumber;
 

@@ -1,0 +1,280 @@
+import { Response, NextFunction } from "express";
+import ShoppingCart from "../models/shoppingCartModel";
+import Product from "../models/productModel";
+import AppError from "../utils/ApplicationError";
+import { CheckoutRequest } from "../shared-interfaces/request.interface";
+import catchAsync from "../utils/catchAsync";
+import { ICartItem } from "../models/cartItem.interface";
+import { IProduct } from "../models/product.interface";
+import { IShoppingCart } from "../models/shoppingCart.interface";
+
+export const checkCartAvailability = catchAsync(
+  async (req: CheckoutRequest, res: Response, next: NextFunction) => {
+    // Populate the product field in the items array
+    const userShopCart = await ShoppingCart.findById(
+      req.user.shoppingCart
+    ).populate<{
+      items: (ICartItem & { product: IProduct })[];
+    }>({
+      path: "items.product",
+      model: Product,
+    });
+
+    console.log(userShopCart);
+    if (!userShopCart) {
+      const newShopCart = await ShoppingCart.create({
+        user: req.user._id,
+      });
+      req.user.shoppingCart = newShopCart._id;
+      await req.user.save({ validateBeforeSave: false });
+
+      return next(
+        new AppError(
+          "your shopping cart was not exist we created on and assigned to you please now fill your cart with the items and checkout .",
+          500
+        )
+      );
+    }
+    // check if the cart is empty
+    if (userShopCart!.items.length === 0) {
+      return next(
+        new AppError(
+          "Your shopping cart is empty please add items before you checkout.",
+          400
+        )
+      );
+    }
+
+    // check if the user provided a shipping address on the request or on his account or not
+    const shipAddress: string | undefined =
+      req.user.shippingAddress || req.body.shippingAddress;
+
+    if (!shipAddress) {
+      return next(
+        new AppError(
+          "Please provide a shipping address or add shipping address to your profile ",
+          400
+        )
+      );
+    }
+
+    const phoneNumber: string | undefined =
+      req.user.phoneNumber || req.body.phoneNumber;
+    if (!phoneNumber) {
+      return next(
+        new AppError(
+          "Please provide a phone number or add phone number to your profile ",
+          400
+        )
+      );
+    }
+
+    // pass the shopping cart and the shipping address to the request object
+    const transformedCart = new ShoppingCart(userShopCart);
+    req.shoppingCart = transformedCart;
+    req.shipAddress = shipAddress;
+    req.phoneNumber = phoneNumber;
+
+    // retrieve the products from the cart items and check if the product is available in the stock or not
+    for (const cartItem of userShopCart!.items) {
+      const product = cartItem.product;
+
+      if (!product || product.stock_quantity < cartItem.quantity) {
+        return next(
+          new AppError(
+            `The product ${
+              product?.name || "unknown product"
+            } is out of stock or does not have sufficient quantity`,
+            400
+          )
+        );
+      }
+    }
+
+    next();
+  }
+);
+
+
+//////////////////////////////////
+
+// system imports
+import { Response, NextFunction } from "express";
+import mongoose from "mongoose";
+
+// model imports
+import Order from "../models/orderModel";
+import CartItem from "../models/cartItemModel";
+import ShoppingCart from "../models/shoppingCartModel";
+
+// interface imports
+import { IUser } from "../models/user.interface";
+import { ICartItem } from "../models/cartItem.interface";
+import { IOrder } from "../models/order.interface";
+import { IShoppingCart } from "../models/shoppingCart.interface";
+import { ApiResponse } from "../shared-interfaces/response.interface";
+
+import { CheckoutRequest } from "../shared-interfaces/request.interface";
+
+// utils imports
+import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/ApplicationError";
+import { sendResponse } from "../utils/sendResponse";
+
+// modules imports
+import { ObjectId } from "mongoose";
+import Stripe from "stripe";
+
+// emails imports
+import checkoutConfirmationEmail from "../emails/users/checkoutConfirmationEmail";
+
+//----------------------------
+//Helper functions and types
+
+type OrderObject = {
+  user: ObjectId;
+  items: ICartItem[];
+  itemsQuantity: Number;
+  totalDiscount: Number;
+  shippingAddress: string;
+  phoneNumber: string;
+  totalPrice: Number;
+  shippingCost: Number;
+  paymentStatus: string;
+  paymentMethod: string;
+  shippingStatus: string;
+  orderStatus: string;
+};
+
+const createOrderObject = (
+  user: ObjectId,
+  items: ICartItem[],
+  itemsQuantity: Number,
+  totalDiscount: Number,
+  shippingAddress: string,
+  phoneNumber: string,
+  totalPrice: Number,
+  shippingCost: Number,
+  paymentStatus: string,
+  paymentMethod: string,
+  shippingStatus: string,
+  orderStatus: string
+) => {
+  const orderData: OrderObject = {
+    user,
+    items,
+    itemsQuantity,
+    totalDiscount,
+    shippingAddress,
+    phoneNumber,
+    totalPrice,
+    shippingCost,
+    paymentStatus,
+    paymentMethod,
+    shippingStatus,
+    orderStatus,
+  };
+  return orderData;
+};
+
+// TODO Create shop orders instance for shops based on the products they have in their shops
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
+  apiVersion: "2024-04-10",
+});
+
+// update the stock quantity after the order created.
+const updateProductsStockQuantity = async (
+  userShopCart: IShoppingCart,
+  next: NextFunction
+) => {
+  // Iterate through the items and update the stock quantities
+  for (const cartItem of userShopCart.items) {
+    const product = cartItem.product;
+    if (product) {
+      product.stock_quantity -= cartItem.quantity;
+      if (product.stock_quantity < 0) {
+        product.stock_quantity = 0; // Ensure stock quantity doesn't go negative
+      }
+      await product.save();
+    }
+  }
+};
+
+// update the user purchase history after the order created.
+const updateUserPurchaseHistory = async (
+  user: IUser,
+  shoppingCart: IShoppingCart
+) => {
+  const productIds = shoppingCart.items.map((item: any) => item.product._id);
+  for (const productId of productIds) {
+    if (!user.purchaseHistory.includes(productId)) {
+      user.purchaseHistory.push(productId);
+    }
+  }
+  await user.save({ validateBeforeSave: false });
+};
+
+// clear the user shopping cart.
+const clearShoppingCart = async (shoppingCart: IShoppingCart) => {
+  await ShoppingCart.updateOne(
+    { _id: shoppingCart._id },
+    {
+      $set: {
+        items: [],
+        total_quantity: 0,
+        total_discount: 0,
+        total_price: 0,
+        total_shipping_cost: 0,
+      },
+    }
+  );
+};
+
+export const checkoutWithCash = catchAsync(
+  async (req: CheckoutRequest, res: Response, next: NextFunction) => {
+    //extract the shipping address, shopping cart and user from the request object
+    const { shipAddress, shoppingCart, user, phoneNumber } = req;
+
+    const orderObject = createOrderObject(
+      user._id,
+      shoppingCart.items as any,
+      shoppingCart.total_quantity,
+      shoppingCart.total_discount,
+      shipAddress,
+      phoneNumber,
+      shoppingCart.total_price + shoppingCart.total_shipping_cost,
+      shoppingCart.total_shipping_cost,
+      "payment_on_delivery",
+      "cash",
+      "pending",
+      "processing"
+    );
+
+    // create the order
+    const userOrder: IOrder = await Order.create(orderObject);
+
+    // Update the stock quantity of the products
+    await updateProductsStockQuantity(shoppingCart, next);
+
+    await updateUserPurchaseHistory(user, shoppingCart);
+    // deleting the cart items form cart item collection
+    await CartItem.deleteMany({
+      cart: shoppingCart._id,
+    });
+
+    // clear the shopping cart
+    await clearShoppingCart(shoppingCart);
+
+    // send confirmation email to the user with the order details.
+
+    checkoutConfirmationEmail(user, userOrder);
+    // generate the response object
+    const response: ApiResponse<IOrder> = {
+      status: "success",
+      data: userOrder,
+    };
+    // send the response
+    sendResponse(200, response, res);
+  }
+);
