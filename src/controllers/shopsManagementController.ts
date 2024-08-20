@@ -19,7 +19,6 @@ import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
 import { IProduct } from "../models/product.interface";
 
-
 /*
 //TODO: get all shops .
 //TODO: get shop .

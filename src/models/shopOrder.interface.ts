@@ -36,33 +36,24 @@ export enum VendorType {
 // Interface with enums
 export interface IShopOrder extends Document {
   _id: Schema.Types.ObjectId;
+  mainOrder: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
   vendorType: VendorType;
-  shop: Schema.Types.ObjectId | undefined;
-  masterOrder: Schema.Types.ObjectId;
+  shop?: Schema.Types.ObjectId;
   items: ICartItem[];
   itemsQuantity: number;
-  subtotal: number;
-  totalPrice: number;
+  subtotalPrice: number;
   totalDiscount: number;
-  shippingCost: number;
-  phoneNumber: string;
+  platformFee: number;
+  netPrice: number;
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;
   shippingStatus: ShippingStatus;
   shippingAddress: string;
   orderStatus: OrderStatus;
   discountCodes?: string[];
-  taxAmount: number;
-  platformFee: number;
-  shopRevenue: number;
   archived: boolean;
-  estimatedDeliveryDate?: Date;
-  actualDeliveryDate?: Date;
-  customerNotes?: string;
-  shopNotes?: string;
-  refundAmount: number;
-  refundReason?: string;
+
   createdAt: Date;
   updatedAt: Date;
 }

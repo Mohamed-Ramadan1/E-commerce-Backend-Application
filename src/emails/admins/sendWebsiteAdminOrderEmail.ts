@@ -8,19 +8,19 @@ const sendWebsiteAdminOrderEmail = async (subOrder: IShopOrder) => {
     .map(
       (item: any) => `
     <tr>
-      <td style="padding: 10px; border-bottom: 1px solid #eee;">${
+      <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
         item.product.name
       }</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: center;">${
+      <td style="padding: 12px; border-bottom: 1px solid #ddd; text-align: center; font-size: 16px;">${
         item.quantity
       }</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">$${item.price.toFixed(
+      <td style="padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 16px;">$${item.price.toFixed(
         2
       )}</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">$${item.discount.toFixed(
+      <td style="padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 16px;">$${item.discount.toFixed(
         2
       )}</td>
-      <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">$${item.priceAfterDiscount.toFixed(
+      <td style="padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 16px;">$${item.priceAfterDiscount.toFixed(
         2
       )}</td>
     </tr>
@@ -40,39 +40,97 @@ const sendWebsiteAdminOrderEmail = async (subOrder: IShopOrder) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>New Website Order Received</title>
       </head>
-      <body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; background-color: #f4f4f4; margin: 0; padding: 0;">
-        <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
-          <h2 style="color: #4CAF50; text-align: center; margin-bottom: 20px;">New Website Order Received</h2>
+      <body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; background-color: #f7f7f7; margin: 0; padding: 20px; font-size: 16px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+          <h2 style="color: #4CAF50; text-align: center; margin-bottom: 20px; font-size: 24px;">New Website Order Received</h2>
           <p>Hello Website Admin,</p>
           <p>A new order has been placed on the website. Here are the details:</p>
           
-          <h3 style="color: #333; margin-top: 30px;">Order Details</h3>
-          <p><strong>Order ID:</strong> ${subOrder._id}</p>
-          <p><strong>Order Date:</strong> ${subOrder.createdAt.toLocaleString()}</p>
-          <p><strong>Total Items:</strong> ${subOrder.itemsQuantity}</p>
-          <p><strong>Total Price:</strong> $${subOrder.totalPrice.toFixed(
-            2
-          )}</p>
-          <p><strong>Shipping Address:</strong> ${subOrder.shippingAddress}</p>
-          
-          <h3 style="color: #333; margin-top: 30px;">Order Items</h3>
-          <table style="width: 100%; border-collapse: collapse;">
+          <!-- Order Summary -->
+          <h3 style="color: #333; margin-top: 30px; font-size: 20px;">Order Details</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <tbody>
+              <tr style="background-color: #f2f2f2;">
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Order ID:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
+                  subOrder._id
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Order Date:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${subOrder.createdAt.toLocaleString()}</td>
+              </tr>
+              <tr style="background-color: #f2f2f2;">
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Total Items:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
+                  subOrder.itemsQuantity
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Subtotal Price:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">$${subOrder.subtotalPrice.toFixed(
+                  2
+                )}</td>
+              </tr>
+              <tr style="background-color: #f2f2f2;">
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Total Discount:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">$${subOrder.totalDiscount.toFixed(
+                  2
+                )}</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Net Price:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">$${subOrder.netPrice.toFixed(
+                  2
+                )}</td>
+              </tr>
+              <tr style="background-color: #f2f2f2;">
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Shipping Address:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
+                  subOrder.shippingAddress
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Payment Status:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
+                  subOrder.paymentStatus
+                }</td>
+              </tr>
+              <tr style="background-color: #f2f2f2;">
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Payment Method:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
+                  subOrder.paymentMethod
+                }</td>
+              </tr>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-weight: bold; font-size: 16px;">Shipping Status:</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd; font-size: 16px;">${
+                  subOrder.shippingStatus
+                }</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Order Items -->
+          <h3 style="color: #333; margin-top: 30px; font-size: 20px;">Order Items</h3>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <thead>
               <tr style="background-color: #f2f2f2;">
-                <th style="padding: 10px; text-align: left;">Product</th>
-                <th style="padding: 10px; text-align: center;">Quantity</th>
-                <th style="padding: 10px; text-align: right;">Price</th>
-                <th style="padding: 10px; text-align: right;">Discount</th>
-                <th style="padding: 10px; text-align: right;">Price After Discount</th>
+                <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd; font-size: 16px;">Product</th>
+                <th style="padding: 12px; text-align: center; border-bottom: 2px solid #ddd; font-size: 16px;">Quantity</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd; font-size: 16px;">Price</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd; font-size: 16px;">Discount</th>
+                <th style="padding: 12px; text-align: right; border-bottom: 2px solid #ddd; font-size: 16px;">Price After Discount</th>
               </tr>
             </thead>
             <tbody>
               ${orderItemsHTML}
             </tbody>
           </table>
-          
-          <p style="margin-top: 30px;">Please process this order as soon as possible.</p>
-          <p>Best regards,<br>E-commerce Application Team</p>
+
+          <p style="margin-top: 20px;">Thank you for your attention.</p>
+          <p>Best regards,</p>
+          <p>E-commerce Application Team</p>
         </div>
       </body>
       </html>
@@ -81,9 +139,9 @@ const sendWebsiteAdminOrderEmail = async (subOrder: IShopOrder) => {
 
   try {
     await transport.sendMail(mailOptions);
-    console.log("Order email sent to website admin");
-  } catch (err) {
-    console.error("Error sending order email to website admin:", err);
+    console.log("Email sent successfully");
+  } catch (error) {
+    console.error("Error sending email:", error);
   }
 };
 

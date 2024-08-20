@@ -1,4 +1,4 @@
-import { Schema, model,  } from "mongoose";
+import { Schema, model } from "mongoose";
 import {
   IOrder,
   PaymentMethod,
@@ -8,7 +8,7 @@ import {
 } from "./order.interface";
 import { ICartItem } from "./cartItem.interface";
 
-const itemsSchema = new Schema<ICartItem>({
+export const ItemSchema = new Schema<ICartItem>({
   product: {
     type: Schema.Types.ObjectId,
     ref: "Product",
@@ -39,7 +39,7 @@ export const OrderSchema: Schema = new Schema<IOrder>(
       ref: "User",
       required: true,
     },
-    items: [itemsSchema],
+    items: [ItemSchema],
     itemsQuantity: {
       type: Number,
       required: true,

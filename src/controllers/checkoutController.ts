@@ -13,13 +13,16 @@ import { CheckoutRequest } from "../shared-interfaces/request.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
 import { createOrderObject } from "../utils/checkoutUtils/createOrderObject";
 import { clearShoppingCart } from "../utils/checkoutUtils/clearUserShoppingCart";
 import { updateUserPurchaseHistory } from "../utils/checkoutUtils/updateUserPurchaseHistory";
 import { updateProductsStockQuantity } from "../utils/checkoutUtils/updateProductsStockQuantity";
 import { groupItemsByShop } from "../utils/checkoutUtils/groupShopCartItemsBySource";
+import {
+  createSubOrders,
+  GroupedItems,
+} from "../utils/checkoutUtils/createSupOrders";
 
 // modules imports
 import mongoose from "mongoose";
@@ -27,11 +30,6 @@ import Stripe from "stripe";
 
 // emails imports
 import checkoutConfirmationEmail from "../emails/users/checkoutConfirmationEmail";
-
-//----------------------------
-//Helper functions and types
-
-// TODO Create shop orders instance for shops based on the products they have in their shops
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: "2024-04-10",
@@ -66,6 +64,8 @@ export const checkoutWithCash = catchAsync(
     // groupe the items based on the shop or the website vender type
     const groups = groupItemsByShop(shoppingCart.items);
 
+    createSubOrders(groups as GroupedItems, userOrder);
+
     // Update the stock quantity of the products
     await updateProductsStockQuantity(shoppingCart, next);
 
@@ -93,13 +93,3 @@ export const checkoutWithCash = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-/* 
-
-group the items based on the shop and create a suborder for each shop
-
-then send emails to each vendor with the suborder details
-
-if there items come from the shop create also sup order for it and sending orders email for the webstie admin
-
-*/

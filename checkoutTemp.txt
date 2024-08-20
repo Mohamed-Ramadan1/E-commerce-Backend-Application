@@ -1,0 +1,242 @@
+  import ShopOrder from "../../models/shopOrderModal";
+  import { ItemSchema } from "../../models/orderModel";
+
+  import {
+    IShopOrder,
+    VendorType,
+    PaymentMethod,
+    PaymentStatus,
+    ShippingStatus,
+    OrderStatus,
+  } from "../../models/shopOrder.interface";
+  import { ICartItem } from "../../models/cartItem.interface";
+
+  import sendShopOrderEmail from "../../emails/shop/sendShopOrderEmail";
+  import sendWebsiteAdminOrderEmail from "../../emails/admins/sendWebsiteAdminOrderEmail";
+
+  import { ObjectId } from "mongoose";
+  import { IOrder } from "../../models/order.interface";
+  import { IShop } from "../../models/shop.interface";
+  import { IUser } from "../../models/user.interface";
+
+  /* 
+  the function will receive group of items and generate an the suborder .
+
+
+  {
+    shopId: '66997a358841fdbf7e6a025d',
+    items: [
+      {
+        _id: new ObjectId('66c1d73d3871d74e12a24d35'),
+        cart: new ObjectId('66a8ce3bca50e10610ae8d60'),
+        product: [Object],
+        quantity: 6,
+        price: 1199.94,
+        discount: 90,
+        priceAfterDiscount: 1109.94,
+        createdAt: 2024-08-18T11:13:01.462Z,
+        updatedAt: 2024-08-19T20:18:40.280Z,
+        __v: 0
+      },
+      {
+        _id: new ObjectId('66c3a8e434a7f0b75a8213f9'),
+        cart: new ObjectId('66a8ce3bca50e10610ae8d60'),
+        product: [Object],
+        quantity: 3,
+        price: 599.97,
+        discount: 45,
+        priceAfterDiscount: 554.97,
+        createdAt: 2024-08-19T20:19:48.806Z,
+        updatedAt: 2024-08-19T20:19:48.806Z,
+        __v: 0
+      }
+    ]
+  }
+
+
+  groupedItems = {
+    shopOrders: [ { shopId: '66997a358841fdbf7e6a025d', items: [Array] } ],
+    websiteItems: [
+      {
+        _id: new ObjectId('66c1d7523871d74e12a24d44'),
+        cart: new ObjectId('66a8ce3bca50e10610ae8d60'),
+        product: [Object],
+        quantity: 3,
+        price: 299.96999999999997,
+        discount: 30,
+        priceAfterDiscount: 269.96999999999997,
+        createdAt: 2024-08-18T11:13:22.956Z,
+        updatedAt: 2024-08-18T11:13:22.956Z,
+        __v: 0
+      }
+    ]
+  }
+
+    looping over each item and do this next steps  
+
+    calculate the totals data and after that create the order  
+    sending the email with the data 
+    this is the incoming data 
+
+  */
+
+  // interface GroupedItems {
+  //   shopOrders?:
+  //     | {
+  //         shopId: ObjectId;
+  //         items: ICartItem[];
+  //       }
+  //     | never[];
+  //   websiteItems?: ICartItem[];
+  // }
+  interface GroupedItems {
+    shopOrders?:
+      | {
+          shopId: ObjectId;
+          items: ICartItem[];
+        }[]
+      | never[];
+    websiteItems?: ICartItem[];
+  }
+
+  interface SubOrderBasicDetails {
+    mainOrder: ObjectId;
+    user: ObjectId;
+    vendorType: VendorType;
+    items: ICartItem[];
+    itemsQuantity: number;
+    subtotalPrice: number;
+    totalDiscount: number;
+    netPrice: number;
+    paymentStatus: string;
+    paymentMethod: string;
+    shippingStatus: string;
+    shippingAddress: string;
+    orderStatus: string;
+    discountCodes?: string[];
+  }
+
+  interface ShopOrderDetails extends SubOrderBasicDetails {
+    shop: ObjectId;
+    platformFee: number;
+  }
+
+  interface SubOrderOptionalDetails {
+    shopId?: ObjectId;
+    platformFee?: number;
+  }
+
+  const createSubOrderObject = (
+    mainOrder: IOrder,
+    vendorType: VendorType,
+    orderItems: ICartItem[],
+    totalPrice: number,
+    totalDiscount: number,
+    netPrice: number,
+    optionalDetails?: SubOrderOptionalDetails
+  ) => {
+    const baseDetails: SubOrderBasicDetails = {
+      mainOrder: mainOrder._id,
+      user: mainOrder.user,
+      vendorType: vendorType,
+      items: orderItems,
+      itemsQuantity: orderItems.length,
+      subtotalPrice: totalPrice,
+      totalDiscount: totalDiscount,
+      netPrice: netPrice,
+      paymentStatus: mainOrder.paymentStatus,
+      paymentMethod: mainOrder.paymentMethod,
+      shippingStatus: mainOrder.shippingStatus,
+      shippingAddress: mainOrder.shippingAddress,
+      orderStatus: mainOrder.orderStatus,
+      discountCodes: mainOrder.discountCodes,
+    };
+
+    if (optionalDetails) {
+      // Ensure that optionalDetails are provided and are valid
+      const shopOrderDetails: ShopOrderDetails = {
+        ...baseDetails,
+        shop: optionalDetails.shopId!,
+        platformFee: optionalDetails.platformFee!,
+      };
+
+      // Return the details with additional fields
+      return shopOrderDetails as ShopOrderDetails;
+    } else {
+      // Return basic details if no optional details are provided
+      return baseDetails as SubOrderBasicDetails;
+    }
+  };
+
+  export const createSubOrders = async (
+    groupedItems: GroupedItems,
+    mainOrder: IOrder
+  ) => {
+    /*
+      there sub order will be generated for each group the website items and the shopsOrders 
+      claculations contains 
+      --For shop orders
+        1)total discount
+        2)platformFee (the platform fee is 10% of the total netPrice)
+        3)netPrice
+
+      --For website orders
+          1)total discount
+          2)netPrice
+      */
+
+    const shopOrders = groupedItems.shopOrders || [];
+    const websiteItems = groupedItems.websiteItems || [];
+
+    // now it suppose to create array contains all created sup orders and return it
+    // now also suppose to create array contains the website order and add it in array
+
+    // groupe the the all shops ids
+    const shopsIds: ObjectId[] = shopOrders.map((shopOrder) => shopOrder.shopId);
+
+    // get the all shops
+    const shops: IShop[] = await ShopOrder.find({ _id: { $in: shopsIds } });
+
+    const subOrders: IShopOrder[] = [];
+
+    for (const shopOrder of shopOrders) {
+      const orderItems: ICartItem[] = shopOrder.items;
+
+      // calculate the totals
+      const totalPrice: number = orderItems.reduce(
+        (acc, item) => acc + item.priceAfterDiscount * item.quantity,
+        0
+      );
+      const totalDiscount: number = orderItems.reduce(
+        (acc, item) => acc + item.discount * item.quantity,
+        0
+      );
+      const netPrice: number = totalPrice - totalDiscount;
+
+      const platformFee: number = 0.1 * netPrice;
+
+      // sub order details
+      const subOrder: ShopOrderDetails = {
+        mainOrder: mainOrder._id,
+        shop: shopOrder.shopId,
+        user: mainOrder.user,
+        vendorType: VendorType.SHOP,
+        items: orderItems,
+        itemsQuantity: orderItems.length,
+        subtotalPrice: totalPrice,
+        totalDiscount,
+        netPrice,
+        platformFee,
+        paymentStatus: mainOrder.paymentStatus,
+        paymentMethod: mainOrder.paymentMethod,
+        shippingStatus: mainOrder.shippingStatus,
+        shippingAddress: mainOrder.shippingAddress,
+        orderStatus: mainOrder.orderStatus,
+        discountCodes: mainOrder.discountCodes,
+      };
+      subOrders.push(subOrder as IShopOrder);
+    }
+
+    // working on the website items and its order
+    // looping throw the array and calcualte the data and then create the object of the order and push them into the suborders array
+  };

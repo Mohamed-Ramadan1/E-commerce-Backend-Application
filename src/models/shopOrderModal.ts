@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 // imports interface of the shop-order and enums
-
+import { cartItemSchema } from "./cartItemModel";
 import {
   IShopOrder,
   PaymentStatus,
@@ -10,95 +10,62 @@ import {
   VendorType,
 } from "./shopOrder.interface";
 
-const itemsSchema = new Schema({
-  product: {
-    type: Schema.Types.ObjectId,
-    ref: "Product",
-    required: true,
-  },
-  quantity: {
-    type: Number,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  discount: {
-    type: Number,
-    required: true,
-  },
-  priceAfterDiscount: {
-    type: Number,
-    required: true,
-  },
-});
-
-export const ShopOrderSchema: Schema = new Schema<IShopOrder>(
+const ShopOrderSchema = new Schema(
   {
+    mainOrder: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Order",
+    },
     user: {
       type: Schema.Types.ObjectId,
-      ref: "User",
       required: true,
-    },
-
-    shop: {
-      type: Schema.Types.ObjectId,
-      ref: "Shop",
+      ref: "User",
     },
     vendorType: {
       type: String,
       enum: Object.values(VendorType),
       required: true,
     },
-    masterOrder: {
+    shop: {
       type: Schema.Types.ObjectId,
-      ref: "Order",
-      required: true,
+      ref: "Shop",
     },
-    items: [itemsSchema],
+    items: [cartItemSchema],
     itemsQuantity: {
       type: Number,
       required: true,
     },
-    subtotal: {
-      type: Number,
-      required: true,
-    },
-    totalPrice: {
+    subtotalPrice: {
       type: Number,
       required: true,
     },
     totalDiscount: {
       type: Number,
       required: true,
-      default: 0,
     },
-    shippingCost: {
+    platformFee: {
+      type: Number,
+    },
+    netPrice: {
       type: Number,
       required: true,
-      default: 0,
     },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
+
     paymentStatus: {
       type: String,
-      required: true,
       enum: Object.values(PaymentStatus),
-      default: PaymentStatus.PAYMENT_ON_DELIVERY,
+      required: true,
     },
     paymentMethod: {
       type: String,
-      required: true,
       enum: Object.values(PaymentMethod),
+      required: true,
     },
     shippingStatus: {
       type: String,
-      required: true,
       enum: Object.values(ShippingStatus),
-      default: ShippingStatus.PENDING,
+      required: true,
     },
     shippingAddress: {
       type: String,
@@ -106,56 +73,24 @@ export const ShopOrderSchema: Schema = new Schema<IShopOrder>(
     },
     orderStatus: {
       type: String,
-      required: true,
       enum: Object.values(OrderStatus),
-      default: OrderStatus.PROCESSING,
-    },
-    discountCodes: {
-      type: [String],
-    },
-    taxAmount: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    platformFee: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    shopRevenue: {
-      type: Number,
       required: true,
     },
+    discountCodes: [
+      {
+        type: String,
+      },
+    ],
     archived: {
       type: Boolean,
+      required: true,
       default: false,
-    },
-    estimatedDeliveryDate: {
-      type: Date,
-    },
-    actualDeliveryDate: {
-      type: Date,
-    },
-    customerNotes: {
-      type: String,
-    },
-    shopNotes: {
-      type: String,
-    },
-    refundAmount: {
-      type: Number,
-      default: 0,
-    },
-    refundReason: {
-      type: String,
     },
   },
   {
     timestamps: true,
   }
 );
-
 // Indexes for improved query performance
 ShopOrderSchema.index({ user: 1, shop: 1 });
 ShopOrderSchema.index({ masterOrder: 1 });
