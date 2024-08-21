@@ -1,14 +1,6 @@
 /* 
 
-// TODO : Completed Shop settings controller
-
-// TODO : Completed shops management controller 
-
-TODO checkout prcoess refactoring 
-
 TODO : Refactore the code interface for the modals to meet the new change on the data.
-
-TODO : Create notification system with sockit.io
 
 TODO : Activate accounts request.
 
@@ -22,6 +14,20 @@ TODO : Payment gateway integration.
 TODO : Products Reviews and Ratings
 
 !TODO : ensure user not return amount of product greater than the amount of product he bought. 
+
+TODO : Integrate the payment gateway with the application.
+
+TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feilds / filter)
+
+TODO : Define application rules and permission advanced level for the users.
+
+// TODO : Completed Shop settings controller
+
+// TODO : Completed shops management controller 
+
+// TODO checkout prcoess refactoring 
+
+// TODO : Create notification system with sockit.io
 
 // TODO : Shop support tickets 
 
@@ -52,13 +58,6 @@ TODO : Create automated task for move the products form the products collection 
 
 TODO : Notify the shops owners and traders if the product out of stock.
 
-TODO : Integrate the payment gateway with the application.
-
-TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feailds / filter)
-
-TODO : Define application rules and premission advanced level 
-
-
 TODO : Testing.
 
 
@@ -69,10 +68,6 @@ TODO : Testing.
 TODO : Planning for inventory management controller
 
 TODO : planning for shipping management process
-
-
-
-
 
 
 

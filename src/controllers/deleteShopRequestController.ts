@@ -7,7 +7,10 @@ import ProcessedDeleteShopRequest from "../models/processedDeleteShopRequestModa
 import Shop from "../models/shopModal";
 
 // interface imports
-import { IDeleteShopRequest } from "../models/deleteShopRequest.interface";
+import {
+  IDeleteShopRequest,
+  RequestStatus,
+} from "../models/deleteShopRequest.interface";
 import { IProcessedDeletedShopRequest } from "../models/processedDeleteShopRequest.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { DeleteShopRequestReq } from "../shared-interfaces/deleteShopRequestReq.interface";
@@ -122,8 +125,8 @@ export const approveDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const { shopOwner, deleteShopRequest, shop } = req;
     // approve the delete shop request
-    deleteShopRequest.requestStatus = "approved";
-    deleteShopRequest.processedBy = req.user._id;
+    deleteShopRequest.requestStatus = RequestStatus.Approved;
+    deleteShopRequest.processedBy = req.user;
     await deleteShopRequest.save({ validateBeforeSave: false });
     // create a processed delete shop request
     const processedDeletedRequestObject: object = {
@@ -176,8 +179,8 @@ export const rejectDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const { shopOwner, deleteShopRequest, shop } = req;
     // approve the delete shop request
-    deleteShopRequest.requestStatus = "rejected";
-    deleteShopRequest.processedBy = req.user._id;
+    deleteShopRequest.requestStatus = RequestStatus.Rejected;
+    deleteShopRequest.processedBy = req.user;
     await deleteShopRequest.save({ validateBeforeSave: false });
     // create a processed delete shop request
     const processedDeletedRequestObject: object = {
@@ -221,8 +224,8 @@ export const cancelDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const { shopOwner, deleteShopRequest, shop } = req;
     // approve the delete shop request
-    deleteShopRequest.requestStatus = "cancelled";
-    deleteShopRequest.processedBy = req.user._id;
+    deleteShopRequest.requestStatus = RequestStatus.Cancelled;
+    deleteShopRequest.processedBy = req.user;
     await deleteShopRequest.save({ validateBeforeSave: false });
     // create a processed delete shop request
     const processedDeletedRequestObject: object = {

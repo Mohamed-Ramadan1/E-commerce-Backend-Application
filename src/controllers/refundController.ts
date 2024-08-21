@@ -6,7 +6,7 @@ import RefundRequest from "../models/refundModel";
 import ProcessedRefundRequests from "../models/processedRefundRequestsModal";
 
 // interface imports
-import { IRefundRequest } from "../models/refund.interface";
+import { IRefundRequest, RefundStatus } from "../models/refund.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import {
   AuthUserRequest,
@@ -192,7 +192,7 @@ export const confirmRefundRequest = catchAsync(
     // update the refund request
     userToRefund.giftCard += refundRequest.refundAmount;
     await userToRefund.save({ validateBeforeSave: false });
-    refundRequest.refundStatus = "confirmed";
+    refundRequest.refundStatus = RefundStatus.Confirmed;
     refundRequest.processedBy = req.user._id;
     refundRequest.refundProcessedAt = new Date();
     await refundRequest.save();
@@ -232,7 +232,7 @@ export const rejectRefundRequest = catchAsync(
       return next(new AppError("Refund request is already rejected", 400));
     }
     const { userToRefund, order } = req;
-    refundRequest.refundStatus = "rejected";
+    refundRequest.refundStatus = RefundStatus.Rejected;
     await refundRequest.save();
 
     handelProcessedRefundRequest(

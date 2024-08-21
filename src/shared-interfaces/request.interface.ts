@@ -63,46 +63,7 @@ export interface RequestWithProduct extends Request {
   body: IProduct;
 }
 
-export interface DecrementProductQuantityRequest extends AuthUserRequest {
-  body: {
-    productId: Types.ObjectId;
-    quantity: number;
-  };
-}
 
-export interface RequestWithProductAndUser extends Request {
-  user: IUser;
-  userShopCart: IShoppingCart;
-  product: IProduct;
-  userShoppingCartItem: ICartItem | null;
-  body: {
-    productId: Types.ObjectId;
-    quantity: number;
-    discount?: number;
-  };
-  headers: {
-    authorization: string;
-  };
-  params: {
-    id: string;
-  };
-}
-
-export interface CheckoutRequest extends Request, AuthUserRequest {
-  user: IUser;
-  shoppingCart: IShoppingCart;
-  shipAddress: string;
-  phoneNumber: string;
-
-  headers: {
-    authorization: string;
-  };
-
-  body: {
-    shippingAddress?: string;
-    phoneNumber?: string;
-  };
-}
 
 export interface ReviewRequest extends Request {
   user: IUser;

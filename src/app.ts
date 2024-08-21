@@ -10,6 +10,7 @@ import mongoSanitize from "express-mongo-sanitize";
 
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
+import shoppingCartRoutes from "./routes/shoppingCartRoutes";
 import productRoutes from "./routes/productsRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
 import checkoutRoutes from "./routes/checkoutRoutes";
@@ -70,6 +71,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/shopping-cart", shoppingCartRoutes);
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/wishlist", wishlistRoutes);
 app.use("/api/v1/checkout", checkoutRoutes);

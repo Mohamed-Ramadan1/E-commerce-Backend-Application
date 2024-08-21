@@ -7,7 +7,7 @@ import RefundRequest from "../models/refundModel";
 import User from "../models/userModel";
 
 // interface imports
-import { IOrder } from "../models/order.interface";
+import { IOrder, OrderStatus } from "../models/order.interface";
 import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import {
@@ -88,7 +88,7 @@ export const cancelOrder = catchAsync(
       );
     }
 
-    order.orderStatus = "cancelled";
+    order.orderStatus = OrderStatus.Cancelled;
     await order.save();
     const user = (await User.findById(order.user)) as IUser;
 

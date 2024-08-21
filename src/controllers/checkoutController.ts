@@ -9,7 +9,7 @@ import CartItem from "../models/cartItemModel";
 import { IOrder } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
-import { CheckoutRequest } from "../shared-interfaces/request.interface";
+import { CheckoutRequest } from "../shared-interfaces/checkoutRequest.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
