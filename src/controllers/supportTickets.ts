@@ -10,7 +10,10 @@ import User from "../models/userModel";
 
 import { SupportTicketRequest } from "../shared-interfaces/supportTicketsRequest.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { ISupportTicket } from "../models/supportTickets.interface";
+import {
+  ISupportTicket,
+  TicketStatus,
+} from "../models/supportTickets.interface";
 import { IUser } from "../models/user.interface";
 import { IProcessedSupportTickets } from "../models/processedSupportTickets.Interface";
 
@@ -22,6 +25,7 @@ import { sendResponse } from "../utils/sendResponse";
 // emails imports
 import supportTicketReceivedConfirmationEmail from "../emails/admins/supportTicketRecivedConfirmationEmail";
 import sendSupportTicketResponseEmail from "../emails/users/userSupportTicketResponseEmail";
+import { SupportTicketStatus } from "../models/shopSupportTicket.interface";
 
 //---------
 // Helper functions and types
@@ -290,7 +294,7 @@ export const supportTicketResponse = catchAsync(
     }
 
     // update support ticket data.
-    supportTicket.status = "closed";
+    supportTicket.status = TicketStatus.Closed;
     supportTicket.processedBy = {
       user: req.user._id,
       name: req.user.name,

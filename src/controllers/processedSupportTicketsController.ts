@@ -1,12 +1,10 @@
 // system imports
 import { NextFunction, Response } from "express";
 
-import User from "../models/userModel";
 import ProcessedSupportTicket from "../models/processedSupportTicketsModal";
 
 // interface imports
 import { IProcessedSupportTickets } from "../models/processedSupportTickets.Interface";
-import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { ProcessedSupportTicketsRequest } from "../shared-interfaces/processedSupportTicketsRequest.interface";
 

@@ -1,11 +1,14 @@
 import { Document, Schema, Types } from "mongoose";
+import { IShoppingCart } from "./shoppingCart.interface";
+import { IShop } from "./shop.interface";
+
 export interface IUser extends Document {
   googleId?: String;
   _id: Schema.Types.ObjectId;
   name: string;
   email: string;
   phoneNumber: string;
-  shoppingCart: Schema.Types.ObjectId;
+  shoppingCart: IShoppingCart;
   giftCard: number;
   photo?: string;
   photoPublicId?: string;
@@ -19,7 +22,7 @@ export interface IUser extends Document {
   shippingAddress?: string;
   active: boolean;
   verified: boolean;
-  myShop: Schema.Types.ObjectId | undefined;
+  myShop: IShop | undefined;
   emailVerificationToken: string | undefined;
   isModified: (path: string) => boolean;
   createEmailVerificationToken: () => string;

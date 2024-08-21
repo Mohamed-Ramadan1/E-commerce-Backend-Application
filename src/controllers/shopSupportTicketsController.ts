@@ -9,7 +9,10 @@ import { Schema } from "mongoose";
 import ShopSupportTicket from "../models/shopSupportTicketModal";
 
 // interface imports
-import { IShopSupportTicket } from "../models/shopSupportTicket.interface";
+import {
+  IShopSupportTicket,
+  SupportTicketStatus,
+} from "../models/shopSupportTicket.interface";
 import { ShopSupportTicketRequest } from "../shared-interfaces/shopSupportTicketRequest.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
@@ -338,7 +341,7 @@ export const processSupportTicket = catchAsync(
     const { shopOwner, shop, ticket } = req;
     const { ticketResponse } = req.body;
 
-    ticket.status = "closed";
+    ticket.status = SupportTicketStatus.Closed;
     ticket.ticketResponse = ticketResponse;
     ticket.ticketProcessedDate = new Date();
     ticket.processedBy = {

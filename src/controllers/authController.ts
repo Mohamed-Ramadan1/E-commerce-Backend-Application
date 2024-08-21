@@ -46,7 +46,7 @@ export const signUpWithEmail = catchAsync(
       user: user._id,
     });
 
-    user.shoppingCart = shoppingCart._id;
+    user.shoppingCart = shoppingCart;
     // generate verification token and send it with the email and late the verification to the last stage
     const verificationToken: string = user.createEmailVerificationToken();
     user.emailVerificationToken = verificationToken;

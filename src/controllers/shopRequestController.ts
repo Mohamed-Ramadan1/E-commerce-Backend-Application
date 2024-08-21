@@ -7,7 +7,7 @@ import Shop from "../models/shopModal";
 import ProcessedCreateShopRequests from "../models/processedCreateShopRequestsModal";
 
 // interface imports
-import { IShopRequest } from "../models/shopRequest.interface";
+import { IShopRequest, RequestStatus } from "../models/shopRequest.interface";
 import { ShopRequestReq } from "../shared-interfaces/request.interface";
 import { IShop } from "../models/shop.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
@@ -90,7 +90,7 @@ const createProcessedShopRequest = async (
 };
 
 const updateAndSaveShopRequestDocument = async (
-  shopRequestStatus: "approved" | "rejected" | "cancelled",
+  shopRequestStatus: RequestStatus,
   shopRequest: IShopRequest,
   processedBy: IUser
 ) => {
@@ -106,7 +106,11 @@ export const cancelShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
     const { shopRequest } = req;
 
-    await updateAndSaveShopRequestDocument("cancelled", shopRequest, req.user);
+    await updateAndSaveShopRequestDocument(
+      RequestStatus.Cancelled,
+      shopRequest,
+      req.user
+    );
 
     // send cancel request email confirmation
     shopRequestCanceledEmail(req.user, shopRequest);
@@ -226,11 +230,15 @@ export const confirmShopRequest = catchAsync(
     const shop: IShop = await Shop.create(shopDataObject);
 
     // assign the shop to the user
-    userToOpenShop.myShop = shop._id;
+    userToOpenShop.myShop = shop;
     await userToOpenShop.save({ validateBeforeSave: false });
 
     // update the shop request data  and save it.
-    await updateAndSaveShopRequestDocument("approved", shopRequest, req.user);
+    await updateAndSaveShopRequestDocument(
+      RequestStatus.Approved,
+      shopRequest,
+      req.user
+    );
 
     // send confirmation email to tell the user his shop has been created successfully
     approveShopRequestConfirmationEmail(userToOpenShop, shop);
@@ -262,7 +270,11 @@ export const rejectShopRequest = catchAsync(
     const { shopRequest, userToOpenShop } = req;
 
     // update the shop request data  and save it.
-    await updateAndSaveShopRequestDocument("rejected", shopRequest, req.user);
+    await updateAndSaveShopRequestDocument(
+      RequestStatus.Rejected,
+      shopRequest,
+      req.user
+    );
 
     // send rejection email to the user
     rejectShopRequestConfirmationEmail(

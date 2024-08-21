@@ -8,10 +8,6 @@ import cloudinary from "cloudinary";
 // models imports
 import User from "../models/userModel";
 import ShoppingCart from "../models/shoppingCartModel";
-import Wishlist from "../models/wishlistModel";
-import CartItem from "../models/cartItemModel";
-import Shop from "../models/shopModal";
-import ShopRequest from "../models/shopRequestModal";
 
 // interface imports
 import { ApiResponse } from "../shared-interfaces/response.interface";
@@ -27,32 +23,14 @@ import {
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import { cascadeUserDeletion } from "../utils/userUtils/deleteUserRelatedData";
 import { createSendToken } from "../utils/createSendToken";
 import { sendResponse } from "../utils/sendResponse";
 
 //-----------------------------------------
 
 // Helper functions
-type DeleteResult =
-  | { deletedCount?: number }
-  | { acknowledged: boolean; deletedCount: number }
-  | null;
 
-// delete all user related data when deleting the user.
-async function cascadeUserDeletion(user: IUser) {
-  const deleteOperations: Promise<DeleteResult>[] = [
-    Wishlist.deleteMany({ user: user._id }),
-    ShoppingCart.deleteOne({ user: user._id }),
-    CartItem.deleteMany({ cart: user._id }),
-    ShopRequest.findOneAndDelete({ user: user._id }),
-  ];
-
-  if (user.myShop) {
-    deleteOperations.push(Shop.deleteOne({ _id: user.myShop }));
-  }
-
-  await Promise.all(deleteOperations);
-}
 //-----------------------------------------
 
 // admin operations
