@@ -26,6 +26,8 @@ import { createSendToken, createLogOutToken } from "../utils/createSendToken";
 import sendVerificationMail from "../emails/users/accountVerificationEmail";
 import sendResetPasswordEmail from "../emails/users/resetPasswordEmail";
 
+
+
 export const signUpWithEmail = catchAsync(
   async (req: SingUpRequest, res: Response, next: NextFunction) => {
     const { name, email, phoneNumber, password, passwordConfirmation } =

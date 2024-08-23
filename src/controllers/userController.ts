@@ -27,12 +27,6 @@ import { cascadeUserDeletion } from "../utils/userUtils/deleteUserRelatedData";
 import { createSendToken } from "../utils/createSendToken";
 import { sendResponse } from "../utils/sendResponse";
 
-//-----------------------------------------
-
-// Helper functions
-
-//-----------------------------------------
-
 // admin operations
 
 // get all users
@@ -269,7 +263,7 @@ export const deleteMe = catchAsync(
   }
 );
 
-//get current logged in
+//get current logged in user
 export const getMe = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
     const me: IUser | null = await User.findById(req.user._id);

@@ -25,6 +25,7 @@ export enum OrderStatus {
 export interface IOrder extends Document {
   _id: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
+  paymentSessionId?: string;
   items: ICartItem[];
   itemsQuantity: number;
   totalPrice: number;

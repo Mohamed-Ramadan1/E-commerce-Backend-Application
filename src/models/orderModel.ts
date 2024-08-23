@@ -39,6 +39,10 @@ export const OrderSchema: Schema = new Schema<IOrder>(
       ref: "User",
       required: true,
     },
+    paymentSessionId: {
+      type: String,
+    },
+
     items: [ItemSchema],
     itemsQuantity: {
       type: Number,
