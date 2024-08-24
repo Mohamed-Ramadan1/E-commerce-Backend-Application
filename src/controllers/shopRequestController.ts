@@ -10,36 +10,19 @@ import ProcessedCreateShopRequests from "../models/processedCreateShopRequestsMo
 import { IShopRequest, RequestStatus } from "../models/shopRequest.interface";
 import { ShopRequestReq } from "../shared-interfaces/request.interface";
 import { IShop } from "../models/shop.interface";
+import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 // email imports
 import receiveShopRequestConfirmationEmail from "../emails/shop/receiveShopRequestConfirmationEmail";
 import shopRequestCanceledEmail from "../emails/shop/cancelShopRequestConfirmationEmail";
 import rejectShopRequestConfirmationEmail from "../emails/shop/rejectShopRequestConfirmationEmail";
 import approveShopRequestConfirmationEmail from "../emails/shop/approveShopRequestConfirmationEmail";
-import { IUser } from "../models/user.interface";
-
-/*
-//TODO: implement the processed create shop request is not completed 
-//TODO: fix the related problem withe the processed create shop request .
-//TODO: create a new shop request 
-//TODO: get all pending shop requests
-//TODO: get a single shop request
-//TODO: update a shop request
-//TODO: delete a shop request
-//TODO: confirm a shop request / approve a shop request
-//TODO: reject a shop request / decline a shop request
-//TODO: Cancel a shop request
-
-
-  //TODO: send approved request email
- //TODO: send Cancel request email
- //TODO: send rejected request email
-*/
 
 //-----------------
 // Helper functions

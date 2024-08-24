@@ -27,13 +27,20 @@ import AppError from "../utils/ApplicationError";
 import { cascadeUserDeletion } from "../utils/userUtils/deleteUserRelatedData";
 import { createSendToken } from "../utils/createSendToken";
 import { sendResponse } from "../utils/sendResponse";
+import APIFeatures from "../utils/apiKeyFeature";
 
 // admin operations
 
 // get all users
 export const getAllUsers = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    const users: IUser[] | null = await User.find();
+    const features = new APIFeatures(User.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const users: IUser[] | null = await features.execute();
     const response: ApiResponse<IUser[]> = {
       status: "success",
       results: users.length,

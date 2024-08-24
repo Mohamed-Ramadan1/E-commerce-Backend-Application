@@ -11,6 +11,7 @@ import { ProcessedSupportTicketsRequest } from "../shared-interfaces/processedSu
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
 // get all processed support tickets.

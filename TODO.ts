@@ -9,26 +9,21 @@ TODO: Code refactoring and review logic and comments
 3) Support tickets (for users)
 4) Support tickets (for shops)
 
- TODO : Cascading delete the realted data 
+ TODO : Cascading delete the realated data 
 
 TODO: Emails style and content enhancement
 
-TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feilds / filter)
+TODO : using transactions for all the above controllers
 
 TODO : Define application rules and permission advanced level for the users.
 
 
 TODO : Create full analytics for the  orders ,shops and products.
 
-TODO : using transactions for all the above controllers
 
 TODO : Create schduler tasks to send reports for shops owners and traders. node corn
 
-TODO : Create message system between admins and users 
 
-TODO : Create message system between admins and shops owners and traders.
-
-TODO : Create automated task for move the products form the products collection if it out of stock.
 
 *************************************************************************************
 
@@ -37,6 +32,8 @@ TODO : Planning for inventory management controller
 TODO : planning for shipping management process.
 
 **************************************************************************************
+
+// TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feilds / filter)
 
 // TODO : Products Reviews and Ratings
 

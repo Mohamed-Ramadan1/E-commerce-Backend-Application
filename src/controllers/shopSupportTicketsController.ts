@@ -20,7 +20,7 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
-
+import APIFeatures from "../utils/apiKeyFeature";
 // emails imports
 import sendShopSupportTicketReceivedEmail from "../emails/shop/shopSupportTicketRecivedConfirmationEmail";
 import sendShopSupportTicketProcessedEmail from "../emails/shop/shopSupportTicketResponseEmail";
@@ -88,9 +88,16 @@ export const openShopSupportTicket = catchAsync(
 // get all tickets for a shop
 export const getMyShopSupportTickets = catchAsync(
   async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {
-    const tickets: IShopSupportTicket[] = await ShopSupportTicket.find({
-      shop: req.user.myShop,
-    });
+    const features = new APIFeatures(
+      ShopSupportTicket.find({ shop: req.user.myShop }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const tickets: IShopSupportTicket[] = await features.execute();
 
     const response: ApiResponse<IShopSupportTicket[]> = {
       status: "success",
@@ -123,11 +130,6 @@ export const getMyShopSupportTicket = catchAsync(
 // update a ticket for a shop
 export const updateMyShopSupportTicket = catchAsync(
   async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {
-    // check the comming data and based of if result add them
-    // check if the file and if do cloudinary upload and delete the old one then add the udpated to the data object
-    // update the ticket with the new data object
-    // send the response back with the updated ticket
-
     // extract body data
     const { subject, description, category } = req.body;
 
@@ -236,7 +238,13 @@ export const createShopSupportTicket = catchAsync(
 // get all shops tickets
 export const getShopSupportTickets = catchAsync(
   async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {
-    const tickets: IShopSupportTicket[] = await ShopSupportTicket.find();
+    const features = new APIFeatures(ShopSupportTicket.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const tickets: IShopSupportTicket[] = await features.execute();
 
     const response: ApiResponse<IShopSupportTicket[]> = {
       status: "success",
@@ -331,8 +339,6 @@ export const deleteShopSupportTicket = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-// TODO: implement this function after creating the processed ticket logic  to integrate with
 
 // process a shop ticket by id.
 export const processSupportTicket = catchAsync(

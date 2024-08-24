@@ -21,7 +21,7 @@ import { IProcessedSupportTickets } from "../models/processedSupportTickets.Inte
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
 import { sendResponse } from "../utils/sendResponse";
-
+import APIFeatures from "../utils/apiKeyFeature";
 // emails imports
 import supportTicketReceivedConfirmationEmail from "../emails/admins/supportTicketRecivedConfirmationEmail";
 import sendSupportTicketResponseEmail from "../emails/users/userSupportTicketResponseEmail";
@@ -71,6 +71,7 @@ const handelProcessedSupportTicket = async (
 export const openSupportTicket = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
     const { subject, description, category } = req.body;
+
     const supportTicket: ISupportTicket = await SupportTicket.create({
       user: req.user._id,
       subject,
@@ -90,9 +91,17 @@ export const openSupportTicket = catchAsync(
 // get all user support tickets
 export const getMySupportTickets = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
-    const supportTickets: ISupportTicket[] | null = await SupportTicket.find({
-      user: req.user._id,
-    });
+    const features = new APIFeatures(
+      SupportTicket.find({ user: req.user._id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const supportTickets: ISupportTicket[] | null = await features.execute();
+
     const response: ApiResponse<ISupportTicket[]> = {
       status: "success",
       results: supportTickets.length,
@@ -174,7 +183,13 @@ export const deleteMySupportTicket = catchAsync(
 // get all support tickets
 export const getSupportTickets = catchAsync(
   async (req: SupportTicketRequest, res: Response, next: NextFunction) => {
-    const supportTickets: ISupportTicket[] | null = await SupportTicket.find();
+    const features = new APIFeatures(SupportTicket.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const supportTickets: ISupportTicket[] | null = await features.execute();
     const response: ApiResponse<ISupportTicket[]> = {
       status: "success",
       results: supportTickets.length,

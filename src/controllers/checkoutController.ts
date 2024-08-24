@@ -19,6 +19,7 @@ import { CheckoutRequest } from "../shared-interfaces/checkoutRequest.interface"
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 import { createOrderObject } from "../utils/checkoutUtils/createOrderObject";
 import { clearShoppingCart } from "../utils/checkoutUtils/clearUserShoppingCart";

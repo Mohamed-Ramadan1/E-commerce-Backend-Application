@@ -1,15 +1,16 @@
-import { Query } from "mongoose";
+import { Query, Document } from "mongoose";
+import { ParsedQs } from "qs";
 
-interface APIFeaturesInterface {
-  query: Query<any, any>;
-  queryString: { [key: string]: any };
+interface APIFeaturesInterface<T extends Document> {
+  query: Query<T[], T>;
+  queryString: ParsedQs;
 }
 
-class APIFeatures implements APIFeaturesInterface {
-  query: Query<any, any>;
-  queryString: { [key: string]: any };
+class APIFeatures<T extends Document> implements APIFeaturesInterface<T> {
+  query: Query<T[], T>;
+  queryString: ParsedQs;
 
-  constructor(query: Query<any, any>, queryString: { [key: string]: any }) {
+  constructor(query: Query<T[], T>, queryString: ParsedQs) {
     this.query = query;
     this.queryString = queryString;
   }
@@ -26,17 +27,23 @@ class APIFeatures implements APIFeaturesInterface {
     this.query = this.query.find(JSON.parse(queryStr));
 
     // Add search functionality
-    if (this.queryString.search) {
-      this.query = this.query.find({
-        $text: { $search: this.queryString.search },
-      });
+    if (typeof this.queryString.search === "string") {
+      try {
+        this.query = this.query.find({
+          $text: { $search: this.queryString.search },
+        });
+      } catch (error) {
+        console.warn(
+          "Text search failed. Ensure text index is set up properly."
+        );
+      }
     }
 
     return this;
   }
 
   sort() {
-    if (this.queryString.sort) {
+    if (typeof this.queryString.sort === "string") {
       const sortBy = this.queryString.sort.split(",").join(" ");
       this.query = this.query.sort(sortBy);
     } else {
@@ -47,9 +54,12 @@ class APIFeatures implements APIFeaturesInterface {
   }
 
   limitFields() {
-    if (this.queryString.fields) {
+    if (typeof this.queryString.fields === "string") {
       const fields = this.queryString.fields.split(",").join(" ");
-      this.query = this.query.select(fields);
+      // Ensure _id is always included unless explicitly excluded
+      this.query = this.query.select(
+        fields.includes("-_id") ? fields : `${fields} _id`
+      );
     } else {
       this.query = this.query.select("-__v");
     }
@@ -58,17 +68,28 @@ class APIFeatures implements APIFeaturesInterface {
   }
 
   paginate() {
-    const page = this.queryString.page * 1 || 1;
-    const limit = this.queryString.limit * 1 || 100;
-    const skip = (page - 1) * limit;
+    const page =
+      typeof this.queryString.page === "string"
+        ? parseInt(this.queryString.page)
+        : 1;
+    const limit =
+      typeof this.queryString.limit === "string"
+        ? parseInt(this.queryString.limit)
+        : 10;
+    const skip = (Math.max(1, page) - 1) * Math.max(1, Math.min(100, limit));
 
-    this.query = this.query.skip(skip).limit(limit);
+    this.query = this.query.skip(skip).limit(Math.max(1, Math.min(100, limit)));
 
     return this;
   }
 
-  async execute() {
-    return await this.query;
+  async execute(): Promise<T[]> {
+    try {
+      return await this.query;
+    } catch (error) {
+      console.error("Error executing query:", error);
+      throw new Error("Failed to execute query");
+    }
   }
 }
 

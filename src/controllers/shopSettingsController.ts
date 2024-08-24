@@ -22,6 +22,7 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
+import APIFeatures from "../utils/apiKeyFeature";
 
 // emails imports
 import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";

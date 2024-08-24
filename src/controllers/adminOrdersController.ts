@@ -18,6 +18,7 @@ import {
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
 // emails imports
@@ -26,20 +27,13 @@ import confirmOrderDelivered from "../emails/admins/deliverOrderEmail";
 import confirmOrderCancellation from "../emails/admins/adminOrderCancellationOrdreConfirmation";
 import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmationEmail";
 
-/*
-get all orders 
-get order
-update order status
-update shipping status
-
- TODO: Get orders status
-
-*/
-
 //get All Orders
 export const getOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const orders: IOrder[] = await Order.find();
+    const apiFeatures = new APIFeatures(Order.find(), req.query) 
+
+    const orders: IOrder[] = await apiFeatures.execute();
+
     const response: ApiResponse<IOrder[]> = {
       status: "success",
       results: orders.length,

@@ -14,15 +14,9 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
-/*
-TODO :create processed shop request
-//TODO: get all processed shop requests
-//TODO: get processed shop request
-//TODO: update processed shop request
-//TODO: delete processed shop request
-*/
 
 export const getAllProcessedShopRequests = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

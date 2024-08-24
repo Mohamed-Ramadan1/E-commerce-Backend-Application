@@ -13,12 +13,20 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
 import { sendResponse } from "../utils/sendResponse";
-
+import APIFeatures from "../utils/apiKeyFeature";
 export const getWishlist = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const wishlist: IWishlistItem[] | null = await Wishlist.find({
-      user: req.user._id,
-    });
+    const features = new APIFeatures(
+      Wishlist.find({ user: req.user._id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const wishlist: IWishlistItem[] | null = await features.execute();
+
     const response: ApiResponse<IWishlistItem[]> = {
       status: "success",
       results: wishlist.length,

@@ -19,6 +19,7 @@ import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
 import { cascadeShopDeletion } from "../utils/shopUtils/deleteShopRelatedData";
 import { IProduct } from "../models/product.interface";
+import APIFeatures from "../utils/apiKeyFeature";
 
 // get all shops.
 export const getAllShops = catchAsync(

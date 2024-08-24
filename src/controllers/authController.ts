@@ -20,6 +20,7 @@ import {
 // utils imports
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
+import APIFeatures from "../utils/apiKeyFeature";
 import { createSendToken, createLogOutToken } from "../utils/createSendToken";
 
 // emails imports

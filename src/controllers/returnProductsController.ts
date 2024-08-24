@@ -11,13 +11,13 @@ import { IReturnRequest } from "../models/returnProducts.interface";
 import { IRefundRequest } from "../models/refund.interface";
 import { IOrder } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { IProduct } from "../models/product.interface";
 import { ReturnItemsRequest } from "../shared-interfaces/request.interface";
 import { IUser } from "../models/user.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
 //emails imports

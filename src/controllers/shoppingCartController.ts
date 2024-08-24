@@ -13,6 +13,7 @@ import { ShoppingCartRequest } from "../shared-interfaces/shoppingCartRequest.in
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
 //-------------------------

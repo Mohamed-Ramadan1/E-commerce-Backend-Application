@@ -11,6 +11,7 @@ import { IReview } from "../models/review.interface";
 // utils imports
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
+import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
 export const getReviews = catchAsync(
