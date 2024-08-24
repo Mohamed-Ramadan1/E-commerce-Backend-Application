@@ -1,8 +1,9 @@
-import { Schema, Model, model } from "mongoose";
+import { Schema, Model, model, Query } from "mongoose";
 import { IReview } from "./review.interface";
 import Product from "./productModel";
 
-const reviewSchema: Schema = new Schema<IReview>(
+// Define the Review schema
+const reviewSchema: Schema<IReview> = new Schema<IReview>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -26,6 +27,7 @@ const reviewSchema: Schema = new Schema<IReview>(
   { timestamps: true }
 );
 
+// Static method to calculate average ratings
 reviewSchema.statics.calcAverageRatings = async function (productId: string) {
   const stats = await this.aggregate([
     {
@@ -39,6 +41,7 @@ reviewSchema.statics.calcAverageRatings = async function (productId: string) {
       },
     },
   ]);
+
   if (stats.length > 0) {
     await Product.findByIdAndUpdate(productId, {
       totalReviews: stats[0].nRating,
@@ -51,22 +54,26 @@ reviewSchema.statics.calcAverageRatings = async function (productId: string) {
     });
   }
 };
-// reviewSchema.pre<IReview>("init", async function () {
-//   await Review.calcAverageRatings(this.product);
-// });
 
-// reviewSchema.post<IReview>("save", function () {
-//   Review.calcAverageRatings(this.product);
-// });
+// Post-save hook to calculate average ratings
+reviewSchema.post<IReview>("save", function () {
+  // 'this' refers to the current review
+  (this.constructor as any).calcAverageRatings(this.product);
+});
 
-// reviewSchema.pre<IReview>(/^findOneAnd/, async function (next) {
-//   this.r = await this.findOne();
-//   next();
-// });
+reviewSchema.pre<Query<any, IReview>>(/^findOneAnd/, async function (next) {
+  // @ts-ignore
+  this.r = await this.findOne();
+  next();
+});
+// Post-findOneAndUpdate hook to calculate average ratings
+reviewSchema.post<IReview>(/^findOneAnd/, async function () {
+  if (this.r) {
+    await (this.r.constructor as any).calcAverageRatings(this.r.product);
+  }
+});
 
-// reviewSchema.post<IReview>(/^findOneAnd/, async function () {
-//   await Review.calcAverageRatings(this.r.product);
-// });
+// Create and export the Review model
 const Review: Model<IReview> = model<IReview>("Review", reviewSchema);
 
 export default Review;

@@ -1,8 +1,6 @@
 /* 
 
 
-TODO : Integrate the payment gateway with the application.
-
 
 TODO : Products Reviews and Ratings
 
@@ -35,6 +33,11 @@ TODO : Notify the shops owners and traders if the product out of stock.
 TODO : Planning for inventory management controller
 
 TODO : planning for shipping management process.
+
+
+
+// TODO : Integrate the payment gateway with the application.
+
 
 // TODO : Refactore the code interface for the modals to meet the new change on the data.
 

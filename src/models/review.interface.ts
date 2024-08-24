@@ -1,4 +1,4 @@
-import { Document, Types } from "mongoose";
+import { Document, Query, Types } from "mongoose";
 
 export interface IReview extends Document {
   user: Types.ObjectId;
@@ -6,5 +6,6 @@ export interface IReview extends Document {
   rating: number;
   comment?: string;
   r?: IReview;
+  
   calcAverageRatings(productId: string): Promise<void>;
 }
