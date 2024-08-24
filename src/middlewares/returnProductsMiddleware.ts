@@ -48,7 +48,9 @@ export const validateBeforeReturnRequest = catchAsync(
     const existingReturn: IReturnRequest | null = await ReturnProduct.findOne({
       order: orderId,
       "product._id": productId,
+     
     });
+
     if (existingReturn) {
       return next(new AppError("This product has already been returned", 400));
     }

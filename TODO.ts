@@ -2,14 +2,19 @@
 
 
 
-TODO : Products Reviews and Ratings
+
+TODO: Code refactoring and review logic and comments
+1) Return items requests
+2) Refund Requests
+3) Support tickets (for users)
+4) Support tickets (for shops)
 
 
-!TODO : ensure user not return amount of product greater than the amount of product he bought. 
+
+TODO: Emails style and content enhancement
 
 
 TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feilds / filter)
-
 
 TODO : Define application rules and permission advanced level for the users.
 
@@ -27,13 +32,18 @@ TODO : Real time chat system with shop Owner and the users .
 
 TODO : Create automated task for move the products form the products collection if it out of stock.
 
-TODO : Notify the shops owners and traders if the product out of stock.
 
 
 TODO : Planning for inventory management controller
 
 TODO : planning for shipping management process.
 
+
+// TODO : Products Reviews and Ratings
+
+// !TODO : ensure user not return amount of product greater than the amount of product he bought. 
+
+// TODO : Notify the shops owners and traders if the product out of stock.
 
 
 // TODO : Integrate the payment gateway with the application.
