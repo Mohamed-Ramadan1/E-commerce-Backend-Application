@@ -4,6 +4,7 @@ import { NextFunction, Response } from "express";
 
 // modules imports
 import cloudinary from "cloudinary";
+import mongoose from "mongoose";
 
 // models imports
 import User from "../models/userModel";
@@ -103,19 +104,36 @@ export const updateUser = catchAsync(
 // delete existing user with all his data
 export const deleteUser = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    const user: IUser | null = await User.findByIdAndDelete(req.params.id);
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    if (!user) {
-      return next(new AppError("User not found", 404));
+    try {
+      const user: IUser | null = await User.findByIdAndDelete(req.params.id, {
+        session,
+      });
+
+      if (!user) {
+        await session.abortTransaction();
+        session.endSession();
+        return next(new AppError("User not found", 404));
+      }
+
+      // Delete all related data to the user
+      await cascadeUserDeletion(user, session, next);
+
+      await session.commitTransaction();
+      session.endSession();
+
+      const response: ApiResponse<null> = {
+        status: "success",
+        data: null,
+      };
+      sendResponse(204, response, res);
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      return next(new AppError("Error occurred during user deletion", 500));
     }
-    // delete the all reated data to the user
-    cascadeUserDeletion(user);
-
-    const response: ApiResponse<null> = {
-      status: "success",
-      data: null,
-    };
-    sendResponse(204, response, res);
   }
 );
 
@@ -246,20 +264,37 @@ export const deactivateMe = catchAsync(
 //delete my account
 export const deleteMe = catchAsync(
   async (req: UserRequest, res: Response, next: NextFunction) => {
-    const me: IUser | null = await User.findByIdAndDelete(req.user._id);
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    if (!me) {
-      return next(new AppError("Your not authorized ", 401));
+    try {
+      const me: IUser | null = await User.findByIdAndDelete(req.user._id, {
+        session,
+      });
+
+      if (!me) {
+        await session.abortTransaction();
+        session.endSession();
+        return next(new AppError("You are not authorized", 401));
+      }
+
+      // Delete all user-related data
+      await cascadeUserDeletion(me, session, next);
+
+      await session.commitTransaction();
+      session.endSession();
+
+      const response: ApiResponse<null> = {
+        status: "success",
+        data: null,
+      };
+
+      sendResponse(204, response, res);
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      return next(new AppError("Error occurred during account deletion", 500));
     }
-
-    // delete all user related data
-    cascadeUserDeletion(me);
-
-    const response: ApiResponse<null> = {
-      status: "success",
-      data: null,
-    };
-    sendResponse(204, response, res);
   }
 );
 

@@ -1,6 +1,6 @@
 // system imports
 import { NextFunction, Response } from "express";
-
+import mongoose from "mongoose";
 // models imports
 import User from "../models/userModel";
 import Shop from "../models/shopModal";
@@ -17,25 +17,8 @@ import { ShopsManagementRequest } from "../shared-interfaces/shopMangmentRequest
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
+import { cascadeShopDeletion } from "../utils/shopUtils/deleteShopRelatedData";
 import { IProduct } from "../models/product.interface";
-
-/*
-//TODO: get all shops .
-//TODO: get shop .
-//TODO: delete shop .
-//TODO: update shop .
-
-//TODO: un-active shop.
-//TODO: activate shop.
-
-//TODO:  get all products in the shop. 
-//TODO:  get a single product in the shop.
-//TODO:  freezing product in the shop.
-//TODO:  un-freezing product in the shop.
-
-//TODO: get all orders created on the shop.
-//TODO: get a single order created on the shop.
-*/
 
 // get all shops.
 export const getAllShops = catchAsync(
@@ -69,21 +52,33 @@ export const getShop = catchAsync(
 // delete shop
 export const deleteShop = catchAsync(
   async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
-    const { shopId } = req.params;
-    const shop: IShop | null = await Shop.findByIdAndDelete(shopId);
-    if (!shop) {
-      return next(new AppError("No shop found with this id.", 404));
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+      const shop: IShop | null = await Shop.findByIdAndDelete(
+        req.params.shopId
+      ).session(session);
+
+      if (!shop) {
+        throw new AppError("Shop not found", 404);
+      }
+
+      await cascadeShopDeletion(shop, session, next);
+
+      await session.commitTransaction();
+
+      const response: ApiResponse<null> = {
+        status: "success",
+        data: null,
+      };
+      sendResponse(204, response, res);
+    } catch (error) {
+      await session.abortTransaction();
+      throw error; // Re-throw the error to be caught by catchAsync
+    } finally {
+      session.endSession();
     }
-    const user: IUser | null = await User.findById(shop.owner);
-    if (user) {
-      user.myShop = undefined;
-      await user.save();
-    }
-    const response: ApiResponse<IShop> = {
-      status: "success",
-      message: "Shop deleted successfully.",
-    };
-    sendResponse(204, response, res);
   }
 );
 
@@ -196,8 +191,6 @@ export const getSingleProductInShop = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-//TODO delete product on shop
 
 // freezing product on shop
 export const freezingProductInShop = catchAsync(
