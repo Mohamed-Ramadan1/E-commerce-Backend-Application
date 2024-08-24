@@ -124,17 +124,22 @@ productSchema.index({ brand: 1 });
 productSchema.index({ price: 1 });
 productSchema.index({ availability_status: 1 });
 
-// Use pre-save middleware to handle availability status
-productSchema.pre("save", async function (next) {
+// Use pre-save middleware to handle availability status update
+productSchema.pre<IProduct>("save", async function (next) {
+  // check if the stock quantity equal or less than 0 and based send notification email
   if (this.stock_quantity <= 0) {
     this.availability_status = AvailabilityStatus.Unavailable;
+    // check if the product related to shop and if true notify the shop owner.
     if (this.sourceType === ProductSourceType.Shop) {
       try {
         const shop = (await Shop.findById(this.shopId)) as IShop;
 
         await sendProductUnavailableEmail(this, shop);
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error sending product out of stock email", error);
+      }
     }
+    // if the product related to website and if true notify the admin.
     if (this.sourceType === ProductSourceType.Website) {
       sendProductOutOfStockAdminEmail(this);
     }
