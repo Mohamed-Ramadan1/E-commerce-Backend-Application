@@ -1,14 +1,11 @@
 /* 
 
 
-
-
-
- TODO : Cascading delete the realated data 
  
  TODO : using transactions for all the above controllers
 
 TODO: Emails style and content enhancement
+
 TODO : Define application rules and permission advanced level for the users.
 
 
@@ -41,6 +38,8 @@ TODO : planning for shipping management process.
 // !TODO : ensure user not return amount of product greater than the amount of product he bought. 
 
 // TODO : Notify the shops owners and traders if the product out of stock.
+
+//  TODO : Cascading delete the realated data 
 
 
 // TODO : Integrate the payment gateway with the application.

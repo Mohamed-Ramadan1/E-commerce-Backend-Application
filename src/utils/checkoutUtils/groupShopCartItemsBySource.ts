@@ -1,7 +1,7 @@
 import { ICartItem } from "../../models/cartItem.interface";
 import { IProduct, ProductSourceType } from "../../models/product.interface";
 
-type GroupedItems = {
+export type GroupedItems = {
   shopOrders: { shopId: string | null; items: ICartItem[] }[];
   websiteItems: ICartItem[];
 };

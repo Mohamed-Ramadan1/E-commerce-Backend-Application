@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 import { ICartItem } from "../../models/cartItem.interface";
 
-type OrderObject = {
+export type OrderObject = {
   user: ObjectId;
   items: ICartItem[];
   itemsQuantity: Number;
@@ -14,6 +14,7 @@ type OrderObject = {
   paymentMethod: string;
   shippingStatus: string;
   orderStatus: string;
+  paymentSessionId?: string;
 };
 
 export const createOrderObject = (
