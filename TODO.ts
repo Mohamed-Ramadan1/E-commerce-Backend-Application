@@ -2,7 +2,6 @@
 
 
  
- TODO : using transactions for all the above controllers
 
 TODO: Emails style and content enhancement
 
@@ -30,6 +29,9 @@ TODO : Planning for inventory management controller
 TODO : planning for shipping management process.
 
 **************************************************************************************
+
+//  TODO : using transactions for all the above controllers
+
 
 // TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feilds / filter)
 

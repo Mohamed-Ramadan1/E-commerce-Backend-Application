@@ -14,7 +14,7 @@ import {
   ShippingStatus,
 } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-
+import AppError from "../utils/ApplicationError";
 import { CheckoutRequest } from "../shared-interfaces/checkoutRequest.interface";
 
 // utils imports
@@ -22,9 +22,7 @@ import catchAsync from "../utils/catchAsync";
 import { sendResponse } from "../utils/sendResponse";
 import { createOrderObject } from "../utils/checkoutUtils/createOrderObject";
 import { groupItemsByShop } from "../utils/checkoutUtils/groupShopCartItemsBySource";
-import {
-  GroupedItems,
-} from "../utils/checkoutUtils/createSupOrders";
+import { GroupedItems } from "../utils/checkoutUtils/createSupOrders";
 import Stripe from "stripe";
 // modules imports
 import mongoose from "mongoose";
@@ -55,13 +53,19 @@ export const checkoutWithCash = catchAsync(
     // groupe the items based on the shop or the website vender type
     const groups = groupItemsByShop(shoppingCart.items);
 
-    const userOrder: IOrder = await processCheckout(
+    const userOrder: IOrder | void = await processCheckout(
       orderObject,
       shoppingCart,
       user,
       groups as GroupedItems,
       next
     );
+
+    if (!userOrder) {
+      return next(
+        new AppError("Something went wrong with processing your order", 500)
+      );
+    }
 
     // generate the response object
     const response: ApiResponse<IOrder> = {
@@ -95,6 +99,7 @@ export const checkoutWithStripe = catchAsync(
       ShippingStatus.Pending,
       OrderStatus.Processing
     );
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -115,20 +120,24 @@ export const checkoutWithStripe = catchAsync(
       }),
     });
 
-    // // creating suborders and sending emails to the vendors
-
     // groupe the items based on the shop or the website vender type
     const groups = groupItemsByShop(shoppingCart.items);
 
     orderObject.paymentSessionId = session.id;
 
-    const userOrder: IOrder = await processCheckout(
+    const userOrder: IOrder | void = await processCheckout(
       orderObject,
       shoppingCart,
       user,
       groups as GroupedItems,
       next
     );
+
+    if (!userOrder) {
+      return next(
+        new AppError("Something went wrong with processing your order", 500)
+      );
+    }
 
     // generate the response object
     const response: ApiResponse<IOrder> = {

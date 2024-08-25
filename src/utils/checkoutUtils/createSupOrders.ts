@@ -4,6 +4,7 @@ import Notification from "../../models/notificationModal";
 
 import { IShopOrder, VendorType } from "../../models/shopOrder.interface";
 import { ICartItem } from "../../models/cartItem.interface";
+import { ClientSession } from "mongoose";
 
 import sendShopOrderEmail from "../../emails/shop/sendShopOrderEmail";
 import sendWebsiteAdminOrderEmail from "../../emails/admins/sendWebsiteAdminOrderEmail";
@@ -99,15 +100,21 @@ const createSubOrderObject = (
 // Function to create and emit a notification
 async function createShopOrderNotification(
   shopId: ObjectId,
-  order: IShopOrder
+  order: IShopOrder,
+  session: ClientSession
 ): Promise<void> {
   try {
     // Create a new notification
-    const orderNotification: INotification = await Notification.create({
-      user: shopId,
-      message: `You have received a new order (Order ID: ${order._id}). You can view the order details on your shop orders section.`,
-      type: NotificationType.Order,
-    });
+    const [orderNotification] = await Notification.create(
+      [
+        {
+          user: shopId,
+          message: `You have received a new order (Order ID: ${order._id}). You can view the order details on your shop orders section.`,
+          type: NotificationType.Order,
+        },
+      ],
+      { session }
+    );
 
     // Get Socket.IO instance and emit the notification
     const io = getIO();
@@ -126,7 +133,8 @@ async function createShopOrderNotification(
 
 export const createSubOrders = async (
   groupedItems: GroupedItems,
-  mainOrder: IOrder
+  mainOrder: IOrder,
+  session: ClientSession
 ) => {
   const shopOrders = groupedItems.shopOrders || [];
   const websiteItems = groupedItems.websiteItems || [];
@@ -135,7 +143,9 @@ export const createSubOrders = async (
   const shopsIds: ObjectId[] = shopOrders.map((shopOrder) => shopOrder.shopId);
 
   // get the all shops
-  const shops: IShop[] = await Shop.find({ _id: { $in: shopsIds } });
+  const shops: IShop[] = await Shop.find({ _id: { $in: shopsIds } }).session(
+    session
+  );
 
   const subOrders: IShopOrder[] = [];
 
@@ -190,7 +200,9 @@ export const createSubOrders = async (
 
     subOrders.push(subOrder as IShopOrder);
   }
-  const newSubOrders: IShopOrder[] = await ShopOrder.insertMany(subOrders);
+  const newSubOrders: IShopOrder[] = await ShopOrder.insertMany(subOrders, {
+    session,
+  });
 
   // iterate throw the suborders and send the email to the shop owner with his order details
   for (const order of newSubOrders) {
@@ -201,7 +213,7 @@ export const createSubOrders = async (
       );
       if (shopDetails) {
         sendShopOrderEmail(shopDetails, order);
-        await createShopOrderNotification(shopDetails._id, order);
+        await createShopOrderNotification(shopDetails._id, order, session);
       } else {
         console.error(`Shop details not found for shop ID: ${order.shop}`);
       }

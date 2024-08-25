@@ -1,10 +1,11 @@
 import { NextFunction } from "express";
 import { IShoppingCart } from "../../models/shoppingCart.interface";
-
+import { ClientSession } from "mongoose";
 // update the stock quantity after the order created.
 export const updateProductsStockQuantity = async (
   userShopCart: IShoppingCart,
-  next: NextFunction
+  next: NextFunction,
+  session: ClientSession
 ) => {
   // Iterate through the items and update the stock quantities
   for (const cartItem of userShopCart.items) {
@@ -14,7 +15,7 @@ export const updateProductsStockQuantity = async (
       if (product.stock_quantity < 0) {
         product.stock_quantity = 0; // Ensure stock quantity doesn't go negative
       }
-      await product.save();
+      await product.save({ session });
     }
   }
 };
