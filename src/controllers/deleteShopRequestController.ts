@@ -1,5 +1,6 @@
 // system imports
 import { Response, NextFunction } from "express";
+import mongoose from "mongoose";
 
 // models imports
 import DeleteShopRequest from "../models/deleteShopRequestModal";
@@ -20,12 +21,14 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
+import { cascadeShopDeletion } from "../utils/shopUtils/deleteShopRelatedData";
 
 //emails imports
 import deleteShopRequestSuccessConfirmationEmail from "../emails/shop/deleteShopRequestSuccessConfirmationEmail";
 import deleteShopRequestCancellationEmail from "../emails/shop/deleteShopRequestCancellationEmail";
 import deleteShopRequestRejectionEmail from "../emails/shop/deleteShopRequestRejectionEmail";
 
+// get all delete shop requests
 export const getAllDeleteShopRequests = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const features = new APIFeatures(DeleteShopRequest.find(), req.query)
@@ -43,6 +46,7 @@ export const getAllDeleteShopRequests = catchAsync(
   }
 );
 
+// get a single delete shop request
 export const getDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const deleteShopRequest: IDeleteShopRequest | null =
@@ -84,6 +88,7 @@ export const createDeleteShopRequest = catchAsync(
   }
 );
 
+// update delete shop request
 export const updateDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const deleteShopRequest: IDeleteShopRequest | null =
@@ -106,6 +111,7 @@ export const updateDeleteShopRequest = catchAsync(
   }
 );
 
+// delete delete-shop request
 export const deleteDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const deleteShopRequest: IDeleteShopRequest | null =
@@ -125,61 +131,88 @@ export const deleteDeleteShopRequest = catchAsync(
   }
 );
 
-// TODO: All product related to this shop should be deleted if the request approved
+// approve shop deleting request.
 export const approveDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
-    const { shopOwner, deleteShopRequest, shop } = req;
-    // approve the delete shop request
-    deleteShopRequest.requestStatus = RequestStatus.Approved;
-    deleteShopRequest.processedBy = req.user;
-    await deleteShopRequest.save({ validateBeforeSave: false });
-    // create a processed delete shop request
-    const processedDeletedRequestObject: object = {
-      user: {
-        name: shopOwner.name,
-        email: shopOwner.email,
-        phoneNumber: shopOwner.phoneNumber,
-      },
-      shop: {
-        shopName: shop.shopName,
-        email: shop.email,
-        phone: shop.phone,
-      },
-      processedBy: {
-        name: req.user.name,
-        email: req.user.email,
-      },
-      reason: deleteShopRequest.reason,
-      processedAt: new Date(),
-      requestStatus: deleteShopRequest.requestStatus,
-    };
-    const processedDeletedRequest: IProcessedDeletedShopRequest =
-      await ProcessedDeleteShopRequest.create(processedDeletedRequestObject);
-    // delete the shop
-    await Shop.findByIdAndDelete(shop._id);
-    //delete deleteShopRequest
-    await DeleteShopRequest.findByIdAndDelete(deleteShopRequest._id);
-    // TODO: delete all products related to this shop
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    // update user shop reference
-    shopOwner.myShop = undefined;
-    await shopOwner.save({ validateBeforeSave: false });
-    // send confirmation email to the shop owner
-    deleteShopRequestSuccessConfirmationEmail(
-      shopOwner,
-      shop,
-      deleteShopRequest
-    );
-    // send response
-    const response: ApiResponse<null> = {
-      status: "success",
-      message: "Shop deleted successfully.",
-      data: null,
-    };
-    sendResponse(200, response, res);
+    try {
+      const { shopOwner, deleteShopRequest, shop } = req;
+
+      // Approve the delete shop request
+      deleteShopRequest.requestStatus = RequestStatus.Approved;
+      deleteShopRequest.processedBy = req.user;
+      await deleteShopRequest.save({ session, validateBeforeSave: false });
+
+      // Create a processed delete shop request
+      const processedDeletedRequestObject = {
+        user: {
+          name: shopOwner.name,
+          email: shopOwner.email,
+          phoneNumber: shopOwner.phoneNumber,
+        },
+        shop: {
+          shopName: shop.shopName,
+          email: shop.email,
+          phone: shop.phone,
+        },
+        processedBy: {
+          name: req.user.name,
+          email: req.user.email,
+        },
+        reason: deleteShopRequest.reason,
+        processedAt: new Date(),
+        requestStatus: deleteShopRequest.requestStatus,
+      };
+      await ProcessedDeleteShopRequest.create([processedDeletedRequestObject], {
+        session,
+      });
+
+      // Delete the shop
+      await Shop.findByIdAndDelete(shop._id).session(session);
+
+      // Delete deleteShopRequest
+      await DeleteShopRequest.findByIdAndDelete(deleteShopRequest._id).session(
+        session
+      );
+
+      // Delete all products related to this shop
+      await cascadeShopDeletion(shop, session, next);
+
+      // Update user shop reference
+      shopOwner.myShop = undefined;
+      await shopOwner.save({ session, validateBeforeSave: false });
+
+      await session.commitTransaction();
+
+      // Send confirmation email to the shop owner
+      await deleteShopRequestSuccessConfirmationEmail(
+        shopOwner,
+        shop,
+        deleteShopRequest
+      );
+
+      const response: ApiResponse<null> = {
+        status: "success",
+        message: "Shop deleted successfully.",
+        data: null,
+      };
+      sendResponse(200, response, res);
+    } catch (error) {
+      await session.abortTransaction();
+      if (error instanceof AppError) {
+        throw error;
+      } else {
+        throw new AppError("Error occurred during shop deletion approval", 500);
+      }
+    } finally {
+      session.endSession();
+    }
   }
 );
 
+// reject shop deleting request
 export const rejectDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const { shopOwner, deleteShopRequest, shop } = req;
@@ -225,6 +258,7 @@ export const rejectDeleteShopRequest = catchAsync(
   }
 );
 
+// cancel the shop deleting request
 export const cancelDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
     const { shopOwner, deleteShopRequest, shop } = req;

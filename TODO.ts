@@ -5,21 +5,21 @@
 
 
  TODO : Cascading delete the realated data 
+ 
+ TODO : using transactions for all the above controllers
 
 TODO: Emails style and content enhancement
-
-TODO : using transactions for all the above controllers
-
 TODO : Define application rules and permission advanced level for the users.
 
 
 
 TODO : Create full analytics for the  orders ,shops and products.
 
-
 TODO : Create schduler tasks to send reports for shops owners and traders. node corn
 
 TODO : Setup webpack to start build the application 
+
+TODO : Ready for deployment
 
 Start enhance the code quality and performance
 
