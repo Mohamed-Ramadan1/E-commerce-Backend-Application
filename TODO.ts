@@ -1,13 +1,6 @@
 /* 
 
 
- 
-
-TODO: Emails style and content enhancement
-
-TODO : Define application rules and permission advanced level for the users.
-
-
 
 TODO : Create full analytics for the  orders ,shops and products.
 
@@ -31,6 +24,10 @@ TODO : planning for shipping management process.
 **************************************************************************************
 
 //  TODO : using transactions for all the above controllers
+
+// TODO: Emails style and content enhancement
+
+// TODO : Define application rules and permission advanced level for the users.
 
 
 // TODO: Integrate the Advanced  application features (Search / Sort / Pagination / limited-feilds / filter)

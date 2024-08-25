@@ -26,12 +26,14 @@ router
   .route("/:id/cancel")
   .patch(validateShopRequestBeforeCancel, cancelShopRequest);
 
-router.use(restrictTo("admin"));
-
 router
+
   .route("/")
   .get(getAllShopRequests)
   .post(validateRequestBeforeShopRequestCreation, createShopRequest);
+
+router.use(restrictTo("admin"));
+
 router
   .route("/:id")
   .get(getShopRequest)
