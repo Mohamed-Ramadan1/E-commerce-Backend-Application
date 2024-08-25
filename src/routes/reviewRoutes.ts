@@ -7,6 +7,7 @@ import {
   addReview,
   deleteReview,
   updateReview,
+  getProductReviews
 } from "../controllers/reviewController";
 const router = Router();
 router.use(protect);
@@ -17,4 +18,6 @@ router
   .post(validateDataBeforeCreateReview, addReview);
 
 router.route("/:id").get(getReview).patch(updateReview).delete(deleteReview);
+router.route("/product/:productId").get(getProductReviews)
+
 export default router;

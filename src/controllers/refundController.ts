@@ -68,6 +68,7 @@ const handelProcessedRefundRequest = async (
 
 // all controller in this file related to the admins only
 
+// create refund request
 export const createRefundRequest = catchAsync(
   async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     const refundRequest: IRefundRequest = await RefundRequest.create({
@@ -89,7 +90,13 @@ export const createRefundRequest = catchAsync(
 // get all refund requests
 export const getAllRefundRequests = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const refundRequests: IRefundRequest[] = await RefundRequest.find();
+    const features = new APIFeatures(RefundRequest.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const refundRequests: IRefundRequest[] = await features.execute();
     const response: ApiResponse<IRefundRequest[]> = {
       status: "success",
       results: refundRequests.length,
@@ -101,10 +108,19 @@ export const getAllRefundRequests = catchAsync(
 
 // get all refund requests not confirmed
 export const getAllRefundRequestsNotConfirmed = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const refundRequests: IRefundRequest[] = await RefundRequest.find({
-      refundStatus: "pending",
-    });
+  async (req: RefundRequestReq, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      RefundRequest.find({
+        refundStatus: "pending",
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const refundRequests: IRefundRequest[] = await features.execute();
+
     const response: ApiResponse<IRefundRequest[]> = {
       status: "success",
       results: refundRequests.length,
@@ -116,10 +132,19 @@ export const getAllRefundRequestsNotConfirmed = catchAsync(
 
 // get all refund requests confirmed
 export const getAllRefundRequestsConfirmed = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const refundRequests: IRefundRequest[] = await RefundRequest.find({
-      refundStatus: "confirmed",
-    });
+  async (req: RefundRequestReq, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      RefundRequest.find({
+        refundStatus: "confirmed",
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const refundRequests: IRefundRequest[] = await features.execute();
+
     const response: ApiResponse<IRefundRequest[]> = {
       status: "success",
       data: refundRequests,
@@ -130,7 +155,7 @@ export const getAllRefundRequestsConfirmed = catchAsync(
 
 // get refund request by id
 export const getRefundRequest = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     const { id } = req.params;
     if (!id)
       return next(new AppError("Invalid request provide request ID", 400));
@@ -151,7 +176,7 @@ export const getRefundRequest = catchAsync(
 
 // delete refund request
 export const deleteRefundRequest = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     const { id } = req.params;
     if (!id)
       return next(new AppError("Invalid request provide request ID", 400));

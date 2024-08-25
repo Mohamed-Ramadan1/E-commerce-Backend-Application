@@ -18,6 +18,7 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
+
 // email imports
 import receiveShopRequestConfirmationEmail from "../emails/shop/receiveShopRequestConfirmationEmail";
 import shopRequestCanceledEmail from "../emails/shop/cancelShopRequestConfirmationEmail";
@@ -136,11 +137,16 @@ export const createShopRequest = catchAsync(
   }
 );
 
-export const getAllPendingShopsRequests = catchAsync(
+// get all shop requests
+export const getAllShopRequests = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
-    const shopRequests: IShopRequest[] = await ShopRequest.find({
-      requestStatus: "pending",
-    });
+    const apiFeatures = new APIFeatures(ShopRequest.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const shopRequests: IShopRequest[] = await apiFeatures.execute();
     const response: ApiResponse<IShopRequest[]> = {
       status: "success",
       results: shopRequests.length,
@@ -149,6 +155,8 @@ export const getAllPendingShopsRequests = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// get shop request by id
 export const getShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
     const shopRequest: IShopRequest | null = await ShopRequest.findById(
@@ -164,6 +172,8 @@ export const getShopRequest = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// update shop request
 export const updateShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
     const shopRequest: IShopRequest | null =
@@ -183,6 +193,7 @@ export const updateShopRequest = catchAsync(
   }
 );
 
+// delete shop request
 export const deleteShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
     const shopRequest: IShopRequest | null =
@@ -199,6 +210,7 @@ export const deleteShopRequest = catchAsync(
   }
 );
 
+// confirm shop request
 export const confirmShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
     // extract the user and the shop request from the request
@@ -246,6 +258,7 @@ export const confirmShopRequest = catchAsync(
   }
 );
 
+// reject the request
 export const rejectShopRequest = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
     //extract required parameters from the request object.

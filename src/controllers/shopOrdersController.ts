@@ -19,7 +19,12 @@ import { sendResponse } from "../utils/sendResponse";
 // get all shops order
 export const getAllOrders = catchAsync(
   async (req: ShopOrderRequest, res: Response, next: NextFunction) => {
-    const orders: IShopOrder[] = await ShopOrder.find();
+    const features = new APIFeatures(ShopOrder.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const orders: IShopOrder[] = await features.execute();
     const response: ApiResponse<IShopOrder[]> = {
       status: "success",
       results: orders.length,
@@ -67,10 +72,17 @@ export const deleteOrder = catchAsync(
 // get all orders on the shop
 export const getShopOrders = catchAsync(
   async (req: ShopOrderRequest, res: Response, next: NextFunction) => {
-    const orders: IShopOrder[] = await ShopOrder.find({
-      shop: req.shopId,
-    });
-
+    const features = new APIFeatures(
+      ShopOrder.find({
+        shop: req.shopId,
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const orders: IShopOrder[] = await features.execute();
     const response: ApiResponse<IShopOrder[]> = {
       status: "success",
       results: orders.length,

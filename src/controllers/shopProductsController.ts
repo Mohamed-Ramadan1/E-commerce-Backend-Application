@@ -25,25 +25,21 @@ import productDeletionConfirmationEmail from "../emails/shops-products/deletePro
 import productFreezeConfirmationEmail from "../emails/shops-products/freezingProductConfirmationEmail";
 import productUnfreezeConfirmationEmail from "../emails/shops-products/unfreezingProductConfirmationEmail";
 
-// starting withing it
-/* 
-//TODO: get all products in the shop.
-// TODO: add products to the shop.
-//TODO: update products in the shop.
-//TODO: delete  products from the shop.
-
-//TODO:  freezing product in the shop.
-//TODO: un-freezing product in the shop.
-
-
-*/
 // get all products on shop
 export const getAllProducts = catchAsync(
   async (req: ShopProductsRequest, res: Response, next: NextFunction) => {
     const shop = (await Shop.findById(req.params.shopId)) as IShop;
-    const products: IProduct[] = await Product.find({
-      shopId: shop.id,
-    });
+
+    const features = new APIFeatures(
+      Product.find({ shopId: shop.id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const products: IProduct[] = await features.execute();
+
     const json: ApiResponse<IProduct[]> = {
       status: "success",
       results: products.length,

@@ -5,7 +5,6 @@ import { Response, NextFunction } from "express";
 import Notification from "../models/notificationModal";
 
 // interfaces imports
-import { IUser } from "../models/user.interface";
 import { INotification } from "../models/notification.interface";
 import { NotificationRequest } from "../shared-interfaces/notificationRequest.interface";
 // utils imports
@@ -16,6 +15,14 @@ import { sendResponse } from "../utils/sendResponse";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
 import { getIO } from "../utils/socketSetup";
+
+//TODO mark group notifications as read
+
+//TODO delete group notifications for a user
+
+//TODO mute notification for a user
+
+//TODO unmute notification for a user
 
 //---------------------------------
 // admin operations
@@ -57,9 +64,15 @@ export const createNotification = catchAsync(
 // get all notifications for a user
 export const getUserNotifications = catchAsync(
   async (req: NotificationRequest, res: Response, next: NextFunction) => {
-    const { user } = req;
-
-    const notifications = await Notification.find({ user: user._id });
+    const features = new APIFeatures(
+      Notification.find({ user: req.user._id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const notifications = await features.execute();
 
     const response: ApiResponse<INotification[]> = {
       status: "success",
@@ -182,12 +195,19 @@ export const deleteAllUserNotifications = catchAsync(
 // get unread notifications for a user
 export const getUserUnreadNotifications = catchAsync(
   async (req: NotificationRequest, res: Response, next: NextFunction) => {
-    const { user } = req;
+    const features = new APIFeatures(
+      Notification.find({
+        user: req.user._id,
+        read: false,
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-    const notifications = await Notification.find({
-      user: user._id,
-      read: false,
-    });
+    const notifications = await features.execute();
 
     const response: ApiResponse<INotification[]> = {
       status: "success",
@@ -202,12 +222,19 @@ export const getUserUnreadNotifications = catchAsync(
 // get read notifications for a user
 export const getUserReadNotifications = catchAsync(
   async (req: NotificationRequest, res: Response, next: NextFunction) => {
-    const { user } = req;
+    const features = new APIFeatures(
+      Notification.find({
+        user: req.user._id,
+        read: true,
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-    const notifications = await Notification.find({
-      user: user._id,
-      read: true,
-    });
+    const notifications = await features.execute();
 
     const response: ApiResponse<INotification[]> = {
       status: "success",
@@ -218,11 +245,3 @@ export const getUserReadNotifications = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-//TODO mark group notifications as read
-
-//TODO delete group notifications for a user
-
-//TODO mute notification for a user
-
-//TODO unmute notification for a user

@@ -17,11 +17,19 @@ import AppError from "../utils/ApplicationError";
 import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
-
 export const getAllProcessedShopRequests = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: ProcessedShopRequestsReq, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      ProcessedCreateShopRequests.find(),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
     const processedShopRequests: IProcessedShopRequest[] =
-      await ProcessedCreateShopRequests.find();
+      await features.execute();
 
     const responses: ApiResponse<IProcessedShopRequest[]> = {
       status: "success",

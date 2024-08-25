@@ -22,7 +22,12 @@ import { sendResponse } from "../utils/sendResponse";
 // get all shopping carts
 export const getAllShoppingCarts = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
-    const shoppingCarts: IShoppingCart[] = await ShoppingCart.find();
+    const features = new APIFeatures(ShoppingCart.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const shoppingCarts: IShoppingCart[] = await features.execute();
     const response: ApiResponse<IShoppingCart[]> = {
       status: "success",
       results: shoppingCarts.length,
@@ -90,6 +95,8 @@ export const updateShoppingCart = catchAsync(
 
 //----------------------------------------------------------
 // User Operations
+
+// get user shopping cart
 export const getShoppingCart = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
     const userShopCart: IShoppingCart | null = await ShoppingCart.findOne({
@@ -107,6 +114,7 @@ export const getShoppingCart = catchAsync(
   }
 );
 
+// adding item to the shopping cart.
 export const addItemToShoppingCart = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
     // get required data from request body.
@@ -155,6 +163,7 @@ export const addItemToShoppingCart = catchAsync(
   }
 );
 
+// remove item from shopping cart
 export const removeItemFromShoppingCart = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
     const shoppingCartId = req.user.shoppingCart;
@@ -197,6 +206,7 @@ export const removeItemFromShoppingCart = catchAsync(
   }
 );
 
+// Decrease shopping cart items quantity
 export const decreaseItemQuantity = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
     const { productId, quantity } = req.body;

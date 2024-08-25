@@ -88,12 +88,21 @@ export const cancelReturnRequest = catchAsync(
   }
 );
 
+// get all user return items  requests
 export const getAllMyReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
-    const user: IUser = req.user;
-    const returnRequests: IReturnRequest[] = await ReturnProduct.find({
-      user: user._id,
-    });
+    const features = new APIFeatures(
+      ReturnProduct.find({
+        user: req.user._id,
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const returnRequests: IReturnRequest[] = await features.execute();
     const response: ApiResponse<IReturnRequest[]> = {
       status: "success",
       data: returnRequests,
@@ -102,6 +111,7 @@ export const getAllMyReturnItems = catchAsync(
   }
 );
 
+// get single return item request for the user
 export const getMyReturnRequestItem = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -123,6 +133,7 @@ export const getMyReturnRequestItem = catchAsync(
   }
 );
 
+// delete return item request
 export const deleteReturnItemRequest = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -148,9 +159,16 @@ export const deleteReturnItemRequest = catchAsync(
 // ----------------------------------------------------------------
 
 //admin Operations
+
+// get all return items requests
 export const getAllReturnItemsRequests = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
-    const returnRequests: IReturnRequest[] = await ReturnProduct.find();
+    const features = new APIFeatures(ReturnProduct.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const returnRequests: IReturnRequest[] = await features.execute();
     const response: ApiResponse<IReturnRequest[]> = {
       status: "success",
       data: returnRequests,
@@ -159,6 +177,7 @@ export const getAllReturnItemsRequests = catchAsync(
   }
 );
 
+// get single return item request by id
 export const getReturnItemRequest = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -179,6 +198,7 @@ export const getReturnItemRequest = catchAsync(
   }
 );
 
+// approve item return request
 export const approveReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -224,6 +244,7 @@ export const approveReturnItems = catchAsync(
   }
 );
 
+// reject item return request
 export const rejectReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;

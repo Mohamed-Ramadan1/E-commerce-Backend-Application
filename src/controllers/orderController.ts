@@ -27,10 +27,17 @@ import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmation
 // get all user orders
 export const getOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const orders: IOrder[] | null = await Order.find({
-      user: req.user._id,
-      archived: false,
-    });
+    const features = new APIFeatures(
+      Order.find({ user: req.user._id, archived: false }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const orders: IOrder[] | null = await features.execute();
+
     const response: ApiResponse<IOrder[]> = {
       status: "success",
       results: orders.length,
@@ -159,10 +166,15 @@ export const unarchiveOrder = catchAsync(
 // get all archived orders
 export const getArchivedOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const orders: IOrder[] | null = await Order.find({
-      user: req.user._id,
-      archived: true,
-    });
+    const features = new APIFeatures(
+      Order.find({ user: req.user._id, archived: true }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const orders: IOrder[] | null = await features.execute();
 
     const response: ApiResponse<IOrder[]> = {
       status: "success",

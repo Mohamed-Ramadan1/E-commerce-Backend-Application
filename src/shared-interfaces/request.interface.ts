@@ -63,8 +63,6 @@ export interface RequestWithProduct extends Request {
   body: IProduct;
 }
 
-
-
 export interface ReviewRequest extends Request {
   user: IUser;
   headers: {
@@ -77,6 +75,7 @@ export interface ReviewRequest extends Request {
   };
   params: {
     id?: string;
+    productId: string;
   };
 }
 

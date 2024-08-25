@@ -21,8 +21,13 @@ export const getProcessedSupportTickets = catchAsync(
     res: Response,
     next: NextFunction
   ) => {
+    const features = new APIFeatures(ProcessedSupportTicket.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
     const processedSupportTickets: IProcessedSupportTickets[] =
-      await ProcessedSupportTicket.find();
+      await features.execute();
 
     const response: ApiResponse<IProcessedSupportTickets[]> = {
       status: "success",

@@ -30,7 +30,7 @@ import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmation
 //get All Orders
 export const getOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
-    const apiFeatures = new APIFeatures(Order.find(), req.query) 
+    const apiFeatures = new APIFeatures(Order.find(), req.query);
 
     const orders: IOrder[] = await apiFeatures.execute();
 

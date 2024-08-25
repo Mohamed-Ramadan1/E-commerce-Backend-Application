@@ -8,7 +8,6 @@ import Product from "../models/productModel";
 import ShopOrder from "../models/shopOrderModal";
 
 // interfaces imports
-import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
 import { IShopOrder } from "../models/shopOrder.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
@@ -19,12 +18,19 @@ import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
 import { cascadeShopDeletion } from "../utils/shopUtils/deleteShopRelatedData";
 import { IProduct } from "../models/product.interface";
+
 import APIFeatures from "../utils/apiKeyFeature";
 
 // get all shops.
 export const getAllShops = catchAsync(
   async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
-    const shops: IShop[] = await Shop.find();
+    const features = new APIFeatures(Shop.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const shops: IShop[] = await features.execute();
+
     const response: ApiResponse<IShop[]> = {
       status: "success",
       results: shops.length,
@@ -151,14 +157,23 @@ export const unActiveShop = catchAsync(
 export const getAllProductsInShop = catchAsync(
   async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
     const { shopId } = req.params;
+
     const shop: IShop | null = await Shop.findById(shopId);
     if (!shop) {
       return next(new AppError("No shop found with this id.", 404));
     }
-    const products: IProduct[] = await Product.find({
-      sourceType: "shop",
-      shopId: shop._id,
-    });
+    const features = new APIFeatures(
+      Product.find({
+        sourceType: "shop",
+        shopId: shop._id,
+      }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const products: IProduct[] = await features.execute();
 
     const response: ApiResponse<IProduct[]> = {
       status: "success",
@@ -271,9 +286,15 @@ export const getAllOrdersCreatedOnShop = catchAsync(
     if (!shop) {
       return next(new AppError("No shop found with this id.", 404));
     }
-    const orders: IShopOrder[] = await ShopOrder.find({
-      shop: shop._id,
-    });
+    const features = new APIFeatures(
+      ShopOrder.find({ shop: shop._id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const orders: IShopOrder[] = await features.execute();
     const response: ApiResponse<IShopOrder[]> = {
       status: "success",
       results: orders.length,

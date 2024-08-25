@@ -22,7 +22,6 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import { sendResponse } from "../utils/sendResponse";
-import APIFeatures from "../utils/apiKeyFeature";
 
 // emails imports
 import changeShopEmailAddressConfirmationEmail from "../emails/shop/changeShopEmailAddressConfirmationEmail";
@@ -30,21 +29,6 @@ import sendWelcomeEmailToNewShopEmailAddress from "../emails/shop/sendWelcomeEma
 import successShopEmailUpdateConfirmation from "../emails/shop/successShopEmailUpdateConfirmation";
 import resetShopEmailAddressToDefaultEmail from "../emails/shop/resetShopEmailAddressToDefaultEmail";
 import deleteShopRequestReceivedConfirmationEmail from "../emails/shop/deleteShopRequestReceivedConfirmationEmail";
-/* 
-//TODO: update the data of the shop.
-//TODO: update the banner of the shop.
-
-// TODO: change the email of the shop  .
-//TODO: verify the email of the shop.
-//TODO: reset the email of the shop to the default email.
-
-//TODO: get my shop
-
-//TODO: Activate the shop.
-//TODO: Deactivate the shop.
-//TODO: Delete the shop request.
-
-*/
 
 type UpdateObject = {
   shopName?: string;

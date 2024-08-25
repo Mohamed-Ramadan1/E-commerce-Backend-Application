@@ -16,8 +16,17 @@ import { sendResponse } from "../utils/sendResponse";
 
 export const getAllProcessedDeleteShopRequests = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      ProcessedDeleteShopRequest.find(),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
     const processedDeleteShopRequests: IProcessedDeletedShopRequest[] =
-      await ProcessedDeleteShopRequest.find();
+      await features.execute();
 
     const response: ApiResponse<IProcessedDeletedShopRequest[]> = {
       status: "success",

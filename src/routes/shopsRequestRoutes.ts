@@ -10,7 +10,7 @@ import {
 import {
   createShopRequest,
   cancelShopRequest,
-  getAllPendingShopsRequests,
+  getAllShopRequests,
   getShopRequest,
   updateShopRequest,
   deleteShopRequest,
@@ -30,7 +30,7 @@ router.use(restrictTo("admin"));
 
 router
   .route("/")
-  .get(getAllPendingShopsRequests)
+  .get(getAllShopRequests)
   .post(validateRequestBeforeShopRequestCreation, createShopRequest);
 router
   .route("/:id")

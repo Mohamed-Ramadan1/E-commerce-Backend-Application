@@ -28,8 +28,12 @@ import deleteShopRequestRejectionEmail from "../emails/shop/deleteShopRequestRej
 
 export const getAllDeleteShopRequests = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {
-    const deleteShopRequests: IDeleteShopRequest[] =
-      await DeleteShopRequest.find();
+    const features = new APIFeatures(DeleteShopRequest.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const deleteShopRequests: IDeleteShopRequest[] = await features.execute();
 
     const response: ApiResponse<IDeleteShopRequest[]> = {
       status: "success",

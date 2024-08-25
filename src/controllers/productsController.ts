@@ -21,7 +21,12 @@ import { sendResponse } from "../utils/sendResponse";
 // get all products
 export const getAllProducts = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const products: IProduct[] | null = await Product.find();
+    const features = new APIFeatures(Product.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const products: IProduct[] | null = await features.execute();
     const response: ApiResponse<IProduct[]> = {
       status: "success",
       results: products.length,

@@ -24,8 +24,14 @@ import { sendResponse } from "../utils/sendResponse";
 // get all processed refund requests
 export const getProcessedRefundRequests = catchAsync(
   async (req: ProcessedRefundRequestReq, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(ProcessedRefundRequests.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
     const processedRefundRequests: IProcessedRefundRequests[] =
-      await ProcessedRefundRequests.find();
+      await features.execute();
 
     const response: ApiResponse<IProcessedRefundRequests[]> = {
       status: "success",

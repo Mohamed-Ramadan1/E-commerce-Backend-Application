@@ -3,11 +3,6 @@
 
 
 
-TODO: Code refactoring and review logic and comments
-1) Return items requests
-2) Refund Requests
-3) Support tickets (for users)
-4) Support tickets (for shops)
 
  TODO : Cascading delete the realated data 
 
@@ -18,10 +13,16 @@ TODO : using transactions for all the above controllers
 TODO : Define application rules and permission advanced level for the users.
 
 
+
 TODO : Create full analytics for the  orders ,shops and products.
 
 
 TODO : Create schduler tasks to send reports for shops owners and traders. node corn
+
+TODO : Setup webpack to start build the application 
+
+Start enhance the code quality and performance
+
 
 
 

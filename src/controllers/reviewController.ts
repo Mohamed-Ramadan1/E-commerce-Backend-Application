@@ -14,9 +14,19 @@ import catchAsync from "../utils/catchAsync";
 import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 
+// get all reviews created by the user
 export const getReviews = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {
-    const reviews: IReview[] | null = await Review.find({ user: req.user._id });
+    const features = new APIFeatures(
+      Review.find({ user: req.user._id }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+    const reviews: IReview[] | null = await features.execute();
+
     const response: ApiResponse<IReview[]> = {
       status: "success",
       results: reviews.length,
@@ -25,6 +35,8 @@ export const getReviews = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// get review by id
 export const getReview = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {
     const review: IReview | null = await Review.findById(req.params.id);
@@ -39,6 +51,7 @@ export const getReview = catchAsync(
   }
 );
 
+// create new review
 export const addReview = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {
     // all validation found on the review middleware.
@@ -57,6 +70,7 @@ export const addReview = catchAsync(
   }
 );
 
+// update review
 export const updateReview = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {
     const review: IReview | null = await Review.findOneAndUpdate(
@@ -78,6 +92,7 @@ export const updateReview = catchAsync(
   }
 );
 
+// delete review
 export const deleteReview = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {
     const review: IReview | null = await Review.findOneAndDelete({
@@ -92,5 +107,28 @@ export const deleteReview = catchAsync(
       data: null,
     };
     sendResponse(204, response, res);
+  }
+);
+
+// get all reviews related to product
+export const getProductReviews = catchAsync(
+  async (req: ReviewRequest, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      Review.find({ product: req.params.productId }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const reviews: IReview[] = await features.execute();
+
+    const response: ApiResponse<IReview[]> = {
+      status: "success",
+      results: reviews.length,
+      data: reviews,
+    };
+    sendResponse(200, response, res);
   }
 );

@@ -20,8 +20,17 @@ export const getProcessedReturnProductRequests = catchAsync(
     res: Response,
     next: NextFunction
   ) => {
+    const features = new APIFeatures(
+      ProcessedReturnProductRequest.find(),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
     const processedReturnProductRequests: IProcessedReturnProductRequest[] =
-      await ProcessedReturnProductRequest.find();
+      await features.execute();
 
     const response: ApiResponse<IProcessedReturnProductRequest[]> = {
       status: "success",
