@@ -41,7 +41,7 @@ export interface IOrder extends Document {
   customerNotes?: string;
   internalNotes?: string;
   discountCodes?: string[];
-  taxAmount?: number;
+  taxAmount: number;
   estimatedDeliveryDate?: Date;
   createdAt: Date;
   updatedAt: Date;
