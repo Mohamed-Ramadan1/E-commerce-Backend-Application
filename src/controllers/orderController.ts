@@ -184,3 +184,13 @@ export const getArchivedOrders = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+//-------------------------------------------------------------
+
+// Testing aggreigation pipeline in
+
+// export const returnAnalytics = catchAsync(
+//   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+//     const orders = await Orders.aggregate([]);
+//   }
+// );
