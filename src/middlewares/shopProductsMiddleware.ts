@@ -2,12 +2,10 @@
 import { NextFunction, Response } from "express";
 
 // models imports
-import User from "../models/userModel";
 import Shop from "../models/shopModal";
 import Product from "../models/productModel";
 
 // interfaces imports
-import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
 import { IProduct } from "../models/product.interface";
 import { ShopProductsRequest } from "../shared-interfaces/shopProductsRequest.interface";

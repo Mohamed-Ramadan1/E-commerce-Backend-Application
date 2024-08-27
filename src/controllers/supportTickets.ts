@@ -25,7 +25,6 @@ import APIFeatures from "../utils/apiKeyFeature";
 // emails imports
 import supportTicketReceivedConfirmationEmail from "../emails/admins/supportTicketRecivedConfirmationEmail";
 import sendSupportTicketResponseEmail from "../emails/users/userSupportTicketResponseEmail";
-import { SupportTicketStatus } from "../models/shopSupportTicket.interface";
 
 //---------
 // Helper functions and types

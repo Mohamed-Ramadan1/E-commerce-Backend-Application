@@ -14,7 +14,7 @@ export const checkCartAvailability = catchAsync(
         user: req.user._id,
       });
 
-      req.user.shoppingCart = newShopCart._id;
+      req.user.shoppingCart = newShopCart;
       await req.user.save({ validateBeforeSave: false });
 
       return next(

@@ -1,15 +1,9 @@
 // system imports
 import { NextFunction, Response } from "express";
 
-// modules imports
-
-// models imports
-
 import {
-  UserRequest,
   UserRequestWithUpdateInfo,
   UserUpdatePasswordRequest,
-  UserWithUserDataRequest,
 } from "../shared-interfaces/userRequest.interface";
 
 // utils imports
@@ -70,11 +64,3 @@ export const validateBeforeUpdateUserInfo = catchAsync(
     next();
   }
 );
-
-// export const validateBeforeActivateUserAccount = catchAsync(
-//   async (req: UserRequest, res: Response, next: NextFunction) => {}
-// );
-
-// export const validateBeforeDeactivateUserAccount = catchAsync(
-//   async (req: UserRequest, res: Response, next: NextFunction) => {}
-// );

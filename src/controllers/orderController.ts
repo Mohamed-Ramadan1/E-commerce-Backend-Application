@@ -8,14 +8,10 @@ import RefundRequest from "../models/refundModel";
 
 // interface imports
 import { IOrder, OrderStatus } from "../models/order.interface";
-import { IShopOrder } from "../models/shopOrder.interface";
 import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import {
-  AuthUserRequest,
-  AuthUserRequestWithID,
-} from "../shared-interfaces/request.interface";
 
+import { OrderRequest } from "../shared-interfaces/orderRequest.interface";
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
@@ -30,7 +26,7 @@ import ShopOrder from "../models/shopOrderModal";
 // TODO: send emails to notify the sub orders with updates / like cancellation / delivery and return items
 // get all user orders
 export const getOrders = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const features = new APIFeatures(
       Order.find({ user: req.user._id, archived: false }),
       req.query
@@ -52,7 +48,7 @@ export const getOrders = catchAsync(
 );
 // get single user order
 export const getOrder = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findOne({
       _id: req.params.id,
       user: req.user._id,
@@ -70,7 +66,7 @@ export const getOrder = catchAsync(
 
 //cancel the order
 export const cancelOrder = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const session = await mongoose.startSession();
     session.startTransaction();
 
@@ -147,7 +143,7 @@ export const cancelOrder = catchAsync(
 
 // archive order
 export const archiveOrder = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findOne({
       _id: req.params.id,
       user: req.user._id,
@@ -170,7 +166,7 @@ export const archiveOrder = catchAsync(
 
 // unarchive order
 export const unarchiveOrder = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findOne({
       _id: req.params.id,
       user: req.user._id,
@@ -193,7 +189,7 @@ export const unarchiveOrder = catchAsync(
 
 // get all archived orders
 export const getArchivedOrders = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const features = new APIFeatures(
       Order.find({ user: req.user._id, archived: true }),
       req.query

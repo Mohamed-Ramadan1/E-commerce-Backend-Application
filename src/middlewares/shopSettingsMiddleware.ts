@@ -1,5 +1,5 @@
 // system imports
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import crypto from "crypto";
 
 // external modules imports
@@ -10,12 +10,11 @@ import User from "../models/userModel";
 import Shop from "../models/shopModal";
 
 // interfaces imports
-import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
 import {
   ShopSettingsRequest,
   VerifyShopEmailUpdating,
-} from "../shared-interfaces/request.interface";
+} from "../shared-interfaces/shopRequests.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
@@ -116,13 +115,6 @@ export const validateBeforeConfirmUpdateShopEmailAddress = catchAsync(
 
 export const validateBeforeUpdateShopInfo = catchAsync(
   async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
-    /* 
-   // check if the user has a shop and the shop still exists
-    //check if the shop is active
-    //check if the user try to change shop owner
-   // check if the user tray to update categories of the shop
-    //check if the user try to update shop email or banner of the shop
-    */
     const user = req.user;
     const shop: IShop | null = await Shop.findOne({ owner: user._id });
 

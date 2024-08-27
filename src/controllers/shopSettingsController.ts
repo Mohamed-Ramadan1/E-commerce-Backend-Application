@@ -15,7 +15,7 @@ import { IDeleteShopRequest } from "../models/deleteShopRequest.interface";
 import {
   ShopSettingsRequest,
   VerifyShopEmailUpdating,
-} from "../shared-interfaces/request.interface";
+} from "../shared-interfaces/shopRequests.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 
 // utils imports

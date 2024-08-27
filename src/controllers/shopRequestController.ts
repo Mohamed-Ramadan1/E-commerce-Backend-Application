@@ -8,7 +8,7 @@ import ProcessedCreateShopRequests from "../models/processedCreateShopRequestsMo
 
 // interface imports
 import { IShopRequest, RequestStatus } from "../models/shopRequest.interface";
-import { ShopRequestReq } from "../shared-interfaces/request.interface";
+import { ShopRequestReq } from "../shared-interfaces/shopRequests.interface";
 import { IShop } from "../models/shop.interface";
 import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";

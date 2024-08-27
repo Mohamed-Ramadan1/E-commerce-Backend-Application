@@ -4,7 +4,7 @@ import AppError from "../utils/ApplicationError";
 import { NextFunction, Response } from "express";
 import { IOrder } from "../models/order.interface";
 
-import { RefundRequestReq } from "../shared-interfaces/request.interface";
+import { RefundRequestReq } from "../shared-interfaces/refundRequestReq.interface";
 import { IUser } from "../models/user.interface";
 import User from "../models/userModel";
 import { IRefundRequest } from "../models/refund.interface";

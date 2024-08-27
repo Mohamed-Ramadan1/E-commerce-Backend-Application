@@ -3,19 +3,15 @@ import { Request, Response, NextFunction } from "express";
 
 // models imports
 import DeleteShopRequest from "../models/deleteShopRequestModal";
-import ProcessedDeleteShopRequest from "../models/processedDeleteShopRequestModal";
 import Shop from "../models/shopModal";
 
 // interface imports
 import { IDeleteShopRequest } from "../models/deleteShopRequest.interface";
-import { IProcessedDeletedShopRequest } from "../models/processedDeleteShopRequest.interface";
-import { ApiResponse } from "../shared-interfaces/response.interface";
 import { DeleteShopRequestReq } from "../shared-interfaces/deleteShopRequestReq.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
-import { sendResponse } from "../utils/sendResponse";
 import User from "../models/userModel";
 import { IUser } from "../models/user.interface";
 

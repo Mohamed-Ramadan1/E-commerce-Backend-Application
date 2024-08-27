@@ -8,10 +8,9 @@ import ProcessedRefundRequests from "../models/processedRefundRequestsModal";
 // interface imports
 import { IRefundRequest, RefundStatus } from "../models/refund.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import {
-  AuthUserRequest,
-  RefundRequestReq,
-} from "../shared-interfaces/request.interface";
+import { RefundRequestReq } from "../shared-interfaces/refundRequestReq.interface";
+import { IUser } from "../models/user.interface";
+import { IOrder } from "../models/order.interface";
 
 // utils
 import catchAsync from "../utils/catchAsync";
@@ -21,8 +20,6 @@ import { sendResponse } from "../utils/sendResponse";
 
 // emails imports
 import refundSuccessConfirmationEmail from "../emails/admins/refundsuccessConfirmationEmail";
-import { IUser } from "../models/user.interface";
-import { IOrder } from "../models/order.interface";
 
 // Helpers functions
 

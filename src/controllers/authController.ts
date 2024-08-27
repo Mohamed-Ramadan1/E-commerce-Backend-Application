@@ -9,25 +9,22 @@ import User from "../models/userModel";
 // interface imports
 import { IUser } from "../models/user.interface";
 import { IShoppingCart } from "../models/shoppingCart.interface";
+
 import {
-  LoginRequest,
-  AuthUserRequest,
   SingUpRequest,
+  LoginRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-} from "../shared-interfaces/request.interface";
-
+} from "../shared-interfaces/authRequests.interface";
+import { AuthUserRequest } from "../shared-interfaces/request.interface";
 // utils imports
 import AppError from "../utils/ApplicationError";
 import catchAsync from "../utils/catchAsync";
-import APIFeatures from "../utils/apiKeyFeature";
 import { createSendToken, createLogOutToken } from "../utils/createSendToken";
 
 // emails imports
 import sendVerificationMail from "../emails/users/accountVerificationEmail";
 import sendResetPasswordEmail from "../emails/users/resetPasswordEmail";
-
-
 
 export const signUpWithEmail = catchAsync(
   async (req: SingUpRequest, res: Response, next: NextFunction) => {

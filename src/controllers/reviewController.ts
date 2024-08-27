@@ -4,7 +4,7 @@ import { NextFunction, Response } from "express";
 // models imports
 import Review from "../models/reviewModel";
 // interface imports
-import { ReviewRequest } from "../shared-interfaces/request.interface";
+import { ReviewRequest } from "../shared-interfaces/reviewRequest.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { IReview } from "../models/review.interface";
 

@@ -2,7 +2,7 @@ import catchAsync from "../utils/catchAsync";
 import Review from "../models/reviewModel";
 import AppError from "../utils/ApplicationError";
 import { NextFunction, Response } from "express";
-import { ReviewRequest } from "../shared-interfaces/request.interface";
+import { ReviewRequest } from "../shared-interfaces/reviewRequest.interface";
 import { IReview } from "../models/review.interface";
 import { IProduct } from "../models/product.interface";
 import Product from "../models/productModel";

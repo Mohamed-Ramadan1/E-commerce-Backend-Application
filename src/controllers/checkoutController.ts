@@ -1,10 +1,6 @@
 // system imports
 import { Response, NextFunction } from "express";
 
-// model imports
-import Order from "../models/orderModel";
-import CartItem from "../models/cartItemModel";
-
 // interface imports
 import {
   IOrder,
@@ -25,10 +21,9 @@ import { groupItemsByShop } from "../utils/checkoutUtils/groupShopCartItemsBySou
 import { GroupedItems } from "../utils/checkoutUtils/createSupOrders";
 import Stripe from "stripe";
 // modules imports
-import mongoose from "mongoose";
 import { processCheckout } from "../utils/checkoutUtils/processCheckout";
-// emails imports
 
+// checkout with cash
 export const checkoutWithCash = catchAsync(
   async (req: CheckoutRequest, res: Response, next: NextFunction) => {
     //extract the shipping address, shopping cart and user from the request object

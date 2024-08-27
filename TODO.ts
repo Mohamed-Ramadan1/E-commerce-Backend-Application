@@ -1,6 +1,10 @@
 /* 
 
+TODO: Link between the states of orders main and suborders (shipped , cancellation ,deliverd ).
 
+TODO: Look for the any controller need to be atomic with transactions
+
+TODO: refactor and enhance the emails and the project code in genral
 
 TODO : Create full analytics for the  orders ,shops and products.
 
@@ -69,4 +73,3 @@ TODO : planning for shipping management process.
 
 
 */
-

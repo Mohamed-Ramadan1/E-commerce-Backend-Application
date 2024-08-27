@@ -5,7 +5,7 @@ import AppError from "../utils/ApplicationError";
 import { IReturnRequest } from "../models/returnProducts.interface";
 import { IOrder } from "../models/order.interface";
 import { NextFunction, Response } from "express";
-import { ReturnItemsRequest } from "../shared-interfaces/request.interface";
+import { ReturnItemsRequest } from "../shared-interfaces/returnItemRequestReq.interface";
 
 export const validateBeforeReturnRequest = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
@@ -48,7 +48,6 @@ export const validateBeforeReturnRequest = catchAsync(
     const existingReturn: IReturnRequest | null = await ReturnProduct.findOne({
       order: orderId,
       "product._id": productId,
-     
     });
 
     if (existingReturn) {

@@ -10,10 +10,7 @@ import User from "../models/userModel";
 import { IOrder, OrderStatus } from "../models/order.interface";
 import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import {
-  AuthUserRequest,
-  AuthUserRequestWithID,
-} from "../shared-interfaces/request.interface";
+import { OrderRequest } from "../shared-interfaces/orderRequest.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
@@ -29,7 +26,7 @@ import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmation
 
 //get All Orders
 export const getOrders = catchAsync(
-  async (req: AuthUserRequest, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const apiFeatures = new APIFeatures(Order.find(), req.query);
 
     const orders: IOrder[] = await apiFeatures.execute();
@@ -44,7 +41,7 @@ export const getOrders = catchAsync(
 );
 //Get the order
 export const getOrder = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
     const order: IOrder | null = await Order.findById(id);
@@ -59,9 +56,11 @@ export const getOrder = catchAsync(
   }
 );
 
+// TODO Link the main order with the suborders
+
 //cancel the order
 export const cancelOrder = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const order: IOrder | null = await Order.findOne({
       _id: req.params.id,
     });
@@ -113,7 +112,7 @@ export const cancelOrder = catchAsync(
 
 //Update Order Status to shipped
 export const updateOrderStatusToShipped = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
     const order: IOrder | null = await Order.findByIdAndUpdate(
@@ -144,7 +143,7 @@ export const updateOrderStatusToShipped = catchAsync(
 
 //Update Order Status to delivered
 export const updateOrderStatusToDelivered = catchAsync(
-  async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
+  async (req: OrderRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
 
     const order: IOrder | null = await Order.findByIdAndUpdate(

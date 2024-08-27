@@ -6,7 +6,6 @@ import { Response, NextFunction } from "express";
 import ProcessedCreateShopRequests from "../models/processedCreateShopRequestsModal";
 
 // interface imports
-import { IUser } from "../models/user.interface";
 import { IProcessedShopRequest } from "../models/processedCreateShopRequests.interface";
 import { ProcessedShopRequestsReq } from "../shared-interfaces/processedShopRequestsReq.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";

@@ -7,10 +7,7 @@ import Product from "../models/productModel";
 // interface imports
 import { IProduct } from "../models/product.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import {
-  RequestWithMongoDbId,
-  RequestWithProduct,
-} from "../shared-interfaces/request.interface";
+import { ProductRequest } from "../shared-interfaces/productRequest.interface";
 
 // utils imports
 import catchAsync from "../utils/catchAsync";
@@ -39,7 +36,7 @@ export const getAllProducts = catchAsync(
 
 // get product by id
 export const getProduct = catchAsync(
-  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.findById(req.params.id);
     if (!product) {
       return next(new AppError("Product not found", 404));
@@ -56,7 +53,7 @@ export const getProduct = catchAsync(
 
 // create a new product
 export const createProduct = catchAsync(
-  async (req: RequestWithProduct, res: Response, next: NextFunction) => {
+  async (req: ProductRequest, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.create(req.body);
     if (!product) {
       return next(new AppError("something went wrong", 400));
@@ -73,7 +70,7 @@ export const createProduct = catchAsync(
 
 // update product
 export const updateProduct = catchAsync(
-  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
+  async (req: ProductRequest, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -97,7 +94,7 @@ export const updateProduct = catchAsync(
 
 // delete product
 export const deleteProduct = catchAsync(
-  async (req: RequestWithMongoDbId, res: Response, next: NextFunction) => {
+  async (req: ProductRequest, res: Response, next: NextFunction) => {
     const product: IProduct | null = await Product.findByIdAndDelete(
       req.params.id
     );

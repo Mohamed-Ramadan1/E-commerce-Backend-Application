@@ -11,7 +11,7 @@ import { IReturnRequest } from "../models/returnProducts.interface";
 import { IRefundRequest } from "../models/refund.interface";
 import { IOrder } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
-import { ReturnItemsRequest } from "../shared-interfaces/request.interface";
+import { ReturnItemsRequest } from "../shared-interfaces/returnItemRequestReq.interface";
 import { IUser } from "../models/user.interface";
 
 // utils imports

@@ -2,7 +2,6 @@
 import { NextFunction, Response } from "express";
 import mongoose from "mongoose";
 // models imports
-import User from "../models/userModel";
 import Shop from "../models/shopModal";
 import Product from "../models/productModel";
 import ShopOrder from "../models/shopOrderModal";
