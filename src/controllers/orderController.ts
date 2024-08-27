@@ -1,5 +1,6 @@
 // system imports
 import { NextFunction, Response } from "express";
+import mongoose from "mongoose";
 
 import Order from "../models/orderModel";
 import User from "../models/userModel";
@@ -7,6 +8,7 @@ import RefundRequest from "../models/refundModel";
 
 // interface imports
 import { IOrder, OrderStatus } from "../models/order.interface";
+import { IShopOrder } from "../models/shopOrder.interface";
 import { IUser } from "../models/user.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import {
@@ -23,7 +25,9 @@ import { sendResponse } from "../utils/sendResponse";
 //emails imports
 import confirmOrderCancelled from "../emails/users/cancelOrderVerificationEmail";
 import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmationEmail";
+import ShopOrder from "../models/shopOrderModal";
 
+// TODO: send emails to notify the sub orders with updates / like cancellation / delivery and return items
 // get all user orders
 export const getOrders = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
@@ -67,53 +71,77 @@ export const getOrder = catchAsync(
 //cancel the order
 export const cancelOrder = catchAsync(
   async (req: AuthUserRequestWithID, res: Response, next: NextFunction) => {
-    const order: IOrder | null = await Order.findOne({
-      _id: req.params.id,
-      user: req.user._id,
-    });
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    if (!order) {
-      return next(new AppError("Order not found", 404));
-    }
-    if (order.orderStatus === "cancelled") {
-      return next(new AppError("Order is already cancelled", 400));
-    }
-    if (order.orderStatus === "delivered") {
-      return next(
-        new AppError(
+    try {
+      const order: IOrder | null = await Order.findOne({
+        _id: req.params.id,
+        user: req.user._id,
+      });
+
+      if (!order) {
+        throw new AppError("No order found with this id.", 404);
+      }
+
+      if (order.orderStatus === "cancelled") {
+        throw new AppError("Order is already cancelled", 400);
+      }
+
+      if (order.orderStatus === "delivered") {
+        throw new AppError(
           "Order is already delivered, you can't cancel delivered orders.",
           400
-        )
+        );
+      }
+
+      order.orderStatus = OrderStatus.Cancelled;
+      await order.save({ session });
+
+      const updateSubOrders = await ShopOrder.updateMany(
+        { mainOrder: order._id },
+        { $set: { orderStatus: OrderStatus.Cancelled } },
+        { session }
       );
+
+      if (!updateSubOrders.acknowledged) {
+        throw new AppError("Error updating sub-orders while cancelling", 500);
+      }
+
+      const user = (await User.findById(order.user)) as IUser;
+
+      if (
+        order.paymentMethod === "credit_card" &&
+        order.paymentStatus === "paid"
+      ) {
+        const refundRequest = new RefundRequest({
+          user: user._id,
+          order: order._id,
+          refundAmount: order.totalPrice.toFixed(2),
+          refundMethod: "giftCard",
+          refundType: "cancellation",
+        });
+
+        const savedRequest = await refundRequest.save({ session });
+        if (!savedRequest) {
+          throw new AppError("Error saving refund request", 500);
+        }
+
+        refundRequestCreatedEmail(user, savedRequest);
+      }
+
+      confirmOrderCancelled(user, order);
+
+      await session.commitTransaction();
+
+      const response: ApiResponse<IOrder> = {
+        status: "success",
+        message: "Order cancelled successfully",
+      };
+      sendResponse(200, response, res);
+    } finally {
+      session.endSession();
     }
-
-    order.orderStatus = OrderStatus.Cancelled;
-    await order.save();
-
-    const user = (await User.findById(order.user)) as IUser;
-
-    // check if the user payment with the credit card and if it create the refund request and send email with the refund data
-    if (
-      order.paymentMethod === "credit_card" &&
-      order.paymentStatus === "paid"
-    ) {
-      const refundRequest = await RefundRequest.create({
-        user: user._id,
-        order: order._id,
-        refundAmount: order.totalPrice.toFixed(2),
-        refundMethod: "giftCard",
-        refundType: "cancellation",
-      });
-      //send the email by the data of refund
-      refundRequestCreatedEmail(user, refundRequest);
-    }
-    // send cancellation confirmation email
-    confirmOrderCancelled(user, order);
-    const response: ApiResponse<IOrder> = {
-      status: "success",
-      message: "Order cancelled successfully",
-    };
-    sendResponse(200, response, res);
   }
 );
 
