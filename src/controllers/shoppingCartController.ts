@@ -15,6 +15,7 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
+import { createAndAssignShoppingCart } from "../utils/shoppingCartUtils/createAndAssignShoppingCart";
 
 //-------------------------
 // Admin Basics operations on the shopping cart
@@ -96,7 +97,7 @@ export const updateShoppingCart = catchAsync(
 //----------------------------------------------------------
 // User Operations
 
-// get user shopping cart
+// get current user shopping cart
 export const getShoppingCart = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
     const userShopCart: IShoppingCart | null = await ShoppingCart.findOne({
@@ -104,8 +105,15 @@ export const getShoppingCart = catchAsync(
     });
 
     if (!userShopCart) {
-      return next(new AppError("something went wrong", 400));
+      await createAndAssignShoppingCart(req.user);
+      return next(
+        new AppError(
+          "Your shopping cart not exits we created a shopping cart for you please tray again and if the problem still exits contact support.",
+          400
+        )
+      );
     }
+
     const response: ApiResponse<IShoppingCart> = {
       status: "success",
       data: userShopCart,
@@ -117,9 +125,8 @@ export const getShoppingCart = catchAsync(
 // adding item to the shopping cart.
 export const addItemToShoppingCart = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
-    // get required data from request body.
+    // get required data from request
     const { productId, quantity } = req.body;
-
     const { userShopCart, product, userShoppingCartItem } = req;
 
     // if the product is exist on the user cart increase the quantity by the given quantity
@@ -166,24 +173,7 @@ export const addItemToShoppingCart = catchAsync(
 // remove item from shopping cart
 export const removeItemFromShoppingCart = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
-    const shoppingCartId = req.user.shoppingCart;
-
-    // Find the user's shopping cart
-    const userShopCart: IShoppingCart | null = await ShoppingCart.findById(
-      shoppingCartId
-    );
-    if (!userShopCart) {
-      return next(new AppError("Shopping cart not found", 400));
-    }
-
-    // Find the cart item to be removed
-    const userShoppingCartItem: ICartItem | null = await CartItem.findOne({
-      cart: shoppingCartId,
-      product: req.params.productId,
-    });
-    if (!userShoppingCartItem) {
-      return next(new AppError("Product not found in the shopping cart", 404));
-    }
+    const { userShopCart, userShoppingCartItem } = req;
 
     // Delete the cart item
     await CartItem.findByIdAndDelete(userShoppingCartItem._id);
@@ -209,27 +199,24 @@ export const removeItemFromShoppingCart = catchAsync(
 // Decrease shopping cart items quantity
 export const decreaseItemQuantity = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
-    const { productId, quantity } = req.body;
-    const { user } = req;
+    const { userShoppingCartItem } = req;
+    const { quantity } = req.body;
 
-    if (!productId || !quantity) {
-      return next(new AppError("Product id and quantity are required", 400));
+    if (
+      userShoppingCartItem.quantity === 1 ||
+      userShoppingCartItem.quantity <= quantity ||
+      userShoppingCartItem.quantity - quantity === 0
+    ) {
+      await CartItem.findByIdAndDelete(userShoppingCartItem._id);
     }
-    const shoppingCartItem: ICartItem | null = await CartItem.findOne({
-      cart: user.shoppingCart,
-      product: productId,
-    });
 
-    if (!shoppingCartItem) {
-      return next(new AppError("Product not found in the shopping cart ", 404));
+    if (userShoppingCartItem.quantity > quantity) {
+      userShoppingCartItem.quantity -= quantity;
+      await userShoppingCartItem.save();
     }
-    if (shoppingCartItem.quantity === 1) {
-      await CartItem.findByIdAndDelete(shoppingCartItem._id);
-    }
-    shoppingCartItem.quantity -= quantity;
-    await shoppingCartItem.save();
+
     const userShopCart: IShoppingCart | null = await ShoppingCart.findById(
-      user.shoppingCart
+      req.user.shoppingCart
     );
 
     if (!userShopCart) {
@@ -240,10 +227,11 @@ export const decreaseItemQuantity = catchAsync(
     userShopCart.calculateTotals();
     await userShopCart.save();
 
-    res.status(200).json({
+    const response: ApiResponse<null> = {
       status: "success",
       message: "Product quantity updated successfully",
-    });
+    };
+    sendResponse(200, response, res);
   }
 );
 
@@ -254,47 +242,62 @@ export const clearShoppingCart = catchAsync(
     const session = await ShoppingCart.startSession();
     session.startTransaction();
 
-    // clear the user shopping cart and cart items
-    const userShopCart: IShoppingCart | null =
-      await ShoppingCart.findOneAndUpdate(
-        { user: req.user._id },
+    try {
+      // clear the user shopping cart and cart items
+      const userShopCart: IShoppingCart | null =
+        await ShoppingCart.findOneAndUpdate(
+          { user: req.user._id },
+          {
+            $set: {
+              items: [],
+              total_quantity: 0,
+              total_discount: 0,
+              total_price: 0,
+              total_shipping_cost: 0,
+              payment_status: "pending",
+              payment_method: "cash",
+            },
+          },
+          {
+            new: true,
+            session,
+          }
+        );
+      // check if the user has a shopping cart and clear it
+      if (!userShopCart) {
+        await session.abortTransaction();
+        return next(new AppError("You are not authorized", 401));
+      }
+
+      // clear the cart items
+      const result = await CartItem.deleteMany(
         {
-          items: [],
-          total_quantity: 0,
-          total_discount: 0,
-          total_price: 0,
-          total_shipping_cost: 0,
-          payment_status: "pending",
-          payment_method: "cash",
+          cart: req.user.shoppingCart,
         },
-        {
-          new: true,
-          session,
-        }
+        { session }
       );
-    // check if the user has a shopping cart and clear it
-    if (!userShopCart) {
+      if (!result.acknowledged) {
+        await session.abortTransaction();
+        return next(new AppError("Failed to clear the shopping cart", 400));
+      }
+
+      // commit the transaction
+      await session.commitTransaction();
+
+      // send the response
+      const response: ApiResponse<IShoppingCart> = {
+        status: "success",
+        data: userShopCart,
+      };
+
+      sendResponse(200, response, res);
+    } catch (err: any) {
       await session.abortTransaction();
-      return next(new AppError("You are not authorized", 401));
+      return next(
+        new AppError(err.message || "Failed to clear the shopping cart", 500)
+      );
+    } finally {
+      session.endSession();
     }
-
-    // clear the cart items
-    await CartItem.deleteMany(
-      {
-        cart: req.user.shoppingCart,
-      },
-      { session }
-    );
-
-    // commit the transaction
-    await session.commitTransaction();
-
-    // send the response
-    const response: ApiResponse<IShoppingCart> = {
-      status: "success",
-      data: userShopCart,
-    };
-
-    sendResponse(200, response, res);
   }
 );

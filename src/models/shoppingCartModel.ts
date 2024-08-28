@@ -14,7 +14,7 @@ const shoppingCartSchema = new Schema<IShoppingCart>(
       unique: true,
       required: true,
     },
-    items: [{ type: Schema.Types.ObjectId, ref: "CartItem" }],
+    items: [{ type: Schema.Types.ObjectId, ref: "CartItem", default: [] }],
     total_quantity: { type: Number, required: true, default: 0 },
     total_discount: { type: Number, required: true, default: 0 },
     total_price: { type: Number, required: true, default: 0 },

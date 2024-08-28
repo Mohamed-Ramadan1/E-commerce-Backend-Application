@@ -1,7 +1,5 @@
 /* 
 
-TODO: Link between the states of orders main and suborders (shipped , cancellation ,deliverd ).
-
 TODO: Link between the refund requests and the return itmes for the shops 
 
 
@@ -30,6 +28,10 @@ TODO : Planning for inventory management controller
 TODO : planning for shipping management process.
 
 **************************************************************************************
+
+
+// TODO: Link between the states of orders main and suborders (shipped , cancellation ,deliverd ).
+
 
 //  TODO : using transactions for all the above controllers
 

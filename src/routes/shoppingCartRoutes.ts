@@ -14,7 +14,11 @@ import {
 
 // middlewares imports.
 import { protect, restrictTo } from "../middlewares/authMiddleware";
-import { checkItemValidity } from "../middlewares/shoppingCartMiddleware";
+import {
+  checkItemValidity,
+  validateBeforeRemoveItem,
+  validateBeforeDecrementItem,
+} from "../middlewares/shoppingCartMiddleware";
 
 const router = Router();
 
@@ -23,8 +27,12 @@ router.use(protect);
 // shopping cart routes for the user
 router.route("/me").get(getShoppingCart);
 router.route("/items").post(checkItemValidity, addItemToShoppingCart);
-router.route("/items/:productId").delete(removeItemFromShoppingCart);
-router.route("/decrement").patch(decreaseItemQuantity);
+router
+  .route("/items/:productId")
+  .delete(validateBeforeRemoveItem, removeItemFromShoppingCart);
+router
+  .route("/decrement")
+  .patch(validateBeforeDecrementItem, decreaseItemQuantity);
 router.route("/clear").delete(clearShoppingCart);
 
 router.use(protect, restrictTo("admin"));

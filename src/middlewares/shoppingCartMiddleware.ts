@@ -3,11 +3,13 @@ import { Response, NextFunction } from "express";
 import ShoppingCart from "../models/shoppingCartModel";
 import Product from "../models/productModel";
 import AppError from "../utils/ApplicationError";
-import { ShoppingCartRequest } from "../shared-interfaces/shoppingCartRequest.interface";
 import CartItem from "../models/cartItemModel";
-import { ICartItem } from "../models/cartItem.interface";
 import catchAsync from "../utils/catchAsync";
+import { createAndAssignShoppingCart } from "../utils/shoppingCartUtils/createAndAssignShoppingCart";
 import { IShoppingCart } from "../models/shoppingCart.interface";
+import { ICartItem } from "../models/cartItem.interface";
+import { IProduct } from "../models/product.interface";
+import { ShoppingCartRequest } from "../shared-interfaces/shoppingCartRequest.interface";
 
 export const checkItemValidity = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
@@ -19,17 +21,20 @@ export const checkItemValidity = catchAsync(
     }
 
     // check if the product exists with the given id.
-    const product = await Product.findById(productId);
+    const product: IProduct | null = await Product.findById(productId);
 
     // check if the product exists
     if (!product) {
-      return next(new AppError(" product not found", 404));
+      return next(new AppError("No product fount with given id .", 404));
     }
 
     // check if the product stock quantity is less than the required quantity
     if (product.stock_quantity < quantity) {
       return next(
-        new AppError(" stock quantity  less than your required quantity", 400)
+        new AppError(
+          "Product stock quantity  less than your required quantity",
+          400
+        )
       );
     }
 
@@ -40,7 +45,10 @@ export const checkItemValidity = catchAsync(
 
     // check if the user has a shopping cart
     if (!userShopCart) {
-      return next(new AppError("something went wrong", 400));
+      await createAndAssignShoppingCart(req.user);
+      return next(
+        new AppError("something went wrong with your shopping cart", 400)
+      );
     }
 
     // check if the user has the product in his cart
@@ -59,9 +67,75 @@ export const checkItemValidity = catchAsync(
       );
     }
 
+    if (userShoppingCartItem) {
+      req.userShoppingCartItem = userShoppingCartItem;
+    }
+
     req.product = product;
     req.userShopCart = userShopCart;
+
+    next();
+  }
+);
+
+export const validateBeforeRemoveItem = catchAsync(
+  async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
+    // Find the user's shopping cart
+    const userShopCart: IShoppingCart | null = await ShoppingCart.findById(
+      req.user.shoppingCart
+    );
+    if (!userShopCart) {
+      await createAndAssignShoppingCart(req.user);
+      return next(
+        new AppError(
+          "something went wrong with your shopping cart please tray again",
+          400
+        )
+      );
+    }
+
+    // Find the cart item to be removed
+    const userShoppingCartItem: ICartItem | null = await CartItem.findOne({
+      cart: req.user.shoppingCart,
+      product: req.params.productId,
+    });
+
+    if (!userShoppingCartItem) {
+      return next(new AppError("Product not found in the shopping cart", 404));
+    }
+
+    req.userShopCart = userShopCart;
     req.userShoppingCartItem = userShoppingCartItem;
+    next();
+  }
+);
+
+export const validateBeforeDecrementItem = catchAsync(
+  async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {
+    const { productId, quantity } = req.body;
+
+    if (!productId || !quantity) {
+      return next(new AppError("Product id and quantity are required", 400));
+    }
+    const shoppingCartItem: ICartItem | null = await CartItem.findOne({
+      cart: req.user.shoppingCart,
+      product: productId,
+    });
+
+    if (!shoppingCartItem) {
+      return next(new AppError("Product not found in the shopping cart ", 404));
+    }
+
+    if (shoppingCartItem.quantity < quantity) {
+      return next(
+        new AppError(
+          "Quantity to decrement must be less than or equal to current quantity",
+          400
+        )
+      );
+    }
+
+    req.userShoppingCartItem = shoppingCartItem;
     next();
   }
 );

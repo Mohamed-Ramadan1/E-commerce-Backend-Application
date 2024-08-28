@@ -7,7 +7,7 @@ import { ObjectId } from "mongoose";
 export interface ShoppingCartRequest extends AuthUserRequest {
   userShopCart: IShoppingCart;
   product: IProduct;
-  userShoppingCartItem: ICartItem | null;
+  userShoppingCartItem: ICartItem;
   body: {
     productId: ObjectId;
     quantity: number;
