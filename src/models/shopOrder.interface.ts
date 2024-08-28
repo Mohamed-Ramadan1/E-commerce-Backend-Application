@@ -1,5 +1,6 @@
 import { Document, Schema } from "mongoose";
 import { ICartItem } from "./cartItem.interface";
+import { IShop } from "./shop.interface";
 
 // Enums
 export enum PaymentStatus {
@@ -39,7 +40,7 @@ export interface IShopOrder extends Document {
   mainOrder: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
   vendorType: VendorType;
-  shop?: Schema.Types.ObjectId;
+  shop: IShop;
   items: ICartItem[];
   itemsQuantity: number;
   subtotalPrice: number;

@@ -1,14 +1,12 @@
 // system imports
 import { NextFunction, Response } from "express";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 // models imports
 import Order from "../models/orderModel";
-import RefundRequest from "../models/refundModel";
-import User from "../models/userModel";
 
 // interface imports
-import { IOrder, OrderStatus } from "../models/order.interface";
-import { IUser } from "../models/user.interface";
+import { IOrder, OrderStatus, ShippingStatus } from "../models/order.interface";
+
 import { ApiResponse } from "../shared-interfaces/response.interface";
 import { OrderRequest } from "../shared-interfaces/orderRequest.interface";
 
@@ -19,13 +17,14 @@ import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
 import { createRefundRequest } from "../utils/orderUtils/createOrderRefundRequest";
 import { updateSubOrdersState } from "../utils/orderUtils/updateSubOrderStatus";
+import { updateSubOrderShippingStatus } from "../utils/orderUtils/updateSubOrderShippingStatus";
+import { delverSubOrders } from "../utils/orderUtils/delverSubOrders";
 
 // emails imports
 import confirmOrderShippedSuccessfully from "../emails/admins/shippingOrderEmail";
 import confirmOrderDelivered from "../emails/admins/deliverOrderEmail";
 import confirmOrderCancellation from "../emails/admins/adminOrderCancellationOrdreConfirmation";
-import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmationEmail";
-import { IRefundRequest } from "../models/refund.interface";
+import { updateShopsBalance } from "../utils/orderUtils/updateShopsBalance";
 
 //get All Orders
 export const getOrders = catchAsync(
@@ -42,7 +41,8 @@ export const getOrders = catchAsync(
     sendResponse(200, response, res);
   }
 );
-//Get the order
+
+//Get Order by ID
 export const getOrder = catchAsync(
   async (req: OrderRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
@@ -58,8 +58,6 @@ export const getOrder = catchAsync(
     sendResponse(200, response, res);
   }
 );
-
-// TODO Link the main order with the suborders
 
 //cancel the order
 export const cancelOrder = catchAsync(
@@ -100,59 +98,95 @@ export const cancelOrder = catchAsync(
 //Update Order Status to shipped
 export const updateOrderStatusToShipped = catchAsync(
   async (req: OrderRequest, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { order, userOrderOwner } = req;
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
-    const order: IOrder | null = await Order.findByIdAndUpdate(
-      id,
-      {
-        shippingStatus: "shipped",
-      },
-      {
-        new: true,
-        runValidators: true,
-      }
-    );
-    if (!order) {
-      return next(new AppError("Order not found", 404));
+    try {
+      order.shippingStatus = ShippingStatus.Shipped;
+      await order.save({ session });
+
+      await updateSubOrderShippingStatus(
+        order,
+        session,
+        ShippingStatus.Shipped
+      );
+
+      // send shipping confirmation email
+      confirmOrderShippedSuccessfully(userOrderOwner, order);
+
+      await session.commitTransaction();
+
+      const response: ApiResponse<IOrder> = {
+        status: "success",
+        data: order,
+      };
+      sendResponse(200, response, res);
+    } catch (error) {
+      await session.abortTransaction();
+
+      return next(
+        new AppError(
+          "Error happen while updating the order shipping state",
+          500
+        )
+      );
+    } finally {
+      session.endSession();
     }
-    const user = (await User.findById(order.user)) as IUser;
-
-    // send shipping confirmation email
-    confirmOrderShippedSuccessfully(user, order);
-
-    const response: ApiResponse<IOrder> = {
-      status: "success",
-      data: order,
-    };
-    sendResponse(200, response, res);
   }
 );
 
 //Update Order Status to delivered
-export const updateOrderStatusToDelivered = catchAsync(
+export const delverOrder = catchAsync(
   async (req: OrderRequest, res: Response, next: NextFunction) => {
-    const { id } = req.params;
+    const { order, userOrderOwner } = req;
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    // update the order
 
-    const order: IOrder | null = await Order.findByIdAndUpdate(
-      id,
-      {
-        orderStatus: "delivered",
-      },
-      {
-        new: true,
-        runValidators: true,
+    try {
+      order.orderStatus = OrderStatus.Delivered;
+      order.shippingStatus = ShippingStatus.Delivered;
+
+      const updatedOrder = await order.save({ session });
+
+      if (!updatedOrder) {
+        await session.abortTransaction();
+        return next(new AppError("delver order process failed", 500));
       }
-    );
-    if (!order) {
-      return next(new AppError("Order not found", 404));
+      // update the sub orders
+      await delverSubOrders(
+        order,
+        session,
+        ShippingStatus.Delivered,
+        OrderStatus.Delivered
+      );
+
+      // check the items come form the shops and add its value (mony value) to the shop balance.
+      await updateShopsBalance(order, session);
+      // send delivery confirmation email
+      confirmOrderDelivered(userOrderOwner, order);
+
+      // commit the transaction
+      await session.commitTransaction();
+
+      const response: ApiResponse<IOrder> = {
+        status: "success",
+        data: order,
+      };
+      sendResponse(200, response, res);
+    } catch (error: any) {
+      await session.abortTransaction();
+      console.log(error);
+      return next(
+        new AppError(
+          "Error happen while updating the order delivery state",
+          500
+        )
+      );
+    } finally {
+      session.endSession();
     }
-    const user = (await User.findById(order.user)) as IUser;
-    // send delivery confirmation email
-    confirmOrderDelivered(user, order);
-    const response: ApiResponse<IOrder> = {
-      status: "success",
-      data: order,
-    };
-    sendResponse(200, response, res);
   }
 );

@@ -14,6 +14,7 @@ export enum PaymentMethod {
 export enum ShippingStatus {
   Pending = "pending",
   Shipped = "shipped",
+  Delivered = "delivered",
 }
 
 export enum OrderStatus {

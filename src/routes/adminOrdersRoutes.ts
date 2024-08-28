@@ -2,11 +2,15 @@ import { Router } from "express";
 import {
   getOrder,
   getOrders,
-  updateOrderStatusToDelivered,
+  delverOrder,
   updateOrderStatusToShipped,
   cancelOrder,
 } from "../controllers/adminOrdersController";
-import { validateBeforeCancelOrder } from "../middlewares/ordersMiddleware";
+import {
+  validateBeforeCancelOrder,
+  validateBeforeUpdateShippingStatus,
+  validateBeforeDeliverOrder,
+} from "../middlewares/ordersMiddleware";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 
 const router = Router();
@@ -17,8 +21,10 @@ router.use(restrictTo("admin"));
 router.route("/all").get(getOrders);
 
 router.route("/:id").get(getOrder);
-router.route("/:id/delivered").patch(updateOrderStatusToDelivered);
-router.route("/:id/shipped").patch(updateOrderStatusToShipped);
+router.route("/:id/delivered").patch(validateBeforeDeliverOrder, delverOrder);
+router
+  .route("/:id/shipped")
+  .patch(validateBeforeUpdateShippingStatus, updateOrderStatusToShipped);
 router.route("/:id/cancel").patch(validateBeforeCancelOrder, cancelOrder);
 
 export default router;

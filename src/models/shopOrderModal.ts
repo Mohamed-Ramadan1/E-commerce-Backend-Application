@@ -102,7 +102,11 @@ ShopOrderSchema.index({ shippingStatus: 1 });
 ShopOrderSchema.pre<IShopOrder>(/^find/, function (next) {
   this.populate({
     path: "items.product",
-    select: "name price", // Add any other fields you want to populate
+    select: "name price",
+  });
+
+  this.populate({
+    path: "shop",
   });
   next();
 });

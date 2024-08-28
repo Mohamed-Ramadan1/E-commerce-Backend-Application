@@ -17,6 +17,10 @@ const shopSchema: Schema = new Schema<IShop>(
       lowercase: true,
       validate: [validator.isEmail, "Please provide a valid email address"],
     },
+    balance: {
+      type: Number,
+      default: 0,
+    },
     phone: {
       type: String,
       required: true,

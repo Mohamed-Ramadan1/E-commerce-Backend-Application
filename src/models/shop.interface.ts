@@ -6,6 +6,7 @@ export interface IShop extends Document {
   email: string;
   phone: string;
   shopName: string;
+  balance: number;
   shopDescription: string;
   categories?: string[];
   photo?: string;
