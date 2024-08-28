@@ -17,13 +17,11 @@ import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
 import APIFeatures from "../utils/apiKeyFeature";
 import { sendResponse } from "../utils/sendResponse";
-
+import { createRefundRequest } from "../utils/orderUtils/createOrderRefundRequest";
+import { updateSubOrdersState } from "../utils/orderUtils/updateSubOrderStatus";
 //emails imports
 import confirmOrderCancelled from "../emails/users/cancelOrderVerificationEmail";
-import refundRequestCreatedEmail from "../emails/users/refundRequestConfirmationEmail";
-import ShopOrder from "../models/shopOrderModal";
 
-// TODO: send emails to notify the sub orders with updates / like cancellation / delivery and return items
 // get all user orders
 export const getOrders = catchAsync(
   async (req: OrderRequest, res: Response, next: NextFunction) => {
@@ -67,66 +65,31 @@ export const getOrder = catchAsync(
 //cancel the order
 export const cancelOrder = catchAsync(
   async (req: OrderRequest, res: Response, next: NextFunction) => {
+    const { order, userOrderOwner } = req;
+
     const session = await mongoose.startSession();
     session.startTransaction();
 
+
     try {
-      const order: IOrder | null = await Order.findOne({
-        _id: req.params.id,
-        user: req.user._id,
-      });
-
-      if (!order) {
-        throw new AppError("No order found with this id.", 404);
-      }
-
-      if (order.orderStatus === "cancelled") {
-        throw new AppError("Order is already cancelled", 400);
-      }
-
-      if (order.orderStatus === "delivered") {
-        throw new AppError(
-          "Order is already delivered, you can't cancel delivered orders.",
-          400
+      if (userOrderOwner._id.toString() !== req.user._id.toString()) {
+        return next(
+          new AppError("You are not authorized to cancel this order", 403)
         );
       }
-
       order.orderStatus = OrderStatus.Cancelled;
       await order.save({ session });
 
-      const updateSubOrders = await ShopOrder.updateMany(
-        { mainOrder: order._id },
-        { $set: { orderStatus: OrderStatus.Cancelled } },
-        { session }
-      );
-
-      if (!updateSubOrders.acknowledged) {
-        throw new AppError("Error updating sub-orders while cancelling", 500);
-      }
-
-      const user = (await User.findById(order.user)) as IUser;
+      await updateSubOrdersState(order, session, OrderStatus.Cancelled);
 
       if (
         order.paymentMethod === "credit_card" &&
         order.paymentStatus === "paid"
       ) {
-        const refundRequest = new RefundRequest({
-          user: user._id,
-          order: order._id,
-          refundAmount: order.totalPrice.toFixed(2),
-          refundMethod: "giftCard",
-          refundType: "cancellation",
-        });
-
-        const savedRequest = await refundRequest.save({ session });
-        if (!savedRequest) {
-          throw new AppError("Error saving refund request", 500);
-        }
-
-        refundRequestCreatedEmail(user, savedRequest);
+        await createRefundRequest(userOrderOwner, session, order);
       }
 
-      confirmOrderCancelled(user, order);
+      confirmOrderCancelled(userOrderOwner, order);
 
       await session.commitTransaction();
 

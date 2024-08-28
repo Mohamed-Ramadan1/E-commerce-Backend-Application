@@ -25,8 +25,7 @@ import APIFeatures from "../utils/apiKeyFeature";
 import sendShopSupportTicketReceivedEmail from "../emails/shop/shopSupportTicketRecivedConfirmationEmail";
 import sendShopSupportTicketProcessedEmail from "../emails/shop/shopSupportTicketResponseEmail";
 
-//----------------------------------------------
-//Helper Functions and types
+
 
 // type for the ticket data object
 type TicketObjectData = {

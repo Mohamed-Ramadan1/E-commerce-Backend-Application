@@ -6,6 +6,7 @@ import {
   updateOrderStatusToShipped,
   cancelOrder,
 } from "../controllers/adminOrdersController";
+import { validateBeforeCancelOrder } from "../middlewares/ordersMiddleware";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 
 const router = Router();
@@ -18,6 +19,6 @@ router.route("/all").get(getOrders);
 router.route("/:id").get(getOrder);
 router.route("/:id/delivered").patch(updateOrderStatusToDelivered);
 router.route("/:id/shipped").patch(updateOrderStatusToShipped);
-router.route("/:id/cancel").patch(cancelOrder);
+router.route("/:id/cancel").patch(validateBeforeCancelOrder, cancelOrder);
 
 export default router;
