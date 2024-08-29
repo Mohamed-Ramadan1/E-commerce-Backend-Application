@@ -19,16 +19,6 @@ import AppError from "../utils/ApplicationError";
 // Middleware for validation the new product dat before adding it to the shop and start sale it.
 export const validateBeforeAddNewProduct = catchAsync(
   async (req: ShopProductsRequest, res: Response, next: NextFunction) => {
-    /*
-    expected commeing data from the request body:
-
-    sourceType and if shop (shop id should exist)
-    name, description, category, brand, price, discount, 
-    stock_quantity, images, videos, color, material, 
-   , shipping_cost,
-     shipping_methods, availability_status,
-      manufacturer, supplier, return_policy
-    */
     const shop: IShop | null = await Shop.findById(req.user.myShop);
     if (!shop) {
       return next(

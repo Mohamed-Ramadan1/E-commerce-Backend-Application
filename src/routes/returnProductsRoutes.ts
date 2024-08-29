@@ -11,7 +11,10 @@ import {
   rejectReturnItems,
 } from "../controllers/returnProductsController";
 import { protect, restrictTo } from "../middlewares/authMiddleware";
-import { validateBeforeReturnRequest } from "../middlewares/returnProductsMiddleware";
+import {
+  validateBeforeReturnRequest,
+  validateBeforeProcessReturnRequests,
+} from "../middlewares/returnProductsMiddleware";
 const router = Router();
 
 router.use(protect);
@@ -33,8 +36,12 @@ router
 //admin/manager Routes
 
 router.use(restrictTo("admin"));
-router.route("/approve/:id").patch(approveReturnItems);
-router.route("/reject/:id").patch(rejectReturnItems);
+router
+  .route("/:id/approve")
+  .patch(validateBeforeProcessReturnRequests, approveReturnItems);
+router
+  .route("/:id/reject")
+  .patch(validateBeforeProcessReturnRequests, rejectReturnItems);
 router.route("/:id/item").get(getReturnItemRequest);
 
 export default router;

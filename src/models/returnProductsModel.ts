@@ -18,6 +18,10 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
       ref: "Order",
       required: true,
     },
+    processedBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
     product: productSchema,
 
     quantity: {
@@ -48,7 +52,6 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
     },
     processedDate: {
       type: Date,
-      required: false,
     },
   },
   { timestamps: true }

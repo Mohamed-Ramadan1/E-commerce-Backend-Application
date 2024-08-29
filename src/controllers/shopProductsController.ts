@@ -1,13 +1,11 @@
 // system imports
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 
 // models imports
-import User from "../models/userModel";
 import Shop from "../models/shopModal";
 import Product from "../models/productModel";
 
 // interfaces imports
-import { IUser } from "../models/user.interface";
 import { IShop } from "../models/shop.interface";
 import { IProduct } from "../models/product.interface";
 import { ShopProductsRequest } from "../shared-interfaces/shopProductsRequest.interface";
@@ -74,7 +72,7 @@ export const updateProduct = catchAsync(
   async (req: ShopProductsRequest, res: Response, next: NextFunction) => {
     const { product, shop } = req;
     /* 
-    all middleware validation is done on the middleware stage 
+    all  validation is done on the middleware stage 
     the user is allowed to update the product data (note blocked ones.)
     */
     //update the product after filtering the body and insure the body not contain none required fildes.

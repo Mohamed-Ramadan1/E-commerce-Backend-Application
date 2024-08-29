@@ -2,12 +2,14 @@ import { NextFunction, Response } from "express";
 
 // models imports
 import ReturnProduct from "../models/returnProductsModel";
-import Order from "../models/orderModel";
 import RefundRequest from "../models/refundModel";
-import User from "../models/userModel";
 
 // interface imports
-import { IReturnRequest } from "../models/returnProducts.interface";
+import {
+  IReturnRequest,
+  ReturnStatus,
+  ReceivedItemsStatus,
+} from "../models/returnProducts.interface";
 import { IRefundRequest } from "../models/refund.interface";
 import { IOrder } from "../models/order.interface";
 import { ApiResponse } from "../shared-interfaces/response.interface";
@@ -22,6 +24,8 @@ import { sendResponse } from "../utils/sendResponse";
 
 //emails imports
 import refundRequestForReturnedItemsEmail from "../emails/users/refundRequestForReturnedItemsEmail";
+import { ICartItem } from "../models/cartItem.interface";
+import mongoose from "mongoose";
 
 // ----------------------------------------------------------------
 //Users Operations
@@ -32,9 +36,10 @@ export const requestReturnItems = catchAsync(
     // orderId   ProductId  quantity   reason
 
     const { orderId, quantity, returnReason } = req.body;
-    const returnedItem: any = req.returnedProduct;
-    const refundAmount: number = returnedItem.product.price * quantity;
     const user: IUser = req.user;
+
+    const returnedItem: ICartItem = req.returnedProduct;
+
     const returnProductRequest: IReturnRequest | null =
       await ReturnProduct.create({
         user: user._id,
@@ -42,10 +47,11 @@ export const requestReturnItems = catchAsync(
         product: returnedItem.product,
         quantity: quantity,
         returnReason: returnReason,
-        refundAmount: refundAmount,
+        refundAmount: returnedItem.priceAfterDiscount,
       });
+
     if (!returnProductRequest) {
-      return next(new AppError("Something went wrong", 400));
+      return next(new AppError("Something went wrong please tray agin.", 400));
     }
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
@@ -66,7 +72,7 @@ export const cancelReturnRequest = catchAsync(
       await ReturnProduct.findByIdAndUpdate(
         id,
         {
-          returnStatus: "Cancelled",
+          returnStatus: ReturnStatus.Cancelled,
         },
         {
           new: true,
@@ -76,9 +82,6 @@ export const cancelReturnRequest = catchAsync(
     if (!returnRequest) {
       return next(new AppError("No return request with this ID", 404));
     }
-    // create processed return document and delete the old one
-    // handelProcessedReturnRequest(returnRequest, req.user, "Cancelled");
-
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,
@@ -201,75 +204,79 @@ export const getReturnItemRequest = catchAsync(
 // approve item return request
 export const approveReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if (!id)
-      return next(new AppError("Invalid request provide request ID", 400));
+    const { order, userToReturn, returnRequest } = req;
 
-    const returnRequest: IReturnRequest | null =
-      await ReturnProduct.findByIdAndUpdate(
-        id,
-        {
-          receivedItemsStatus: "Received",
-          returnStatus: "Approved",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    try {
+      // update refund request
+      returnRequest.returnStatus = ReturnStatus.Approved;
+      returnRequest.receivedItemsStatus = ReceivedItemsStatus.Received;
+      returnRequest.processedBy = req.user._id;
+      returnRequest.processedDate = new Date();
+      await returnRequest.save({ session });
+
+      const refundRequest: IRefundRequest = new RefundRequest({
+        order: order._id,
+        user: userToReturn._id,
+        refundAmount: returnRequest.refundAmount,
+        refundMethod: "giftCard",
+        refundType: "return",
+        refundStatus: "pending",
+      });
+
+      await refundRequest.save({ session });
+
+      // Send email outside of transaction to prevent delays
+      setImmediate(() => {
+        refundRequestForReturnedItemsEmail(
+          userToReturn,
+          refundRequest,
+          returnRequest
+        );
+      });
+
+      // commit the transaction
+      await session.commitTransaction();
+
+      const response: ApiResponse<IReturnRequest> = {
+        status: "success",
+        data: returnRequest,
+      };
+      sendResponse(200, response, res);
+    } catch (err: any) {
+      await session.abortTransaction();
+      throw new AppError(
+        err.message || "Something went wrong please try again.",
+        400
       );
-    if (!returnRequest) {
-      return next(new AppError("No return request with this ID", 404));
+    } finally {
+      await session.endSession();
     }
-
-    // create the refund request and send confirmation email to the user
-    // get the order and the user
-    const user = (await User.findById(returnRequest.user)) as IUser;
-    const order = (await Order.findById(returnRequest.order)) as IOrder;
-    const refundRequest: IRefundRequest = await RefundRequest.create({
-      order: order._id,
-      user: user._id,
-      refundAmount: returnRequest.refundAmount,
-      refundMethod: "giftCard",
-      refundType: "return",
-      refundStatus: "pending",
-    });
-    // send email to the user to tell him items received and refund mony request created
-    refundRequestForReturnedItemsEmail(user, refundRequest, returnRequest);
-
-    const response: ApiResponse<IReturnRequest> = {
-      status: "success",
-      data: returnRequest,
-    };
-    sendResponse(200, response, res);
   }
 );
 
 // reject item return request
 export const rejectReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    if (!id)
-      return next(new AppError("Invalid request provide request ID", 400));
-
-    const returnRequest: IReturnRequest | null =
-      await ReturnProduct.findByIdAndUpdate(
-        id,
-        {
-          returnStatus: "Rejected",
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
+    const { order, userToReturn, returnRequest } = req;
+    // update refund request
+    returnRequest.returnStatus = ReturnStatus.Rejected;
+    returnRequest.receivedItemsStatus = ReceivedItemsStatus.Received;
+    returnRequest.processedBy = req.user._id;
+    returnRequest.processedDate = new Date();
+    const savedDocument = await returnRequest.save();
+    if (!savedDocument) {
+      return next(
+        new AppError("Something went wrong while updating return request.", 400)
       );
-    if (!returnRequest) {
-      return next(new AppError("No return request with this ID", 404));
     }
-
+    // email with rejecting information
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,
     };
+
     sendResponse(200, response, res);
   }
 );

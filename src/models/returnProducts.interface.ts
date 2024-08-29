@@ -17,14 +17,15 @@ export interface IReturnRequest extends Document {
   _id: Schema.Types.ObjectId;
   user: Schema.Types.ObjectId;
   order: Schema.Types.ObjectId;
+  processedBy: Schema.Types.ObjectId;
   product: IProduct;
   quantity: number;
   returnReason: string;
-  returnStatus: ReturnStatus; 
+  returnStatus: ReturnStatus;
   receivedItemsStatus: ReceivedItemsStatus;
   refundAmount: number;
   comments?: string;
-  processedDate?: Date;
+  processedDate: Date;
   createdAt: Date;
   updatedAt: Date;
 }

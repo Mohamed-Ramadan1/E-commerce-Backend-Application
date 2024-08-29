@@ -25,8 +25,6 @@ import APIFeatures from "../utils/apiKeyFeature";
 import sendShopSupportTicketReceivedEmail from "../emails/shop/shopSupportTicketRecivedConfirmationEmail";
 import sendShopSupportTicketProcessedEmail from "../emails/shop/shopSupportTicketResponseEmail";
 
-
-
 // type for the ticket data object
 type TicketObjectData = {
   shop: Schema.Types.ObjectId;
@@ -135,7 +133,7 @@ export const updateMyShopSupportTicket = catchAsync(
     // create ticket data object based on the prev type.
     const ticketData: TicketUpdateObjectData = {};
 
-    // chack exist data and add based on the condetion result.
+    // check exist data and add based on the condition result.
     if (subject) ticketData.subject = subject;
     if (description) ticketData.description = description;
     if (category) ticketData.category = category;
