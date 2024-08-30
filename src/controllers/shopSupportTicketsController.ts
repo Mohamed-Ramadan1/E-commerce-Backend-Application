@@ -5,6 +5,7 @@ import { promises as fs } from "fs";
 // modules imports
 import cloudinary from "cloudinary";
 import { Schema } from "mongoose";
+
 // models imports
 import ShopSupportTicket from "../models/shopSupportTicketModal";
 
@@ -19,32 +20,15 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 // utils
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/ApplicationError";
-import { sendResponse } from "../utils/sendResponse";
 import APIFeatures from "../utils/apiKeyFeature";
+import { sendResponse } from "../utils/sendResponse";
+import {
+  TicketObjectData,
+  TicketUpdateObjectData,
+} from "../utils/shopUtils/shopSupportTicketsTypes";
 // emails imports
 import sendShopSupportTicketReceivedEmail from "../emails/shop/shopSupportTicketRecivedConfirmationEmail";
 import sendShopSupportTicketProcessedEmail from "../emails/shop/shopSupportTicketResponseEmail";
-
-// type for the ticket data object
-type TicketObjectData = {
-  shop: Schema.Types.ObjectId;
-  user: Schema.Types.ObjectId;
-  subject: string;
-  description: string;
-  category: string;
-  img?: string;
-  imgPublicId?: string;
-};
-
-// type for the update ticket data object
-type TicketUpdateObjectData = {
-  subject?: string;
-  description?: string;
-  category?: string;
-  status?: string;
-  img?: string;
-  imgPublicId?: string;
-};
 
 //----------------------------------------------
 // Users Routes Handler
@@ -314,6 +298,7 @@ export const updateShopSupportTicket = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
 // delete a shop ticket by id.
 export const deleteShopSupportTicket = catchAsync(
   async (req: ShopSupportTicketRequest, res: Response, next: NextFunction) => {
@@ -321,7 +306,7 @@ export const deleteShopSupportTicket = catchAsync(
       await ShopSupportTicket.findByIdAndDelete(req.params.ticketId);
 
     if (!ticket) {
-      return next(new AppError("Ticket not found with this id", 404));
+      return next(new AppError("No Ticket  found with this id", 404));
     }
 
     if (ticket.imgPublicId) {
@@ -354,6 +339,7 @@ export const processSupportTicket = catchAsync(
       phoneNumber: req.user.phoneNumber,
       role: req.user.role,
     };
+
     const updatedTicket = await ticket.save();
 
     // send the email to the user.

@@ -30,10 +30,11 @@ export const validateBeforeOpenShopSupportTicket = catchAsync(
       _id: req.user.myShop,
       owner: req.user._id,
     });
+
     if (!userShop) {
       return next(
         new AppError(
-          "You don't have permission to create support ticket,only shopOwner allowed to use this route you can use user support tickets route instead.",
+          "You don't have permission to create support ticket,only shop-owner allowed to use this route you can use user support tickets route instead.",
           403
         )
       );
