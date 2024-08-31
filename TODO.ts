@@ -1,12 +1,18 @@
 /* 
 
-TODO: Link between the refund requests and the return itmes for the shops 
+TODO: notification system complete the remain route end points. 
 
+TODO: Link between the refund requests and the return items for the shops. 
 
+TODO: Discount  codes  (mange codes with admins , shops owners ).
 
-TODO: Look for the any controller need to be atomic with transactions
+TODO: While payment process check if the user have mony in the gift card or not and based subtract the amount of the gift card from the total.
 
-TODO: refactor and enhance the emails and the project code in genral
+TODO: While payment process check if the user have a valid discount code or not and based subtract the amount of the discount code from the total.
+TODO: Admins contact user (one way message system)
+
+TODO : Prime users subscriptions 
+
 
 TODO : Create full analytics for the  orders ,shops and products.
 
@@ -14,21 +20,27 @@ TODO : Create schduler tasks to send reports for shops owners and traders. node 
 
 TODO : Setup webpack to start build the application 
 
-TODO : Ready for deployment
-
-Start enhance the code quality and performance
-
-
+TODO : Handle How the shop owners will receive the money from the application 
+      TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
 
 
 *************************************************************************************
 
-TODO : Planning for inventory management controller
-
-TODO : planning for shipping management process.
+TODO : Planning for inventory management logic in general
 
 **************************************************************************************
 
+
+
+
+// TODO: Look for the any controller need to be atomic with transactions
+
+// TODO: refactor and enhance the emails and the project code in genral
+
+
+// TODO : Ready for deployment
+
+// Start enhance the code quality and performance
 
 // TODO: Link between the states of orders main and suborders (shipped , cancellation ,deliverd ).
 

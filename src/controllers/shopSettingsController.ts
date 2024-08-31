@@ -41,12 +41,6 @@ type UpdateObject = {
 // Update shop data (Shop name, description, phone number, photo)
 export const updateShopInformation = catchAsync(
   async (req: ShopSettingsRequest, res: Response, next: NextFunction) => {
-    /* 
-      update shopName 
-      update shopDescription
-      update shop phoneNumber
-      update shop photo
-      */
     const shop = req.shop;
     const { shopName, shopDescription, shopPhoneNumber, photo } = req.body;
     console.log(req.body);
