@@ -307,12 +307,9 @@ export const getAllOrdersCreatedOnShop = catchAsync(
 export const getSingleOrderCreatedOnShop = catchAsync(
   async (req: ShopsManagementRequest, res: Response, next: NextFunction) => {
     const { shopId, orderId } = req.params;
-    const shop: IShop | null = await Shop.findById(shopId);
-    if (!shop) {
-      return next(new AppError("No shop found with this id.", 404));
-    }
+
     const order: IShopOrder | null = await ShopOrder.findOne({
-      shop: shop._id,
+      shop: shopId,
       _id: orderId,
     });
     if (!order) {
