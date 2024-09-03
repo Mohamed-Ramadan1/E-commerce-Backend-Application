@@ -34,6 +34,10 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
       trim: true,
       validate: [validator.isEmail, "Invalid email"],
     },
+    isNotificationMuted: {
+      type: Boolean,
+      default: false,
+    },
     address: {
       type: String,
     },

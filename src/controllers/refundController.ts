@@ -60,10 +60,10 @@ const handelProcessedRefundRequest = async (
     return next(new AppError("Error while processing refund request", 500));
   }
 
-  await RefundRequest.deleteOne({ _id: refundRequest._id });
+  // await RefundRequest.deleteOne({ _id: refundRequest._id });
 };
 
-// all controller in this file related to the admins only
+// all controller functions  in this file related to the admins only
 
 // create refund request
 export const createRefundRequest = catchAsync(

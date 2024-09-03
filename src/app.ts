@@ -32,6 +32,8 @@ import processedSupportTicketsRoutes from "./routes/processedSupportTicketsRoute
 import shopSupportTicketRoutes from "./routes/shopSupportTicketRoutes";
 import shopsOrdersRoutes from "./routes/shopOrdersRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
+import monthlyWebsiteAnalyticsReportRoutes from "./routes/monthlyWebsiteAnalyticsReportRoutes";
+import monthlyShopeAnalyticsReportRoutes from "./routes/monthlyShopeAnalyticsReportRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -117,6 +119,19 @@ app.use(
   "/api/v1/processed-delete-shops-requests",
   processedDeleteShopRequestRoutes
 );
+
+// this route related to the monthly website analytics report
+app.use(
+  "/api/v1/website-analytics/monthly-reports",
+  monthlyWebsiteAnalyticsReportRoutes
+);
+// this route related to the monthly shops analytics report
+app.use(
+  "/api/v1/shop-analytics/monthly-reports",
+  monthlyShopeAnalyticsReportRoutes
+);
+
+// Error handling middleware
 
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));

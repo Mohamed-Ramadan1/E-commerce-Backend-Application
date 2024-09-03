@@ -10,6 +10,7 @@ export interface IUser extends Document {
   phoneNumber: string;
   shoppingCart: IShoppingCart;
   giftCard: number;
+  isNotificationMuted: boolean;
   photo?: string;
   photoPublicId?: string;
   password: string;

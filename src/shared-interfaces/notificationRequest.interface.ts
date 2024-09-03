@@ -7,6 +7,7 @@ export interface NotificationRequest extends AuthUserRequest {
   body: {
     message: string;
     type: string;
-    userId:string
+    userId: string;
+    groupOfNotificationIds: string[];
   };
 }

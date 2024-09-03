@@ -5,27 +5,36 @@ import {
   getUserNotification,
   deleteUserNotification,
   deleteAllUserNotifications,
-  getUserReadNotifications,
-  getUserUnreadNotifications,
   markAllNotificationsAsRead,
   markNotificationAsRead,
+  markGroupAsRead,
+  deleteGroupOfNotification,
+  muteNotifications,
+  unmuteNotifications,
 } from "../controllers/notificationController";
 
 import { protect, restrictTo } from "../middlewares/authMiddleware";
 
 const router = Router();
+
 router.use(protect);
+
 router
   .route("/")
   .get(getUserNotifications)
-  .post(restrictTo("admin"), createNotification);
+  .post(restrictTo("admin"), createNotification)
+  .patch(markAllNotificationsAsRead)
+  .delete(deleteAllUserNotifications);
 
-router.get("/unread", getUserUnreadNotifications);
-router.get("/read", getUserReadNotifications);
-router.delete("/delete-all", deleteAllUserNotifications);
+router.route("/group").patch(markGroupAsRead).delete(deleteGroupOfNotification);
 
-router.route("/:id").get(getUserNotification).delete(deleteUserNotification);
-router.patch("/mark-as-read/:id", markNotificationAsRead);
-router.patch("/mark-all-as-read", markAllNotificationsAsRead);
+router.patch("/mute", muteNotifications);
+router.patch("/unmute", unmuteNotifications);
+
+router
+  .route("/:id")
+  .get(getUserNotification)
+  .patch(markNotificationAsRead)
+  .delete(deleteUserNotification);
 
 export default router;

@@ -16,14 +16,6 @@ import { ApiResponse } from "../shared-interfaces/response.interface";
 
 import { getIO } from "../utils/socketSetup";
 
-//TODO mark group notifications as read
-
-//TODO delete group notifications for a user
-
-//TODO mute notification for a user
-
-//TODO unmute notification for a user
-
 //---------------------------------
 // admin operations
 
@@ -192,54 +184,111 @@ export const deleteAllUserNotifications = catchAsync(
   }
 );
 
-// get unread notifications for a user
-export const getUserUnreadNotifications = catchAsync(
+//Mark groupe of notifications as read
+export const markGroupAsRead = catchAsync(
   async (req: NotificationRequest, res: Response, next: NextFunction) => {
-    const features = new APIFeatures(
-      Notification.find({
+    const { groupOfNotificationIds } = req.body;
+
+    if (!groupOfNotificationIds || groupOfNotificationIds.length === 0) {
+      return next(new AppError("No notification IDs provided", 400));
+    }
+    const updatedNotifications = await Notification.updateMany(
+      {
+        _id: { $in: groupOfNotificationIds },
         user: req.user._id,
-        read: false,
-      }),
-      req.query
-    )
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
+      },
+      {
+        $set: {
+          read: true,
+          readAt: new Date(),
+        },
+      },
+      { new: true }
+    );
 
-    const notifications = await features.execute();
+    if (updatedNotifications.modifiedCount === 0) {
+      return next(
+        new AppError(
+          "No unread notifications found with these IDs for the current user",
+          404
+        )
+      );
+    }
 
-    const response: ApiResponse<INotification[]> = {
+    const response: ApiResponse<{ modifiedCount: number }> = {
       status: "success",
-      results: notifications.length,
-      data: notifications,
+      data: { modifiedCount: updatedNotifications.modifiedCount },
     };
 
     sendResponse(200, response, res);
   }
 );
 
-// get read notifications for a user
-export const getUserReadNotifications = catchAsync(
+//delete group notifications for a user
+export const deleteGroupOfNotification = catchAsync(
   async (req: NotificationRequest, res: Response, next: NextFunction) => {
-    const features = new APIFeatures(
-      Notification.find({
-        user: req.user._id,
-        read: true,
-      }),
-      req.query
-    )
-      .filter()
-      .sort()
-      .limitFields()
-      .paginate();
+    const { groupOfNotificationIds } = req.body;
 
-    const notifications = await features.execute();
+    if (!groupOfNotificationIds || groupOfNotificationIds.length === 0) {
+      return next(new AppError("No notification IDs provided", 400));
+    }
 
-    const response: ApiResponse<INotification[]> = {
+    const deletedNotifications = await Notification.deleteMany({
+      _id: { $in: groupOfNotificationIds },
+      user: req.user._id,
+    });
+
+    if (deletedNotifications.deletedCount === 0) {
+      return next(
+        new AppError(
+          "No unread notifications found with these IDs for the current user",
+          404
+        )
+      );
+    }
+
+    const response: ApiResponse<{ deletedCount: number }> = {
       status: "success",
-      results: notifications.length,
-      data: notifications,
+      data: { deletedCount: deletedNotifications.deletedCount },
+    };
+
+    sendResponse(200, response, res);
+  }
+);
+
+// mute notification for a user
+export const muteNotifications = catchAsync(
+  async (req: NotificationRequest, res: Response, next: NextFunction) => {
+    const { user } = req;
+    if (user.isNotificationMuted) {
+      return next(new AppError("Notifications are already muted", 400));
+    }
+    user.isNotificationMuted = true;
+    await user.save({ validateBeforeSave: false });
+
+    const response: ApiResponse<string> = {
+      status: "success",
+      data: "Notifications muted successfully",
+    };
+
+    sendResponse(200, response, res);
+  }
+);
+
+//unmute notification for a user
+export const unmuteNotifications = catchAsync(
+  async (req: NotificationRequest, res: Response, next: NextFunction) => {
+    const { user } = req;
+
+    if (!user.isNotificationMuted) {
+      return next(new AppError("Notifications are already unmuted", 400));
+    }
+    user.isNotificationMuted = false;
+    await user.save({ validateBeforeSave: false });
+
+    const response: ApiResponse<string> = {
+      status: "success",
+      data: "Notifications unmuted successfully",
     };
 
     sendResponse(200, response, res);
