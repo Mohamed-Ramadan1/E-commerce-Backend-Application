@@ -16,6 +16,7 @@ export interface ReturnItemsRequest extends AuthUserRequest {
     quantity: number;
     returnReason: string;
     comments?: string;
+    rejectionReason:string
   };
   params: {
     id?: string;

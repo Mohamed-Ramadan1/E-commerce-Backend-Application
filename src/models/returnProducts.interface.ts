@@ -23,6 +23,7 @@ export interface IReturnRequest extends Document {
   returnReason: string;
   returnStatus: ReturnStatus;
   receivedItemsStatus: ReceivedItemsStatus;
+  rejectionReason:string;
   refundAmount: number;
   comments?: string;
   processedDate: Date;

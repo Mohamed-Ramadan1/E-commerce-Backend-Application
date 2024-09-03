@@ -26,6 +26,9 @@ import { sendResponse } from "../utils/sendResponse";
 import refundRequestForReturnedItemsEmail from "../emails/users/refundRequestForReturnedItemsEmail";
 import { ICartItem } from "../models/cartItem.interface";
 import mongoose from "mongoose";
+import returnProductRequestCreation from "../emails/users/returnProductRequestCreation";
+import returnProductRequestCancellationEmail from "../emails/users/returnProductRequestCancellationEmail";
+import returnProductRequestRejectEmail from "../emails/users/returnProductRequestRejectEmail";
 
 // ----------------------------------------------------------------
 //Users Operations
@@ -53,6 +56,10 @@ export const requestReturnItems = catchAsync(
     if (!returnProductRequest) {
       return next(new AppError("Something went wrong please tray agin.", 400));
     }
+
+    // send email to the user to inform return product creation email
+    returnProductRequestCreation(user, returnProductRequest);
+
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnProductRequest,
@@ -68,20 +75,23 @@ export const cancelReturnRequest = catchAsync(
     if (!id)
       return next(new AppError("Invalid request provide request ID", 400));
 
-    const returnRequest: IReturnRequest | null =
-      await ReturnProduct.findByIdAndUpdate(
-        id,
-        {
-          returnStatus: ReturnStatus.Cancelled,
-        },
-        {
-          new: true,
-          runValidators: true,
-        }
-      );
+    const returnRequest: IReturnRequest | null = await ReturnProduct.findById(
+      id
+    );
     if (!returnRequest) {
       return next(new AppError("No return request with this ID", 404));
     }
+    if (returnRequest.returnStatus !== ReturnStatus.Pending) {
+      return next(
+        new AppError(
+          "You can't cancel this request only pending cancellation requests can be cancelled.",
+          400
+        )
+      );
+    }
+
+    // send email to notify the user that the return request has been cancelled
+    returnProductRequestCancellationEmail(req.user, returnRequest);
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,
@@ -260,6 +270,13 @@ export const approveReturnItems = catchAsync(
 export const rejectReturnItems = catchAsync(
   async (req: ReturnItemsRequest, res: Response, next: NextFunction) => {
     const { order, userToReturn, returnRequest } = req;
+    const { rejectionReason } = req.body;
+    if (!rejectionReason) {
+      return new AppError(
+        "You have to provide reason for reject return item / product request..",
+        400
+      );
+    }
     // update refund request
     returnRequest.returnStatus = ReturnStatus.Rejected;
     returnRequest.receivedItemsStatus = ReceivedItemsStatus.Received;
@@ -272,6 +289,8 @@ export const rejectReturnItems = catchAsync(
       );
     }
     // email with rejecting information
+    returnProductRequestRejectEmail(userToReturn, returnRequest);
+
     const response: ApiResponse<IReturnRequest> = {
       status: "success",
       data: returnRequest,

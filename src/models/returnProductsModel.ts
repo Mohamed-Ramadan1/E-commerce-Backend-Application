@@ -22,6 +22,9 @@ const returnProductSChema: Schema = new Schema<IReturnRequest>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    rejectionReason: {
+      type: String,
+    },
     product: productSchema,
 
     quantity: {
