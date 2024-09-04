@@ -9,11 +9,12 @@ export interface RefundRequestReq extends AuthUserRequest {
   refundRequest: IRefundRequest;
 
   body: {
-    order?: string;
-    user?: string;
-    refundAmount?: number;
-    refundMethod?: "stripe" | "giftCard";
-    refundType?: "return" | "cancellation";
+    order: string;
+    user: string;
+    refundAmount: number;
+    refundMethod: "stripe" | "giftCard";
+    refundType: "return" | "cancellation";
+    rejectReason: string;
   };
   params: {
     id: string;

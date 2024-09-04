@@ -50,14 +50,7 @@ const returnProductRequestRejectEmail = (
           <th style="padding: 10px; text-align: left; border-bottom: 2px solid #d35400;">Description</th>
           <th style="padding: 10px; text-align: right; border-bottom: 2px solid #d35400;">Details</th>
         </tr>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Product Name</td>
-          <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">${
-            returnRequest.product && returnRequest.product.name
-              ? returnRequest.product.name
-              : "N/A"
-          }</td>
-        </tr>
+       
         <tr>
           <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Quantity</td>
           <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">${

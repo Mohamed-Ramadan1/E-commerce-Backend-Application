@@ -7,7 +7,7 @@ import { IOrder } from "../models/order.interface";
 import { RefundRequestReq } from "../shared-interfaces/refundRequestReq.interface";
 import { IUser } from "../models/user.interface";
 import User from "../models/userModel";
-import { IRefundRequest } from "../models/refund.interface";
+import { IRefundRequest, RefundStatus } from "../models/refund.interface";
 
 import RefundRequest from "../models/refundModel";
 
@@ -19,11 +19,14 @@ export const validateRefundRequest = catchAsync(
     if (!refundRequest) {
       return next(new AppError("No refund request found with this id", 404));
     }
-    if (refundRequest.refundStatus === "confirmed") {
-      return next(new AppError("Refund request is already confirmed", 400));
+    if (refundRequest.refundStatus !== RefundStatus.Pending) {
+      return next(
+        new AppError(
+          `This refund request is already processed and its state is ${refundRequest.refundStatus}`,
+          400
+        )
+      );
     }
-    // more logic about confirming refund request and send the email
-    // get the user and update his gift cart value
 
     const user: IUser | null = await User.findById(refundRequest.user);
     const order: IOrder | null = await Order.findById(refundRequest.order);

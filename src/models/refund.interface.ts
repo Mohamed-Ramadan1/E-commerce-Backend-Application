@@ -1,4 +1,5 @@
 import { Document, Schema } from "mongoose";
+import { IShop } from "./shop.interface";
 
 export enum RefundMethod {
   Stripe = "stripe",
@@ -23,10 +24,13 @@ export interface IRefundRequest extends Document {
   order: Schema.Types.ObjectId;
   processedBy: Schema.Types.ObjectId;
   refundAmount: number;
+  rejectReason: string;
   refundMethod: RefundMethod;
   refundType: RefundType;
   refundStatus: RefundStatus;
   refundProcessedAt: Date;
+  isRelatedToShop: boolean;
+  shop: IShop;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -21,6 +21,9 @@ const refundRequestSchema: Schema = new Schema<IRefundRequest>(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    rejectReason: {
+      type: String,
+    },
     refundAmount: {
       type: Number,
       required: true,
@@ -43,10 +46,23 @@ const refundRequestSchema: Schema = new Schema<IRefundRequest>(
     refundProcessedAt: {
       type: Date,
     },
+    isRelatedToShop: {
+      type: Boolean,
+      default: false,
+    },
+    shop: {
+      type: Schema.Types.ObjectId,
+      ref: "Shop",
+    },
   },
   { timestamps: true }
 );
 
+// pre find to populate user and order
+refundRequestSchema.pre<IRefundRequest>(/^find/, function (next) {
+  this.populate("shop");
+  next();
+});
 const RefundRequest: Model<IRefundRequest> = model<IRefundRequest>(
   "RefundRequest",
   refundRequestSchema

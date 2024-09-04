@@ -20,7 +20,9 @@ import { sendResponse } from "../utils/sendResponse";
 
 // emails imports
 import refundSuccessConfirmationEmail from "../emails/admins/refundsuccessConfirmationEmail";
-
+import refundRejectConfirmationEmail from "../emails/admins/refundRejectConfirmationEmail";
+import rejectRefundRelatedToShopAlert from "../emails/shop/shopOrdersManagment/rejectRefundRelatedToShopAlert";
+import approveRefundRelatedToShopAlert from "../emails/shop/shopOrdersManagment/approveRefundRelatedToShopAlert";
 // Helpers functions
 
 const handelProcessedRefundRequest = async (
@@ -206,6 +208,12 @@ export const confirmRefundRequest = catchAsync(
     refundRequest.processedBy = req.user._id;
     refundRequest.refundProcessedAt = new Date();
     await refundRequest.save();
+    if (refundRequest.isRelatedToShop && refundRequest.shop) {
+      // update shop balance
+      refundRequest.shop.balance -= refundRequest.refundAmount;
+      await refundRequest.shop.save({ validateBeforeSave: false });
+      approveRefundRelatedToShopAlert(refundRequest.shop, refundRequest);
+    }
 
     //send confirmation email
     refundSuccessConfirmationEmail(userToRefund, refundRequest);
@@ -220,7 +228,6 @@ export const confirmRefundRequest = catchAsync(
       "confirmed"
     );
 
-    // await ProcessedRefundRequests.create({
     const response: ApiResponse<IRefundRequest> = {
       status: "success",
       data: refundRequest,
@@ -232,27 +239,30 @@ export const confirmRefundRequest = catchAsync(
 // reject refund request
 export const rejectRefundRequest = catchAsync(
   async (req: RefundRequestReq, res: Response, next: NextFunction) => {
-    const refundRequest: IRefundRequest | null = await RefundRequest.findOne({
-      _id: req.params.id,
-    });
-    if (!refundRequest) {
-      return next(new AppError("Refund request not found", 404));
+    const { rejectReason } = req.body;
+    if (!rejectReason) {
+      return next(
+        new AppError(
+          "Please provide reject reason  for the refund request",
+          400
+        )
+      );
     }
-    if (refundRequest.refundStatus === "rejected") {
-      return next(new AppError("Refund request is already rejected", 400));
-    }
-    const { userToRefund, order } = req;
+
+    const { refundRequest, userToRefund, order } = req;
+
     refundRequest.refundStatus = RefundStatus.Rejected;
+    refundRequest.rejectReason = rejectReason;
     await refundRequest.save();
 
-    handelProcessedRefundRequest(
-      userToRefund,
-      order,
-      refundRequest,
-      req.user,
-      next,
-      "rejected"
-    );
+    // If this refund request is related to shop, send email to shop owner.
+    if (refundRequest.isRelatedToShop && refundRequest.shop) {
+      rejectRefundRelatedToShopAlert(refundRequest.shop, refundRequest);
+    }
+
+    // send email to user  to inform him that his request has been rejected
+    refundRejectConfirmationEmail(userToRefund, refundRequest);
+
     const response: ApiResponse<IRefundRequest> = {
       status: "success",
       data: refundRequest,
@@ -260,3 +270,5 @@ export const rejectRefundRequest = catchAsync(
     sendResponse(200, response, res);
   }
 );
+
+// send to shop owner on reject refund and return refund

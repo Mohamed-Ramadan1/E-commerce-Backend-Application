@@ -139,6 +139,15 @@ export const validateBeforeProcessReturnRequests = catchAsync(
     if (!returnRequest) {
       return next(new AppError("No return request with this ID", 404));
     }
+
+    if (returnRequest.returnStatus !== ReturnStatus.Pending) {
+      return next(
+        new AppError(
+          "You can't approve this request only pending return requests can be approved.",
+          400
+        )
+      );
+    }
     // get user return request related
     const user: IUser | null = await User.findById(returnRequest.user);
     if (!user) {

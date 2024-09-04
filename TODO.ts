@@ -1,19 +1,26 @@
 /* 
 Day-1 
 
-TODO: Link between the refund requests and the return items for the shops within .
 
-TODO: return  items send  email to  user  confirm that  his request has been received and will be processed soon.
+TODO: Handel  the updates of the orders and its subOrders (shipped , cancellation ,deliverd ).
+TODO: send emails on this actions (Shipped orders ,deliver orders , cancellation  order ) to the shops owners .  
 
-TODO: refund requests  send email if the return items related to shop
 
-TODO: Manage the process where the amount of the mony of refund request related to the return items will be discounted form the shop owner.
+// TODO: Link between the refund requests and the return items for the shops within .
+// on refund created / refund cancelled / refund accepted
+// TODO: Manage the process where the amount of the mony of refund request related to the return items will be discounted form the shop owner.
 
-TODO: send emails on this actions (refund requests and return items,deliver orders ) to the shops owners and traders. 
+//  on return  created / return cancelled / return accepte d 
+
+// TODO: refund requests  send email if the return items related to shop
+
+// TODO: return  items send  email to  user  confirm that  his request has been received and will be processed soon.
+
 
 
 **********************************************************************************************
 Day-2
+
 TODO : Handle How the shop owners will receive the money from the application 
       TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
 
