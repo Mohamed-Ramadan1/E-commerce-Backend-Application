@@ -1,22 +1,4 @@
 /* 
-Day-1 
-
-
-TODO: Handel  the updates of the orders and its subOrders (shipped , cancellation ,deliverd ).
-TODO: send emails on this actions (Shipped orders ,deliver orders , cancellation  order ) to the shops owners .  
-
-
-// TODO: Link between the refund requests and the return items for the shops within .
-// on refund created / refund cancelled / refund accepted
-// TODO: Manage the process where the amount of the mony of refund request related to the return items will be discounted form the shop owner.
-
-//  on return  created / return cancelled / return accepte d 
-
-// TODO: refund requests  send email if the return items related to shop
-
-// TODO: return  items send  email to  user  confirm that  his request has been received and will be processed soon.
-
-
 
 **********************************************************************************************
 Day-2
@@ -59,6 +41,19 @@ TODO : Setup webpack to start build the application
 TODO : Planning for inventory management logic in general
 
 **************************************************************************************
+
+
+// TODO: Link between the refund requests and the return items for the shops within .
+// on refund created / refund cancelled / refund accepted
+// TODO: Manage the process where the amount of the mony of refund request related to the return items will be discounted form the shop owner.
+
+//  on return  created / return cancelled / return accepte d 
+
+// TODO: refund requests  send email if the return items related to shop
+
+// TODO: return  items send  email to  user  confirm that  his request has been received and will be processed soon.
+
+
 
 
 // TODO: notification system complete the remain route end points. 
