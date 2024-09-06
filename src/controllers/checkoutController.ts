@@ -73,6 +73,7 @@ export const checkoutWithCash = catchAsync(
   }
 );
 
+// checkout with stripe
 export const checkoutWithStripe = catchAsync(
   async (req: CheckoutRequest, res: Response, next: NextFunction) => {
     const { shipAddress, shoppingCart, user, phoneNumber } = req;

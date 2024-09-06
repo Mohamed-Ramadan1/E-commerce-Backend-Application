@@ -34,6 +34,8 @@ import shopsOrdersRoutes from "./routes/shopOrdersRoutes";
 import notificationRoutes from "./routes/notificationRoutes";
 import monthlyWebsiteAnalyticsReportRoutes from "./routes/monthlyWebsiteAnalyticsReportRoutes";
 import monthlyShopeAnalyticsReportRoutes from "./routes/monthlyShopeAnalyticsReportRoutes";
+import primeSubscriptionRoutes from "./routes/primeSubscriptionRoutes";
+import adminPrimeSubscriptionRoutes from "./routes/ adminPrimeSubscriptionRoutes";
 
 import globalError from "./controllers/errorController";
 import AppError from "./utils/ApplicationError";
@@ -82,6 +84,8 @@ app.use("/api/v1/orders", ordersRoutes);
 app.use("/api/v1/orders/admin", adminOrdersRoutes);
 app.use("/api/v1/shop-orders", shopsOrdersRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
+app.use("/api/v1/prime-subscription", primeSubscriptionRoutes);
+app.use("/api/v1/admin/prime-subscription", adminPrimeSubscriptionRoutes);
 
 // the shop support ticket routes
 app.use("/api/v1/shop-support-tickets", shopSupportTicketRoutes);

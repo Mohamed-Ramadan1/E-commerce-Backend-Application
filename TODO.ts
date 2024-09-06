@@ -1,18 +1,13 @@
 /* 
-
 **********************************************************************************************
 Day-2
-
-TODO : Handle How the shop owners will receive the money from the application 
-      TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
+TODO: Discount  codes  (mange codes with admins , shops owners ).
 
 TODO : Prime users subscriptions.
 
-TODO: Discount  codes  (mange codes with admins , shops owners ).
-
-TODO: Admins contact user (one way message system)
 
 TODO: Thinking about loyalty points system for the users.
+TODO: ------Loialty points system for the users based on the amount of the orders he made and give more points based on the subscription type(prime).
 
 TODO: While payment process check if the user have mony in the gift card or not and based subtract the amount of the gift card from the total.
 
@@ -22,12 +17,23 @@ TODO: While payment process check if the user have a valid prime subscription or
 
 TODO: While payment process check if the user have prime subscription and if have valid subscription based on the subscription type give him the binifits if it exits
 
-*******************************************************************************************************************************
+
+TODO : Handle How the shop owners will receive the money from the application 
+      TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
+      TODO: Manually annually  or monthly or weekly or daily based on the shop owner decide on the options .
+
+TODO: Admins contact user (one way message system).
+
+TODO: increase the security of the application.
+TODO: increase the using of sending notifications .
+
+************************************************************************************************************
+
+
 Day-3
 
-TODO : Create full analytics for the  orders ,shops and products.
 
-TODO: create yearly reports for the shops owners and website admins .
+TODO : Create full analytics for the  orders ,shops and products.
 
 TODO : Create schduler tasks to send reports for shops owners and traders. node corn
 
@@ -36,9 +42,15 @@ TODO : Integrate messaging queue system to the application(Bull).
 TODO : Setup webpack to start build the application 
 
 
-****************************************************************************
 
-TODO : Planning for inventory management logic in general
+
+
+
+*************************************************************************************************************
+
+************************************************************************************
+
+TODO : Planning for inventory management logic in general.
 
 **************************************************************************************
 
@@ -52,7 +64,6 @@ TODO : Planning for inventory management logic in general
 // TODO: refund requests  send email if the return items related to shop
 
 // TODO: return  items send  email to  user  confirm that  his request has been received and will be processed soon.
-
 
 
 

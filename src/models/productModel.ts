@@ -124,32 +124,41 @@ productSchema.index({ brand: 1 });
 productSchema.index({ price: 1 });
 productSchema.index({ availability_status: 1 });
 
-// Use pre-save middleware to handle availability status update
-productSchema.pre<IProduct>("save", async function (next) {
-  // check if the stock quantity equal or less than 0 and based send notification email
+productSchema.pre<IProduct>("save", function (next) {
   if (this.stock_quantity <= 0) {
     this.availability_status = AvailabilityStatus.Unavailable;
-    // check if the product related to shop and if true notify the shop owner.
-    if (this.sourceType === ProductSourceType.Shop) {
-      try {
-        const shop = (await Shop.findById(this.shopId)) as IShop;
-
-        await sendProductUnavailableEmail(this, shop);
-      } catch (error) {
-        console.error("Error sending product out of stock email", error);
-      }
-    }
-    // if the product related to website and if true notify the admin.
-    if (this.sourceType === ProductSourceType.Website) {
-      sendProductOutOfStockAdminEmail(this);
-    }
-  } else {
-    this.availability_status = AvailabilityStatus.Available;
   }
-
   next();
 });
 
+productSchema.post<IProduct>("save", async function (doc) {
+  if (doc.stock_quantity <= 0) {
+    if (doc.sourceType === ProductSourceType.Shop) {
+      try {
+        const shop = await mongoose
+          .model<IShop>("Shop")
+          .findById(doc.shopId)
+          .exec();
+        if (shop) {
+          await sendProductUnavailableEmail(doc, shop);
+        } else {
+          console.error(`Shop with ID ${doc.shopId} not found`);
+        }
+      } catch (error) {
+        console.error("Error sending product out of stock email", error);
+      }
+    } else if (doc.sourceType === ProductSourceType.Website) {
+      try {
+        await sendProductOutOfStockAdminEmail(doc);
+      } catch (error) {
+        console.error(
+          "Error sending product out of stock email to admin",
+          error
+        );
+      }
+    }
+  }
+});
 const Product: Model<IProduct> = mongoose.model<IProduct>(
   "Product",
   productSchema

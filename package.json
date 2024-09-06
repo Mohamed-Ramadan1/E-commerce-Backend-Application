@@ -33,7 +33,8 @@
     "nodemailer": "^6.9.14",
     "socket.io": "^4.7.5",
     "stripe": "^15.12.0",
-    "validator": "^13.12.0"
+    "validator": "^13.12.0",
+    "winston": "^3.14.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

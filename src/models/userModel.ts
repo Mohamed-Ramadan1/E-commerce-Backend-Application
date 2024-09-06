@@ -1,19 +1,10 @@
 import { Model, Schema, model } from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-import { IUser } from "./user.interface";
+import { IUser, DefaultPhotoUrl, UserRole } from "./user.interface";
 import crypto from "crypto";
 
-// Enums
-enum UserRole {
-  USER = "user",
-  ADMIN = "admin",
-  TRADER = "trader",
-}
-
-enum DefaultValues {
-  PHOTO_URL = "https://res.cloudinary.com/deqgzvkxp/image/upload/v1718812055/defaultProileImg_j1ilwv.png",
-}
+import { PrimeSubscriptionStatus } from "./primeSubscription.interface";
 
 export const userSchema: Schema<IUser> = new Schema<IUser>(
   {
@@ -38,8 +29,21 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
       type: Boolean,
       default: false,
     },
+
     address: {
       type: String,
+    },
+    isPrimeUser: {
+      type: Boolean,
+      default: false,
+    },
+    primeSubscriptionStatus: {
+      type: String,
+      enum: Object.values(PrimeSubscriptionStatus),
+    },
+    lastPrimeSubscriptionDocument: {
+      type: Schema.Types.ObjectId,
+      ref: "PrimeSubscription",
     },
     shippingAddress: {
       type: String,
@@ -63,7 +67,7 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
     },
     photo: {
       type: String,
-      default: DefaultValues.PHOTO_URL,
+      default: DefaultPhotoUrl.PHOTO_URL,
     },
     photoPublicId: {
       type: String,
