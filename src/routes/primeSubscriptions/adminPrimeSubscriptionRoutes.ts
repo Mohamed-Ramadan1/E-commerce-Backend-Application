@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
 import {
   getAllPrimeSubscriptions,
   getPrimeSubscriptionById,
@@ -12,7 +12,7 @@ import {
 import {
   validateBeforeCreatePrimeSubscription,
   validateBeforeCancelPrimeSubscription,
-} from "../../middlewares/adminPrimeSubscriptionMiddleware";
+} from "../../middlewares/primeSubscription/adminPrimeSubscriptionMiddleware";
 const router = Router();
 
 router.use(protect, restrictTo("admin"));

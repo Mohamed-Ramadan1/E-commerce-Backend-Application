@@ -5,7 +5,7 @@ import {
   updateProcessedRefundRequest,
   deleteProcessedRefundRequest,
 } from "../../controllers/processedData/processedRefundRequestsController";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 

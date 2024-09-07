@@ -1,22 +1,21 @@
-import ShopOrder from "../../models/shopOrderModal";
-import Shop from "../../models/shopModal";
-import Notification from "../../models/notificationModal";
-
-import { IShopOrder, VendorType } from "../../models/shopOrder.interface";
-import { ICartItem } from "../../models/cartItem.interface";
+import SubOrder from "../../models/subOrders/subOrderModal";
+import Shop from "../../models/shop/shopModal";
+import Notification from "../../models/notification/notificationModal";
+import {
+  ISubOrder,
+  VendorType,
+} from "../../models/subOrders/subOrder.interface";
+import { ICartItem } from "../../models/cartItem/cartItem.interface";
 import { ClientSession } from "mongoose";
 
 import sendShopOrderEmail from "../../emails/shop/sendShopOrderEmail";
 import sendWebsiteAdminOrderEmail from "../../emails/admins/sendWebsiteAdminOrderEmail";
 
 import { ObjectId } from "mongoose";
-import { IOrder } from "../../models/order.interface";
-import { IShop } from "../../models/shop.interface";
-import {
-  INotification,
-  NotificationType,
-} from "../../models/notification.interface";
-import { getIO } from "../socketSetup";
+import { IOrder } from "../../models/order/order.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { NotificationType } from "../../models/notification/notification.interface";
+import { getIO } from "../socket/socketSetup";
 
 export interface GroupedItems {
   shopOrders?:
@@ -100,7 +99,7 @@ const createSubOrderObject = (
 // Function to create and emit a notification
 async function createShopOrderNotification(
   shopId: ObjectId,
-  order: IShopOrder,
+  order: ISubOrder,
   session: ClientSession
 ): Promise<void> {
   try {
@@ -147,7 +146,7 @@ export const createSubOrders = async (
     session
   );
 
-  const subOrders: IShopOrder[] = [];
+  const subOrders: ISubOrder[] = [];
 
   for (const shopOrder of shopOrders) {
     const orderItems: ICartItem[] = shopOrder.items;
@@ -178,7 +177,7 @@ export const createSubOrders = async (
       { shopId: shopOrder.shopId, platformFee }
     ) as ShopOrderDetails;
 
-    subOrders.push(subOrder as IShopOrder);
+    subOrders.push(subOrder as any);
   }
 
   for (const item of websiteItems) {
@@ -198,9 +197,9 @@ export const createSubOrders = async (
       netPrice
     );
 
-    subOrders.push(subOrder as IShopOrder);
+    subOrders.push(subOrder as ISubOrder);
   }
-  const newSubOrders: IShopOrder[] = await ShopOrder.insertMany(subOrders, {
+  const newSubOrders: ISubOrder[] = await SubOrder.insertMany(subOrders, {
     session,
   });
 

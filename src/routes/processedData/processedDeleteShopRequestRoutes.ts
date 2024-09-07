@@ -6,7 +6,7 @@ import {
   updateProcessedDeleteShopRequest,
   deleteProcessedDeleteShopRequest,
 } from "../../controllers/processedData/processedDeleteShopRequestController";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 

@@ -7,8 +7,8 @@ import {
   unarchiveOrder,
   getArchivedOrders,
 } from "../../controllers/orders/orderController";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
-import { validateBeforeCancelOrder } from "../../middlewares/ordersMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
+import { validateBeforeCancelOrder } from "../../middlewares/order/ordersMiddleware";
 
 const router = Router();
 

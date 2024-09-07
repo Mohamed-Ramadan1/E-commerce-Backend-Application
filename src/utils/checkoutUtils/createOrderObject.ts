@@ -1,5 +1,5 @@
 import { ObjectId } from "mongoose";
-import { ICartItem } from "../../models/cartItem.interface";
+import { ICartItem } from "../../models/cartItem/cartItem.interface";
 
 export type OrderObject = {
   user: ObjectId;

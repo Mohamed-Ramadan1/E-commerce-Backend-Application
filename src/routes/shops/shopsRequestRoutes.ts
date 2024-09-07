@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
 import {
   validateRequestBeforeShopRequestCreation,
   validateShopRequestBeforeApprove,
   validateShopRequestBeforeReject,
   validateShopRequestBeforeCancel,
-} from "../../middlewares/shopRequestMiddleware";
+} from "../../middlewares/shop/shopRequestMiddleware";
 
 import {
   createShopRequest,

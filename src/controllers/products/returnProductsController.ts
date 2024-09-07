@@ -20,10 +20,10 @@ import { ICartItem } from "../../models/cartItem/cartItem.interface";
 import { IShop } from "../../models/shop/shop.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 //emails imports
 import refundRequestForReturnedItemsEmail from "../../emails/users/refundRequestForReturnedItemsEmail";

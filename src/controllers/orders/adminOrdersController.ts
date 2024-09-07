@@ -15,10 +15,10 @@ import { ApiResponse } from "../../shared-interfaces/response.interface";
 import { OrderRequest } from "../../shared-interfaces/orderRequest.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 import { createRefundRequest } from "../../utils/orderUtils/createOrderRefundRequest";
 import { updateSubOrdersState } from "../../utils/orderUtils/updateSubOrderStatus";
 import { updateSubOrderShippingStatus } from "../../utils/orderUtils/updateSubOrderShippingStatus";

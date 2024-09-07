@@ -1,5 +1,5 @@
-import { IShoppingCart } from "../../models/shoppingCart.interface";
-import { IUser } from "../../models/user.interface";
+import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
+import { IUser } from "../../models/user/user.interface";
 import { ClientSession } from "mongoose";
 // update the user purchase history after the order created.
 export const updateUserPurchaseHistory = async (

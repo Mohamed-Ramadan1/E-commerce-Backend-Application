@@ -10,8 +10,9 @@ import {
   getAllRefundRequestsConfirmed,
 } from "../../controllers/refundRequests/refundController";
 
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
-import { validateRefundRequest } from "../../middlewares/refundRequestsMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
+import { validateRefundRequest } from "../../middlewares/refundRequests/refundRequestsMiddleware";
 
 const router = Router();
 

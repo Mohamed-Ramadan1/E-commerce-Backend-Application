@@ -1,7 +1,7 @@
 // socketSetup.ts
 import { Server } from "socket.io";
 import { Server as HttpServer } from "http";
-import Notification from "../models/notificationModal";
+import Notification from "../../models/notification/notificationModal";
 
 let io: Server;
 

@@ -5,7 +5,7 @@ import {
   updateProcessedSupportTicket,
   deleteProcessedSupportTicket,
 } from "../../controllers/processedData/processedSupportTicketsController";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 

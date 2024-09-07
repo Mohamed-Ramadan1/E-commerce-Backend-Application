@@ -7,11 +7,11 @@ import PrimeSubscription from "../../models/primeSubscription/primeSubscriptionM
 import { IPrimeSubScription } from "../../models/primeSubscription/primeSubscription.interface";
 import { PrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscriptionRequest.interface";
 import { ApiResponse } from "../../shared-interfaces/response.interface";
-import AppError from "../../utils/ApplicationError";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 //-----------------------------------------
 // user routes

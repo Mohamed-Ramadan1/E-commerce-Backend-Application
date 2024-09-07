@@ -23,13 +23,13 @@ import {
 } from "../../controllers/shopping/shoppingCartController";
 
 // middlewares imports.
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
-import { checkItemValidity } from "../../middlewares/shoppingCartMiddleware";
-import { upload } from "../../middlewares/multerMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
+import { checkItemValidity } from "../../middlewares/shoppingCart/shoppingCartMiddleware";
+import { upload } from "../../middlewares/multer/multerMiddleware";
 import {
   validateBeforeUpdateUserInfo,
   validateBeforeUpdateUserPassword,
-} from "../../middlewares/userMiddleware";
+} from "../../middlewares/user/userMiddleware";
 
 const router = Router();
 

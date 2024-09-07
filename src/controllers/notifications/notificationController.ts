@@ -8,13 +8,13 @@ import Notification from "../../models/notification/notificationModal";
 import { INotification } from "../../models/notification/notification.interface";
 import { NotificationRequest } from "../../shared-interfaces/notificationRequest.interface";
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 import { ApiResponse } from "../../shared-interfaces/response.interface";
 
-import { getIO } from "../../utils/socketSetup";
+import { getIO } from "../../utils/socket/socketSetup";
 
 //---------------------------------
 // admin operations

@@ -5,7 +5,7 @@ import {
   updateProcessedShopRequest,
   deleteProcessedShopRequest,
 } from "../../controllers/processedData/processedCreateShopRequestsController";
-import { restrictTo, protect } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
 const router = Router();
 router.use(protect);
 router.use(restrictTo("admin"));

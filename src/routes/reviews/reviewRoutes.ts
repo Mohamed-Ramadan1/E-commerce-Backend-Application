@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
-import { validateDataBeforeCreateReview } from "../../middlewares/reviewMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
+import { validateDataBeforeCreateReview } from "../../middlewares/reviews/reviewMiddleware";
 import {
   getReviews,
   getReview,

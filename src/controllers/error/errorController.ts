@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import AppError from "../../utils/ApplicationError";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 // A custom error interface
 interface CustomError extends Error {

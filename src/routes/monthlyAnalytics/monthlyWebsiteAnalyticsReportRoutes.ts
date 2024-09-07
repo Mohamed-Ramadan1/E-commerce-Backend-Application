@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 router.use(protect, restrictTo("admin"));

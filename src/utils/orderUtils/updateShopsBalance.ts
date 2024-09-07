@@ -1,16 +1,16 @@
 import { ClientSession } from "mongoose";
-import { IOrder } from "../../models/order.interface";
-import ShopOrder from "../../models/shopOrderModal";
-import { IShopOrder } from "../../models/shopOrder.interface";
+import { IOrder } from "../../models/order/order.interface";
+import SubOrder from "../../models/subOrders/subOrderModal";
+import { ISubOrder } from "../../models/subOrders/subOrder.interface";
 
 export const updateShopsBalance = async (
   mainOrder: IOrder,
   session: ClientSession
 ) => {
-  const shopOrDresses = (await ShopOrder.find({
+  const shopOrDresses = (await SubOrder.find({
     mainOrder: mainOrder._id,
     vendorType: "shop",
-  })) as IShopOrder[];
+  })) as ISubOrder[];
 
   if (!shopOrDresses) return;
 

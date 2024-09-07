@@ -38,7 +38,7 @@ import primeSubscriptionRoutes from "./routes/primeSubscriptions/primeSubscripti
 import adminPrimeSubscriptionRoutes from "./routes/primeSubscriptions/adminPrimeSubscriptionRoutes";
 
 import globalError from "./controllers/error/errorController";
-import AppError from "./utils/ApplicationError";
+import AppError from "./utils/apiUtils/ApplicationError";
 
 const app: Application = express();
 

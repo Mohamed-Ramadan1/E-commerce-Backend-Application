@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
-import { upload } from "../../middlewares/multerMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
+import { upload } from "../../middlewares/multer/multerMiddleware";
 import {
   getMyShopSupportTicket,
   getMyShopSupportTickets,
@@ -20,7 +20,7 @@ import {
   validateBeforeCreateShopSupportTicket,
   validateBeforeOpenShopSupportTicket,
   validateBeforeProcessShopSupportTicket,
-} from "../../middlewares/shopSupportTicketMiddleware";
+} from "../../middlewares/shop/shopSupportTicketMiddleware";
 
 const router = Router();
 router.use(protect);

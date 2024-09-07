@@ -1,8 +1,8 @@
-import catchAsync from "../utils/catchAsync";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 import { NextFunction, Request, Response } from "express";
-import AppError from "../utils/ApplicationError";
+import AppError from "../../utils/apiUtils/ApplicationError";
 import jwt from "jsonwebtoken";
-import User from "../models/userModel";
+import User from "../../models/user/userModel";
 
 export const protect = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -2,17 +2,17 @@
 import { NextFunction, Response } from "express";
 
 // models imports
-import Shop from "../models/shopModal";
-import Product from "../models/productModel";
+import Shop from "../../models/shop/shopModal";
+import Product from "../../models/product/productModel";
 
 // interfaces imports
-import { IShop } from "../models/shop.interface";
-import { IProduct } from "../models/product.interface";
-import { ShopProductsRequest } from "../shared-interfaces/shopProductsRequest.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { IProduct } from "../../models/product/product.interface";
+import { ShopProductsRequest } from "../../shared-interfaces/shopProductsRequest.interface";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 // emails imports
 

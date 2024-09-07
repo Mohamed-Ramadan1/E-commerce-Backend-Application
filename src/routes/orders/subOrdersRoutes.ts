@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
 import {
   getSubOrder,
   getSubOrders,
@@ -8,7 +8,7 @@ import {
   getOrder,
   deleteOrder,
 } from "../../controllers/orders/subOrdersController";
-import { validateBeforeShopOrdersOperations } from "../../middlewares/shopOrdersMiddleware";
+import { validateBeforeShopOrdersOperations } from "../../middlewares/order/subOrdersMiddleware";
 
 const router = Router();
 

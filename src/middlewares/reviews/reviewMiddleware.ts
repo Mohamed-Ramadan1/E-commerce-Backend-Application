@@ -1,11 +1,14 @@
-import catchAsync from "../utils/catchAsync";
-import Review from "../models/reviewModel";
-import AppError from "../utils/ApplicationError";
 import { NextFunction, Response } from "express";
-import { ReviewRequest } from "../shared-interfaces/reviewRequest.interface";
-import { IReview } from "../models/review.interface";
-import { IProduct } from "../models/product.interface";
-import Product from "../models/productModel";
+
+import Product from "../../models/product/productModel";
+import Review from "../../models/review/reviewModel";
+
+import { ReviewRequest } from "../../shared-interfaces/reviewRequest.interface";
+import { IReview } from "../../models/review/review.interface";
+import { IProduct } from "../../models/product/product.interface";
+
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 export const validateDataBeforeCreateReview = catchAsync(
   async (req: ReviewRequest, res: Response, next: NextFunction) => {

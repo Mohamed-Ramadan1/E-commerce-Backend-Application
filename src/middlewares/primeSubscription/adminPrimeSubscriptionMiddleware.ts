@@ -2,20 +2,20 @@
 import { Response, NextFunction } from "express";
 
 // models imports
-import PrimeSubscription from "../models/primeSubscriptionModel";
-import User from "../models/userModel";
+import PrimeSubscription from "../../models/primeSubscription/primeSubscriptionModel";
+import User from "../../models/user/userModel";
 
 // interface imports
 import {
   IPrimeSubScription,
   PrimeSubscriptionStatus,
-} from "../models/primeSubscription.interface";
-import { IUser } from "../models/user.interface";
-import { AdminPrimeSubscriptionRequest } from "../shared-interfaces/adminPrimeSubscriptionRequest.interface";
-import AppError from "../utils/ApplicationError";
+} from "../../models/primeSubscription/primeSubscription.interface";
+import { IUser } from "../../models/user/user.interface";
+import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/adminPrimeSubscriptionRequest.interface";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 
 const validateUserExisting = async (userId: string): Promise<IUser> => {
   const user: IUser | null = await User.findById(userId);

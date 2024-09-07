@@ -10,8 +10,8 @@ import {
   validateBeforeCancelOrder,
   validateBeforeUpdateShippingStatus,
   validateBeforeDeliverOrder,
-} from "../../middlewares/ordersMiddleware";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+} from "../../middlewares/order/ordersMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 

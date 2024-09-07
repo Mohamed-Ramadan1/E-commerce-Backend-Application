@@ -1,25 +1,24 @@
 // system imports
 import { NextFunction, Response } from "express";
 import crypto from "crypto";
-import { ObjectId } from "mongoose";
 // external modules imports
 import validator from "validator";
 
 // models imports
-import User from "../models/userModel";
-import Shop from "../models/shopModal";
+import User from "../../models/user/userModel";
+import Shop from "../../models/shop/shopModal";
 
 // interfaces imports
-import { IShop } from "../models/shop.interface";
+import { IShop } from "../../models/shop/shop.interface";
 import {
   ShopSettingsRequest,
   VerifyShopEmailUpdating,
-} from "../shared-interfaces/shopRequests.interface";
+} from "../../shared-interfaces/shopRequests.interface";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import { IUser } from "../models/user.interface";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+
 // Define restricted fields and error messages
 const restrictedFields = {
   shopMainFields:

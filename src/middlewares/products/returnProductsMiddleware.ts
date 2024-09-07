@@ -1,18 +1,21 @@
-import ReturnProduct from "../models/returnProductsModel";
-import User from "../models/userModel";
-import Order from "../models/orderModel";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import { NextFunction, Response } from "express";
+import { ObjectId } from "mongoose";
+
+import ReturnProduct from "../../models/returnProduct/returnProductsModel";
+import User from "../../models/user/userModel";
+import Order from "../../models/order/orderModel";
+
 import {
   IReturnRequest,
   ReturnStatus,
-} from "../models/returnProducts.interface";
-import { IOrder, OrderStatus } from "../models/order.interface";
-import { NextFunction, Response } from "express";
-import { ReturnItemsRequest } from "../shared-interfaces/returnItemRequestReq.interface";
-import { ICartItem } from "../models/cartItem.interface";
-import { IUser } from "../models/user.interface";
-import { ObjectId } from "mongoose";
+} from "../../models/returnProduct/returnProducts.interface";
+import { IOrder, OrderStatus } from "../../models/order/order.interface";
+import { ReturnItemsRequest } from "../../shared-interfaces/returnItemRequestReq.interface";
+import { ICartItem } from "../../models/cartItem/cartItem.interface";
+import { IUser } from "../../models/user/user.interface";
+
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 const validateReturnFields = (body: ReturnItemsRequest["body"]) => {
   const { orderId, productId, quantity, returnReason } = body;

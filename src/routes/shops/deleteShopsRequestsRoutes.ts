@@ -2,8 +2,9 @@ import { Router } from "express";
 import {
   validateBeforeApproveDeleteShopRequest,
   validateBeforeCreateDeleteShopRequest,
-} from "../../middlewares/deleteShopRequestMiddleware";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+} from "../../middlewares/shop/deleteShopRequestMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
 import {
   getAllDeleteShopRequests,
   getDeleteShopRequest,

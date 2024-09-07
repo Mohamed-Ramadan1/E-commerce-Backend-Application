@@ -1,6 +1,7 @@
 import { Secret, sign } from "jsonwebtoken";
 import { Response } from "express";
-import { IUser } from "../models/user.interface";
+import { IUser } from "../../models/user/user.interface";
+
 export const createSendToken = (
   user: IUser,
   statusCode: number,

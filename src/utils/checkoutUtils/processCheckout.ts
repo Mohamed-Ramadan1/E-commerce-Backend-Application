@@ -1,12 +1,12 @@
-import { IShoppingCart } from "../../models/shoppingCart.interface";
-import { IUser } from "../../models/user.interface";
+import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
+import { IUser } from "../../models/user/user.interface";
 import { GroupedItems } from "./createSupOrders";
 import { NextFunction } from "express";
 import { OrderObject } from "./createOrderObject";
-import { IOrder } from "../../models/order.interface";
-import Order from "../../models/orderModel";
-import AppError from "../ApplicationError";
-import CartItem from "../../models/cartItemModel";
+import { IOrder } from "../../models/order/order.interface";
+import Order from "../../models/order/orderModel";
+import AppError from "../apiUtils/ApplicationError";
+import CartItem from "../../models/cartItem/cartItemModel";
 
 import mongoose, { ClientSession } from "mongoose";
 import { updateUserPurchaseHistory } from "./updateUserPurchaseHistory";

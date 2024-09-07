@@ -10,10 +10,10 @@ import { ApiResponse } from "../../shared-interfaces/response.interface";
 import { ProductRequest } from "../../shared-interfaces/productRequest.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 // get all products
 export const getAllProducts = catchAsync(

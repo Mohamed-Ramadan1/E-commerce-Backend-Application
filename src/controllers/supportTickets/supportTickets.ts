@@ -19,10 +19,11 @@ import { IUser } from "../../models/user/user.interface";
 import { IProcessedSupportTickets } from "../../models/processedData/processedSupportTickets.Interface";
 
 // utils imports
-import AppError from "../../utils/ApplicationError";
-import catchAsync from "../../utils/catchAsync";
-import { sendResponse } from "../../utils/sendResponse";
-import APIFeatures from "../../utils/apiKeyFeature";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+
 // emails imports
 import supportTicketReceivedConfirmationEmail from "../../emails/admins/supportTicketRecivedConfirmationEmail";
 import sendSupportTicketResponseEmail from "../../emails/users/userSupportTicketResponseEmail";

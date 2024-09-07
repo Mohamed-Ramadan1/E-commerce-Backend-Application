@@ -10,11 +10,12 @@ import {
   getReturnItemRequest,
   rejectReturnItems,
 } from "../../controllers/products/returnProductsController";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
 import {
   validateBeforeReturnRequest,
   validateBeforeProcessReturnRequests,
-} from "../../middlewares/returnProductsMiddleware";
+} from "../../middlewares/products/returnProductsMiddleware";
 const router = Router();
 
 router.use(protect);

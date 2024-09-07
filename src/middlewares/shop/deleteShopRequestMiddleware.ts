@@ -2,18 +2,18 @@
 import { Request, Response, NextFunction } from "express";
 
 // models imports
-import DeleteShopRequest from "../models/deleteShopRequestModal";
-import Shop from "../models/shopModal";
+import DeleteShopRequest from "../../models/deleteShopRequest/deleteShopRequestModal";
+import Shop from "../../models/shop/shopModal";
+import User from "../../models/user/userModel";
 
 // interface imports
-import { IDeleteShopRequest } from "../models/deleteShopRequest.interface";
-import { DeleteShopRequestReq } from "../shared-interfaces/deleteShopRequestReq.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IDeleteShopRequest } from "../../models/deleteShopRequest/deleteShopRequest.interface";
+import { DeleteShopRequestReq } from "../../shared-interfaces/deleteShopRequestReq.interface";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import User from "../models/userModel";
-import { IUser } from "../models/user.interface";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 
 export const validateBeforeApproveDeleteShopRequest = catchAsync(
   async (req: DeleteShopRequestReq, res: Response, next: NextFunction) => {

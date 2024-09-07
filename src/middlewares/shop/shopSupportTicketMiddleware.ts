@@ -2,17 +2,19 @@
 import { NextFunction, Response } from "express";
 
 // models imports
-import ShopSupportTicket from "../models/shopSupportTicketModal";
-import Shop from "../models/shopModal";
-import User from "../models/userModel";
+import ShopSupportTicket from "../../models/shopSupportTicket/shopSupportTicketModal";
+import Shop from "../../models/shop/shopModal";
+import User from "../../models/user/userModel";
+
 // interface imports
-import { IShopSupportTicket } from "../models/shopSupportTicket.interface";
-import { ShopSupportTicketRequest } from "../shared-interfaces/shopSupportTicketRequest.interface";
-import { IShop } from "../models/shop.interface";
-// utils
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
-import { IUser } from "../models/user.interface";
+import { IShopSupportTicket } from "../../models/shopSupportTicket/shopSupportTicket.interface";
+import { ShopSupportTicketRequest } from "../../shared-interfaces/shopSupportTicketRequest.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { IUser } from "../../models/user/user.interface";
+// utils imports
+
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 // validation middleware for validation before allowing user to create supportTickets
 export const validateBeforeOpenShopSupportTicket = catchAsync(

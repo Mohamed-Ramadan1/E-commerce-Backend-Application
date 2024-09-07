@@ -1,7 +1,7 @@
 import { ClientSession } from "mongoose";
-import { IOrder, OrderStatus } from "../../models/order.interface";
-import ShopOrder from "../../models/shopOrderModal";
-import AppError from "../ApplicationError";
+import { IOrder, OrderStatus } from "../../models/order/order.interface";
+import SubOrder from "../../models/subOrders/subOrderModal";
+import AppError from "../apiUtils/ApplicationError";
 
 export const updateSubOrdersState = async (
   masterOrder: IOrder,
@@ -9,7 +9,7 @@ export const updateSubOrdersState = async (
   orderStatus: OrderStatus
 ) => {
   try {
-    const updatedSubOrders = await ShopOrder.updateMany(
+    const updatedSubOrders = await SubOrder.updateMany(
       {
         mainOrder: masterOrder._id,
       },

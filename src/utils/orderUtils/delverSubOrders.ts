@@ -2,10 +2,10 @@ import {
   IOrder,
   OrderStatus,
   ShippingStatus,
-} from "../../models/order.interface";
+} from "../../models/order/order.interface";
 import { ClientSession } from "mongoose";
-import ShopOrder from "../../models/shopOrderModal";
-import AppError from "../ApplicationError";
+import SubOrder from "../../models/subOrders/subOrderModal";
+import AppError from "../apiUtils/ApplicationError";
 
 export const delverSubOrders = async (
   order: IOrder,
@@ -15,7 +15,7 @@ export const delverSubOrders = async (
 ) => {
   console.log(orderStatus, shippingStatus);
 
-  const updatedSubOrders = await ShopOrder.updateMany(
+  const updatedSubOrders = await SubOrder.updateMany(
     {
       mainOrder: order._id,
     },

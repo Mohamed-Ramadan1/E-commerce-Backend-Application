@@ -10,12 +10,12 @@ import {
   ShippingStatus,
 } from "../../models/order/order.interface";
 import { ApiResponse } from "../../shared-interfaces/response.interface";
-import AppError from "../../utils/ApplicationError";
+import AppError from "../../utils/apiUtils/ApplicationError";
 import { CheckoutRequest } from "../../shared-interfaces/checkoutRequest.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 import { createOrderObject } from "../../utils/checkoutUtils/createOrderObject";
 import { groupItemsByShop } from "../../utils/checkoutUtils/groupShopCartItemsBySource";
 import { GroupedItems } from "../../utils/checkoutUtils/createSupOrders";

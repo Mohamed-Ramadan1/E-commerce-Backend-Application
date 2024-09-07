@@ -1,15 +1,17 @@
 import { Response, NextFunction } from "express";
 
-import ShoppingCart from "../models/shoppingCartModel";
-import Product from "../models/productModel";
-import AppError from "../utils/ApplicationError";
-import CartItem from "../models/cartItemModel";
-import catchAsync from "../utils/catchAsync";
-import { createAndAssignShoppingCart } from "../utils/shoppingCartUtils/createAndAssignShoppingCart";
-import { IShoppingCart } from "../models/shoppingCart.interface";
-import { ICartItem } from "../models/cartItem.interface";
-import { IProduct } from "../models/product.interface";
-import { ShoppingCartRequest } from "../shared-interfaces/shoppingCartRequest.interface";
+import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
+import Product from "../../models/product/productModel";
+import CartItem from "../../models/cartItem/cartItemModel";
+
+import { createAndAssignShoppingCart } from "../../utils/shoppingCartUtils/createAndAssignShoppingCart";
+import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
+import { ICartItem } from "../../models/cartItem/cartItem.interface";
+import { IProduct } from "../../models/product/product.interface";
+import { ShoppingCartRequest } from "../../shared-interfaces/shoppingCartRequest.interface";
+
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 
 export const checkItemValidity = catchAsync(
   async (req: ShoppingCartRequest, res: Response, next: NextFunction) => {

@@ -2,7 +2,7 @@ import app from "./app";
 import mongoose from "mongoose";
 import { v2 as cloudinary } from "cloudinary";
 import { createServer } from "http";
-import { initializeSocket } from "./utils/socketSetup";
+import { initializeSocket } from "./utils/socket/socketSetup";
 import { cloudConfig } from "./config/cloudinary.config";
 import { DB, PORT } from "./config/database.config";
 

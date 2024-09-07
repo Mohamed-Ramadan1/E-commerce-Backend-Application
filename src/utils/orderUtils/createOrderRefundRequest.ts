@@ -1,10 +1,10 @@
 import { ClientSession } from "mongoose";
-import { IUser } from "../../models/user.interface";
-import { IOrder } from "../../models/order.interface";
-import { IRefundRequest } from "../../models/refund.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IOrder } from "../../models/order/order.interface";
+import { IRefundRequest } from "../../models/refundRequest/refund.interface";
 import refundRequestCreatedEmail from "../../emails/users/refundRequestConfirmationEmail";
-import AppError from "../ApplicationError";
-import RefundRequest from "../../models/refundModel";
+import AppError from "../apiUtils/ApplicationError";
+import RefundRequest from "../../models/refundRequest/refundModel";
 
 export const createRefundRequest = async (
   user: IUser,

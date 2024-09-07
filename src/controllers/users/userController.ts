@@ -22,12 +22,12 @@ import {
 } from "../../shared-interfaces/userRequest.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 import { cascadeUserDeletion } from "../../utils/userUtils/deleteUserRelatedData";
-import { createSendToken } from "../../utils/createSendToken";
-import { sendResponse } from "../../utils/sendResponse";
-import APIFeatures from "../../utils/apiKeyFeature";
+import { createSendToken } from "../../utils/apiUtils/createSendToken";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 
 // admin operations
 

@@ -18,12 +18,12 @@ import {
 } from "../../shared-interfaces/authRequests.interface";
 import { AuthUserRequest } from "../../shared-interfaces/request.interface";
 // utils imports
-import AppError from "../../utils/ApplicationError";
-import catchAsync from "../../utils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 import {
   createSendToken,
   createLogOutToken,
-} from "../../utils/createSendToken";
+} from "../../utils/apiUtils/createSendToken";
 
 // emails imports
 import sendVerificationMail from "../../emails/users/accountVerificationEmail";

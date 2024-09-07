@@ -1,8 +1,8 @@
 import { Response, NextFunction } from "express";
-import ShoppingCart from "../models/shoppingCartModel";
-import AppError from "../utils/ApplicationError";
-import { CheckoutRequest } from "../shared-interfaces/checkoutRequest.interface";
-import catchAsync from "../utils/catchAsync";
+import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import { CheckoutRequest } from "../../shared-interfaces/checkoutRequest.interface";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 
 export const checkCartAvailability = catchAsync(
   async (req: CheckoutRequest, res: Response, next: NextFunction) => {

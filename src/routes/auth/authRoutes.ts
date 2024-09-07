@@ -7,7 +7,7 @@ import {
   resetPassword,
   forgotPassword,
 } from "../../controllers/auth/authController";
-import { protect } from "../../middlewares/authMiddleware";
+import { protect } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 

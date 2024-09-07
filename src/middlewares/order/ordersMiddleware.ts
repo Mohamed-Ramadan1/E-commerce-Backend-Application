@@ -1,17 +1,20 @@
 // system imports
 import { NextFunction, Response } from "express";
 // models imports
-import Order from "../models/orderModel";
-import User from "../models/userModel";
-
+import Order from "../../models/order/orderModel";
+import User from "../../models/user/userModel";
 // interface imports
-import { IOrder, OrderStatus, ShippingStatus } from "../models/order.interface";
-import { IUser } from "../models/user.interface";
-import { OrderRequest } from "../shared-interfaces/orderRequest.interface";
+import {
+  IOrder,
+  OrderStatus,
+  ShippingStatus,
+} from "../../models/order/order.interface";
+import { IUser } from "../../models/user/user.interface";
+import { OrderRequest } from "../../shared-interfaces/orderRequest.interface";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 export const validateBeforeCancelOrder = catchAsync(
   async (req: OrderRequest, res: Response, next: NextFunction) => {

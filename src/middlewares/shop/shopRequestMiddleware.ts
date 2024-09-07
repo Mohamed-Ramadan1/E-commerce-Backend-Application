@@ -2,18 +2,18 @@
 import { NextFunction, Response } from "express";
 
 //models imports
-import ShopRequest from "../models/shopRequestModal";
-import Shop from "../models/shopModal";
-import User from "../models/userModel";
+import ShopRequest from "../../models/newShopRequest/shopRequestModal";
+import Shop from "../../models/shop/shopModal";
+import User from "../../models/user/userModel";
 
 // interface imports
-import { IShopRequest } from "../models/shopRequest.interface";
-import { IUser } from "../models/user.interface";
-import { ShopRequestReq } from "../shared-interfaces/shopRequests.interface";
+import { IShopRequest } from "../../models/newShopRequest/shopRequest.interface";
+import { IUser } from "../../models/user/user.interface";
+import { ShopRequestReq } from "../../shared-interfaces/shopRequests.interface";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 export const validateRequestBeforeShopRequestCreation = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
@@ -62,12 +62,6 @@ export const validateRequestBeforeShopRequestCreation = catchAsync(
 
 export const validateShopRequestBeforeApprove = catchAsync(
   async (req: ShopRequestReq, res: Response, next: NextFunction) => {
-    // get the request and validate status is pending
-    // get the request and the request still exists
-    // get the request and the request is not approved or rejected
-    // get the request and the request is not cancelled
-    // set the data attributes to the request
-
     const shopRequest: IShopRequest | null = await ShopRequest.findOne({
       _id: req.params.id,
     });

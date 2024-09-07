@@ -13,10 +13,10 @@ import { ISubOrder } from "../../models/subOrders/subOrder.interface";
 import { ApiResponse } from "../../shared-interfaces/response.interface";
 import { ShopsManagementRequest } from "../../shared-interfaces/shopMangmentRequest.interface";
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 import { cascadeShopDeletion } from "../../utils/shopUtils/deleteShopRelatedData";
 
 // get all shops.

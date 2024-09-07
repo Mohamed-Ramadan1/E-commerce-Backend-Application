@@ -1,16 +1,19 @@
-import Order from "../models/orderModel";
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import Order from "../../models/order/orderModel";
+import User from "../../models/user/userModel";
+import RefundRequest from "../../models/refundRequest/refundModel";
+
 import { NextFunction, Response } from "express";
-import { IOrder } from "../models/order.interface";
+import { IOrder } from "../../models/order/order.interface";
 
-import { RefundRequestReq } from "../shared-interfaces/refundRequestReq.interface";
-import { IUser } from "../models/user.interface";
-import User from "../models/userModel";
-import { IRefundRequest, RefundStatus } from "../models/refund.interface";
+import { RefundRequestReq } from "../../shared-interfaces/refundRequestReq.interface";
+import { IUser } from "../../models/user/user.interface";
+import {
+  IRefundRequest,
+  RefundStatus,
+} from "../../models/refundRequest/refund.interface";
 
-import RefundRequest from "../models/refundModel";
-
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 export const validateRefundRequest = catchAsync(
   async (req: RefundRequestReq, res: Response, next: NextFunction) => {
     const refundRequest: IRefundRequest | null = await RefundRequest.findById(

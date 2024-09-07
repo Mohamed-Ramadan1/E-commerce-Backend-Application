@@ -13,12 +13,13 @@ import {
 } from "../../controllers/shopping/shoppingCartController";
 
 // middlewares imports.
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
 import {
   checkItemValidity,
   validateBeforeRemoveItem,
   validateBeforeDecrementItem,
-} from "../../middlewares/shoppingCartMiddleware";
+} from "../../middlewares/shoppingCart/shoppingCartMiddleware";
 
 const router = Router();
 

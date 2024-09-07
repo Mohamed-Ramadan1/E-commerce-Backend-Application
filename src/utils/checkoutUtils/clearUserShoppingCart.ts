@@ -1,5 +1,5 @@
-import ShoppingCart from "../../models/shoppingCartModel";
-import { IShoppingCart } from "../../models/shoppingCart.interface";
+import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
+import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { ClientSession } from "mongoose";
 // clear the user shopping cart.
 export const clearShoppingCart = async (

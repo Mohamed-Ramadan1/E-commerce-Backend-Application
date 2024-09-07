@@ -9,10 +9,10 @@ import { ApiResponse } from "../../shared-interfaces/response.interface";
 import { IReview } from "../../models/review/review.interface";
 
 // utils imports
-import AppError from "../../utils/ApplicationError";
-import catchAsync from "../../utils/catchAsync";
-import APIFeatures from "../../utils/apiKeyFeature";
-import { sendResponse } from "../../utils/sendResponse";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 // get all reviews created by the user
 export const getReviews = catchAsync(

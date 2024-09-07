@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { protect } from "../../middlewares/authMiddleware";
+import { protect } from "../../middlewares/auth/authMiddleware";
 import {
   getWishlist,
   removeItemFromWishlist,

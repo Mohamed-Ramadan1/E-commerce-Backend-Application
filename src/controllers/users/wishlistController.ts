@@ -10,10 +10,10 @@ import { AuthUserRequest } from "../../shared-interfaces/request.interface";
 import { ApiResponse } from "../../shared-interfaces/response.interface";
 
 // utils imports
-import AppError from "../../utils/ApplicationError";
-import catchAsync from "../../utils/catchAsync";
-import { sendResponse } from "../../utils/sendResponse";
-import APIFeatures from "../../utils/apiKeyFeature";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 export const getWishlist = catchAsync(
   async (req: AuthUserRequest, res: Response, next: NextFunction) => {
     const features = new APIFeatures(

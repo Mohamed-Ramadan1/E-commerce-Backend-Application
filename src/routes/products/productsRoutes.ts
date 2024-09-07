@@ -8,7 +8,7 @@ import {
 } from "../../controllers/products/productsController";
 const router = Router();
 
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
 
 router
   .route("/")

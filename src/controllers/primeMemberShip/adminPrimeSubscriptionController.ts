@@ -16,12 +16,12 @@ import {
 import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/adminPrimeSubscriptionRequest.interface";
 
 import { ApiResponse } from "../../shared-interfaces/response.interface";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 // config imports
 import { SUBSCRIPTION_PLANS } from "../../config/subscription.config";

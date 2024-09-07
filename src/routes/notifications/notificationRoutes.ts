@@ -13,7 +13,7 @@ import {
   unmuteNotifications,
 } from "../../controllers/notifications/notificationController";
 
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
 
 const router = Router();
 

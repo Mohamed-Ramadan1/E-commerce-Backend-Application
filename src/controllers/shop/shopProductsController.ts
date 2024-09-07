@@ -10,11 +10,11 @@ import { IProduct } from "../../models/product/product.interface";
 import { ShopProductsRequest } from "../../shared-interfaces/shopProductsRequest.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import APIFeatures from "../../utils/apiKeyFeature";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { sendResponse } from "../../utils/sendResponse";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 // emails imports
 import addProductConfirmationEmail from "../../emails/shops-products/addProductConfirmationEmail";
 import productUpdateConfirmationEmail from "../../emails/shops-products/updateProductConfirmationEmail";

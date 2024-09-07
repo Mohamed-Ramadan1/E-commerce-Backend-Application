@@ -1,18 +1,17 @@
 import { ClientSession } from "mongoose";
-import Wishlist from "../../models/wishlistModel";
-import ShoppingCart from "../../models/shoppingCartModel";
-import CartItem from "../../models/cartItemModel";
-import ShopRequest from "../../models/shopRequestModal";
-import ReturnProduct from "../../models/returnProductsModel";
-import RefundRequest from "../../models/refundModel";
-import Order from "../../models/orderModel";
-import SupportTicket from "../../models/supportTicketsModel";
-
-import Notification from "../../models/notificationModal";
-import Review from "../../models/reviewModel";
-import { IUser } from "../../models/user.interface";
+import Wishlist from "../../models/wishlist/wishlistModel";
+import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
+import CartItem from "../../models/cartItem/cartItemModel";
+import ShopRequest from "../../models/newShopRequest/shopRequestModal";
+import ReturnProduct from "../../models/returnProduct/returnProductsModel";
+import RefundRequest from "../../models/refundRequest/refundModel";
+import Order from "../../models/order/orderModel";
+import SupportTicket from "../../models/userSupportTicket/supportTicketsModel";
+import Notification from "../../models/notification/notificationModal";
+import Review from "../../models/review/reviewModel";
+import { IUser } from "../../models/user/user.interface";
 import { NextFunction } from "express";
-import AppError from "../ApplicationError";
+import AppError from "../apiUtils/ApplicationError";
 
 export async function cascadeUserDeletion(
   user: IUser,

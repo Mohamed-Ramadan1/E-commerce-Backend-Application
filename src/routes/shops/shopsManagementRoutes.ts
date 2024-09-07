@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
+import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";
+
 import {
   getAllShops,
   getShop,

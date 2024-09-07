@@ -19,9 +19,9 @@ import {
 import { ApiResponse } from "../../shared-interfaces/response.interface";
 
 // utils imports
-import catchAsync from "../../utils/catchAsync";
-import AppError from "../../utils/ApplicationError";
-import { sendResponse } from "../../utils/sendResponse";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 // emails imports
 import changeShopEmailAddressConfirmationEmail from "../../emails/shop/changeShopEmailAddressConfirmationEmail";

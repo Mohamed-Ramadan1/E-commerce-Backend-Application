@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { protect, restrictTo } from "../../middlewares/authMiddleware";
-import { upload } from "../../middlewares/multerMiddleware";
+import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
+import { upload } from "../../middlewares/multer/multerMiddleware";
 import {
   validateBeforeUpdateShopEmailAddress,
   validateBeforeConfirmUpdateShopEmailAddress,
   validateBeforeUpdateShopInfo,
   validateBeforeUpdateBanner,
-} from "../../middlewares/shopSettingsMiddleware";
+} from "../../middlewares/shop/shopSettingsMiddleware";
 
 import {
   validateBeforeAddNewProduct,
@@ -14,7 +14,7 @@ import {
   validateBeforeDeleteProduct,
   validateBeforeFreezeProduct,
   validateBeforeUnFreezeProduct,
-} from "../../middlewares/shopProductsMiddleware";
+} from "../../middlewares/shop/shopProductsMiddleware";
 
 // shop settings controller
 import {

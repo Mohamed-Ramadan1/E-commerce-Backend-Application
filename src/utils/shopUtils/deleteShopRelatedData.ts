@@ -1,11 +1,11 @@
-import ShopSupportTicket from "../../models/shopSupportTicketModal";
-import Notification from "../../models/notificationModal";
-import ShopOrder from "../../models/shopOrderModal";
-import Product from "../../models/productModel";
-import { IShop } from "../../models/shop.interface";
+import ShopSupportTicket from "../../models/shopSupportTicket/shopSupportTicketModal";
+import Notification from "../../models/notification/notificationModal";
+import SubOrder from "../../models/subOrders/subOrderModal";
+import Product from "../../models/product/productModel";
+import { IShop } from "../../models/shop/shop.interface";
 import { NextFunction } from "express";
 import { ClientSession } from "mongoose";
-import AppError from "../ApplicationError";
+import AppError from "../apiUtils/ApplicationError";
 
 type DeleteResult =
   | { deletedCount?: number }
@@ -21,7 +21,7 @@ export async function cascadeShopDeletion(
     const deleteOperations: Promise<DeleteResult>[] = [
       ShopSupportTicket.deleteMany({ shop: shop._id }).session(session),
       Notification.deleteMany({ user: shop._id }).session(session),
-      ShopOrder.deleteMany({ shop: shop._id }).session(session),
+      SubOrder.deleteMany({ shop: shop._id }).session(session),
       Product.deleteMany({ shop: shop._id }).session(session),
     ];
 

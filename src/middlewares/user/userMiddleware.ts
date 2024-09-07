@@ -4,11 +4,11 @@ import { NextFunction, Response } from "express";
 import {
   UserRequestWithUpdateInfo,
   UserUpdatePasswordRequest,
-} from "../shared-interfaces/userRequest.interface";
+} from "../../shared-interfaces/userRequest.interface";
 
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import AppError from "../../utils/apiUtils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
 
 export const validateBeforeUpdateUserPassword = catchAsync(
   async (req: UserUpdatePasswordRequest, res: Response, next: NextFunction) => {

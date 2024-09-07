@@ -1,17 +1,16 @@
 // system imports
 import { NextFunction, Response } from "express";
 
-import Shop from "../models/shopModal";
+import Shop from "../../models/shop/shopModal";
 
-import { IShop } from "../models/shop.interface";
-import { ShopOrderRequest } from "../shared-interfaces/subOrderRequest.interface";
-
+import { IShop } from "../../models/shop/shop.interface";
+import { SubOrderRequest } from "../../shared-interfaces/subOrderRequest.interface";
 // utils imports
-import catchAsync from "../utils/catchAsync";
-import AppError from "../utils/ApplicationError";
+import catchAsync from "../../utils/apiUtils/catchAsync";
+import AppError from "../../utils/apiUtils/ApplicationError";
 
 export const validateBeforeShopOrdersOperations = catchAsync(
-  async (req: ShopOrderRequest, res: Response, next: NextFunction) => {
+  async (req: SubOrderRequest, res: Response, next: NextFunction) => {
     // validate user has shop and the order he tray to manipulate is related to his shop
     // extract the shop from the user and get it
 
