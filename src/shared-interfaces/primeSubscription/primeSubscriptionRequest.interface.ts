@@ -1,4 +1,4 @@
-import { AuthUserRequest } from "./request.interface";
+import { AuthUserRequest } from "../request.interface";
 
 export interface PrimeSubscriptionRequest extends AuthUserRequest {
   body: {

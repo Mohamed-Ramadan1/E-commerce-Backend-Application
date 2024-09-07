@@ -13,7 +13,7 @@ import {
   PrimeSubscriptionPlan,
   PrimeSubscriptionStatus,
 } from "../../models/primeSubscription/primeSubscription.interface";
-import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/adminPrimeSubscriptionRequest.interface";
+import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscription/adminPrimeSubscriptionRequest.interface";
 
 import { ApiResponse } from "../../shared-interfaces/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
@@ -98,64 +98,7 @@ export const updatePrimeSubscription = catchAsync(
   }
 );
 
-// delete prime subscription
-// export const deletePrimeSubscription = catchAsync(
-//   async (
-//     req: AdminPrimeSubscriptionRequest,
-//     res: Response,
-//     next: NextFunction
-//   ) => {
-//     const session = await mongoose.startSession();
-//     session.startTransaction();
-//     try {
-//       const primeSubscription = await PrimeSubscription.findByIdAndDelete(
-//         req.params.id,
-//         {
-//           session,
-//         }
-//       );
-
-//       if (!primeSubscription) {
-//         return next(
-//           new AppError("No prime subscription found with this id.", 404)
-//         );
-//       }
-//       const userWithSubscription = await User.findByIdAndUpdate(
-//         primeSubscription.user,
-//         {
-//           $unset: { primeSubscriptionStatus: "" },
-//           $set: { isPrimeUser: false },
-//         },
-//         {
-//           session,
-//           new: true,
-//           runValidators: true,
-//         }
-//       );
-//       if (!userWithSubscription) {
-//         throw new AppError(
-//           "Something went  wrong while deleting user prime subscription",
-//           404
-//         );
-//       }
-
-//       session.commitTransaction();
-
-//       const response: ApiResponse<IPrimeSubScription> = {
-//         status: "success",
-//         message: " prime subscription successfully deleted ",
-//       };
-//       sendResponse(200, response, res);
-//     } catch (error) {
-//       console.error(error);
-//       await session.abortTransaction();
-//       throw new AppError("error while deleting prime subscription", 500);
-//     } finally {
-//       await session.endSession();
-//     }
-//   }
-// );
-
+// delete  user prime subscription
 export const deletePrimeSubscription = catchAsync(
   async (
     req: AdminPrimeSubscriptionRequest,
@@ -338,23 +281,3 @@ export const cancelPrimeSubscription = catchAsync(
     }
   }
 );
-
-// activate prime subscription
-export const activatePrimeSubscription = catchAsync(
-  async (
-    req: AdminPrimeSubscriptionRequest,
-    res: Response,
-    next: NextFunction
-  ) => {}
-);
-
-// renew prime subscription
-export const renewPrimeSubscription = catchAsync(
-  async (
-    req: AdminPrimeSubscriptionRequest,
-    res: Response,
-    next: NextFunction
-  ) => {}
-);
-
-// TODO : working on the updating process need  to specify attributes comming from the request body

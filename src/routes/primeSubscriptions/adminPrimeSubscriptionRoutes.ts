@@ -7,7 +7,6 @@ import {
   deletePrimeSubscription,
   createPrimeSubscription,
   cancelPrimeSubscription,
-  renewPrimeSubscription,
 } from "../../controllers/primeMemberShip/adminPrimeSubscriptionController";
 import {
   validateBeforeCreatePrimeSubscription,
@@ -25,7 +24,6 @@ router
 router
   .route("/cancel")
   .patch(validateBeforeCancelPrimeSubscription, cancelPrimeSubscription);
-router.route("/renew").patch(renewPrimeSubscription);
 
 router
   .route("/:id")

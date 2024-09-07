@@ -1,6 +1,6 @@
-import { IUser } from "../models/user.interface";
-import { AuthUserRequest } from "./request.interface";
-import { IPrimeSubScription } from "../models/primeSubscription.interface";
+import { IUser } from "../../models/user/user.interface";
+import { AuthUserRequest } from "../request.interface";
+import { IPrimeSubScription } from "../../models/primeSubscription/primeSubscription.interface";
 export interface AdminPrimeSubscriptionRequest extends AuthUserRequest {
   userToSubscribe: IUser;
   prevPrimeSubscription?: IPrimeSubScription;

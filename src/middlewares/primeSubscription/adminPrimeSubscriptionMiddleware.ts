@@ -11,7 +11,7 @@ import {
   PrimeSubscriptionStatus,
 } from "../../models/primeSubscription/primeSubscription.interface";
 import { IUser } from "../../models/user/user.interface";
-import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/adminPrimeSubscriptionRequest.interface";
+import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscription/adminPrimeSubscriptionRequest.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
 
 // utils imports
