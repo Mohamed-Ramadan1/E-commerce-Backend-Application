@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { IUser, DefaultPhotoUrl, UserRole } from "./user.interface";
 import crypto from "crypto";
 
-import { PrimeSubscriptionStatus } from "../primeSubscription/primeSubscription.interface";
+import { PrimeSubscriptionStatus } from "../primeMemberShip/primeSubscription.interface";
 
 export const userSchema: Schema<IUser> = new Schema<IUser>(
   {

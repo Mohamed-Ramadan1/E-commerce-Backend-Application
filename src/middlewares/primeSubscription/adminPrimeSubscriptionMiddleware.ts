@@ -2,14 +2,14 @@
 import { Response, NextFunction } from "express";
 
 // models imports
-import PrimeSubscription from "../../models/primeSubscription/primeSubscriptionModel";
+import PrimeSubscription from "../../models/primeMemberShip/primeSubscriptionModel";
 import User from "../../models/user/userModel";
 
 // interface imports
 import {
   IPrimeSubScription,
   PrimeSubscriptionStatus,
-} from "../../models/primeSubscription/primeSubscription.interface";
+} from "../../models/primeMemberShip/primeSubscription.interface";
 import { IUser } from "../../models/user/user.interface";
 import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscription/adminPrimeSubscriptionRequest.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";

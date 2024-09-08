@@ -1,7 +1,7 @@
 import { Document, Schema, Types } from "mongoose";
 import { IShoppingCart } from "../shoppingCart/shoppingCart.interface";
 import { IShop } from "../shop/shop.interface";
-import { PrimeSubscriptionStatus } from "../primeSubscription/primeSubscription.interface";
+import { PrimeSubscriptionStatus } from "../primeMemberShip/primeSubscription.interface";
 
 // Enums
 export enum UserRole {

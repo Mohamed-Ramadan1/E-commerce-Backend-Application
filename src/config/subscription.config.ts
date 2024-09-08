@@ -1,4 +1,4 @@
-import { PrimeSubscriptionPlan } from "../models/primeSubscription/primeSubscription.interface";
+import { PrimeSubscriptionPlan } from "../models/primeMemberShip/primeSubscription.interface";
 
 export const SUBSCRIPTION_PLANS = {
   [PrimeSubscriptionPlan.MONTHLY]: {

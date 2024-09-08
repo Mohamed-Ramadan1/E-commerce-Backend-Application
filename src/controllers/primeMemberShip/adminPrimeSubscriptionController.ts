@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 
 // models imports
 import User from "../../models/user/userModel";
-import PrimeSubscription from "../../models/primeSubscription/primeSubscriptionModel";
+import PrimeSubscription from "../../models/primeMemberShip/primeSubscriptionModel";
 
 // interface imports
 import {
@@ -12,7 +12,7 @@ import {
   PrimeSubscriptionPaymentMethod,
   PrimeSubscriptionPlan,
   PrimeSubscriptionStatus,
-} from "../../models/primeSubscription/primeSubscription.interface";
+} from "../../models/primeMemberShip/primeSubscription.interface";
 import { AdminPrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscription/adminPrimeSubscriptionRequest.interface";
 
 import { ApiResponse } from "../../shared-interfaces/response.interface";

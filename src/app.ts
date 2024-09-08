@@ -34,8 +34,8 @@ import shopsOrdersRoutes from "./routes/orders/subOrdersRoutes";
 import notificationRoutes from "./routes/notifications/notificationRoutes";
 import monthlyWebsiteAnalyticsReportRoutes from "./routes/monthlyAnalytics/monthlyWebsiteAnalyticsReportRoutes";
 import monthlyShopeAnalyticsReportRoutes from "./routes/monthlyAnalytics/monthlyShopeAnalyticsReportRoutes";
-import primeSubscriptionRoutes from "./routes/primeSubscriptions/primeSubscriptionRoutes";
-import adminPrimeSubscriptionRoutes from "./routes/primeSubscriptions/adminPrimeSubscriptionRoutes";
+import primeSubscriptionRoutes from "./routes/primeMemberShip/primeSubscriptionRoutes";
+import adminPrimeSubscriptionRoutes from "./routes/primeMemberShip/adminPrimeSubscriptionRoutes";
 
 import globalError from "./controllers/error/errorController";
 import AppError from "./utils/apiUtils/ApplicationError";
