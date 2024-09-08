@@ -1,7 +1,7 @@
 /* 
 **********************************************************************************************
 Day-2
-TODO : Prime users subscriptions.
+// TODO : Prime users subscriptions.
 
 TODO: Discount  codes  (mange codes with admins , shops owners ).
 
@@ -19,11 +19,12 @@ TODO: While payment process check if the user have a valid prime subscription or
 
 TODO: While payment process check if the user have prime subscription and if have valid subscription based on the subscription type give him the binifits if it exits
 
+TODO : Setup one way message system to send messages to the users.
 
 TODO : Handle How the shop owners will receive the money from the application 
       TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
       TODO: Manually annually  or monthly or weekly or daily based on the shop owner decide on the options .
-
+      
       
 TODO : Create full analytics for the  orders ,shops and products.
 
@@ -33,6 +34,6 @@ TODO : Integrate messaging queue system to the application(Bull).
 
 TODO : Setup webpack to start build the application 
 
-TODO: shop payout system
+TODO : Setup docker to start containerize the application
 
 */

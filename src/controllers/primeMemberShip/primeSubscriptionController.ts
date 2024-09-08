@@ -1,31 +1,148 @@
 // system imports
 import { Response, NextFunction } from "express";
+import mongoose from "mongoose";
 
 // models imports
+import User from "../../models/user/userModel";
 import PrimeSubscription from "../../models/primeMemberShip/primeSubscriptionModel";
+
 // interface imports
 import {
   IPrimeSubScription,
+  PrimeSubscriptionPaymentMethod,
+  PrimeSubscriptionPlan,
   PrimeSubscriptionStatus,
 } from "../../models/primeMemberShip/primeSubscription.interface";
 import { PrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscription/primeSubscriptionRequest.interface";
+
 import { ApiResponse } from "../../shared-interfaces/response.interface";
-import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 import AppError from "../../utils/apiUtils/ApplicationError";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
-import mongoose from "mongoose";
 
-//  create subscription
-export const createSubscription = catchAsync(
+// config imports
+import { SUBSCRIPTION_PLANS } from "../../config/subscription.config";
+
+// email imports
+import welcomePrimeMemberShipEmail from "../../emails/primeSubscriptions/welcomePrimeMemberShipEmail";
+import sendCancellationEmail from "../../emails/primeSubscriptions/sendCancellationEmail";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: "2024-04-10",
+});
+export const createUserPrimeSubscription = catchAsync(
   async (req: PrimeSubscriptionRequest, res: Response, next: NextFunction) => {
-    /* 
-    user plan  amounts 
-    
-    
-    */
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    try {
+      const { user } = req;
+      if (!user) {
+        throw new AppError("User not found", 404);
+      }
+
+      // Create a Stripe PaymentIntent
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount:
+          SUBSCRIPTION_PLANS[PrimeSubscriptionPlan.MONTHLY].originalAmount,
+        currency: "usd",
+        payment_method_types: ["card"],
+        metadata: {
+          userId: user._id.toString(),
+          subscriptionPlan: PrimeSubscriptionPlan.MONTHLY,
+        },
+      });
+
+      const newPrimeSubscription: IPrimeSubScription = new PrimeSubscription({
+        user: user._id,
+        nextBillingDate: new Date(
+          new Date().setDate(new Date().getDate() + 30)
+        ),
+        startDate: new Date(),
+        endDate: new Date(new Date().setDate(new Date().getDate() + 30)),
+        status: PrimeSubscriptionStatus.PENDING,
+        plan: PrimeSubscriptionPlan.MONTHLY,
+        originalSubscriptionAmount:
+          SUBSCRIPTION_PLANS[PrimeSubscriptionPlan.MONTHLY].originalAmount,
+        discountedSubscriptionAmount:
+          SUBSCRIPTION_PLANS[PrimeSubscriptionPlan.MONTHLY].discountedAmount,
+        subscriptionAmount:
+          SUBSCRIPTION_PLANS[PrimeSubscriptionPlan.MONTHLY].originalAmount -
+          SUBSCRIPTION_PLANS[PrimeSubscriptionPlan.MONTHLY].discountedAmount,
+        paymentMethod: PrimeSubscriptionPaymentMethod.STRIPE,
+        stripePaymentIntentId: paymentIntent.id,
+      });
+
+      const savedSubscription = await newPrimeSubscription.save({ session });
+
+      user.isPrimeUser = false; // Will be set to true after payment confirmation
+      user.primeSubscriptionStatus = PrimeSubscriptionStatus.PENDING;
+      user.lastPrimeSubscriptionDocument = savedSubscription._id;
+      await user.save({ validateBeforeSave: false, session });
+
+      await session.commitTransaction();
+
+      const response = {
+        status: "success",
+        data: {
+          clientSecret: paymentIntent.client_secret,
+          subscriptionId: savedSubscription._id,
+        },
+      };
+      sendResponse(201, response, res);
+    } catch (err) {
+      console.error(err);
+      await session.abortTransaction();
+      throw new AppError("Error while creating prime subscription", 500);
+    } finally {
+      session.endSession();
+    }
+  }
+);
+
+export const confirmPrimeSubscription = catchAsync(
+  async (req: PrimeSubscriptionRequest, res: Response, next: NextFunction) => {
+    const { paymentIntentId } = req.body;
+    const { user } = req;
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    const subscription = await PrimeSubscription.findOne({
+      user: user._id,
+      stripePaymentIntentId: paymentIntentId,
+      status: PrimeSubscriptionStatus.PENDING,
+    });
+
+    if (!subscription) {
+      throw new AppError("Subscription not found or already processed", 404);
+    }
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (paymentIntent.status !== "succeeded") {
+      throw new AppError("Payment not successful", 400);
+    }
+
+    subscription.status = PrimeSubscriptionStatus.ACTIVE;
+    await subscription.save();
+
+    user.isPrimeUser = true;
+    user.primeSubscriptionStatus = PrimeSubscriptionStatus.ACTIVE;
+    await user.save({ validateBeforeSave: false });
+
+    // Send welcome email or perform other post-subscription actions here
+    welcomePrimeMemberShipEmail(user, subscription);
+    const response = {
+      status: "success",
+      message: "Prime subscription activated successfully",
+    };
+    sendResponse(200, response, res);
   }
 );
 
@@ -107,6 +224,7 @@ export const cancelMySubscription = catchAsync(
         status: "success",
         message: "Your prime membership has been cancelled.",
       };
+      sendCancellationEmail(user, latestSubscription);
       sendResponse(200, response, res);
     } catch (err) {
       await session.abortTransaction();

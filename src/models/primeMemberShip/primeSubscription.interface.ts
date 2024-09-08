@@ -5,6 +5,7 @@ export enum PrimeSubscriptionStatus {
   ACTIVE = "active",
   CANCELLED = "cancelled",
   EXPIRED = "expired",
+  PENDING ="pending",
 }
 
 export enum PrimeSubscriptionPlan {

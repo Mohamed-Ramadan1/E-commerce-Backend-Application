@@ -23,7 +23,7 @@ export const validateBeforeCancelMySubscription = catchAsync(
     if (!user.isPrimeUser) {
       return next(new AppError("Your are not prime member.", 400));
     }
-    
+
     if (!req.body.cancellationReason) {
       return next(new AppError("Please provide a cancellation reason.", 400));
     }
