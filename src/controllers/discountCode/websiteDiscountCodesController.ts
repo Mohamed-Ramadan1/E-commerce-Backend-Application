@@ -1,18 +1,76 @@
 // system imports
 import { Response, NextFunction } from "express";
 
+// models imports
+
 // interface imports
-import {
-  IOrder,
-  PaymentMethod,
-  PaymentStatus,
-  OrderStatus,
-  ShippingStatus,
-} from "../../models/order/order.interface";
 import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
-import { CheckoutRequest } from "../../RequestsInterfaces/checkoutRequest.interface";
-
+import { WebsiteDiscountCodeRequest } from "../../RequestsInterfaces/discountCode/websiteiscountCodeRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
+
+export const createDiscountCode = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const getDiscountCodes = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const getDiscountCode = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const updateDiscountCode = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const deleteDiscountCode = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const activateDiscountCode = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const disActivateDiscountCode = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);
+
+export const updateDiscountCodeEndDate = catchAsync(
+  async (
+    req: WebsiteDiscountCodeRequest,
+    res: Response,
+    next: NextFunction
+  ) => {}
+);

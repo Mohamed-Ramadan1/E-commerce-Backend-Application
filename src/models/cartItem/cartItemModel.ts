@@ -27,6 +27,11 @@ export const cartItemSchema: Schema<ICartItem> = new Schema(
       type: Number,
       default: 0,
     },
+    discountCodes: {
+      type: [Schema.Types.ObjectId],
+      ref: "DiscountCode",
+      default: [],
+    },
     priceAfterDiscount: {
       type: Number,
       required: true,

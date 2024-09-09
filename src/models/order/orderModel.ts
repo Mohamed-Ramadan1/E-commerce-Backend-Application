@@ -94,7 +94,9 @@ export const OrderSchema: Schema = new Schema<IOrder>(
     },
 
     discountCodes: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      ref: "DiscountCode",
+      default: [],
     },
     taxAmount: {
       type: Number,

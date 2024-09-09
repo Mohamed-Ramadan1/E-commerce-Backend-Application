@@ -1,11 +1,6 @@
-import { AuthUserRequest } from "../request.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { BaseDiscountCodeRequest } from "./baseDiscountCodeRequest.interface";
 
-export interface ShopDiscountCodeRequest extends AuthUserRequest {
- 
-  body: {
-
-  };
-  params: {
-    id: string;
-  };
+export interface ShopDiscountCodeRequest extends BaseDiscountCodeRequest {
+  shop: IShop;
 }

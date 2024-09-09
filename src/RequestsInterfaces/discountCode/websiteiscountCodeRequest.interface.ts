@@ -1,8 +1,2 @@
-import { AuthUserRequest } from "../request.interface";
-
-export interface WebsiteDiscountCodeRequest extends AuthUserRequest {
-  body: {};
-  params: {
-    id: string;
-  };
-}
+import { BaseDiscountCodeRequest } from "./baseDiscountCodeRequest.interface";
+export interface WebsiteDiscountCodeRequest extends BaseDiscountCodeRequest {}

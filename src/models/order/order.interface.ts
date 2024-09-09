@@ -1,6 +1,6 @@
 import { Document, Schema } from "mongoose";
 import { ICartItem } from "../cartItem/cartItem.interface";
-
+import { IDiscountCode } from "../discountCode/discountCode.interface";
 export enum PaymentStatus {
   PaymentOnDelivery = "payment_on_delivery",
   Paid = "paid",
@@ -28,6 +28,7 @@ export interface IOrder extends Document {
   user: Schema.Types.ObjectId;
   paymentSessionId?: string;
   items: ICartItem[];
+
   itemsQuantity: number;
   totalPrice: number;
   totalDiscount: number;
@@ -41,7 +42,7 @@ export interface IOrder extends Document {
   archived: boolean;
   customerNotes?: string;
   internalNotes?: string;
-  discountCodes?: string[];
+  discountCodes: IDiscountCode[];
   taxAmount: number;
   estimatedDeliveryDate?: Date;
   createdAt: Date;
