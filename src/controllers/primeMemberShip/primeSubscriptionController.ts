@@ -13,9 +13,9 @@ import {
   PrimeSubscriptionPlan,
   PrimeSubscriptionStatus,
 } from "../../models/primeMemberShip/primeSubscription.interface";
-import { PrimeSubscriptionRequest } from "../../shared-interfaces/primeSubscription/primeSubscriptionRequest.interface";
+import { PrimeSubscriptionRequest } from "../../RequestsInterfaces/primeSubscription/primeSubscriptionRequest.interface";
 
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
 import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 

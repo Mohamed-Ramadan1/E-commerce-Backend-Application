@@ -6,9 +6,9 @@ import Order from "../../models/order/orderModel";
 
 // interface imports
 import { IOrder, OrderStatus } from "../../models/order/order.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 
-import { OrderRequest } from "../../shared-interfaces/orderRequest.interface";
+import { OrderRequest } from "../../RequestsInterfaces/orderRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

@@ -10,7 +10,7 @@ import {
   ReturnStatus,
 } from "../../models/returnProduct/returnProducts.interface";
 import { IOrder, OrderStatus } from "../../models/order/order.interface";
-import { ReturnItemsRequest } from "../../shared-interfaces/returnItemRequestReq.interface";
+import { ReturnItemsRequest } from "../../RequestsInterfaces/returnItemRequestReq.interface";
 import { ICartItem } from "../../models/cartItem/cartItem.interface";
 import { IUser } from "../../models/user/user.interface";
 

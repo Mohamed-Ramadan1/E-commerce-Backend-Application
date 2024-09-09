@@ -8,8 +8,8 @@ import User from "../../models/user/userModel";
 
 //interface imports
 
-import { SupportTicketRequest } from "../../shared-interfaces/supportTicketsRequest.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { SupportTicketRequest } from "../../RequestsInterfaces/supportTicketsRequest.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 import {
   ISupportTicket,
   TicketStatus,

@@ -1,5 +1,5 @@
 import { AuthUserRequest } from "./request.interface";
-import { IUser } from "../models/user.interface";
+import { IUser } from "../models/user/user.interface";
 
 export interface UserRequest extends AuthUserRequest {
   params: {

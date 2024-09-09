@@ -4,7 +4,7 @@ import { NextFunction, Response } from "express";
 import Shop from "../../models/shop/shopModal";
 
 import { IShop } from "../../models/shop/shop.interface";
-import { SubOrderRequest } from "../../shared-interfaces/subOrderRequest.interface";
+import { SubOrderRequest } from "../../RequestsInterfaces/subOrderRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

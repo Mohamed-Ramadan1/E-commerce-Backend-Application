@@ -7,8 +7,8 @@ import ProcessedCreateShopRequests from "../../models/processedData/processedCre
 
 // interface imports
 import { IProcessedShopRequest } from "../../models/processedData/processedCreateShopRequests.interface";
-import { ProcessedShopRequestsReq } from "../../shared-interfaces/processedShopRequestsReq.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ProcessedShopRequestsReq } from "../../RequestsInterfaces/processedShopRequestsReq.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

@@ -9,7 +9,7 @@ import User from "../../models/user/userModel";
 // interface imports
 import { IUser } from "../../models/user/user.interface";
 import { IDeleteShopRequest } from "../../models/deleteShopRequest/deleteShopRequest.interface";
-import { DeleteShopRequestReq } from "../../shared-interfaces/deleteShopRequestReq.interface";
+import { DeleteShopRequestReq } from "../../RequestsInterfaces/deleteShopRequestReq.interface";
 
 // utils imports
 import AppError from "../../utils/apiUtils/ApplicationError";

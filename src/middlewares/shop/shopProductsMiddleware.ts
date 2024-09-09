@@ -8,7 +8,7 @@ import Product from "../../models/product/productModel";
 // interfaces imports
 import { IShop } from "../../models/shop/shop.interface";
 import { IProduct } from "../../models/product/product.interface";
-import { ShopProductsRequest } from "../../shared-interfaces/shopProductsRequest.interface";
+import { ShopProductsRequest } from "../../RequestsInterfaces/shopProductsRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

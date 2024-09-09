@@ -6,10 +6,10 @@ import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
 import CartItem from "../../models/cartItem/cartItemModel";
 
 // interface imports
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { ICartItem } from "../../models/cartItem/cartItem.interface";
-import { ShoppingCartRequest } from "../../shared-interfaces/shoppingCartRequest.interface";
+import { ShoppingCartRequest } from "../../RequestsInterfaces/shoppingCartRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

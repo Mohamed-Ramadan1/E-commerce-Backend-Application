@@ -4,7 +4,7 @@ import { NextFunction, Response } from "express";
 import {
   UserRequestWithUpdateInfo,
   UserUpdatePasswordRequest,
-} from "../../shared-interfaces/userRequest.interface";
+} from "../../RequestsInterfaces/userRequest.interface";
 
 // utils imports
 import AppError from "../../utils/apiUtils/ApplicationError";

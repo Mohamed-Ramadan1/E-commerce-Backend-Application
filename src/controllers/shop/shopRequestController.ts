@@ -11,10 +11,10 @@ import {
   IShopRequest,
   RequestStatus,
 } from "../../models/newShopRequest/shopRequest.interface";
-import { ShopRequestReq } from "../../shared-interfaces/shopRequests.interface";
+import { ShopRequestReq } from "../../RequestsInterfaces/shopRequests.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import { IUser } from "../../models/user/user.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

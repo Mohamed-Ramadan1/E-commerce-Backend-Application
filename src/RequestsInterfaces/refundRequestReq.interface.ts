@@ -1,7 +1,7 @@
 import { AuthUserRequest } from "./request.interface";
-import { IOrder } from "../models/order.interface";
-import { IUser } from "../models/user.interface";
-import { IRefundRequest } from "../models/refund.interface";
+import { IOrder } from "../models/order/order.interface";
+import { IUser } from "../models/user/user.interface";
+import { IRefundRequest } from "../models/refundRequest/refund.interface";
 
 export interface RefundRequestReq extends AuthUserRequest {
   order: IOrder;

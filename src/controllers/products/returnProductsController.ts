@@ -12,8 +12,8 @@ import {
   ReceivedItemsStatus,
 } from "../../models/returnProduct/returnProducts.interface";
 import { IRefundRequest } from "../../models/refundRequest/refund.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { ReturnItemsRequest } from "../../shared-interfaces/returnItemRequestReq.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ReturnItemsRequest } from "../../RequestsInterfaces/returnItemRequestReq.interface";
 import { IUser } from "../../models/user/user.interface";
 import { ProductSourceType } from "../../models/product/product.interface";
 import { ICartItem } from "../../models/cartItem/cartItem.interface";

@@ -10,8 +10,8 @@ import SubOrder from "../../models/subOrders/subOrderModal";
 import { IProduct } from "../../models/product/product.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import { ISubOrder } from "../../models/subOrders/subOrder.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { ShopsManagementRequest } from "../../shared-interfaces/shopMangmentRequest.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ShopsManagementRequest } from "../../RequestsInterfaces/shopMangmentRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

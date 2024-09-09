@@ -1,7 +1,7 @@
 import { AuthUserRequest } from "./request.interface";
-import { IShop } from "../models/shop.interface";
-import { IUser } from "../models/user.interface";
-import { IShopRequest } from "../models/shopRequest.interface";
+import { IShop } from "../models/shop/shop.interface";
+import { IUser } from "../models/user/user.interface";
+import { IShopRequest } from "../models/newShopRequest/shopRequest.interface";
 
 export interface ShopRequestReq extends AuthUserRequest {
   userToOpenShop: IUser;

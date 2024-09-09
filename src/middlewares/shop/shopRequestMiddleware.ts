@@ -9,7 +9,7 @@ import User from "../../models/user/userModel";
 // interface imports
 import { IShopRequest } from "../../models/newShopRequest/shopRequest.interface";
 import { IUser } from "../../models/user/user.interface";
-import { ShopRequestReq } from "../../shared-interfaces/shopRequests.interface";
+import { ShopRequestReq } from "../../RequestsInterfaces/shopRequests.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

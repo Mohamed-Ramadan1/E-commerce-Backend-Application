@@ -6,13 +6,13 @@ import Notification from "../../models/notification/notificationModal";
 
 // interfaces imports
 import { INotification } from "../../models/notification/notification.interface";
-import { NotificationRequest } from "../../shared-interfaces/notificationRequest.interface";
+import { NotificationRequest } from "../../RequestsInterfaces/notificationRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";
 import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 
 import { getIO } from "../../utils/socket/socketSetup";
 

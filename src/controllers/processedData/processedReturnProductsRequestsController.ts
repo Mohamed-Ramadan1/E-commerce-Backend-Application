@@ -5,8 +5,8 @@ import ProcessedReturnProductRequest from "../../models/processedData/processedR
 
 // interface imports
 import { IProcessedReturnProductRequest } from "../../models//processedData/processedReturnProducts.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { ProcessedReturnProductRequestReq } from "../../shared-interfaces/processedReturnProductsRequestsReq.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ProcessedReturnProductRequestReq } from "../../RequestsInterfaces/processedReturnProductsRequestsReq.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

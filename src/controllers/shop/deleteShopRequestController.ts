@@ -13,8 +13,8 @@ import {
   RequestStatus,
 } from "../../models/deleteShopRequest/deleteShopRequest.interface";
 import { IProcessedDeletedShopRequest } from "../../models/processedData/processedDeleteShopRequest.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { DeleteShopRequestReq } from "../../shared-interfaces/deleteShopRequestReq.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { DeleteShopRequestReq } from "../../RequestsInterfaces/deleteShopRequestReq.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

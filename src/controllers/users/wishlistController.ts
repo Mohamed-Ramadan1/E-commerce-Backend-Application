@@ -6,8 +6,8 @@ import Wishlist from "../../models/wishlist/wishlistModel";
 
 // interface imports
 import { IWishlistItem } from "../../models/wishlist/wishlist.interface";
-import { AuthUserRequest } from "../../shared-interfaces/request.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { AuthUserRequest } from "../../RequestsInterfaces/request.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 
 // utils imports
 import AppError from "../../utils/apiUtils/ApplicationError";

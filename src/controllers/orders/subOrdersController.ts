@@ -5,8 +5,8 @@ import SubOrder from "../../models/subOrders/subOrderModal";
 
 // interface imports
 import { ISubOrder } from "../../models/subOrders/subOrder.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { SubOrderRequest } from "../../shared-interfaces/subOrderRequest.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { SubOrderRequest } from "../../RequestsInterfaces/subOrderRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

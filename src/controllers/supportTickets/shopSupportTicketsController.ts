@@ -13,8 +13,8 @@ import {
   IShopSupportTicket,
   SupportTicketStatus,
 } from "../../models/shopSupportTicket/shopSupportTicket.interface";
-import { ShopSupportTicketRequest } from "../../shared-interfaces/shopSupportTicketRequest.interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
+import { ShopSupportTicketRequest } from "../../RequestsInterfaces/shopSupportTicketRequest.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 
 // utils
 import catchAsync from "../../utils/apiUtils/catchAsync";

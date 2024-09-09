@@ -5,8 +5,8 @@ import ProcessedSupportTicket from "../../models//processedData/processedSupport
 
 // interface imports
 import { IProcessedSupportTickets } from "../../models//processedData/processedSupportTickets.Interface";
-import { ApiResponse } from "../../shared-interfaces/response.interface";
-import { ProcessedSupportTicketsRequest } from "../../shared-interfaces/processedSupportTicketsRequest.interface";
+import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ProcessedSupportTicketsRequest } from "../../RequestsInterfaces/processedSupportTicketsRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

@@ -8,7 +8,7 @@ import User from "../../models/user/userModel";
 
 // interface imports
 import { IShopSupportTicket } from "../../models/shopSupportTicket/shopSupportTicket.interface";
-import { ShopSupportTicketRequest } from "../../shared-interfaces/shopSupportTicketRequest.interface";
+import { ShopSupportTicketRequest } from "../../RequestsInterfaces/shopSupportTicketRequest.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import { IUser } from "../../models/user/user.interface";
 // utils imports
