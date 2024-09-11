@@ -1,5 +1,6 @@
 import { ObjectId, Document } from "mongoose";
 import { ProductCategory } from "../product/product.interface";
+import { IShop } from "../shop/shop.interface";
 
 export enum DiscountType {
   PERCENTAGE = "percentage",
@@ -17,11 +18,11 @@ export interface IDiscountCode extends Document {
   discountType: DiscountType;
   discountCodeSource: DiscountCodeSource;
   discountValue: number;
-  shopId?: ObjectId;
+  shop?: IShop;
   startDate: Date;
   endDate: Date;
   minimumPurchaseAmount?: number;
-  usageLimit?: number;
+  usageLimit: number;
   usageCount: number;
   allowedProducts?: ObjectId[];
   allowedCategories?: ProductCategory[];

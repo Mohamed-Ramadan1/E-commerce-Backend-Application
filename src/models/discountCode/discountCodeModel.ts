@@ -20,7 +20,7 @@ const discountCodeSchema: Schema = new Schema<IDiscountCode>(
       required: true,
     },
     discountValue: { type: Number, required: true },
-    shopId: { type: Schema.Types.ObjectId, ref: "Shop" },
+    shop: { type: Schema.Types.ObjectId, ref: "Shop" },
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
     minimumPurchaseAmount: { type: Number },

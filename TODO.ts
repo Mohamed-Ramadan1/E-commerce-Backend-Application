@@ -6,8 +6,8 @@ Day-2
 TODO: Discount  codes  (mange codes with admins , shops owners ).
 
 
-
 TODO: Thinking about loyalty points system for the users.
+
 
 TODO: ------Loailty points system for the users based on the amount of the orders he made and give more points based on the subscription type(prime).
 
@@ -24,7 +24,6 @@ TODO : Setup one way message system to send messages to the users.
 TODO : Handle How the shop owners will receive the money from the application 
       TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
       TODO: Manually annually  or monthly or weekly or daily based on the shop owner decide on the options .
-      
       
 TODO : Create full analytics for the  orders ,shops and products.
 

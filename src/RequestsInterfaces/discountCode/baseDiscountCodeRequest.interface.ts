@@ -12,10 +12,12 @@ export interface BaseDiscountCodeRequest extends AuthUserRequest {
     startDate: Date;
     endDate: Date;
     usageLimit: number;
+
     minimumPurchaseAmount?: number;
     allowedProducts?: IProduct[];
     allowedCategories?: ProductCategory[];
   };
+
   params: {
     id: string;
   };
