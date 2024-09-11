@@ -3,12 +3,12 @@
 Day-2
 // TODO : Prime users subscriptions.
 
-TODO: Discount  codes  (mange codes with admins , shops owners ).
+// TODO: Discount  codes  (mange codes with admins , shops owners ).
 
 
 TODO: Thinking about loyalty points system for the users.
 
-
+....................................................................................................................
 TODO: ------Loailty points system for the users based on the amount of the orders he made and give more points based on the subscription type(prime).
 
 TODO: While payment process check if the user have mony in the gift card or not and based subtract the amount of the gift card from the total.
