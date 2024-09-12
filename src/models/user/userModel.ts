@@ -109,6 +109,10 @@ export const userSchema: Schema<IUser> = new Schema<IUser>(
     emailVerificationToken: {
       type: String,
     },
+    loyaltyPoints: {
+      type: Number,
+      default: 0,
+    },
     verified: {
       type: Boolean,
       default: false,

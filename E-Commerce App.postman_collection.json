@@ -1,0 +1,6509 @@
+{
+	"info": {
+		"_postman_id": "0941783d-5244-401d-aac1-a119628cccd4",
+		"name": "E-Commerce App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31297722"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Admin-routes",
+					"item": [
+						{
+							"name": "Create User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"elKing\",\n    \"email\":\"cx@gmail.com\",\n    \"password\":\"123456789\",\n    \"passwordConfirmation\":\"123456789\",\n    \"phoneNumber\":\"01149627698\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/666719c81d5372a336f515a6",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"666719c81d5372a336f515a6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Users",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/666817f2324c8dadc2f512d3",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"666817f2324c8dadc2f512d3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/666e78b0076f4ea9a74cf68b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"666e78b0076f4ea9a74cf68b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate user account  ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6697dfab5d7e24acce20ffea/activate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6697dfab5d7e24acce20ffea",
+										"activate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "De-Activate user account ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/6697dfab5d7e24acce20ffea/deactivate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"6697dfab5d7e24acce20ffea",
+										"deactivate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get users With query params ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users?role=admin",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users"
+									],
+									"query": [
+										{
+											"key": "role",
+											"value": "admin"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User-Routes",
+					"item": [
+						{
+							"name": "Update My Password",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"currentPassword\":\"123456789\",\n     \"newPassword\":\"123456789101\",\n    \"passwordConfirmation\":\"123456789101\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/me/password",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Me",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/me",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete My Account",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/me",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UnActivate My Account",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/me/deactivate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"deactivate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update My Info",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"active\":false,\n    \"password\":\"123456779\",\n    \"role\":\"admin\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/users/me/info",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"info"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\n  \"name\": \"Wireless Bluetooth Headphones5556\",\n  \"description\": \"High-quality wireless Bluetooth headphones with noise-canceling feature and long battery life.\",\n  \"category\": \"electronics\",\n  \"brand\": \"AudioTech\",\n  \"price\": 99.99,\n  \"discount\": 10,\n  \"discountCodes\": [\"SUMMER10\", \"WELCOME5\"],\n  \"stock_quantity\": 150,\n  \"images\": [\n    \"https://example.com/images/headphones1.jpg\",\n    \"https://example.com/images/headphones2.jpg\"\n  ],\n  \"videos\": [\n    \"https://example.com/videos/headphones_demo.mp4\"\n  ],\n  \"color\": \"Black\",\n  \"material\": \"Plastic\",\n  \"averageRating\": 4.5,\n  \"totalReviews\": 120,\n  \"shipping_cost\": 5.99,\n  \"shipping_methods\": [\"standard\", \"express\"],\n  \"availability_status\": \"available\",\n  \"manufacturer\": \"AudioTech Ltd.\",\n  \"supplier\": \"TechSuppliers Inc.\",\n  \"return_policy\": \"30-days return policy\",\n  \"freezed\": false,\n  \"createdAt\": \"2024-07-30T12:34:56.789Z\",\n  \"updatedAt\": \"2024-07-30T12:34:56.789Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"hm3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/products/6667871d64e8d0af4538dbe9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products",
+								"6667871d64e8d0af4538dbe9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/products/66ad32a45ef7087659c3cd78",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products",
+								"66ad32a45ef7087659c3cd78"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/products/6667871d64e8d0af4538dbe9",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"products",
+								"6667871d64e8d0af4538dbe9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Get All User Reviews",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reviews",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\":4,\n    \"comment\":\"good product\",\n    \"productId\":\"66ad32f15ef7087659c3cd88\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/reviews",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reviews"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\":\"hm3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/reviews/6674a81e19bc020a66d13def",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reviews",
+								"6674a81e19bc020a66d13def"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reviews/6674a81e19bc020a66d13def",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reviews",
+								"6674a81e19bc020a66d13def"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reviews/6674a7ee19bc020a66d13dc2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reviews",
+								"6674a7ee19bc020a66d13dc2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all reviews related to  product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/reviews/product/66ad32f15ef7087659c3cd88",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"reviews",
+								"product",
+								"66ad32f15ef7087659c3cd88"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "SignUp",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Mohamed Ramadan\",\n    \"email\":\"mohamedramadanmeray@gmail.com\",\n    \"password\":\"123456789\",\n    \"passwordConfirmation\":\"123456789\",\n    \"phoneNumber\":\"01149627698\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/signup",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"email\":\"mohamedramadanmeray@gmail.com\",\n    \"password\":\"123456789\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/login",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"jwt\", pm.response.json().token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/auth/logout",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify-Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/auth/verify-email/3edc0d5b77bd6f1a1c42a02924f4e98bbf7c7abaa9dcd22b09fa89b14467402d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"verify-email",
+								"3edc0d5b77bd6f1a1c42a02924f4e98bbf7c7abaa9dcd22b09fa89b14467402d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\":\"12345678910\",\n    \"passwordConfirmation\":\"12345678910\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/reset-password/d072ebfc5284285893c215c88cc7807ad1f9f4efcb7721731997e301130f7e99",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"reset-password",
+								"d072ebfc5284285893c215c88cc7807ad1f9f4efcb7721731997e301130f7e99"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"mohamedramadanmeray@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth/forgot-password",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shoping-Cart",
+			"item": [
+				{
+					"name": "User-Routes",
+					"item": [
+						{
+							"name": "Get User Shopping Cart",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shopping-cart/me",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Shopping Cart Item",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shopping-cart/items/66ad32f15ef7087659c3cd88",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"items",
+										"66ad32f15ef7087659c3cd88"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Item To Shopping Cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"productId\":\"66ad32a45ef7087659c3cd78\",\n    \"quantity\":2\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shopping-cart/items",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"items"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Clear Shopping Cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shopping-cart/clear",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"clear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Decrement cart item quantity ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n     \"productId\":\"66ad32b15ef7087659c3cd82\",\n    \"quantity\":1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shopping-cart/decrement",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"decrement"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Addmin-Routes",
+					"item": [
+						{
+							"name": "Update shopping cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shopping-cart/66a8ce3bca50e10610ae8d60",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"66a8ce3bca50e10610ae8d60"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all shopping carts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shopping-cart",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Shopping cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shopping-cart/66a8ce3bca50e10610ae8d60",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"66a8ce3bca50e10610ae8d60"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete shopping cart",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shopping-cart/66a8ce3bca50e10610ae8d60",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shopping-cart",
+										"66a8ce3bca50e10610ae8d60"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wishlist",
+			"item": [
+				{
+					"name": "Get Wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/wishlist",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"wishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Clear Wishlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/wishlist",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"wishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Wishlist item ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/wishlist/666ad5b89b41ebb319549b86",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"wishlist",
+								"666ad5b89b41ebb319549b86"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Wishlist item",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/wishlist/666d5055a8cc6cfe3f9c663b",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"wishlist",
+								"666d5055a8cc6cfe3f9c663b"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Checkout",
+			"item": [
+				{
+					"name": "Checkout Cash",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shippingAddress\":\"15 cariot street\"\n}\n\n\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/checkout/cash",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"checkout",
+								"cash"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Checkout Stripe",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shippingAddress\":\"15 cariot street\",\n     \"payment\": {\n    \"card_number\": \"4242424242424242\",\n    \"expiration_month\": \"12\",\n    \"expiration_year\": \"34\",\n    \"cvc\": \"123\",\n    \"zip\": \"12345\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/checkout/stripe",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"checkout",
+								"stripe"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "User-Routes",
+					"item": [
+						{
+							"name": "Get All My Orders",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/orders",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Order",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/orders/66756d58230dcb3d5a30db5b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"66756d58230dcb3d5a30db5b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/orders/66cea6bfe053b1ba0d44a52b/cancel",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"66cea6bfe053b1ba0d44a52b",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Archive Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/66756d58230dcb3d5a30db5b/archive",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"66756d58230dcb3d5a30db5b",
+										"archive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Un archive Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/66756d58230dcb3d5a30db5b/unarchive",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"66756d58230dcb3d5a30db5b",
+										"unarchive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all archived orders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/archived",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"archived"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin-Routes",
+					"item": [
+						{
+							"name": "Update order shipped status ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/admin/66cf2fa5377f9315cd24c9a5/shipped",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"admin",
+										"66cf2fa5377f9315cd24c9a5",
+										"shipped"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark Order As deleverd",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/admin/66d702edfb70e2ae458f0181/delivered",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"admin",
+										"66d702edfb70e2ae458f0181",
+										"delivered"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/admin/66756d58230dcb3d5a30db5b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"admin",
+										"66756d58230dcb3d5a30db5b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Orders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/admin/all",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"admin",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/orders/admin/66cea6bfe053b1ba0d44a52b/cancel",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"orders",
+										"admin",
+										"66cea6bfe053b1ba0d44a52b",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Support Tickets",
+			"item": [
+				{
+					"name": "Admin-Routes",
+					"item": [
+						{
+							"name": "Get All  Support Tickets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/support-tickets",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subject\":\"i will do it \",\n    \"description\":\"i will leave this live soon\",\n \"category\":\"general inquiry\",\n \"userId\":\"\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/support-tickets",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Support Ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"subject\":\"king\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/support-tickets/6675a2cb0d74ea743f2f449b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"6675a2cb0d74ea743f2f449b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Support Teickt",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/support-tickets/6675a2cb0d74ea743f2f449b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"6675a2cb0d74ea743f2f449b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Support TIcket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/support-tickets/6675a2cb0d74ea743f2f449b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"6675a2cb0d74ea743f2f449b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Response support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ticketResponse\":\"good work\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/support-tickets/6699116538ed72e012872dd6/ticket-response",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"6699116538ed72e012872dd6",
+										"ticket-response"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users-Routes",
+					"item": [
+						{
+							"name": "Open support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"subject\":\"i will do it \",\n    \"description\":\"i will leave this live soon\",\n \"category\":\"general inquiry\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/support-tickets/me/open-ticket",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"me",
+										"open-ticket"
+									]
+								},
+								"description": "This used by the user to create support ticket\n"
+							},
+							"response": []
+						},
+						{
+							"name": "Get all user support tickets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/support-tickets/me",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"me"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/support-tickets/me/669942feed6a2b6c793baf32",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"me",
+										"669942feed6a2b6c793baf32"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user Support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/support-tickets/me/669942feed6a2b6c793baf32",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"me",
+										"669942feed6a2b6c793baf32"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user support tickets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"subject\":\"never mind\",\n    \"description\":\"i will leave this live soon\",\n    \"category\":\"general inquiry\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/support-tickets/me/669943ec482031788c701229",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"support-tickets",
+										"me",
+										"669943ec482031788c701229"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Return Items",
+			"item": [
+				{
+					"name": "Users Operations",
+					"item": [
+						{
+							"name": "Create Return Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"orderId\":\"66d702edfb70e2ae458f0181\",\n    \"productId\":\"66ad32a45ef7087659c3cd78\",\n    \"quantity\":\"2   \",\n    \"returnReason\":\"not good one \"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/return-products",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All My Return reqeusts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/return-products",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get my return item request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/return-products/66774f9393c9463fb61c5bc8",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products",
+										"66774f9393c9463fb61c5bc8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel return request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/return-products/cancel/66d705ea6ee5805a219fcd63",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products",
+										"cancel",
+										"66d705ea6ee5805a219fcd63"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin Operations",
+					"item": [
+						{
+							"name": "Approve Return Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/return-products/66d7dba411fe4abab22c0943/approve",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products",
+										"66d7dba411fe4abab22c0943",
+										"approve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Return Reqeusts",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/return-products/all",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products",
+										"all"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Return Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/return-products/66774f9393c9463fb61c5bc8/item",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products",
+										"66774f9393c9463fb61c5bc8",
+										"item"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reject Return items Request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"rejectionReason\":\"you have a nivcce time and you broke the product \"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/return-products/66d705ea6ee5805a219fcd63/reject",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"return-products",
+										"66d705ea6ee5805a219fcd63",
+										"reject"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Refund-Requests",
+			"item": [
+				{
+					"name": "Get all refund requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/refund-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all not confirmed refund requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/refund-requests/notConfirmed",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests",
+								"notConfirmed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all confirmed refund requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/refund-requests/confirmed",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests",
+								"confirmed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Refund Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/refund-requests/66831cc12955500cb0378394",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests",
+								"66831cc12955500cb0378394"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/refund-requests/66831cc12955500cb0378394",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests",
+								"66831cc12955500cb0378394"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/refund-requests/66d7fbb0fd8cddd6c4612332/confirm",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests",
+								"66d7fbb0fd8cddd6c4612332",
+								"confirm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rejectReason\":\"hell dam on you\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/refund-requests/66d7ff1170f0f8472e4e79a5/reject",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests",
+								"66d7ff1170f0f8472e4e79a5",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": \"667fc24e10bd9972ac5dcf67\",\n    \"order\": \"667fc26610bd9972ac5dcf8d\",\n    \"refundAmount\": 2500,\n    \"refundMethod\": \"giftCard\",\n    \"refundType\":\"cancellation\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/refund-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"refund-requests"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shops-Requests",
+			"item": [
+				{
+					"name": "User-operations",
+					"item": [
+						{
+							"name": "Cancel shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops-requests/668cf490ad4732ae2dea2545/cancel",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests",
+										"668cf490ad4732ae2dea2545",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"shopDescription\":\"king of the shops\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shops-requests",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Admin-Operations",
+					"item": [
+						{
+							"name": "Reject shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"rejectionReason\":\"i dont like you\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shops-requests/66cb8d2e3eb7c6295ad46936/reject",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests",
+										"66cb8d2e3eb7c6295ad46936",
+										"reject"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all pending shops requests",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops-requests",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops-requests/6686595a3c4240c98b87590d",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests",
+										"6686595a3c4240c98b87590d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops-requests/6686595a3c4240c98b87590d",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests",
+										"6686595a3c4240c98b87590d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"shopDescription\":\"king farhote\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shops-requests/668662ec5b074f2a70608644",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests",
+										"668662ec5b074f2a70608644"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Approve shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops-requests/66997a228841fdbf7e6a0257/approve",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops-requests",
+										"66997a228841fdbf7e6a0257",
+										"approve"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Shops",
+			"item": [
+				{
+					"name": "Traders-Routs",
+					"item": [
+						{
+							"name": "Update shop email  address ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"mohamedRamadan11b@gmail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/update-email",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"update-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Veriify new shop  email address ",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/verify-changed-email/jsdlfjdskf",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"verify-changed-email",
+										"jsdlfjdskf"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get my shop",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops/my-shop",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset shop email address to default",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/reset-email",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"reset-email"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate shop ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/activate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"activate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Un-Activate shop",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/un-active",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"un-active"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create delete shop request",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"reason\":\"good no reson for this deletion\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/delete-request",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"delete-request"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update shop informations",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "shopName",
+											"value": "The Dart age",
+											"type": "text"
+										},
+										{
+											"key": "shopDescription",
+											"value": "You just want your time to be expandes",
+											"type": "text"
+										},
+										{
+											"key": "photo",
+											"type": "file",
+											"src": "/home/mohamedramadan/Pictures/Screenshots/Screenshot from 2024-07-10 21-32-42.png"
+										},
+										{
+											"key": "phoneNumber",
+											"value": "011496276988",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/update-information",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"update-information"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update shop banner",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "banner",
+											"type": "file",
+											"src": "/home/mohamedramadan/Pictures/Screenshots/Screenshot from 2024-07-10 21-32-42.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/shops/my-shop/banner",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shops",
+										"my-shop",
+										"banner"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users",
+					"item": []
+				}
+			]
+		},
+		{
+			"name": "Delete-ShopRequest",
+			"item": [
+				{
+					"name": "Get all delete shops requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests/668989f13342f0bbb3104adc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests",
+								"668989f13342f0bbb3104adc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests/668989f13342f0bbb3104adc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests",
+								"668989f13342f0bbb3104adc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests/668989f13342f0bbb3104adc",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests",
+								"668989f13342f0bbb3104adc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\":\"6697dfab5d7e24acce20ffea\",\n    \"shopId\":\"66997a358841fdbf7e6a025d\",\n    \"reason\":\"fuc all data base adminsatration\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Approve delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests/668a13e1607d615906934b9e/approve",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests",
+								"668a13e1607d615906934b9e",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reject delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests/668a174b160e9204088d0781/reject",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests",
+								"668a174b160e9204088d0781",
+								"reject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel shop delete request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/delete-shops-requests/668a179f160e9204088d0790/cancel",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"delete-shops-requests",
+								"668a179f160e9204088d0790",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Processed Delete ShopsRequests",
+			"item": [
+				{
+					"name": "Get all processed delete shop reqeusts",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-delete-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-delete-shops-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get process delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-delete-shops-requests/668a13f8607d615906934ba6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-delete-shops-requests",
+								"668a13f8607d615906934ba6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update process delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-delete-shops-requests/668a13f8607d615906934ba6",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-delete-shops-requests",
+								"668a13f8607d615906934ba6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create processed delete shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-delete-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-delete-shops-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete processed shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-delete-shops-requests/668a1759160e9204088d0789",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-delete-shops-requests",
+								"668a1759160e9204088d0789"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Processed Shops Requests",
+			"item": [
+				{
+					"name": "Get all processed shops requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-shops-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get processed shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-shops-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update processed shop request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-shops-requests/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-shops-requests",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Processed shops requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-shops-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-shops-requests"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shop-Products",
+			"item": [
+				{
+					"name": "Get all products on shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/shops/my-shop/products/668fa6c2b7bdaa0a43e51c93",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"shops",
+								"my-shop",
+								"products",
+								"668fa6c2b7bdaa0a43e51c93"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"shopId\": \"668fa6c2b7bdaa0a43e51c93\",\n  \"name\": \"Lokison\",\n  \"description\": \"High-quality wireless Bluetooth headphones with noise-cancellation and long battery life.\",\n  \"category\": \"electronics\",\n  \"brand\": \"AudioBrand\",\n  \"price\": 199.99,\n  \"discount\": 15,\n  \"stock_quantity\": 150,\n  \"color\": \"Black\",\n  \"material\": \"Aluminum\",\n  \"shipping_cost\": 10.00,\n  \"manufacturer\": \"AudioBrand Inc.\",\n  \"supplier\": \"TechSupply Co.\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/shops/my-shop/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"shops",
+								"my-shop",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \n  \"name\":\"bumb-up\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/shops/my-shop/products/66958ff40c37298658a58e8a",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"shops",
+								"my-shop",
+								"products",
+								"66958ff40c37298658a58e8a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shop product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/shops/my-shop/products/66958ff40c37298658a58e8a",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"shops",
+								"my-shop",
+								"products",
+								"66958ff40c37298658a58e8a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Freeze product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/shops/my-shop/products/669019f175803e9c064deccb/freeze",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"shops",
+								"my-shop",
+								"products",
+								"669019f175803e9c064deccb",
+								"freeze"
+							]
+						},
+						"description": "The freezed products is not appear to ther users to prucher it only appear for admins or shop owners"
+					},
+					"response": []
+				},
+				{
+					"name": "Un-freeze Product ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/shops/my-shop/products/669019f175803e9c064deccb/unfreeze",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"shops",
+								"my-shop",
+								"products",
+								"669019f175803e9c064deccb",
+								"unfreeze"
+							]
+						},
+						"description": "un freeze products its return the products again to be appeare to the users nad they can prucher them nad rated and other customers operations."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shop-Orders",
+			"item": [
+				{
+					"name": "admin-Routes",
+					"item": [
+						{
+							"name": "Get all shops orders",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-orders",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-orders/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-orders",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-orders/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-orders",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Shop-Routes",
+					"item": [
+						{
+							"name": "Get shop order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-orders/my-shop/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-orders",
+										"my-shop",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Shop Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-orders/my-shop/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-orders",
+										"my-shop",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all shops ordres",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-orders/my-shop/all",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-orders",
+										"my-shop",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Shops-Management",
+			"item": [
+				{
+					"name": "Get all shops",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"shopName\":\"vanilla\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/66867331a99b383325b8c750",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"66867331a99b383325b8c750"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93/activate",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93",
+								"activate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un-Activate shop ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93/un-active",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93",
+								"un-active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all products on shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93/products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single shop product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93/products/669019f175803e9c064deccb",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93",
+								"products",
+								"669019f175803e9c064deccb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Freezing product on shop",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93/products/66958fd80c37298658a58e85/freeze",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93",
+								"products",
+								"66958fd80c37298658a58e85",
+								"freeze"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Un freeze shop product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/admin/shops/668fa6c2b7bdaa0a43e51c93/products/66958fd80c37298658a58e85/unfreeze",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"admin",
+								"shops",
+								"668fa6c2b7bdaa0a43e51c93",
+								"products",
+								"66958fd80c37298658a58e85",
+								"unfreeze"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Processed-Refund-Requests",
+			"item": [
+				{
+					"name": "Delete processed refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-refund-requests/6697fd35ac46b11f9d83f44d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-refund-requests",
+								"6697fd35ac46b11f9d83f44d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update processed refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-refund-requests/6697fd35ac46b11f9d83f44d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-refund-requests",
+								"6697fd35ac46b11f9d83f44d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all processed refund request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-refund-requests",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-refund-requests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get processed refund request ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-refund-requests/6697fd35ac46b11f9d83f44d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-refund-requests",
+								"6697fd35ac46b11f9d83f44d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Processed-Return-Products-Requests",
+			"item": [
+				{
+					"name": "Get all processed return products requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-return-products",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-return-products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get processed return product request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-return-products/6698c9c10082cb3994dcad39",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-return-products",
+								"6698c9c10082cb3994dcad39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update processed return product requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-return-products/6698c9c10082cb3994dcad39",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-return-products",
+								"6698c9c10082cb3994dcad39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete processed return product request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-return-products/6698c9c10082cb3994dcad39",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-return-products",
+								"6698c9c10082cb3994dcad39"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Processed support tickets",
+			"item": [
+				{
+					"name": "Delete processed support ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-support-tickets/66990fe75de678359206f07c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-support-tickets",
+								"66990fe75de678359206f07c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update processed support ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-support-tickets/66990fe75de678359206f07c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-support-tickets",
+								"66990fe75de678359206f07c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get processed support ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-support-tickets/66990fe75de678359206f07c",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-support-tickets",
+								"66990fe75de678359206f07c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all processed support tickets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/processed-support-tickets",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"processed-support-tickets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shop Support Tickets",
+			"item": [
+				{
+					"name": "Admin-routes",
+					"item": [
+						{
+							"name": "Create Shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "userId",
+											"value": "6697dfab5d7e24acce20ffea",
+											"type": "text"
+										},
+										{
+											"key": "shopId",
+											"value": "66997a358841fdbf7e6a025d",
+											"type": "text"
+										},
+										{
+											"key": "subject",
+											"value": "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "payment issue",
+											"type": "text"
+										},
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/home/mohamedramadan/Pictures/Screenshots/Screenshot from 2024-07-10 19-56-46.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all shops support tickets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get single shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/66997ad12b2ac8f412529a83",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"66997ad12b2ac8f412529a83"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/66997fdec81bb77970de49f3",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"66997fdec81bb77970de49f3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update shops support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "subject",
+											"value": "dfsdfsdf",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "fsdfsdf",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "closed",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/home/mohamedramadan/Pictures/Screenshots/Screenshot from 2024-07-10 21-32-42.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/6699800dc81bb77970de49f8",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"6699800dc81bb77970de49f8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "process shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ticketResponse\":\"get\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/6699800dc81bb77970de49f8/process",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"6699800dc81bb77970de49f8",
+										"process"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Shops-routes",
+					"item": [
+						{
+							"name": "Create Shop Support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "subject",
+											"value": "hellodfssdfsdfffffffffffffffffffffffffffffffffffffffffffff",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "vilhimddddddddddddddddddddddddddddddddddddddddddddddddddddddddfddffssssssssssssssssssssss",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "refund issue",
+											"type": "text"
+										},
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/home/mohamedramadan/Pictures/Screenshots/Screenshot from 2024-07-10 19-56-46.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/myShop/open-ticket",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"myShop",
+										"open-ticket"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all my shop support tickets",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/myShop/tickets",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"myShop",
+										"tickets"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/myShop/tickets/66997ac02b2ac8f412529a7e",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"myShop",
+										"tickets",
+										"66997ac02b2ac8f412529a7e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "subject",
+											"value": "helping me",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "hello i can do it if i have the change ",
+											"type": "text"
+										},
+										{
+											"key": "img",
+											"type": "file",
+											"src": "/home/mohamedramadan/Pictures/Screenshots/Screenshot from 2024-07-10 21-32-42.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/myShop/tickets/66997ad12b2ac8f412529a83",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"myShop",
+										"tickets",
+										"66997ad12b2ac8f412529a83"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete shop support ticket",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-support-tickets/myShop/tickets/66997ac02b2ac8f412529a7e",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-support-tickets",
+										"myShop",
+										"tickets",
+										"66997ac02b2ac8f412529a7e"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Notfications",
+			"item": [
+				{
+					"name": "Admin-Routes",
+					"item": [
+						{
+							"name": "Create user notification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"message\":\"your order is ready to deleverd\",\n    \"type\":\"order\",\n    \"userId\":\"66ceac16027e2335e046727f\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/notifications",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User-Routes",
+					"item": [
+						{
+							"name": "Get all user notifications ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user notification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications/66d6f62ee54538f9fb90adfc",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"66d6f62ee54538f9fb90adfc"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete User notification",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications/66b7382a8c1ac65960610659",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"66b7382a8c1ac65960610659"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark all notification as read",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark notification as read",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications/66d6f5e6e54538f9fb90adf3",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"66d6f5e6e54538f9fb90adf3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete all user notifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mark group of notifications  as read",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/notifications/group",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete group  of notifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications/group",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"group"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Mute Notifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications/mute",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"mute"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Un-mute notifications",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/notifications/unmute",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"notifications",
+										"unmute"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Prime-Subscription",
+			"item": [
+				{
+					"name": "Admin-routes",
+					"item": [
+						{
+							"name": "Create new prime  subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\":\"66c7b52d0e42a9164eb755ac\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/admin/prime-subscription",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"prime-subscription"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all prime subscriptions ",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/prime-subscription",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"prime-subscription"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get prime  subscription by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/prime-subscription/66dac9c3b1172bb98ae633db",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"prime-subscription",
+										"66dac9c3b1172bb98ae633db"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update prime subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/prime-subscription/66dac9c3b1172bb98ae633db",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"prime-subscription",
+										"66dac9c3b1172bb98ae633db"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete prime subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/admin/prime-subscription/66db21cb17b0ce6aac4ac09e",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"prime-subscription",
+										"66db21cb17b0ce6aac4ac09e"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel user prime subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userId\":\"66c7b52d0e42a9164eb755ac\",\n    \"cancellationReason\":\"bad user\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/admin/prime-subscription/cancel",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"admin",
+										"prime-subscription",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User-Routes",
+					"item": [
+						{
+							"name": "Get my latest subscription information",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/prime-subscription/my-latest",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"prime-subscription",
+										"my-latest"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Cancel prime  subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/prime-subscription/cancel",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"prime-subscription",
+										"cancel"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Renew my subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/prime-subscription/renew",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"prime-subscription",
+										"renew"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create prime subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/prime-subscription/create-prime-subscription",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"prime-subscription",
+										"create-prime-subscription"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Confirm prime subscription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"stripePaymentIntentId\":\"66dd6d6631b963b0f901d1fd\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/prime-subscription/confirm-prime-subscription",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"prime-subscription",
+										"confirm-prime-subscription"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Discount-Codes",
+			"item": [
+				{
+					"name": "Shop-Discount-codes",
+					"item": [
+						{
+							"name": "Create  Discount Code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"code\": \"SUMET30-x\",\n  \"discountType\": \"fixed_amount\",\n  \"discountValue\": 30,\n  \"startDate\": \"2024-10-30T00:00:00.000Z\",\n  \"endDate\": \"2024-11-01T23:59:59.999Z\",\n  \"usageLimit\": 55,\n  \"allowedProducts\":[\"66ad32a45ef7087659c3cd78\"],\n\"allowedCategories\":[]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all  discount codes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get  discount  code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes/66e1cd51af4cfe0f82f71015",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes",
+										"66e1cd51af4cfe0f82f71015"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes/66e1cb882d3fdc7dff77411d/activate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes",
+										"66e1cb882d3fdc7dff77411d",
+										"activate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Un-activate discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes/66e1cb882d3fdc7dff77411d/unActive",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes",
+										"66e1cb882d3fdc7dff77411d",
+										"unActive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update discount code end date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"endDate\":\"2024-11-30T00:00:00.000Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes/66e1cb882d3fdc7dff77411d/updateEndDate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes",
+										"66e1cb882d3fdc7dff77411d",
+										"updateEndDate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes/66e1cb882d3fdc7dff77411d",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes",
+										"66e1cb882d3fdc7dff77411d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop/discount-codes/66e1cbed02aa2c9db0d1c77b",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop",
+										"discount-codes",
+										"66e1cbed02aa2c9db0d1c77b"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Website-Discount-codes",
+					"item": [
+						{
+							"name": "Create  Discount Code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"code\": \"SUMET30-Vvx\",\n  \"discountType\": \"fixed_amount\",\n  \"discountValue\": 30,\n  \"startDate\": \"2024-10-30T00:00:00.000Z\",\n  \"endDate\": \"2024-11-01T23:59:59.999Z\",\n  \"usageLimit\": 55,\n  \"allowedProducts\":[\"66ad32eb5ef7087659c3cd85\"],\n\"allowedCategories\":[]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/website/discount-codes",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all  discount codes",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/discount-codes",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get  discount  code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/discount-codes/66e21dcc4f058bffd7aa3f85",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes",
+										"66e21dcc4f058bffd7aa3f85"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Activate discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/discount-codes/66e21dcc4f058bffd7aa3f85/activate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes",
+										"66e21dcc4f058bffd7aa3f85",
+										"activate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Un-activate discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/discount-codes/66e21dcc4f058bffd7aa3f85/unActive",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes",
+										"66e21dcc4f058bffd7aa3f85",
+										"unActive"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update discount code end date",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"endDate\":\"2024-11-30T00:00:00.000Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/website/discount-codes/66e21dcc4f058bffd7aa3f85/updateEndDate",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes",
+										"66e21dcc4f058bffd7aa3f85",
+										"updateEndDate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/discount-codes/66e21dcc4f058bffd7aa3f85",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes",
+										"66e21dcc4f058bffd7aa3f85"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/discount-codes/66e21dcc4f058bffd7aa3f85",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"discount-codes",
+										"66e21dcc4f058bffd7aa3f85"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}

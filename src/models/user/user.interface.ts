@@ -39,6 +39,7 @@ export interface IUser extends Document {
   active: boolean;
   verified: boolean;
   myShop: IShop | undefined;
+  loyaltyPoints: number;
   emailVerificationToken: string | undefined;
   isModified: (path: string) => boolean;
   createEmailVerificationToken: () => string;

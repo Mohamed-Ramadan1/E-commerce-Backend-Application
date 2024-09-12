@@ -27,6 +27,7 @@ import AppError from "../../utils/apiUtils/ApplicationError";
 import { cascadeUserDeletion } from "../../utils/userUtils/deleteUserRelatedData";
 import { createSendToken } from "../../utils/apiUtils/createSendToken";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
+import { getPointsAndValue } from "../../utils/userUtils/getPointsAndValue";
 import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 
 // admin operations
@@ -315,6 +316,31 @@ export const getMe = catchAsync(
     const response: ApiResponse<IUser> = {
       status: "success",
       data: me as IUser,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+// convert loyalty points into  gift cart balance
+export const convertLoyaltyPointsIntoBalance = catchAsync(
+  async (req: UserRequest, res: Response, next: NextFunction) => {
+    const { user } = req;
+    // check if the user has enough points to convert(minimum 1000 points).
+    if (user.loyaltyPoints < 1000) {
+      return next(new AppError("You don't have enough points to convert", 400));
+    }
+    const pointsToConvert = Math.floor(user.loyaltyPoints / 1000) * 1000;
+    const { monetaryValue } = getPointsAndValue(pointsToConvert);
+
+    // Update user's loyalty points and gift card balance
+    user.loyaltyPoints -= pointsToConvert;
+    user.giftCard = (user.giftCard || 0) + monetaryValue;
+
+    await user.save({ validateBeforeSave: false });
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: `You have successfully converted ${pointsToConvert} points into ${monetaryValue} $ gift card balance`,
     };
     sendResponse(200, response, res);
   }

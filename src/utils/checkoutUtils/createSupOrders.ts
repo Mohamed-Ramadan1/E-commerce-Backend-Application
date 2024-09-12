@@ -16,6 +16,7 @@ import { IOrder } from "../../models/order/order.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import { NotificationType } from "../../models/notification/notification.interface";
 import { getIO } from "../socket/socketSetup";
+import { IDiscountCode } from "../../models/discountCode/discountCode.interface";
 
 export interface GroupedItems {
   shopOrders?:
@@ -41,7 +42,7 @@ interface SubOrderBasicDetails {
   shippingStatus: string;
   shippingAddress: string;
   orderStatus: string;
-  discountCodes?: string[];
+  discountCodes?: IDiscountCode[];
 }
 
 interface ShopOrderDetails extends SubOrderBasicDetails {

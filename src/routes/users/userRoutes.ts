@@ -12,6 +12,7 @@ import {
   deactivateMe,
   updateMyPassword,
   updateMyInfo,
+  convertLoyaltyPointsIntoBalance,
 } from "../../controllers/users/userController";
 
 import {
@@ -36,6 +37,8 @@ const router = Router();
 router.use(protect);
 
 router.route("/me").get(getMe).delete(deleteMe);
+// convert loyalty points into balance
+router.route("/me/loyalty-points").patch(convertLoyaltyPointsIntoBalance);
 
 router.patch("/me/deactivate", deactivateMe);
 router.patch(
