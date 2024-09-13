@@ -1,13 +1,13 @@
 /* 
 **********************************************************************************************
 Day-2
+TODO: Refactor shopping cart middleware
 
-TODO: While payment process check if the user have mony in the gift card or not and based subtract the amount of the gift card from the total.
 
 TODO: While payment process check if the user have a valid discount code or not and based subtract the amount of the discount code from the total.
 
-TODO: While payment process check if the user have a valid prime subscription or not and based subtract the amount of the prime subscription from the total.
 
+TODO: While payment process check if the user have a valid prime subscription or not and based subtract the amount of the prime subscription from the total.
 TODO: While payment process check if the user have prime subscription and if have valid subscription based on the subscription type give him the binifits if it exits.
 
 *******************************************************************************************

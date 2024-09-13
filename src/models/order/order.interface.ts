@@ -30,14 +30,17 @@ export interface IOrder extends Document {
   items: ICartItem[];
 
   itemsQuantity: number;
-  totalPrice: number;
+
+  paidAmountWithUserGiftCard: number;
   totalDiscount: number;
+  shippingCost: number;
+  totalPrice: number;
+
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;
   shippingStatus: ShippingStatus;
   shippingAddress: string;
   phoneNumber: string;
-  shippingCost: number;
   orderStatus: OrderStatus;
   archived: boolean;
   customerNotes?: string;

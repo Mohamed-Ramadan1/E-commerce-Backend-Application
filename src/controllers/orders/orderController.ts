@@ -78,11 +78,18 @@ export const cancelOrder = catchAsync(
 
       await updateSubOrdersState(order, session, OrderStatus.Cancelled);
 
+      // check if the order is paid with credit card and the payment is completed, then create a refund request.
       if (
         order.paymentMethod === "credit_card" &&
         order.paymentStatus === "paid"
       ) {
         await createRefundRequest(userOrderOwner, session, order);
+      }
+
+      // check if the user use his gitCard balance to pay any part of the order price amount and return it back to his account.
+      if (order.paidAmountWithUserGiftCard !== 0) {
+        userOrderOwner.giftCard += order.paidAmountWithUserGiftCard;
+        await userOrderOwner.save({ validateBeforeSave: false, session });
       }
 
       confirmOrderCancelled(userOrderOwner, order);
@@ -94,6 +101,10 @@ export const cancelOrder = catchAsync(
         message: "Order cancelled successfully",
       };
       sendResponse(200, response, res);
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      await session.abortTransaction();
+      throw new AppError("Error cancelling order", 500);
     } finally {
       session.endSession();
     }

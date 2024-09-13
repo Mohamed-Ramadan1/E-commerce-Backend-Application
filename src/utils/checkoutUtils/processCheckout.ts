@@ -27,7 +27,37 @@ export async function processCheckout(
   const session: ClientSession = await mongoose.startSession();
   session.startTransaction();
   try {
-    const [userOrder] = await Order.create([orderObject], { session });
+    if (!user.active || !user.verified) {
+      await session.abortTransaction();
+      session.endSession();
+      throw new AppError("User not active or not verified", 403);
+    }
+
+    const userOrder: IOrder | void = new Order({
+      ...orderObject,
+    });
+    // Apply gift card if available
+    if (user.giftCard > 0) {
+      let distractedAmount: number = 0;
+
+      if (user.giftCard >= userOrder.totalPrice) {
+        // Gift card covers full order
+        distractedAmount = userOrder.totalPrice;
+        userOrder.totalPrice = 0;
+      } else {
+        // Gift card covers partial order
+        distractedAmount = user.giftCard;
+        userOrder.totalPrice -= distractedAmount;
+      }
+
+      // Update user's gift card balance
+      user.giftCard -= distractedAmount;
+
+      // Store the paid amount with gift card
+      userOrder.paidAmountWithUserGiftCard = distractedAmount;
+    }
+
+    await userOrder.save({ session });
 
     if (!userOrder) {
       await session.abortTransaction();

@@ -92,6 +92,11 @@ export const OrderSchema: Schema = new Schema<IOrder>(
       enum: Object.values(OrderStatus),
       default: OrderStatus.Processing,
     },
+    paidAmountWithUserGiftCard: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
 
     discountCodes: {
       type: [Schema.Types.ObjectId],

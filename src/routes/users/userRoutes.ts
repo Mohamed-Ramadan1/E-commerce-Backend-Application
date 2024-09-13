@@ -21,7 +21,7 @@ import {
   removeItemFromShoppingCart,
   decreaseItemQuantity,
   clearShoppingCart,
-} from "../../controllers/shopping/shoppingCartController";
+} from "../../controllers/shoppingCart/shoppingCartController";
 
 // middlewares imports.
 import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";

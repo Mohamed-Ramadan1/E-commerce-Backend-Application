@@ -10,7 +10,7 @@ import {
   getShoppingCartById,
   deleteShoppingCart,
   updateShoppingCart,
-} from "../../controllers/shopping/shoppingCartController";
+} from "../../controllers/shoppingCart/shoppingCartController";
 
 // middlewares imports.
 import { restrictTo, protect } from "../../middlewares/auth/authMiddleware";

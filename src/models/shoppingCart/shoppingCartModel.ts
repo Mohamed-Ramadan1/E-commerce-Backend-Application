@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { ICartItem } from "../cartItem/cartItem.interface";
 import {
   IShoppingCart,
@@ -6,7 +6,7 @@ import {
   PaymentStatus,
 } from "./shoppingCart.interface";
 
-const shoppingCartSchema = new Schema<IShoppingCart>(
+const shoppingCartSchema: Schema = new Schema<IShoppingCart>(
   {
     user: {
       type: Schema.Types.ObjectId,
@@ -43,14 +43,14 @@ shoppingCartSchema.methods.calculateTotals = function () {
     (total: number, item: ICartItem) => total + item.discount,
     0
   );
+
   this.total_price = this.items.reduce(
     (total: number, item: ICartItem) => total + item.priceAfterDiscount,
     0
   );
 
-  // Assuming a flat shipping cost per item for simplicity
-  const shippingCostPerItem = 5;
-  this.total_shipping_cost = this.total_quantity * shippingCostPerItem;
+  // shipping cost are constant for now
+  this.total_shipping_cost = 30;
 };
 
 shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
@@ -59,6 +59,7 @@ shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
   });
   next();
 });
+
 // Adding indexes to improve query performance
 shoppingCartSchema.index({ user: 1 });
 shoppingCartSchema.index({ payment_status: 1 });

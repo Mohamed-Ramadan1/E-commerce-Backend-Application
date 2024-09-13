@@ -49,7 +49,10 @@ export const checkItemValidity = catchAsync(
     if (!userShopCart) {
       await createAndAssignShoppingCart(req.user);
       return next(
-        new AppError("something went wrong with your shopping cart", 400)
+        new AppError(
+          "something went wrong with your shopping cart please tray again",
+          500
+        )
       );
     }
 
