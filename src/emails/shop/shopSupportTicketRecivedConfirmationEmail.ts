@@ -1,6 +1,6 @@
-import { IShopSupportTicket } from "../../models/shopSupportTicket.interface";
-import { IShop } from "../../models/shop.interface";
-import { IUser } from "../../models/user.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IShopSupportTicket } from "../../models/shopSupportTicket/shopSupportTicket.interface";
 import createMailTransporter from "../mailTransporter";
 
 const sendShopSupportTicketReceivedEmail = (

@@ -1,7 +1,6 @@
 import createMailTransporter from "../mailTransporter";
-import { IProduct } from "../../models/product.interface";
-import { IShop } from "../../models/shop.interface";
-
+import { IProduct } from "../../models/product/product.interface";
+import { IShop } from "../../models/shop/shop.interface";
 const sendProductUnavailableEmail = async (product: IProduct, shop: IShop) => {
   const transport = createMailTransporter();
 

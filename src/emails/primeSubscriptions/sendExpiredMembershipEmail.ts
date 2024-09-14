@@ -1,5 +1,5 @@
-import { IPrimeSubScription } from "../../models/primeSubscription.interface";
-import { IUser } from "../../models/user.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IPrimeSubScription } from "../../models/primeMemberShip/primeSubscription.interface";
 import createMailTransporter from "../mailTransporter";
 
 const sendExpiredMembershipEmail = (

@@ -1,6 +1,6 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { IOrder } from "../../models/order.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IOrder } from "../../models/order/order.interface";
 
 const confirmOrderShippedSuccessfully = (user: IUser, order: IOrder) => {
   const transport = createMailTransporter();

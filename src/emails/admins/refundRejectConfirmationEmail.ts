@@ -1,6 +1,6 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { IRefundRequest } from "../../models/refund.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IRefundRequest } from "../../models/refundRequest/refund.interface";
 
 const refundRejectConfirmationEmail = (
   user: IUser,

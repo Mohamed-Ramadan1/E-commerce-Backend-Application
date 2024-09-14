@@ -1,8 +1,7 @@
 import createMailTransporter from "../mailTransporter";
-import { IShopOrder } from "../../models/shopOrder.interface";
-import { IShop } from "../../models/shop.interface";
-
-const sendShopOrderEmail = async (shop: IShop, subOrder: IShopOrder) => {
+import { IShop } from "../../models/shop/shop.interface";
+import { ISubOrder } from "../../models/subOrders/subOrder.interface";
+const sendShopOrderEmail = async (shop: IShop, subOrder: ISubOrder) => {
   const transport = createMailTransporter();
 
   const orderItemsHTML = subOrder.items

@@ -1,6 +1,7 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { IReturnRequest } from "../../models/returnProducts.interface";
+import { IUser } from "../../models/user/user.interface";
+
+import { IReturnRequest } from "../../models/returnProduct/returnProducts.interface";
 
 const returnProductRequestRejectEmail = (
   user: IUser,

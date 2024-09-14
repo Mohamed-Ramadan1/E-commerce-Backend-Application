@@ -1,6 +1,6 @@
 import createMailTransporter from "../../mailTransporter";
-import { IRefundRequest } from "../../../models/refund.interface";
-import { IShop } from "../../../models/shop.interface";
+import { IShop } from "../../../models/shop/shop.interface";
+import { IRefundRequest } from "../../../models/refundRequest/refund.interface";
 
 const shopRefundRequestAlert = (shop: IShop, refundRequest: IRefundRequest) => {
   const transport = createMailTransporter();

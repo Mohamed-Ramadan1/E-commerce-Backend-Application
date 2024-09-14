@@ -1,6 +1,6 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { ISupportTicket } from "../../models/supportTickets.interface";
+import { IUser } from "../../models/user/user.interface";
+import { ISupportTicket } from "../../models/userSupportTicket/supportTickets.interface";
 
 const sendSupportTicketResponseEmail = (
   user: IUser,

@@ -1,5 +1,5 @@
-import { IShop } from "../../models/shop.interface";
-import { IUser } from "../../models/user.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { IUser } from "../../models/user/user.interface";
 import createMailTransporter from "../mailTransporter";
 
 const successShopEmailUpdateConfirmation = (user: IUser, shop: IShop) => {

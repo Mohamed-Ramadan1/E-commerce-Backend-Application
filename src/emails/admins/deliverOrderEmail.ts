@@ -1,6 +1,6 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { IOrder } from "../../models/order.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IOrder } from "../../models/order/order.interface";
 
 const confirmOrderDelivered = (user: IUser, order: IOrder) => {
   const transport = createMailTransporter();
@@ -9,129 +9,184 @@ const confirmOrderDelivered = (user: IUser, order: IOrder) => {
     to: user.email,
     subject: "Your Order has been Delivered",
     html: `
- <div style="font-family: 'Helvetica Neue', Arial, sans-serif; color: #333; line-height: 1.6; font-size: 16px; background-color: #f0f8f0; padding: 20px 0;">
-  <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 40px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-    <h2 style="color: #4CAF50; font-size: 28px; margin-bottom: 20px;">Hello ${
-      user.name
-    },</h2>
-    <p style="margin-bottom: 20px;">We are pleased to inform you that your order with ID <strong style="color: #4CAF50; background-color: #e8f5e9; padding: 2px 5px; border-radius: 3px;">${
-      order._id
-    }</strong> has been successfully delivered.</p>
+      <!DOCTYPE html>
+      <html lang="en">
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Delivered</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f8f0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            color: #4CAF50;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #e8f5e9;
+            color: #4CAF50;
+        }
+        .footer {
+            border-top: 1px solid #e0e0e0;
+            padding-top: 20px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+        @media only screen and (max-width: 600px) {
+            table, tr, td {
+                display: block;
+            }
+            tr {
+                margin-bottom: 10px;
+            }
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="header">Hello ${user.name},</h2>
+        <p>We are pleased to inform you that your order has been successfully delivered.</p>
+        
+        <h3>Order Details</h3>
+        <table>
+            <tr>
+                <th>Order ID</th>
+                <td data-label="Order ID">${order._id}</td>
+            </tr>
+            <tr>
+                <th>Order Status</th>
+                <td data-label="Order Status">${order.orderStatus}</td>
+            </tr>
+            <tr>
+                <th>Payment Method</th>
+                <td data-label="Payment Method">${order.paymentMethod}</td>
+            </tr>
+            <tr>
+                <th>Payment Status</th>
+                <td data-label="Payment Status">${order.paymentStatus}</td>
+            </tr>
+            <tr>
+                <th>Shipping Address</th>
+                <td data-label="Shipping Address">${order.shippingAddress}</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td data-label="Phone Number">${order.phoneNumber}</td>
+            </tr>
+        </table>
 
-    <div style="background-color: #e8f5e9; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
-      <h3 style="color: #4CAF50; margin-top: 0;">Order Details:</h3>
-      <table style="width: 100%; border-collapse: separate; border-spacing: 0 10px;">
-        <tr>
-          <td style="padding: 5px 10px; font-weight: bold;">Order Status:</td>
-          <td style="padding: 5px 10px;">${order.orderStatus}</td>
-        </tr>
-        <tr>
-          <td style="padding: 5px 10px; font-weight: bold;">Payment Method:</td>
-          <td style="padding: 5px 10px;">${order.paymentMethod}</td>
-        </tr>
-        <tr>
-          <td style="padding: 5px 10px; font-weight: bold;">Payment Status:</td>
-          <td style="padding: 5px 10px;">${order.paymentStatus}</td>
-        </tr>
-        <tr>
-          <td style="padding: 5px 10px; font-weight: bold;">Shipping Address:</td>
-          <td style="padding: 5px 10px;">${order.shippingAddress}</td>
-        </tr>
-        <tr>
-          <td style="padding: 5px 10px; font-weight: bold;">Phone Number:</td>
-          <td style="padding: 5px 10px;">${order.phoneNumber}</td>
-        </tr>
-      </table>
+        <h3>Order Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${order.items
+                  .map(
+                    (item) => `
+                <tr>
+                    <td data-label="Item">${item.product.name}</td>
+                    <td data-label="Quantity">${item.quantity}</td>
+                    <td data-label="Price">$${item.priceAfterDiscount.toFixed(
+                      2
+                    )}</td>
+                </tr>
+                `
+                  )
+                  .join("")}
+            </tbody>
+        </table>
+
+        <h3>Financial Summary</h3>
+        <table>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td data-label="Description">Subtotal</td>
+                <td data-label="Amount">$${order.totalPrice.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <td data-label="Description">Shipping Cost</td>
+                <td data-label="Amount">$${order.shippingCost.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <td data-label="Description">Tax Amount</td>
+                <td data-label="Amount">$${order.taxAmount.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <td data-label="Description">Total Discount</td>
+                <td data-label="Amount">-$${order.totalDiscount.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td data-label="Total">$${(
+                  order.totalPrice - order.taxAmount
+                ).toFixed(2)}</td>
+            </tr>
+        </table>
+
+        <p>We hope you enjoy your purchase! If you have any questions or need further assistance, please contact our customer support team at <a href="mailto:support@ecommerceapp.com" style="color: #4CAF50; text-decoration: none; border-bottom: 1px solid #4CAF50;">support@ecommerceapp.com</a></p>
+
+        <p>Best regards,<br><strong>E-commerce Application Team</strong></p>
+
+        <div class="footer">
+            <p>&copy; ${new Date().getFullYear()} E-commerce Application. All rights reserved.</p>
+        </div>
     </div>
-
-    <div style="margin-bottom: 30px;">
-      <h3 style="color: #4CAF50;">Order Summary:</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr style="background-color: #e8f5e9;">
-          <th style="padding: 10px; text-align: left; border-bottom: 2px solid #4CAF50;">Item</th>
-          <th style="padding: 10px; text-align: right; border-bottom: 2px solid #4CAF50;">Quantity</th>
-          <th style="padding: 10px; text-align: right; border-bottom: 2px solid #4CAF50;">Price</th>
-        </tr>
-        ${order.items
-          .map(
-            (item) => `
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">${
-              item.product.name
-            }</td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">${
-              item.quantity
-            }</td>
-            <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">$${item.priceAfterDiscount.toFixed(
-              2
-            )}</td>
-          </tr>
-        `
-          )
-          .join("")}
-      </table>
-    </div>
-
-    <div style="margin-bottom: 30px;">
-      <h3 style="color: #4CAF50;">Financial Summary:</h3>
-      <table style="width: 100%; border-collapse: collapse;">
-        <tr style="background-color: #e8f5e9;">
-          <th style="padding: 10px; text-align: left; border-bottom: 2px solid #4CAF50;">Description</th>
-          <th style="padding: 10px; text-align: right; border-bottom: 2px solid #4CAF50;">Amount</th>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Subtotal</td>
-          <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">$${order.totalPrice.toFixed(
-            2
-          )}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Shipping Cost</td>
-          <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">$${order.shippingCost.toFixed(
-            2
-          )}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Tax Amount</td>
-          <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">$${order.taxAmount.toFixed(
-            2
-          )}</td>
-        </tr>
-        <tr>
-          <td style="padding: 10px; border-bottom: 1px solid #e0e0e0;">Total Discount</td>
-          <td style="padding: 10px; text-align: right; border-bottom: 1px solid #e0e0e0;">-$${order.totalDiscount.toFixed(
-            2
-          )}</td>
-        </tr>
-        <tr style="background-color: #e8f5e9; font-weight: bold;">
-          <td style="padding: 10px; color: #4CAF50;">Total</td>
-          <td style="padding: 10px; text-align: right; color: #4CAF50;">$${(
-            order.totalPrice +
-            order.shippingCost +
-            order.taxAmount -
-            order.totalDiscount
-          ).toFixed(2)}</td>
-        </tr>
-      </table>
-    </div>
-
-    <p>We hope you enjoy your purchase! If you have any questions or need further assistance, please do not hesitate to contact our customer support team.</p>
-
-    <div style="background-color: #f5f5f5; border-radius: 4px; padding: 15px; margin-top: 30px;">
-      <p style="margin: 0; font-weight: bold;">Need help?</p>
-      <p style="margin: 10px 0 0;">Email us at <a href="mailto:support@ecommerceapp.com" style="color: #4CAF50; text-decoration: none; border-bottom: 1px solid #4CAF50;">support@ecommerceapp.com</a></p>
-    </div>
-
-    <p style="margin-top: 30px; margin-bottom: 0;">Best regards,</p>
-    <p style="margin-top: 5px;"><strong>E-commerce Application Team</strong></p>
-
-    <div style="border-top: 1px solid #e0e0e0; padding-top: 20px; margin-top: 40px; text-align: center; font-size: 14px; color: #777;">
-      <p>&copy; ${new Date().getFullYear()} E-commerce Application. All rights reserved.</p>
-    </div>
-  </div>
-</div>
+</body>
+</html>
+      </html>
     `,
   };
+
   transport.sendMail(mailOptions, (err: Error | null, info: any) => {
     if (err) {
       console.log(err.message);

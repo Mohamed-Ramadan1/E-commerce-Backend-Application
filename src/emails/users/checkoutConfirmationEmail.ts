@@ -1,28 +1,19 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { IOrder } from "../../models/order.interface";
+import { IUser } from "../../models/user/user.interface";
+import { IOrder } from "../../models/order/order.interface";
 
 const checkoutConfirmationEmail = (user: IUser, order: IOrder) => {
   const transport = createMailTransporter();
 
-  // Create the order items HTML
   const orderItemsHTML = order.items
     .map(
       (item: any) => `
-    <tr>
-      <td style="padding: 10px; border: 1px solid #ddd;">${
-        item.product.name
-      }</td>
-      <td style="padding: 10px; border: 1px solid #ddd;">${item.quantity}</td>
-      <td style="padding: 10px; border: 1px solid #ddd;">$${item.price.toFixed(
-        2
-      )}</td>
-      <td style="padding: 10px; border: 1px solid #ddd;">$${item.discount}</td>
-      <td style="padding: 10px; border: 1px solid #ddd;">$${item.priceAfterDiscount.toFixed(
-        2
-      )}</td>
-    </tr>
-  `
+      <tr>
+        <td data-label="Item">${item.product.name}</td>
+        <td data-label="Quantity">${item.quantity}</td>
+        <td data-label="Price">$${item.priceAfterDiscount.toFixed(2)}</td>
+      </tr>
+    `
     )
     .join("");
 
@@ -31,38 +22,178 @@ const checkoutConfirmationEmail = (user: IUser, order: IOrder) => {
     to: user.email,
     subject: "Order Confirmation",
     html: `
-      <div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
-        <h2 style="color: #4CAF50;">Hello ${user.name},</h2>
-        <p>Thank you for your order with our E-commerce application. Here are the details of your order:</p>
-        <table style="width: 100%; border-collapse: collapse;">
-          <thead>
+      <!DOCTYPE html>
+      <html lang="en">
+      <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+        @media only screen and (max-width: 600px) {
+            table, tr, td {
+                display: block;
+            }
+            tr {
+                margin-bottom: 10px;
+            }
+            td {
+                border: none;
+                position: relative;
+                padding-left: 50%;
+            }
+            td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Order Confirmation</h1>
+    </div>
+    <div class="content">
+        <h2>Hello ${user.name},</h2>
+        <p>Thank you for your order. Here are the details:</p>
+        
+        <table>
             <tr>
-              <th style="padding: 10px; border: 1px solid #ddd;">Product</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Quantity</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Price</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Discount</th>
-              <th style="padding: 10px; border: 1px solid #ddd;">Price After Discount</th>
+                <th>Order ID</th>
+                <td data-label="Order ID">${order._id}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${orderItemsHTML}
-          </tbody>
+            <tr>
+                <th>Order Date</th>
+                <td data-label="Order Date">${new Date(
+                  order.createdAt
+                ).toLocaleDateString()}</td>
+            </tr>
+            <tr>
+                <th>Order Status</th>
+                <td data-label="Order Status">${order.orderStatus}</td>
+            </tr>
         </table>
-        <p>Total Items: ${order.itemsQuantity}</p>
-        <p>Total Discount: $${order.totalDiscount.toFixed(2)}</p>
-        <p>Shipping Cost: $${order.shippingCost.toFixed(2)}</p>
-        <p>Total Price: $${order.totalPrice.toFixed(2)}</p>
-       
-        <p>Shipping Address: ${order.shippingAddress}</p>
-        <p>Estimated Delivery Date: ${
-          order.estimatedDeliveryDate
-            ? order.estimatedDeliveryDate.toDateString()
-            : "N/A"
-        }</p>
-        <p>If you have any questions about your order, please contact our support team.</p>
-        <p style="margin-top: 20px;">Best regards,<br>E-commerce Application Team</p>
-      </div>
-    `,
+
+        <h3>Order Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${order.items
+                  .map(
+                    (item) => `
+                <tr>
+                    <td data-label="Item">${item.product.name}</td>
+                    <td data-label="Quantity">${item.quantity}</td>
+                    <td data-label="Price">$${item.priceAfterDiscount.toFixed(
+                      2
+                    )}</td>
+                </tr>
+                `
+                  )
+                  .join("")}
+            </tbody>
+        </table>
+        
+        <h3>Order Totals</h3>
+        <table>
+            <tr>
+                <th>Subtotal</th>
+                <td data-label="Subtotal">$${(
+                  order.totalPrice -
+                  order.shippingCost -
+                  order.taxAmount
+                ).toFixed(2)}</td>
+            </tr>
+            <tr>
+                <th>Shipping</th>
+                <td data-label="Shipping">$${order.shippingCost.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <th>Tax</th>
+                <td data-label="Tax">$${order.taxAmount.toFixed(2)}</td>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <td data-label="Total">$${order.totalPrice.toFixed(2)}</td>
+            </tr>
+        </table>
+
+        <h3>Shipping Information</h3>
+        <table>
+            <tr>
+                <th>Address</th>
+                <td data-label="Address">${order.shippingAddress}</td>
+            </tr>
+            <tr>
+                <th>Estimated Delivery</th>
+                <td data-label="Estimated Delivery">${
+                  order.estimatedDeliveryDate
+                    ? new Date(order.estimatedDeliveryDate).toLocaleDateString()
+                    : "N/A"
+                }</td>
+            </tr>
+        </table>
+
+        ${user.isPrimeUser ? `<p>Thank you for being a Prime member!</p>` : ""}
+        
+        <p>If you have any questions, please contact our support team.</p>
+    </div>
+    <div class="footer">
+        <p>Best regards,<br>E-commerce Application Team</p>
+    </div>
+</body>
+</html>
+      </html>
+    `.replace("${orderItemsHTML}", orderItemsHTML),
   };
 
   transport.sendMail(mailOptions, (err: Error | null, info: any) => {

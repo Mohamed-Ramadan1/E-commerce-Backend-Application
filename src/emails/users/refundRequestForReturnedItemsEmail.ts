@@ -1,8 +1,8 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
-import { IRefundRequest } from "../../models/refund.interface";
-import { IReturnRequest } from "../../models/returnProducts.interface";
+import { IUser } from "../../models/user/user.interface";
 
+import { IRefundRequest } from "../../models/refundRequest/refund.interface";
+import { IReturnRequest } from "../../models/returnProduct/returnProducts.interface";
 const refundRequestForReturnedItemsEmail = (
   user: IUser,
   refundRequest: IRefundRequest,

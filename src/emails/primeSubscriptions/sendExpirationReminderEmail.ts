@@ -1,6 +1,6 @@
-import { IPrimeSubScription } from "../../models/primeSubscription.interface";
-import { IUser } from "../../models/user.interface";
 import createMailTransporter from "../mailTransporter";
+import { IUser } from "../../models/user/user.interface";
+import { IPrimeSubScription } from "../../models/primeMemberShip/primeSubscription.interface";
 
 const sendExpirationReminderEmail = (
   user: IUser,

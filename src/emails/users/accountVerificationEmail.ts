@@ -1,5 +1,5 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface";
+import { IUser } from "../../models/user/user.interface";
 
 const sendVerificationMail = (user: IUser) => {
   const transport = createMailTransporter();

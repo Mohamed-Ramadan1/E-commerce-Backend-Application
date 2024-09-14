@@ -1,5 +1,5 @@
 import createMailTransporter from "../mailTransporter";
-import { IUser } from "../../models/user.interface.js";
+import { IUser } from "../../models/user/user.interface";
 
 const sendResetPasswordEmail = (user: IUser, resetToken: string) => {
   const transport = createMailTransporter();

@@ -1,6 +1,6 @@
 import createMailTransporter from "../../mailTransporter";
-import { IReturnRequest } from "../../../models/returnProducts.interface";
-import { IShop } from "../../../models/shop.interface";
+import { IShop } from "../../../models/shop/shop.interface";
+import { IReturnRequest } from "../../../models/returnProduct/returnProducts.interface";
 
 const shopReturnProductNotificationEmail = (
   shop: IShop,

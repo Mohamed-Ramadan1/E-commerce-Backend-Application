@@ -1,5 +1,6 @@
-import { IShopRequest } from "../../models/shopRequest.interface";
-import { IUser } from "../../models/user.interface";
+import { IShopRequest } from "../../models/newShopRequest/shopRequest.interface";
+import { IUser } from "../../models/user/user.interface";
+
 import createMailTransporter from "../mailTransporter";
 
 const receiveShopRequestConfirmationEmail = (

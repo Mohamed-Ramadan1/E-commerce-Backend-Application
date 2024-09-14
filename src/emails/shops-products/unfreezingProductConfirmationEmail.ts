@@ -1,6 +1,6 @@
-import { IProduct } from "../../models/product.interface";
-import { IShop } from "../../models/shop.interface";
-import { IUser } from "../../models/user.interface";
+import { IProduct } from "../../models/product/product.interface";
+import { IShop } from "../../models/shop/shop.interface";
+import { IUser } from "../../models/user/user.interface";
 import createMailTransporter from "../mailTransporter";
 
 const productUnfreezeConfirmationEmail = (
