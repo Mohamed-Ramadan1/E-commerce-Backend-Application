@@ -1,4 +1,3 @@
-import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { ClientSession } from "mongoose";
 // clear the user shopping cart.
@@ -6,17 +5,13 @@ export const clearShoppingCart = async (
   shoppingCart: IShoppingCart,
   session: ClientSession
 ) => {
-  await ShoppingCart.updateOne(
-    { _id: shoppingCart._id },
-    {
-      $set: {
-        items: [],
-        total_quantity: 0,
-        total_discount: 0,
-        total_price: 0,
-        total_shipping_cost: 0,
-      },
-    },
-    { session }
-  );
+  (shoppingCart.items = []),
+    (shoppingCart.total_quantity = 0),
+    (shoppingCart.total_discount = 0),
+    (shoppingCart.total_price = 0),
+    (shoppingCart.total_shipping_cost = 0),
+    (shoppingCart.discount_code_amount = undefined),
+    (shoppingCart.discount_code_applied = false),
+    (shoppingCart.discount_code = undefined),
+    await shoppingCart.save();
 };

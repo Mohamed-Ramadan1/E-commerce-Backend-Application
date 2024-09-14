@@ -11,7 +11,7 @@ import {
   disActivateDiscountCode,
   updateDiscountCodeEndDate,
 } from "../../controllers/discountCode/shoDiscountCodeController";
-import { validateBeforeCreateDiscountCode } from "../../middlewares/discontCode/shopDiscountCodeMiddleware";
+import { validateBeforeCreateDiscountCode } from "../../middlewares/discountCode/shopDiscountCodeMiddleware";
 const router = Router();
 router.use(protect);
 

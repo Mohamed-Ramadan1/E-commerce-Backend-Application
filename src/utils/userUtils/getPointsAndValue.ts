@@ -2,6 +2,6 @@ export function getPointsAndValue(points: number): {
   points: number;
   monetaryValue: number;
 } {
-  const monetaryValue = (points / 1000) * 2; // 1000 points = $2.00
+  const monetaryValue = (points / 1000) * 2; 
   return { points, monetaryValue };
 }

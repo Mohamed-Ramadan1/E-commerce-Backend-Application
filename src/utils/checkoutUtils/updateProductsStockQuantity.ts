@@ -4,7 +4,7 @@ import { ClientSession } from "mongoose";
 // update the stock quantity after the order created.
 export const updateProductsStockQuantity = async (
   userShopCart: IShoppingCart,
-  next: NextFunction,
+
   session: ClientSession
 ) => {
   // Iterate through the items and update the stock quantities

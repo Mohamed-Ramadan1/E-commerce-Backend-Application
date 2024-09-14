@@ -1,6 +1,7 @@
 import { Document, Schema } from "mongoose";
 import { ICartItem } from "../cartItem/cartItem.interface";
 import { IUser } from "../user/user.interface";
+import { IDiscountCode } from "../discountCode/discountCode.interface";
 export enum PaymentStatus {
   Pending = "pending",
   Paid = "paid",
@@ -20,6 +21,9 @@ export interface IShoppingCart extends Document {
   total_discount: number;
   total_price: number;
   total_shipping_cost: number;
+  discount_code?: IDiscountCode;
+  discount_code_applied?: boolean;
+  discount_code_amount?: number;
   payment_status: PaymentStatus;
   payment_method: PaymentMethod;
   calculateTotals: () => void;

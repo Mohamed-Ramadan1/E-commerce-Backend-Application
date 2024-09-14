@@ -16,6 +16,9 @@ const shoppingCartSchema: Schema = new Schema<IShoppingCart>(
     },
     items: [{ type: Schema.Types.ObjectId, ref: "CartItem", default: [] }],
     total_quantity: { type: Number, required: true, default: 0 },
+    discount_code: { type: Schema.Types.ObjectId, ref: "DiscountCode" },
+    discount_code_applied: { type: Boolean, default: false },
+    discount_code_amount: { type: Number },
     total_discount: { type: Number, required: true, default: 0 },
     total_price: { type: Number, required: true, default: 0 },
     total_shipping_cost: { type: Number, required: true, default: 0 },
@@ -56,6 +59,9 @@ shoppingCartSchema.methods.calculateTotals = function () {
 shoppingCartSchema.pre<IShoppingCart>(/^find/, function (next) {
   this.populate({
     path: "items",
+  });
+  this.populate({
+    path: "discount_code",
   });
   next();
 });

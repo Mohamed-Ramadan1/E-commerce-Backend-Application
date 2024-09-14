@@ -29,6 +29,7 @@ import { updateShopsBalance } from "../../utils/orderUtils/updateShopsBalance";
 import confirmOrderShippedSuccessfully from "../../emails/admins/shippingOrderEmail";
 import confirmOrderDelivered from "../../emails/admins/deliverOrderEmail";
 import confirmOrderCancellation from "../../emails/admins/adminOrderCancellationOrdreConfirmation";
+import { updateUserLoyaltyPoints } from "../../utils/orderUtils/updateUserLoyaltyPoints";
 
 //get All Orders
 export const getOrders = catchAsync(
@@ -177,6 +178,7 @@ export const delverOrder = catchAsync(
         OrderStatus.Delivered
       );
 
+      await updateUserLoyaltyPoints(userOrderOwner, order, session);
       // check the items come form the shops and add its value (mony value) to the shop balance.
       await updateShopsBalance(order, session);
       // send delivery confirmation email

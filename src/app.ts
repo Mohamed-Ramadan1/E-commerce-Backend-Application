@@ -36,6 +36,7 @@ import monthlyWebsiteAnalyticsReportRoutes from "./routes/analytics/monthlyWebsi
 import monthlyShopeAnalyticsReportRoutes from "./routes/analytics/monthlyShopeAnalyticsReportRoutes";
 import primeSubscriptionRoutes from "./routes/primeMemberShip/primeSubscriptionRoutes";
 import adminPrimeSubscriptionRoutes from "./routes/primeMemberShip/adminPrimeSubscriptionRoutes";
+import discountCodeRoutes from "./routes/discountCode/discountCodeRoutes";
 import shopDiscountCodeRoutes from "./routes/discountCode/shopDiscountCodeRoutes";
 import websiteDiscountCodeRoutes from "./routes/discountCode/websiteDiscountCodeRoutes";
 
@@ -88,6 +89,7 @@ app.use("/api/v1/shop-orders", shopsOrdersRoutes);
 app.use("/api/v1/notifications", notificationRoutes);
 app.use("/api/v1/prime-subscription", primeSubscriptionRoutes);
 app.use("/api/v1/admin/prime-subscription", adminPrimeSubscriptionRoutes);
+app.use("/api/v1/discount-codes", discountCodeRoutes);
 app.use("/api/v1/shop/discount-codes", shopDiscountCodeRoutes);
 app.use("/api/v1/website/discount-codes", websiteDiscountCodeRoutes);
 

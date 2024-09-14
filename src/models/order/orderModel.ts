@@ -75,6 +75,12 @@ export const OrderSchema: Schema = new Schema<IOrder>(
       required: true,
       enum: Object.values(PaymentMethod),
     },
+    discountCodeAmount: {
+      type: Number,
+    },
+    isDiscountCodeApplied: {
+      type: Boolean,
+    },
     shippingStatus: {
       type: String,
       required: true,

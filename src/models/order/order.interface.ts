@@ -35,6 +35,8 @@ export interface IOrder extends Document {
   totalDiscount: number;
   shippingCost: number;
   totalPrice: number;
+  discountCodeAmount?: number;
+  isDiscountCodeApplied?: boolean;
 
   paymentStatus: PaymentStatus;
   paymentMethod: PaymentMethod;

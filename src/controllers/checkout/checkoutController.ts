@@ -32,14 +32,10 @@ export const checkoutWithCash = catchAsync(
 
     // create order objects.
     const orderObject = createOrderObject(
-      user._id,
-      shoppingCart.items,
-      shoppingCart.total_quantity,
-      shoppingCart.total_discount,
+      user,
+      shoppingCart,
       shipAddress,
       phoneNumber,
-      shoppingCart.total_price + shoppingCart.total_shipping_cost,
-      shoppingCart.total_shipping_cost,
       PaymentStatus.PaymentOnDelivery,
       PaymentMethod.Cash,
       ShippingStatus.Pending,
@@ -53,8 +49,7 @@ export const checkoutWithCash = catchAsync(
       orderObject,
       shoppingCart,
       user,
-      groups as GroupedItems,
-      next
+      groups as GroupedItems
     );
 
     if (!userOrder) {
@@ -83,14 +78,10 @@ export const checkoutWithStripe = catchAsync(
 
     // create order objects.
     const orderObject = createOrderObject(
-      user._id,
-      shoppingCart.items,
-      shoppingCart.total_quantity,
-      shoppingCart.total_discount,
+      user,
+      shoppingCart,
       shipAddress,
       phoneNumber,
-      shoppingCart.total_price + shoppingCart.total_shipping_cost,
-      shoppingCart.total_shipping_cost,
       PaymentStatus.Paid,
       PaymentMethod.CreditCard,
       ShippingStatus.Pending,
@@ -126,8 +117,7 @@ export const checkoutWithStripe = catchAsync(
       orderObject,
       shoppingCart,
       user,
-      groups as GroupedItems,
-      next
+      groups as GroupedItems
     );
 
     if (!userOrder) {

@@ -1,16 +1,4 @@
 /* 
-**********************************************************************************************
-Day-2
-TODO: Refactor shopping cart middleware
-
-
-TODO: While payment process check if the user have a valid discount code or not and based subtract the amount of the discount code from the total.
-
-
-TODO: While payment process check if the user have a valid prime subscription or not and based subtract the amount of the prime subscription from the total.
-TODO: While payment process check if the user have prime subscription and if have valid subscription based on the subscription type give him the binifits if it exits.
-
-*******************************************************************************************
 
 TODO : Setup one way message system to send messages to the users.
 
