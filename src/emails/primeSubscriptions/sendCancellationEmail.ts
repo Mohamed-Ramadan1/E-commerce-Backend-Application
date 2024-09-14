@@ -1,6 +1,6 @@
 import { IUser } from "../../models/user/user.interface";
 import { IPrimeSubScription } from "../../models/primeMemberShip/primeSubscription.interface";
-import createMailTransporter from "../mailTransporter";
+import createMailTransporter from "../../config/mailTransporter.config";
 
 const sendCancellationEmail = (
   user: IUser,

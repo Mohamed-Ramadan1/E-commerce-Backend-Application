@@ -1,4 +1,4 @@
-import createMailTransporter from "../mailTransporter";
+import createMailTransporter from "../../config/mailTransporter.config";
 import { IProduct } from "../../models/product/product.interface";
 
 const sendAdminProductOutOfStockNotification = async (product: IProduct) => {

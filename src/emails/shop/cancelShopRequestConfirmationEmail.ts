@@ -1,6 +1,6 @@
 import { IUser } from "../../models/user/user.interface";
 import { IShopRequest } from "../../models/newShopRequest/shopRequest.interface";
-import createMailTransporter from "../mailTransporter";
+import createMailTransporter from "../../config/mailTransporter.config";
 
 const cancelShopRequestConfirmationEmail = (
   user: IUser,

@@ -1,4 +1,4 @@
-import createMailTransporter from "../mailTransporter";
+import createMailTransporter from "../../config/mailTransporter.config";
 import { IUser } from "../../models/user/user.interface";
 import { IRefundRequest } from "../../models/refundRequest/refund.interface";
 

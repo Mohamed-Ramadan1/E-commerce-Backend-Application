@@ -1,7 +1,7 @@
 import { IShop } from "../../models/shop/shop.interface";
 import { IUser } from "../../models/user/user.interface";
 
-import createMailTransporter from "../mailTransporter";
+import createMailTransporter from "../../config/mailTransporter.config";
 
 const resetShopEmailAddressToDefaultEmail = (user: IUser, shop: IShop) => {
   const transporter = createMailTransporter();
