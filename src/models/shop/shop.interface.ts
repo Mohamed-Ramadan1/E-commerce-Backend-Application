@@ -22,5 +22,3 @@ export interface IShop extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
-

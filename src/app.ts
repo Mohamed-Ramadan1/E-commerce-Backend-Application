@@ -39,6 +39,7 @@ import adminPrimeSubscriptionRoutes from "./routes/primeMemberShip/adminPrimeSub
 import discountCodeRoutes from "./routes/discountCode/discountCodeRoutes";
 import shopDiscountCodeRoutes from "./routes/discountCode/shopDiscountCodeRoutes";
 import websiteDiscountCodeRoutes from "./routes/discountCode/websiteDiscountCodeRoutes";
+import messageRoutes from "./routes/messages/messageRoutes";
 
 import globalError from "./controllers/error/errorController";
 import AppError from "./utils/apiUtils/ApplicationError";
@@ -92,6 +93,7 @@ app.use("/api/v1/admin/prime-subscription", adminPrimeSubscriptionRoutes);
 app.use("/api/v1/discount-codes", discountCodeRoutes);
 app.use("/api/v1/shop/discount-codes", shopDiscountCodeRoutes);
 app.use("/api/v1/website/discount-codes", websiteDiscountCodeRoutes);
+app.use("/api/v1/messages", messageRoutes);
 
 // the shop support ticket routes
 app.use("/api/v1/shop-support-tickets", shopSupportTicketRoutes);
