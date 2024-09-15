@@ -2,14 +2,14 @@
 import { NextFunction, Response } from "express";
 
 //models imports
-import ShopRequest from "../../models/newShopRequest/shopRequestModal";
+import ShopRequest from "../../models/shop/shopRequestModal";
 import Shop from "../../models/shop/shopModal";
 import User from "../../models/user/userModel";
 
 // interface imports
-import { IShopRequest } from "../../models/newShopRequest/shopRequest.interface";
+import { IShopRequest } from "../../models/shop/shopRequest.interface";
 import { IUser } from "../../models/user/user.interface";
-import { ShopRequestReq } from "../../RequestsInterfaces/shopRequests.interface";
+import { ShopRequestReq } from "../../requestsInterfaces/shop/shopRequests.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

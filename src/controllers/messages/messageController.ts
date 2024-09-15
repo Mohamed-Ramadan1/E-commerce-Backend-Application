@@ -8,14 +8,14 @@ import {
   IMessage,
   RecipientType,
 } from "../../models/messages/message.interface";
-import { MessageRequest } from "../../RequestsInterfaces/messages/messagesRequest.interface";
+import { MessageRequest } from "../../requestsInterfaces/messages/messagesRequest.interface";
 import { IShop } from "../../models/shop/shop.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";
 import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 
 // email imports
 import sendShopMessage from "../../emails/messages/sendShopMessage";

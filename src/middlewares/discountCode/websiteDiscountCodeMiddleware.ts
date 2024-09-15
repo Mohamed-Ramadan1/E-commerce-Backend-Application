@@ -10,7 +10,7 @@ import {
   DiscountType,
   IDiscountCode,
 } from "../../models/discountCode/discountCode.interface";
-import { WebsiteDiscountCodeRequest } from "../../RequestsInterfaces/discountCode/websiteiscountCodeRequest.interface";
+import { WebsiteDiscountCodeRequest } from "../../requestsInterfaces/discountCode/websiteiscountCodeRequest.interface";
 import {
   IProduct,
   ProductCategory,

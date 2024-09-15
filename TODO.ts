@@ -1,8 +1,5 @@
 /* 
 
-TODO : Setup one way message system to send messages to the users.
-TODO : Setup two way message system to send messages to shop.
-
 TODO : Handle How the shop owners will receive the money from the application 
       TODO:Idea:  shop owner can add his bank account and the money will be trans-fared to his account after the user receive the 
       TODO: Manually annually  or monthly or weekly or daily based on the shop owner decide on the options .

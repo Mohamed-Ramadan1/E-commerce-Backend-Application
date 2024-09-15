@@ -6,7 +6,7 @@ import ProcessedDeleteShopRequest from "../../models/processedData/processedDele
 
 // interface imports
 import { IProcessedDeletedShopRequest } from "../../models/processedData/processedDeleteShopRequest.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

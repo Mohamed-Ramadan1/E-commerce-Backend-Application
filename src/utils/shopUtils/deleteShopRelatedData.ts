@@ -1,6 +1,6 @@
-import ShopSupportTicket from "../../models/shopSupportTicket/shopSupportTicketModal";
+import ShopSupportTicket from "../../models/supportTickets/shopSupportTicketModal";
 import Notification from "../../models/notification/notificationModal";
-import SubOrder from "../../models/subOrders/subOrderModal";
+import SubOrder from "../../models/order/subOrderModal";
 import Product from "../../models/product/productModel";
 import { IShop } from "../../models/shop/shop.interface";
 import { NextFunction } from "express";

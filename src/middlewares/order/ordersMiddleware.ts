@@ -10,7 +10,7 @@ import {
   ShippingStatus,
 } from "../../models/order/order.interface";
 import { IUser } from "../../models/user/user.interface";
-import { OrderRequest } from "../../RequestsInterfaces/orderRequest.interface";
+import { OrderRequest } from "../../requestsInterfaces/orders/orderRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

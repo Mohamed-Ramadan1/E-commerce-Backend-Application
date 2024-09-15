@@ -5,8 +5,8 @@ import { Response, NextFunction } from "express";
 import DiscountCode from "../../models/discountCode/discountCodeModel";
 
 // interface imports
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { WebsiteDiscountCodeRequest } from "../../RequestsInterfaces/discountCode/websiteiscountCodeRequest.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { WebsiteDiscountCodeRequest } from "../../requestsInterfaces/discountCode/websiteiscountCodeRequest.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
 import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 import {

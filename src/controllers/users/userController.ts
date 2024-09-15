@@ -11,7 +11,7 @@ import User from "../../models/user/userModel";
 import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
 
 // interface imports
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import { IUser } from "../../models/user/user.interface";
 
 import {
@@ -19,7 +19,7 @@ import {
   UserRequestWithUpdateInfo,
   UserUpdatePasswordRequest,
   UserWithUserDataRequest,
-} from "../../RequestsInterfaces/userRequest.interface";
+} from "../../requestsInterfaces/user/userRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

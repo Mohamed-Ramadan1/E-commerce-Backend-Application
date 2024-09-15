@@ -8,7 +8,7 @@ import { createAndAssignShoppingCart } from "../../utils/shoppingCartUtils/creat
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { ICartItem } from "../../models/cartItem/cartItem.interface";
 import { IProduct } from "../../models/product/product.interface";
-import { ShoppingCartRequest } from "../../RequestsInterfaces/shoppingCartRequest.interface";
+import { ShoppingCartRequest } from "../../requestsInterfaces/shoppingCart/shoppingCartRequest.interface";
 
 import AppError from "../../utils/apiUtils/ApplicationError";
 import catchAsync from "../../utils/apiUtils/catchAsync";

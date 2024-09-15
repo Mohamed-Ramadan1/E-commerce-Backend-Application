@@ -3,17 +3,17 @@ import { NextFunction, Response } from "express";
 
 // models imports
 import ProcessedSupportTicket from "../../models/processedData/processedSupportTicketsModal";
-import SupportTicket from "../../models/userSupportTicket/supportTicketsModel";
+import SupportTicket from "../../models/supportTickets/supportTicketsModel";
 import User from "../../models/user/userModel";
 
 //interface imports
 
-import { SupportTicketRequest } from "../../RequestsInterfaces/supportTicketsRequest.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { SupportTicketRequest } from "../../requestsInterfaces/supportTIcket/supportTicketsRequest.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import {
   ISupportTicket,
   TicketStatus,
-} from "../../models/userSupportTicket/supportTickets.interface";
+} from "../../models/supportTickets/supportTickets.interface";
 
 import { IUser } from "../../models/user/user.interface";
 import { IProcessedSupportTickets } from "../../models/processedData/processedSupportTickets.Interface";

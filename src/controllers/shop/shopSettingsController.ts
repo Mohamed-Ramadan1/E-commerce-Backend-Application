@@ -6,17 +6,17 @@ import cloudinary from "cloudinary";
 
 // models imports
 import Shop from "../../models/shop/shopModal";
-import DeleteShopRequest from "../../models/deleteShopRequest/deleteShopRequestModal";
+import DeleteShopRequest from "../../models/shop/deleteShopRequestModal";
 
 // interfaces imports
 import { IUser } from "../../models/user/user.interface";
 import { IShop } from "../../models/shop/shop.interface";
-import { IDeleteShopRequest } from "../../models/deleteShopRequest/deleteShopRequest.interface";
+import { IDeleteShopRequest } from "../../models/shop/deleteShopRequest.interface";
 import {
   ShopSettingsRequest,
   VerifyShopEmailUpdating,
-} from "../../RequestsInterfaces/shopRequests.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+} from "../../requestsInterfaces/shop/shopRequests.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

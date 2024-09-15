@@ -11,7 +11,7 @@ import {
   DiscountType,
   IDiscountCode,
 } from "../../models/discountCode/discountCode.interface";
-import { ShopDiscountCodeRequest } from "../../RequestsInterfaces/discountCode/shopDiscountCodeRequest.interface";
+import { ShopDiscountCodeRequest } from "../../requestsInterfaces/discountCode/shopDiscountCodeRequest.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import {
   IProduct,

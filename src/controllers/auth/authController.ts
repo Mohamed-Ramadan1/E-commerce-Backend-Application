@@ -15,8 +15,9 @@ import {
   LoginRequest,
   ForgotPasswordRequest,
   ResetPasswordRequest,
-} from "../../RequestsInterfaces/authRequests.interface";
-import { AuthUserRequest } from "../../RequestsInterfaces/request.interface";
+} from "../../requestsInterfaces/auth/authRequests.interface";
+import { AuthUserRequest } from "../../requestsInterfaces/shared/request.interface";
+
 // utils imports
 import AppError from "../../utils/apiUtils/ApplicationError";
 import catchAsync from "../../utils/apiUtils/catchAsync";

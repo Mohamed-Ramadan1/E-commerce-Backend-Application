@@ -5,8 +5,8 @@ import ProcessedRefundRequests from "../../models/processedData/processedRefundR
 
 // interface imports
 import { IProcessedRefundRequests } from "../../models/processedData/processedRefundRequests.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { ProcessedRefundRequestReq } from "../../RequestsInterfaces/processedRefundRequestsReq.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { ProcessedRefundRequestReq } from "../../requestsInterfaces/processedData/processedRefundRequestsReq.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

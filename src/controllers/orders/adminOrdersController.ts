@@ -11,8 +11,8 @@ import {
   ShippingStatus,
 } from "../../models/order/order.interface";
 
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { OrderRequest } from "../../RequestsInterfaces/orderRequest.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { OrderRequest } from "../../requestsInterfaces/orders/orderRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

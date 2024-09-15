@@ -3,7 +3,7 @@ import { NextFunction, Response } from "express";
 import Product from "../../models/product/productModel";
 import Review from "../../models/review/reviewModel";
 
-import { ReviewRequest } from "../../RequestsInterfaces/reviewRequest.interface";
+import { ReviewRequest } from "../../requestsInterfaces/reviews/reviewRequest.interface";
 import { IReview } from "../../models/review/review.interface";
 import { IProduct } from "../../models/product/product.interface";
 

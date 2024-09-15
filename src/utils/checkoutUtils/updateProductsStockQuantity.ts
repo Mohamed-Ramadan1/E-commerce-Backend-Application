@@ -1,4 +1,3 @@
-import { NextFunction } from "express";
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { ClientSession } from "mongoose";
 // update the stock quantity after the order created.

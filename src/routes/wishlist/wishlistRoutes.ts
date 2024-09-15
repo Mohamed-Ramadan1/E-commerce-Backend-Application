@@ -5,7 +5,7 @@ import {
   removeItemFromWishlist,
   addItemToWishlist,
   clearWishlist,
-} from "../../controllers/users/wishlistController";
+} from "../../controllers/wishlist/wishlistController";
 
 const router = Router();
 router.use(protect);

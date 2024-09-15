@@ -26,7 +26,7 @@ import {
 // middlewares imports.
 import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
 import { checkItemValidity } from "../../middlewares/shoppingCart/shoppingCartMiddleware";
-import { upload } from "../../middlewares/multer/multerMiddleware";
+import { upload } from "../../config/multer.config";
 import {
   validateBeforeUpdateUserInfo,
   validateBeforeUpdateUserPassword,

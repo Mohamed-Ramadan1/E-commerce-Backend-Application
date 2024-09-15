@@ -10,8 +10,8 @@ import {
   IRefundRequest,
   RefundStatus,
 } from "../../models/refundRequest/refund.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { RefundRequestReq } from "../../RequestsInterfaces/refundRequestReq.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { RefundRequestReq } from "../../requestsInterfaces/refundRequests/refundRequestReq.interface";
 import { IUser } from "../../models/user/user.interface";
 import { IOrder } from "../../models/order/order.interface";
 

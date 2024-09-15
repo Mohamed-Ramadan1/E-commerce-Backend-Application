@@ -6,9 +6,8 @@ import Product from "../../models/product/productModel";
 
 // interface imports
 import { IProduct } from "../../models/product/product.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { ProductRequest } from "../../RequestsInterfaces/productRequest.interface";
-
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { ProductRequest } from "../../requestsInterfaces/products/productRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

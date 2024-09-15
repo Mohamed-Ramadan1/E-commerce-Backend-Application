@@ -13,7 +13,7 @@ import { IShop } from "../../models/shop/shop.interface";
 import {
   ShopSettingsRequest,
   VerifyShopEmailUpdating,
-} from "../../RequestsInterfaces/shopRequests.interface";
+} from "../../requestsInterfaces/shop/shopRequests.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

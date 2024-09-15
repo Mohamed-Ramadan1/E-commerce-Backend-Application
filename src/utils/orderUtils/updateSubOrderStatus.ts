@@ -1,6 +1,6 @@
 import { ClientSession } from "mongoose";
 import { IOrder, OrderStatus } from "../../models/order/order.interface";
-import SubOrder from "../../models/subOrders/subOrderModal";
+import SubOrder from "../../models/order/subOrderModal";
 import AppError from "../apiUtils/ApplicationError";
 
 export const updateSubOrdersState = async (

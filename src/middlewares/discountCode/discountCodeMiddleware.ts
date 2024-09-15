@@ -5,17 +5,12 @@ import { Response, NextFunction } from "express";
 import DiscountCode from "../../models/discountCode/discountCodeModel";
 import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
 // interface imports
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
-import { DiscountCodeRequest } from "../../RequestsInterfaces/discountCode/discountCodeRequest.interface";
+import { DiscountCodeRequest } from "../../requestsInterfaces/discountCode/discountCodeRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
-import { sendResponse } from "../../utils/apiUtils/sendResponse";
-import {
-  DiscountCodeSource,
-  IDiscountCode,
-} from "../../models/discountCode/discountCode.interface";
+import { IDiscountCode } from "../../models/discountCode/discountCode.interface";
 
 // apply discount code
 

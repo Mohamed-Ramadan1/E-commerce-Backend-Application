@@ -2,13 +2,13 @@
 import { NextFunction, Response } from "express";
 
 // models imports
-import ShopSupportTicket from "../../models/shopSupportTicket/shopSupportTicketModal";
+import ShopSupportTicket from "../../models/supportTickets/shopSupportTicketModal";
 import Shop from "../../models/shop/shopModal";
 import User from "../../models/user/userModel";
 
 // interface imports
-import { IShopSupportTicket } from "../../models/shopSupportTicket/shopSupportTicket.interface";
-import { ShopSupportTicketRequest } from "../../RequestsInterfaces/shopSupportTicketRequest.interface";
+import { IShopSupportTicket } from "../../models/supportTickets/shopSupportTicket.interface";
+import { ShopSupportTicketRequest } from "../../requestsInterfaces/supportTIcket/shopSupportTicketRequest.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import { IUser } from "../../models/user/user.interface";
 // utils imports

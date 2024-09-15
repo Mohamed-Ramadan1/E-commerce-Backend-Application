@@ -1,15 +1,15 @@
 // system imports
-import { Request, Response, NextFunction } from "express";
+import { Response, NextFunction } from "express";
 
 // models imports
-import DeleteShopRequest from "../../models/deleteShopRequest/deleteShopRequestModal";
+import DeleteShopRequest from "../../models/shop/deleteShopRequestModal";
 import Shop from "../../models/shop/shopModal";
 import User from "../../models/user/userModel";
 
 // interface imports
 import { IUser } from "../../models/user/user.interface";
-import { IDeleteShopRequest } from "../../models/deleteShopRequest/deleteShopRequest.interface";
-import { DeleteShopRequestReq } from "../../RequestsInterfaces/deleteShopRequestReq.interface";
+import { IDeleteShopRequest } from "../../models/shop/deleteShopRequest.interface";
+import { DeleteShopRequestReq } from "../../requestsInterfaces/shop/deleteShopRequestReq.interface";
 
 // utils imports
 import AppError from "../../utils/apiUtils/ApplicationError";

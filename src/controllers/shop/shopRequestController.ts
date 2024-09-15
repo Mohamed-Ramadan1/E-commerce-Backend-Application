@@ -2,7 +2,7 @@
 import { NextFunction, Response } from "express";
 
 //models imports
-import ShopRequest from "../../models/newShopRequest/shopRequestModal";
+import ShopRequest from "../../models/shop/shopRequestModal";
 import Shop from "../../models/shop/shopModal";
 import ProcessedCreateShopRequests from "../../models/processedData/processedCreateShopRequestsModal";
 
@@ -10,11 +10,11 @@ import ProcessedCreateShopRequests from "../../models/processedData/processedCre
 import {
   IShopRequest,
   RequestStatus,
-} from "../../models/newShopRequest/shopRequest.interface";
-import { ShopRequestReq } from "../../RequestsInterfaces/shopRequests.interface";
+} from "../../models/shop/shopRequest.interface";
+import { ShopRequestReq } from "../../requestsInterfaces/shop/shopRequests.interface";
 import { IShop } from "../../models/shop/shop.interface";
 import { IUser } from "../../models/user/user.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

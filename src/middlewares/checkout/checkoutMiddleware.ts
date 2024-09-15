@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
 import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
 import AppError from "../../utils/apiUtils/ApplicationError";
-import { CheckoutRequest } from "../../RequestsInterfaces/checkoutRequest.interface";
+import { CheckoutRequest } from "../../requestsInterfaces/checkout/checkoutRequest.interface";
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import { IUser } from "../../models/user/user.interface";
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";

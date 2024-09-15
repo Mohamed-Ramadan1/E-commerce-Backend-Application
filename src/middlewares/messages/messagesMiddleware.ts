@@ -5,12 +5,8 @@ import { Response, NextFunction } from "express";
 import User from "../../models/user/userModel";
 import Shop from "../../models/shop/shopModal";
 // interfaces imports
-import {
-  IMessage,
-  MessagePriority,
-  RecipientType,
-} from "../../models/messages/message.interface";
-import { MessageRequest } from "../../RequestsInterfaces/messages/messagesRequest.interface";
+import { RecipientType } from "../../models/messages/message.interface";
+import { MessageRequest } from "../../requestsInterfaces/messages/messagesRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

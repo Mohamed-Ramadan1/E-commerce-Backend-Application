@@ -3,15 +3,13 @@ import { Response, NextFunction } from "express";
 
 // models imports
 import PrimeSubscription from "../../models/primeMemberShip/primeSubscriptionModel";
-import User from "../../models/user/userModel";
 
 // interface imports
 import {
   IPrimeSubScription,
   PrimeSubscriptionStatus,
 } from "../../models/primeMemberShip/primeSubscription.interface";
-import { IUser } from "../../models/user/user.interface";
-import { PrimeSubscriptionRequest } from "../../RequestsInterfaces/primeSubscription/primeSubscriptionRequest.interface";
+import { PrimeSubscriptionRequest } from "../../requestsInterfaces/primeSubscription/primeSubscriptionRequest.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
 
 // utils imports

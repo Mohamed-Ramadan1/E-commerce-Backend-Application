@@ -1,7 +1,7 @@
 import { ClientSession } from "mongoose";
 import { IOrder } from "../../models/order/order.interface";
-import SubOrder from "../../models/subOrders/subOrderModal";
-import { ISubOrder } from "../../models/subOrders/subOrder.interface";
+import SubOrder from "../../models/order/subOrderModal";
+import { ISubOrder } from "../../models/order/subOrder.interface";
 
 export const updateShopsBalance = async (
   mainOrder: IOrder,

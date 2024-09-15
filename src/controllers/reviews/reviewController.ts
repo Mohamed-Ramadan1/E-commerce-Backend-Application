@@ -4,8 +4,8 @@ import { NextFunction, Response } from "express";
 // models imports
 import Review from "../../models/review/reviewModel";
 // interface imports
-import { ReviewRequest } from "../../RequestsInterfaces/reviewRequest.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ReviewRequest } from "../../requestsInterfaces/reviews/reviewRequest.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import { IReview } from "../../models/review/review.interface";
 
 // utils imports

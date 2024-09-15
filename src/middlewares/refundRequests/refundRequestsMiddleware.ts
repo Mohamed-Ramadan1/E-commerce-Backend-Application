@@ -5,7 +5,7 @@ import RefundRequest from "../../models/refundRequest/refundModel";
 import { NextFunction, Response } from "express";
 import { IOrder } from "../../models/order/order.interface";
 
-import { RefundRequestReq } from "../../RequestsInterfaces/refundRequestReq.interface";
+import { RefundRequestReq } from "../../requestsInterfaces/refundRequests/refundRequestReq.interface";
 import { IUser } from "../../models/user/user.interface";
 import {
   IRefundRequest,

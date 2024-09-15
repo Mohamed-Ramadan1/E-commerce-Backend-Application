@@ -9,9 +9,9 @@ import {
   OrderStatus,
   ShippingStatus,
 } from "../../models/order/order.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
-import { CheckoutRequest } from "../../RequestsInterfaces/checkoutRequest.interface";
+import { CheckoutRequest } from "../../requestsInterfaces/checkout/checkoutRequest.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

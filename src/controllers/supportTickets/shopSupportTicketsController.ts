@@ -6,15 +6,15 @@ import { promises as fs } from "fs";
 import cloudinary from "cloudinary";
 
 // models imports
-import ShopSupportTicket from "../../models/shopSupportTicket/shopSupportTicketModal";
+import ShopSupportTicket from "../../models/supportTickets/shopSupportTicketModal";
 
 // interface imports
 import {
   IShopSupportTicket,
   SupportTicketStatus,
-} from "../../models/shopSupportTicket/shopSupportTicket.interface";
-import { ShopSupportTicketRequest } from "../../RequestsInterfaces/shopSupportTicketRequest.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
+} from "../../models/supportTickets/shopSupportTicket.interface";
+import { ShopSupportTicketRequest } from "../../requestsInterfaces/supportTIcket/shopSupportTicketRequest.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 
 // utils
 import catchAsync from "../../utils/apiUtils/catchAsync";

@@ -1,9 +1,9 @@
-import User from "../../models/user/userModel";
 import ShoppingCart from "../../models/shoppingCart/shoppingCartModel";
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { IUser } from "../../models/user/user.interface";
 import AppError from "../apiUtils/ApplicationError";
 import mongoose from "mongoose";
+
 export const createAndAssignShoppingCart = async (user: IUser) => {
   const session = await mongoose.startSession();
   session.startTransaction();

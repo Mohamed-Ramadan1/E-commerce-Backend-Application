@@ -1,7 +1,6 @@
 import { IShoppingCart } from "../../models/shoppingCart/shoppingCart.interface";
 import { IUser } from "../../models/user/user.interface";
 import { GroupedItems } from "./createSupOrders";
-import { NextFunction } from "express";
 import { OrderObject } from "./createOrderObject";
 import { IOrder } from "../../models/order/order.interface";
 import AppError from "../apiUtils/ApplicationError";

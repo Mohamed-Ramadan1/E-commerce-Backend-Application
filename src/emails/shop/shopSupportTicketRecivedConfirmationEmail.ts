@@ -1,6 +1,6 @@
 import { IShop } from "../../models/shop/shop.interface";
 import { IUser } from "../../models/user/user.interface";
-import { IShopSupportTicket } from "../../models/shopSupportTicket/shopSupportTicket.interface";
+import { IShopSupportTicket } from "../../models/supportTickets/shopSupportTicket.interface";
 import createMailTransporter from "../../config/mailTransporter.config";
 
 const sendShopSupportTicketReceivedEmail = (

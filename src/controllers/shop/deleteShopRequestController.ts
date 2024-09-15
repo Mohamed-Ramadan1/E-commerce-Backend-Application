@@ -3,7 +3,7 @@ import { Response, NextFunction } from "express";
 import mongoose from "mongoose";
 
 // models imports
-import DeleteShopRequest from "../../models/deleteShopRequest/deleteShopRequestModal";
+import DeleteShopRequest from "../../models/shop/deleteShopRequestModal";
 import ProcessedDeleteShopRequest from "../../models/processedData/processedDeleteShopRequestModal";
 import Shop from "../../models/shop/shopModal";
 
@@ -11,10 +11,10 @@ import Shop from "../../models/shop/shopModal";
 import {
   IDeleteShopRequest,
   RequestStatus,
-} from "../../models/deleteShopRequest/deleteShopRequest.interface";
+} from "../../models/shop/deleteShopRequest.interface";
 import { IProcessedDeletedShopRequest } from "../../models/processedData/processedDeleteShopRequest.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { DeleteShopRequestReq } from "../../RequestsInterfaces/deleteShopRequestReq.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { DeleteShopRequestReq } from "../../requestsInterfaces/shop/deleteShopRequestReq.interface";
 
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";

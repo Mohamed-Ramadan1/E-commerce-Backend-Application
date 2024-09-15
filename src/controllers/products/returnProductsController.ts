@@ -2,7 +2,7 @@ import { NextFunction, Response } from "express";
 import mongoose from "mongoose";
 
 // models imports
-import ReturnProduct from "../../models/returnProduct/returnProductsModel";
+import ReturnProduct from "../../models/product/returnProductsModel";
 import RefundRequest from "../../models/refundRequest/refundModel";
 import Shop from "../../models/shop/shopModal";
 // interface imports
@@ -10,10 +10,10 @@ import {
   IReturnRequest,
   ReturnStatus,
   ReceivedItemsStatus,
-} from "../../models/returnProduct/returnProducts.interface";
+} from "../../models/product/returnProducts.interface";
 import { IRefundRequest } from "../../models/refundRequest/refund.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { ReturnItemsRequest } from "../../RequestsInterfaces/returnItemRequestReq.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { ReturnItemsRequest } from "../../requestsInterfaces/products/returnItemRequestReq.interface";
 import { IUser } from "../../models/user/user.interface";
 import { ProductSourceType } from "../../models/product/product.interface";
 import { ICartItem } from "../../models/cartItem/cartItem.interface";

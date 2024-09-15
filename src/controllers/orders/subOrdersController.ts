@@ -1,12 +1,12 @@
 // system imports
 import { NextFunction, Response } from "express";
 
-import SubOrder from "../../models/subOrders/subOrderModal";
+import SubOrder from "../../models/order/subOrderModal";
 
 // interface imports
-import { ISubOrder } from "../../models/subOrders/subOrder.interface";
-import { ApiResponse } from "../../RequestsInterfaces/response.interface";
-import { SubOrderRequest } from "../../RequestsInterfaces/subOrderRequest.interface";
+import { ISubOrder } from "../../models/order/subOrder.interface";
+import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
+import { SubOrderRequest } from "../../requestsInterfaces/orders/subOrderRequest.interface";
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import AppError from "../../utils/apiUtils/ApplicationError";

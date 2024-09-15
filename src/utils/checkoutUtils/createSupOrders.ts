@@ -1,10 +1,7 @@
-import SubOrder from "../../models/subOrders/subOrderModal";
+import SubOrder from "../../models/order/subOrderModal";
 import Shop from "../../models/shop/shopModal";
 import Notification from "../../models/notification/notificationModal";
-import {
-  ISubOrder,
-  VendorType,
-} from "../../models/subOrders/subOrder.interface";
+import { ISubOrder, VendorType } from "../../models/order/subOrder.interface";
 import { ICartItem } from "../../models/cartItem/cartItem.interface";
 import { ClientSession } from "mongoose";
 

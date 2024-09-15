@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { protect, restrictTo } from "../../middlewares/auth/authMiddleware";
-import { upload } from "../../middlewares/multer/multerMiddleware";
+import { upload } from "../../config/multer.config";
 import {
   getMyShopSupportTicket,
   getMyShopSupportTickets,
