@@ -424,6 +424,35 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Convert loyalty points to gift cart balance",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/users/me/loyalty-points",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"users",
+										"me",
+										"loyalty-points"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -1061,7 +1090,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"productId\":\"66ad32a45ef7087659c3cd78\",\n    \"quantity\":2\n}",
+									"raw": "{\n    \"productId\":\"66ad33055ef7087659c3cd94\",\n    \"quantity\":2\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1570,13 +1599,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{URL}}/orders/66cea6bfe053b1ba0d44a52b/cancel",
+									"raw": "{{URL}}/orders/66e380e830fa01c8ea50a8c4/cancel",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"orders",
-										"66cea6bfe053b1ba0d44a52b",
+										"66e380e830fa01c8ea50a8c4",
 										"cancel"
 									]
 								}
@@ -6502,8 +6531,511 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Discount-Codes-Shared",
+					"item": [
+						{
+							"name": "Apply discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\":\"SUMET30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/discount-codes/apply",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"discount-codes",
+										"apply"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Un-Apply discount code",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\":\"SUMET30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/discount-codes/unApply",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"discount-codes",
+										"unApply"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get code details",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\":\"SUMET30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/discount-codes/details",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"discount-codes",
+										"details"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check discount code validity",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"code\":\"SUMET30\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/discount-codes/check-validity",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"discount-codes",
+										"check-validity"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Get all messages",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/messages",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send new message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\":\"66c7b52d0e42a9164eb755ac\",\n    \"recipientType\":\"user\",\n    \"subject\":\"hello i here\",\n    \"content\":\"i free on mondy lets have tea and cofi breake there.\",\n    \"metaData\":{\n        \"category\":\"x-gen\",\n        \"priority\":\"High\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/messages",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get message ",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/messages/66e5edcde80719f4b6fae77d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages",
+								"66e5edcde80719f4b6fae77d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/messages/66e5edcde80719f4b6fae77d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages",
+								"66e5edcde80719f4b6fae77d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete message",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/messages/66e5edcde80719f4b6fae77d",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"messages",
+								"66e5edcde80719f4b6fae77d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Report-Shops",
+			"item": [
+				{
+					"name": "Admin-Routes",
+					"item": [
+						{
+							"name": "Get all reports",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/report-shops",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"report-shops"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Resolve report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/report-shops/66e8400d9e59bd163b1102ec/resolve",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"report-shops",
+										"66e8400d9e59bd163b1102ec",
+										"resolve"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/report-shops/66e8400d9e59bd163b1102ec",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"report-shops",
+										"66e8400d9e59bd163b1102ec"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/report-shops/66e8400d9e59bd163b1102ec",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"report-shops",
+										"66e8400d9e59bd163b1102ec"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/report-shops/66e8400d9e59bd163b1102ec",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"report-shops",
+										"66e8400d9e59bd163b1102ec"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Users-Routes",
+					"item": [
+						{
+							"name": "Report shop",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"reportedShop\":\"66997a358841fdbf7e6a025d\",\n    \"reason\":\"i have the owner\",\n    \"description\":\"i have them all and product not good\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/report-shops",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"report-shops"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "This collection contains the routes related to the feature allowing user to report about shops."
 		}
 	]
 }

@@ -40,6 +40,7 @@ import discountCodeRoutes from "./routes/discountCode/discountCodeRoutes";
 import shopDiscountCodeRoutes from "./routes/discountCode/shopDiscountCodeRoutes";
 import websiteDiscountCodeRoutes from "./routes/discountCode/websiteDiscountCodeRoutes";
 import messageRoutes from "./routes/messages/messageRoutes";
+import reportShopRoutes from "./routes/reportShops/reportShopRoutes";
 
 import globalError from "./controllers/error/errorController";
 import AppError from "./utils/apiUtils/ApplicationError";
@@ -94,6 +95,7 @@ app.use("/api/v1/discount-codes", discountCodeRoutes);
 app.use("/api/v1/shop/discount-codes", shopDiscountCodeRoutes);
 app.use("/api/v1/website/discount-codes", websiteDiscountCodeRoutes);
 app.use("/api/v1/messages", messageRoutes);
+app.use("/api/v1/report-shops", reportShopRoutes);
 
 // the shop support ticket routes
 app.use("/api/v1/shop-support-tickets", shopSupportTicketRoutes);
