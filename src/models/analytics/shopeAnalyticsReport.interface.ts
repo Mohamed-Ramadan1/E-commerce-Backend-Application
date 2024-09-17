@@ -51,6 +51,8 @@ export interface IMonthlyShopAnalyticsReport {
     newProducts: number;
   };
 
+  
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;

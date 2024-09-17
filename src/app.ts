@@ -32,8 +32,8 @@ import processedSupportTicketsRoutes from "./routes/processedData/processedSuppo
 import shopSupportTicketRoutes from "./routes/supportTickets/shopSupportTicketRoutes";
 import shopsOrdersRoutes from "./routes/orders/subOrdersRoutes";
 import notificationRoutes from "./routes/notifications/notificationRoutes";
-import monthlyWebsiteAnalyticsReportRoutes from "./routes/analytics/monthlyWebsiteAnalyticsReportRoutes";
-import monthlyShopeAnalyticsReportRoutes from "./routes/analytics/monthlyShopeAnalyticsReportRoutes";
+import monthlyWebsiteAnalyticsReportRoutes from "./routes/analytics/websiteAnalyticsReportRoutes";
+import monthlyShopeAnalyticsReportRoutes from "./routes/analytics/shopeAnalyticsReportRoutes";
 import primeSubscriptionRoutes from "./routes/primeMemberShip/primeSubscriptionRoutes";
 import adminPrimeSubscriptionRoutes from "./routes/primeMemberShip/adminPrimeSubscriptionRoutes";
 import discountCodeRoutes from "./routes/discountCode/discountCodeRoutes";

@@ -1,13 +1,33 @@
+// {
+//   "compilerOptions": {
+//     "target": "ES6",
+//     "module": "commonjs",
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+//     "outDir": "./dist",
+//     "rootDir": "./src"
+//   },
+//   // "include": ["src"],
+//   // "exclude": ["node_modules"]
+//   "include": ["src/**/*"],
+//   "exclude": ["node_modules", "**/*.spec.ts"]
+// }
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es6",
     "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src",
+    "paths": {
+      "*": ["*", "models/*"]
+    }
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

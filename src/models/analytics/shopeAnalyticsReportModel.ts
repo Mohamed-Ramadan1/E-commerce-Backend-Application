@@ -1,5 +1,5 @@
 import { Schema, Model, model } from "mongoose";
-import { IMonthlyShopAnalyticsReport } from "./monthlyShopeAnalyticsReport.interface";
+import { IMonthlyShopAnalyticsReport } from "./shopeAnalyticsReport.interface";
 
 const monthlyShopAnalyticsReportSchema: Schema =
   new Schema<IMonthlyShopAnalyticsReport>(

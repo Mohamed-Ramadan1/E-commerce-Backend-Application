@@ -1,6 +1,7 @@
 import createMailTransporter from "../../config/mailTransporter.config";
 import { IUser } from "../../models/user/user.interface";
 import { IShop } from "../../models/shop/shop.interface";
+
 const approveShopRequestConfirmationEmail = (user: IUser, shop: IShop) => {
   const transporter = createMailTransporter();
   const mailOptions = {

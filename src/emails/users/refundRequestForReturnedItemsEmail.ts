@@ -2,7 +2,7 @@ import createMailTransporter from "../../config/mailTransporter.config";
 import { IUser } from "../../models/user/user.interface";
 
 import { IRefundRequest } from "../../models/refundRequest/refund.interface";
-import { IReturnRequest } from "../../models/returnProduct/returnProducts.interface";
+import { IReturnRequest } from "models/product/returnProducts.interface";
 const refundRequestForReturnedItemsEmail = (
   user: IUser,
   refundRequest: IRefundRequest,

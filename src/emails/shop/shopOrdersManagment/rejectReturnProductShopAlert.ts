@@ -1,6 +1,6 @@
 import createMailTransporter from "../../../config/mailTransporter.config";
 import { IShop } from "../../../models/shop/shop.interface";
-import { IReturnRequest } from "../../../models/returnProduct/returnProducts.interface";
+import { IReturnRequest } from "models/product/returnProducts.interface";
 
 const rejectReturnProductShopAlert = (
   shop: IShop,

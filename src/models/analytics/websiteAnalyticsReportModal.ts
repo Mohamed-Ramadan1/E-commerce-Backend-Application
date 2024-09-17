@@ -1,5 +1,5 @@
 import { Schema, Model, model } from "mongoose";
-import { IMonthlyWebsiteAnalyticsReport } from "./monthlyWebsiteAnalyticsReport.interface";
+import { IMonthlyWebsiteAnalyticsReport } from "./websiteAnalyticsReport.interface";
 
 const monthlyWebsiteAnalyticsReportSchema: Schema =
   new Schema<IMonthlyWebsiteAnalyticsReport>(
@@ -72,6 +72,13 @@ const monthlyWebsiteAnalyticsReportSchema: Schema =
         totalShopSupportTickets: { type: Number, required: true },
         totalProcessedShopSupportTickets: { type: Number, required: true },
         newShopSupportTickets: { type: Number, required: true },
+      },
+      primeSubscriptionAnalytics: {
+        totalPrimeSubscriptions: { type: Number, required: true },
+        totalActivePrimeSubscriptions: { type: Number, required: true },
+        totalInactivePrimeSubscriptions: { type: Number, required: true },
+        newPrimeSubscriptions: { type: Number, required: true },
+        totalPrimeSubscriptionRevenue: { type: Number, required: true },
       },
     },
     {

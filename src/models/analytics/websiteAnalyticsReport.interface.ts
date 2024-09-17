@@ -86,6 +86,14 @@ export interface IMonthlyWebsiteAnalyticsReport {
     newShopSupportTickets: number;
   };
 
+  // prime subscription analytics
+  primeSubscriptionAnalytics: {
+    totalPrimeSubscriptions: number;
+    newPrimeSubscriptions: number;
+    totalActivePrimeSubscriptions: number;
+    totalInactivePrimeSubscriptions: number;
+  };
+
   // Metadata
   createdAt: Date;
   updatedAt: Date;
