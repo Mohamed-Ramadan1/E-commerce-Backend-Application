@@ -6,6 +6,9 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    environment:
+      - NODE_ENV=production
     volumes:
-      - .:/app
-      - /app/node_modules
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./tsconfig.json:/app/tsconfig.json
