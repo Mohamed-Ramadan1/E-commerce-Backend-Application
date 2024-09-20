@@ -40,7 +40,12 @@ import discountCodeRoutes from "./routes/discountCode/discountCodeRoutes";
 import shopDiscountCodeRoutes from "./routes/discountCode/shopDiscountCodeRoutes";
 import websiteDiscountCodeRoutes from "./routes/discountCode/websiteDiscountCodeRoutes";
 import messageRoutes from "./routes/messages/messageRoutes";
+// this route related to users who need to report about shop  activity.
 import reportShopRoutes from "./routes/reportShops/reportShopRoutes";
+// the shop analytics routes
+import shopAnalyticsRoutes from "./routes/analytics/shopAnalytics";
+// the website analytics routes
+import websiteAnalyticsRoutes from "./routes/analytics/websiteAnalytics";
 
 import globalError from "./controllers/error/errorController";
 import AppError from "./utils/apiUtils/ApplicationError";
@@ -95,10 +100,26 @@ app.use("/api/v1/discount-codes", discountCodeRoutes);
 app.use("/api/v1/shop/discount-codes", shopDiscountCodeRoutes);
 app.use("/api/v1/website/discount-codes", websiteDiscountCodeRoutes);
 app.use("/api/v1/messages", messageRoutes);
+// this route related to users who need to report about shop  activity.
 app.use("/api/v1/report-shops", reportShopRoutes);
+// the shop analytics routes
+app.use("/api/v1/shop-analytics", shopAnalyticsRoutes);
+// the website analytics routes
+app.use("/api/v1/website-analytics", websiteAnalyticsRoutes);
 
 // the shop support ticket routes
 app.use("/api/v1/shop-support-tickets", shopSupportTicketRoutes);
+
+// this route related to the monthly website analytics report
+app.use(
+  "/api/v1/website-analytics/monthly-reports",
+  monthlyWebsiteAnalyticsReportRoutes
+);
+// this route related to the monthly shops analytics report
+app.use(
+  "/api/v1/shop-analytics/monthly-reports",
+  monthlyShopeAnalyticsReportRoutes
+);
 
 // support tickets routes
 app.use("/api/v1/support-tickets", supportTicketsRoutes);
@@ -134,19 +155,7 @@ app.use(
   processedDeleteShopRequestRoutes
 );
 
-// this route related to the monthly website analytics report
-app.use(
-  "/api/v1/website-analytics/monthly-reports",
-  monthlyWebsiteAnalyticsReportRoutes
-);
-// this route related to the monthly shops analytics report
-app.use(
-  "/api/v1/shop-analytics/monthly-reports",
-  monthlyShopeAnalyticsReportRoutes
-);
-
 // Error handling middleware
-
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404));
 });

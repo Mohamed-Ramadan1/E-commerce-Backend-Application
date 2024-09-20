@@ -1,6 +1,6 @@
 /* 
 
-TODO : Create full analytics for the  orders ,shops and products(monthly , yearly  , in real time ).
+TODO : Create full analytics for the  orders ,shops and products(monthly  , in real time ).
 
 TODO : Create schduler tasks to send reports for shops owners and traders. node corn
 

@@ -1,18 +1,3 @@
-// {
-//   "compilerOptions": {
-//     "target": "ES6",
-//     "module": "commonjs",
-//     "strict": true,
-//     "esModuleInterop": true,
-//     "skipLibCheck": true,
-//     "outDir": "./dist",
-//     "rootDir": "./src"
-//   },
-//   // "include": ["src"],
-//   // "exclude": ["node_modules"]
-//   "include": ["src/**/*"],
-//   "exclude": ["node_modules", "**/*.spec.ts"]
-// }
 {
   "compilerOptions": {
     "target": "es6",
