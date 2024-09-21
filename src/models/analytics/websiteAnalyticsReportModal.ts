@@ -1,8 +1,8 @@
 import { Schema, Model, model } from "mongoose";
-import { IMonthlyWebsiteAnalyticsReport } from "./websiteAnalyticsReport.interface";
+import { IWebsiteAnalyticsReport } from "./websiteAnalyticsReport.interface";
 
-const monthlyWebsiteAnalyticsReportSchema: Schema =
-  new Schema<IMonthlyWebsiteAnalyticsReport>(
+const WebsiteAnalyticsReportSchema: Schema =
+  new Schema<IWebsiteAnalyticsReport>(
     {
       month: { type: String, required: true },
       year: { type: Number, required: true },
@@ -86,10 +86,10 @@ const monthlyWebsiteAnalyticsReportSchema: Schema =
     }
   );
 
-const MonthlyWebsiteAnalyticsReport: Model<IMonthlyWebsiteAnalyticsReport> =
-  model<IMonthlyWebsiteAnalyticsReport>(
-    "MonthlyWebsiteAnalyticsReport",
-    monthlyWebsiteAnalyticsReportSchema
+const WebsiteAnalyticsReport: Model<IWebsiteAnalyticsReport> =
+  model<IWebsiteAnalyticsReport>(
+    "WebsiteAnalyticsReport",
+    WebsiteAnalyticsReportSchema
   );
 
-export default MonthlyWebsiteAnalyticsReport;
+export default WebsiteAnalyticsReport;

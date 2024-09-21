@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 
-export interface IMonthlyShopAnalyticsReport {
+export interface IShopAnalyticsReport {
   _id: ObjectId;
   shopId: ObjectId;
   shopName: string;

@@ -8,6 +8,8 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 
+import { startCronJobs } from "./utils/cornJobs/shopCornJob";
+
 import authRoutes from "./routes/auth/authRoutes";
 import userRoutes from "./routes/users/userRoutes";
 import shoppingCartRoutes from "./routes/shoppingCarts/shoppingCartRoutes";
@@ -82,6 +84,8 @@ app.use(express.json());
 
 //serving static files
 app.use(express.static(path.join(__dirname, "public")));
+
+startCronJobs();
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);

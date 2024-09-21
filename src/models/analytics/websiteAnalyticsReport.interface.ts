@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 
-export interface IMonthlyWebsiteAnalyticsReport {
+export interface IWebsiteAnalyticsReport {
   _id: ObjectId;
   month: string;
   year: number;
