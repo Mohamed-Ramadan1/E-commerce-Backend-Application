@@ -11,13 +11,11 @@ import catchAsync from "../../utils/apiUtils/catchAsync";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
 import sendShopReportEmail from "../../emails/analytics/shopAnalyticsReportEmail";
 import { ShopAnalyticsRequest } from "../../requestsInterfaces/analytics/shopAnalyticsRequest";
-import {
-  getFinancialInformation,
-  getOrdersInformation,
-  getRefundInformation,
-  getProductInformation,
-  getReturnInformation,
-} from "../../utils/analyticsUtils/shopAnalyticsUtils";
+import { getFinancialInformation } from "../../utils/analyticsUtils/shopAnalyticsUtils/getFinancialInformation";
+import { getOrdersInformation } from "../../utils/analyticsUtils/shopAnalyticsUtils/getOrdersInformation";
+import { getReturnInformation } from "../../utils/analyticsUtils/shopAnalyticsUtils/getReturnInformation";
+import { getRefundInformation } from "../../utils/analyticsUtils/shopAnalyticsUtils/getRefundInformation";
+import { getProductInformation } from "../../utils/analyticsUtils/shopAnalyticsUtils/getProductInformation";
 
 // The  create controller is corn job run every start day of the month
 export const createShopAnalyticsReport = catchAsync(

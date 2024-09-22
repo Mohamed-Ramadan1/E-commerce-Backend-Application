@@ -9,6 +9,7 @@ export interface IShop extends Document {
   balance: number;
   shopDescription: string;
   categories?: string[];
+  productCount:number
   photo?: string;
   photoPublicId?: string;
   banner?: string;

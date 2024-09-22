@@ -7036,6 +7036,345 @@
 				}
 			],
 			"description": "This collection contains the routes related to the feature allowing user to report about shops."
+		},
+		{
+			"name": "Analytics-Reports",
+			"item": [
+				{
+					"name": "shop",
+					"item": [
+						{
+							"name": "Admin",
+							"item": [
+								{
+									"name": "Get all Reports",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{jwt}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/shop/analytics-reports",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"shop",
+												"analytics-reports"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get report",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{jwt}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/shop/analytics-reports/66ee5871c7872b85616b6f18",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"shop",
+												"analytics-reports",
+												"66ee5871c7872b85616b6f18"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete report",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{jwt}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/shop/analytics-reports/66ee5871c7872b85616b6f18",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"shop",
+												"analytics-reports",
+												"66ee5871c7872b85616b6f18"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Shop-Owner",
+							"item": [
+								{
+									"name": "Get all my reports",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{jwt}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{URL}}/shop/analytics-reports/my-shop/all",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"shop",
+												"analytics-reports",
+												"my-shop",
+												"all"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get Report ",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{jwt}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{URL}}/shop/analytics-reports/my-shop/66ee5871c7872b85616b6f18",
+											"host": [
+												"{{URL}}"
+											],
+											"path": [
+												"shop",
+												"analytics-reports",
+												"my-shop",
+												"66ee5871c7872b85616b6f18"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Webstie",
+					"item": [
+						{
+							"name": "Delete report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/analytics-reports/",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"analytics-reports",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all reports",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/analytics-reports",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"analytics-reports"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get website report",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website/analytics-reports/66f073beb2eea2b5e5681cf4",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website",
+										"analytics-reports",
+										"66f073beb2eea2b5e5681cf4"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Shop",
+					"item": [
+						{
+							"name": " get shop analytics",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/shop-analytics/66997a358841fdbf7e6a025d",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"shop-analytics",
+										"66997a358841fdbf7e6a025d"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Website",
+					"item": [
+						{
+							"name": "Get website analytics",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/website-analytics",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"website-analytics"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
 		}
 	]
 }

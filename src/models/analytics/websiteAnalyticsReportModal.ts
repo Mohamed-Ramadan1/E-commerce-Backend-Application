@@ -78,7 +78,6 @@ const WebsiteAnalyticsReportSchema: Schema =
         totalActivePrimeSubscriptions: { type: Number, required: true },
         totalInactivePrimeSubscriptions: { type: Number, required: true },
         newPrimeSubscriptions: { type: Number, required: true },
-        totalPrimeSubscriptionRevenue: { type: Number, required: true },
       },
     },
     {

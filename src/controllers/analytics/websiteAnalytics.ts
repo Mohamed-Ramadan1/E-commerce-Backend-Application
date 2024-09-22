@@ -9,7 +9,7 @@ import User from "../../models/user/userModel";
 import DeleteShopRequest from "../../models/shop/deleteShopRequestModal";
 import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
-import { AnalyticsRequest } from "requestsInterfaces/analytics/analyticsRequest";
+import { AnalyticsRequest } from "../../requestsInterfaces/analytics/analyticsRequest";
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
 

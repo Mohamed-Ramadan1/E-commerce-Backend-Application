@@ -1,132 +1,142 @@
 // system imports
 import { Response, NextFunction } from "express";
-import mongoose from "mongoose";
 
-// models imports
-import User from "../../models/user/userModel";
-import PrimeSubscription from "../../models/primeMemberShip/primeSubscriptionModel"; // system imports
-import DiscountCode from "../../models/discountCode/discountCodeModel";
-import Order from "../../models/order/orderModel";
-import Product from "../../models/product/productModel";
-import RefundRequest from "../../models/refundRequest/refundModel";
-import ReportShop from "../../models/reportShops/reportShopModel";
-import Shop from "../../models/shop/shopModal";
-import SupportTicket from "../../models/supportTickets/supportTicketsModel";
-import ShopSupportTicket from "../../models/supportTickets/shopSupportTicketModal";
 // interface imports
 import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
-import { DiscountCodeRequest } from "../../requestsInterfaces/discountCode/discountCodeRequest.interface";
+
 // utils imports
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
+import { WebsiteAnalyticsRequest } from "../../requestsInterfaces/analytics/websiteAnalyticsRequest";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
+import WebsiteAnalyticsReport from "../../models/analytics/websiteAnalyticsReportModal";
+import { IWebsiteAnalyticsReport } from "../../models/analytics/websiteAnalyticsReport.interface";
 
-/* 
+import { calculateFinancialSummary } from "../../utils/analyticsUtils/websiteAnalyticsUtils/calculateFinancialSummary";
+import { getShopAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getShopAnalytics";
+import { getOrdersAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getOrdersAnalytics";
+import { getProductsAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getProductsAnalytics";
+import { getUserAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getUsersAnalytics";
+import { getRefundAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getRefundAnalytics";
+import { getReturnAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getReturnAnalytics";
+import { calculateSupportTicketAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getSupportTicketsAnalytics";
+import { getPrimeSubscriptionAnalytics } from "../../utils/analyticsUtils/websiteAnalyticsUtils/getPrimeSubscriptionsAnalytics";
 
-import { ObjectId } from "mongoose";
+import sendWebsiteAnalyticsReportEmail from "../../emails/analytics/websiteAnalyticsReportEmail";
 
-export interface IWebsiteAnalyticsReport {
-  _id: ObjectId;
-  month: string;
-  year: number;
+// generate report
+export const createWebsiteAnalyticsReport = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const currentDate = new Date();
+    const endDate = new Date(currentDate);
+    const startDate = new Date(currentDate.setDate(currentDate.getDate() - 30));
+    const year = endDate.getFullYear();
+    const month = endDate.toLocaleString("default", { month: "long" });
 
-  // Financial Summary for the Last 30 Days
+    // Check if a report for the current month and year already exists
+    const existingReport = await WebsiteAnalyticsReport.findOne({
+      month,
+      year,
+      createdAt: { $gte: startDate, $lte: endDate },
+    });
+    if (existingReport) {
+      return next(
+        new AppError("A report for the last 30 days already exists", 400)
+      );
+    }
 
-  financialSummary: {
-    totalSales: number;
-    totalShopSales: number;
-    totalWebsiteSales: number;
-    totalProcessedRefunds: number;
-    totalWebsiteProfit: number;
-    averageOrderValue: number; // Moved here for relevance
-  };
+    // Gather all analytics data
+    const financialSummary = await calculateFinancialSummary();
+    const shopAnalytics = await getShopAnalytics();
+    const orderAnalytics = await getOrdersAnalytics();
+    const productAnalytics = await getProductsAnalytics();
+    const userAnalytics = await getUserAnalytics();
+    const refundAnalytics = await getRefundAnalytics();
+    const returnItemsAnalytics = await getReturnAnalytics();
+    const supportTicketAnalytics = await calculateSupportTicketAnalytics();
+    const primeSubscriptionAnalytics = await getPrimeSubscriptionAnalytics();
 
-  // Shop Analytics
-  shopAnalytics: {
-    totalShops: number;
-    activeShops: number;
-    inactiveShops: number;
-    shopsWithProducts: number;
-    newJoiningShops: number;
-    shopsWithOrders: number;
-    shopsSupportTickets: number;
-    newShopsRequests: number;
-    newDeleteShopsRequests: number;
-  };
+    // Create the new report
+    const newReport: IWebsiteAnalyticsReport =
+      await WebsiteAnalyticsReport.create({
+        month,
+        year,
+        financialSummary,
+        shopAnalytics,
+        orderAnalytics,
+        productAnalytics,
+        userAnalytics,
+        refundAnalytics,
+        returnItemsAnalytics,
+        supportTicketAnalytics,
+        primeSubscriptionAnalytics,
+      });
 
-  // Order Analytics
-  orderAnalytics: {
-    totalOrders: number;
-    totalShopOrders: number;
-    totalWebsiteOrders: number;
-    totalPendingOrders: number;
-    totalCancelledOrders: number;
-    totalDeliveredOrders: number;
-    totalReturnItems: number;
-  };
+    // Send email with the report
+    const staticEmailRecipient = "mohamedramadan11b@gmail.com";
+    sendWebsiteAnalyticsReportEmail(newReport, staticEmailRecipient);
 
-  // Product Analytics
-  productAnalytics: {
-    totalProducts: number;
-    totalShopProducts: number;
-    totalWebsiteProducts: number;
-    newProducts: number;
-    totalOutOfStockProducts: number;
-    totalInStockProducts: number;
-  };
+    const response: ApiResponse<IWebsiteAnalyticsReport> = {
+      status: "success",
+      message: "Website analytics report created successfully",
+      data: newReport,
+    };
 
-  // User Analytics
-  userAnalytics: {
-    totalUsers: number;
-    totalShopOwners: number;
-    newUsers: number;
-    usersWithOrders: number;
-    usersWithNoOrders: number;
-  };
-  // Refund Analytics
-  refundAnalytics: {
-    totalRefundRequests: number;
-    totalProcessedRefundRequests: number;
-    newRefundRequests: number;
-    totalRefundRequestsForCancelledOrders: number;
-    totalRefundRequestsForReturnItems: number;
-    rejectedRefundRequests: number;
-  };
+    // Send the response
+    sendResponse(201, response, res);
+  }
+);
 
-  // Return Items Analytics
-  returnItemsAnalytics: {
-    totalReturnItemsRequests: number;
-    totalProcessedReturnItemsRequests: number;
-    newReturnItemsRequests: number;
-    totalRejectedReturnItemsRequests: number;
-    totalCancelledReturnItemsRequests: number;
-  };
+//--------------------------------------------------------------------------------------
+//get all  reports
+export const getAllWebsiteAnalyticsReports = catchAsync(
+  async (req: WebsiteAnalyticsRequest, res: Response, next: NextFunction) => {
+    const reports = new APIFeatures(WebsiteAnalyticsReport.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-  // Support Ticket Analytics
-  supportTicketAnalytics: {
-    totalUsersSupportTickets: number;
-    totalProcessedSupportTickets: number;
-    newUserSupportTickets: number;
-    totalShopSupportTickets: number;
-    totalProcessedShopSupportTickets: number;
-    newShopSupportTickets: number;
-  };
+    const reportsData: any = await reports.execute();
 
-  // prime subscription analytics
-  primeSubscriptionAnalytics: {
-    totalPrimeSubscriptions: number;
-    newPrimeSubscriptions: number;
-    totalActivePrimeSubscriptions: number;
-    totalInactivePrimeSubscriptions: number;
-  };
+    const response: ApiResponse<IWebsiteAnalyticsReport[]> = {
+      status: "success",
+      results: reportsData.length,
+      data: reportsData,
+    };
+    sendResponse(200, response, res);
+  }
+);
 
-  // Metadata
-  createdAt: Date;
-  updatedAt: Date;
-}
+// get report with id
+export const getWebsiteAnalyticsReport = catchAsync(
+  async (req: WebsiteAnalyticsRequest, res: Response, next: NextFunction) => {
+    const report: IWebsiteAnalyticsReport | null =
+      await WebsiteAnalyticsReport.findById(req.params.id);
+    if (!report) {
+      return next(new AppError("No report found with that ID", 404));
+    }
+    const response: ApiResponse<IWebsiteAnalyticsReport> = {
+      status: "success",
+      data: report,
+    };
+    sendResponse(200, response, res);
+  }
+);
 
-*/
-
-// export const getWebsiteAnalyticsReport = catchAsync(
-//   async (req: AnalyticsRequest, res: Response, next: NextFunction) => {}
-// );
+// delete report with id
+export const deleteWebsiteAnalyticsReport = catchAsync(
+  async (req: WebsiteAnalyticsRequest, res: Response, next: NextFunction) => {
+    const report: IWebsiteAnalyticsReport | null =
+      await WebsiteAnalyticsReport.findByIdAndDelete(req.params.id);
+    if (!report) {
+      return next(new AppError("No report found with that ID", 404));
+    }
+    const response: ApiResponse<null> = {
+      status: "success",
+      data: null,
+    };
+    sendResponse(204, response, res);
+  }
+);

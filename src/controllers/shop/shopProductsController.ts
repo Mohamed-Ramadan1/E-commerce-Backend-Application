@@ -49,6 +49,8 @@ export const getAllProducts = catchAsync(
 export const addProduct = catchAsync(
   async (req: ShopProductsRequest, res: Response, next: NextFunction) => {
     const product: IProduct = await Product.create(req.productInformation);
+    req.shop.productCount += 1;
+    await req.shop.save();
     if (!product) {
       return next(
         new AppError("something went wrong while creating the new product", 500)

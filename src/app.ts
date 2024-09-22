@@ -9,6 +9,7 @@ import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 
 import { startShopsCronJobs } from "./utils/cornJobs/shopCornJob";
+import { startWebsiteCronJobs } from "./utils/cornJobs/websiteCornJob";
 
 import authRoutes from "./routes/auth/authRoutes";
 import userRoutes from "./routes/users/userRoutes";
@@ -86,6 +87,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 startShopsCronJobs();
+startWebsiteCronJobs();
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
