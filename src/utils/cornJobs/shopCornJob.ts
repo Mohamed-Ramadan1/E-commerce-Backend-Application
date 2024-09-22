@@ -2,7 +2,7 @@ import cron from "node-cron";
 import Shop from "../../models/shop/shopModal";
 import { createShopAnalyticsReport } from "../../controllers/analytics/shopeAnalyticsReportController";
 
-export const startCronJobs = () => {
+export const startShopsCronJobs = () => {
   // Run at 12:00 AM on the 1st of every month
   cron.schedule(
     "0 0 1 * *",

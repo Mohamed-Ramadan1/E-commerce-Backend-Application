@@ -8,7 +8,7 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 
-import { startCronJobs } from "./utils/cornJobs/shopCornJob";
+import { startShopsCronJobs } from "./utils/cornJobs/shopCornJob";
 
 import authRoutes from "./routes/auth/authRoutes";
 import userRoutes from "./routes/users/userRoutes";
@@ -85,7 +85,7 @@ app.use(express.json());
 //serving static files
 app.use(express.static(path.join(__dirname, "public")));
 
-startCronJobs();
+startShopsCronJobs();
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
@@ -116,14 +116,11 @@ app.use("/api/v1/shop-support-tickets", shopSupportTicketRoutes);
 
 // this route related to the monthly website analytics report
 app.use(
-  "/api/v1/website-analytics/monthly-reports",
+  "/api/v1/website/analytics-reports",
   monthlyWebsiteAnalyticsReportRoutes
 );
 // this route related to the monthly shops analytics report
-app.use(
-  "/api/v1/shop-analytics/monthly-reports",
-  monthlyShopeAnalyticsReportRoutes
-);
+app.use("/api/v1/shop/analytics-reports", monthlyShopeAnalyticsReportRoutes);
 
 // support tickets routes
 app.use("/api/v1/support-tickets", supportTicketsRoutes);

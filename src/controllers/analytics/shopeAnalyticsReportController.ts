@@ -1,20 +1,31 @@
 import { Response, NextFunction } from "express";
-import mongoose from "mongoose";
+
 import Shop from "../../models/shop/shopModal";
-import Product from "../../models/product/productModel";
-import Order from "../../models/order/orderModel";
-import Refund from "../../models/refundRequest/refundModel";
-import ReturnItem from "../../models/product/returnProductsModel";
+
 import ShopAnalyticsReportReport from "../../models/analytics/shopeAnalyticsReportModel";
+import APIFeatures from "../../utils/apiUtils/apiKeyFeature";
 import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
 import { IShopAnalyticsReport } from "models/analytics/shopeAnalyticsReport.interface";
 import catchAsync from "../../utils/apiUtils/catchAsync";
 import { sendResponse } from "../../utils/apiUtils/sendResponse";
 import sendShopReportEmail from "../../emails/analytics/shopAnalyticsReportEmail";
+import { ShopAnalyticsRequest } from "../../requestsInterfaces/analytics/shopAnalyticsRequest";
+import {
+  getFinancialInformation,
+  getOrdersInformation,
+  getRefundInformation,
+  getProductInformation,
+  getReturnInformation,
+} from "../../utils/analyticsUtils/shopAnalyticsUtils";
 
+// The  create controller is corn job run every start day of the month
 export const createShopAnalyticsReport = catchAsync(
-  async (req: any, res: Response | null, next: NextFunction) => {
+  async (
+    req: ShopAnalyticsRequest,
+    res: Response | null,
+    next: NextFunction
+  ) => {
     const { shopId } = req.params;
     const { startDate, endDate } = req.query;
 
@@ -64,181 +75,114 @@ export const createShopAnalyticsReport = catchAsync(
   }
 );
 
-async function getFinancialInformation(shopId: string, start: Date, end: Date) {
-  const orders = await Order.find({
-    user: shopId,
-    createdAt: { $gte: start, $lte: end },
-  });
-
-  const totalRevenue = orders.reduce((sum, order) => sum + order.totalPrice, 0);
-  const totalRefund = await Refund.aggregate([
-    {
-      $match: {
-        shop: new mongoose.Types.ObjectId(shopId),
-        createdAt: { $gte: start, $lte: end },
-        refundStatus: "Confirmed",
-      },
-    },
-    { $group: { _id: null, total: { $sum: "$refundAmount" } } },
-  ]).then((result) => result[0]?.total || 0);
-
-  return {
-    totalRevenue,
-    totalRefund,
-    averageOrderValue: orders.length > 0 ? totalRevenue / orders.length : 0,
-    totalProfit: totalRevenue - totalRefund,
-  };
-}
-
-async function getOrdersInformation(shopId: string, start: Date, end: Date) {
-  const orderCounts = await Order.aggregate([
-    {
-      $match: {
-        user: new mongoose.Types.ObjectId(shopId),
-        createdAt: { $gte: start, $lte: end },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalOrders: { $sum: 1 },
-        totalShippedOrders: {
-          $sum: { $cond: [{ $eq: ["$shippingStatus", "shipped"] }, 1, 0] },
-        },
-        totalDeliveredOrders: {
-          $sum: { $cond: [{ $eq: ["$orderStatus", "delivered"] }, 1, 0] },
-        },
-        totalCancelledOrders: {
-          $sum: { $cond: [{ $eq: ["$orderStatus", "cancelled"] }, 1, 0] },
-        },
-        totalPendingOrders: {
-          $sum: { $cond: [{ $eq: ["$orderStatus", "processing"] }, 1, 0] },
-        },
-      },
-    },
-  ]);
-
-  return (
-    orderCounts[0] || {
-      totalOrders: 0,
-      totalShippedOrders: 0,
-      totalDeliveredOrders: 0,
-      totalCancelledOrders: 0,
-      totalPendingOrders: 0,
+export const getShopAnalyticsReport = catchAsync(
+  async (req: ShopAnalyticsRequest, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const shop = await Shop.findById(req.user.myShop);
+    if (!shop) {
+      return next(new AppError("You not shop owner ", 404));
     }
-  );
-}
 
-async function getReturnInformation(shopId: string, start: Date, end: Date) {
-  const returnCounts = await ReturnItem.aggregate([
-    {
-      $match: {
-        user: new mongoose.Types.ObjectId(shopId),
-        createdAt: { $gte: start, $lte: end },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalReturnItems: { $sum: 1 },
-        totalAcceptedReturnItems: {
-          $sum: { $cond: [{ $eq: ["$returnStatus", "Approved"] }, 1, 0] },
-        },
-        totalRejectedReturnItems: {
-          $sum: { $cond: [{ $eq: ["$returnStatus", "Rejected"] }, 1, 0] },
-        },
-      },
-    },
-  ]);
+    const report = await ShopAnalyticsReportReport.findOne({
+      _id: id,
+      shopId: shop,
+    });
 
-  return (
-    returnCounts[0] || {
-      totalReturnItems: 0,
-      totalAcceptedReturnItems: 0,
-      totalRejectedReturnItems: 0,
+    if (!report) {
+      return next(new AppError("Report not found", 404));
     }
-  );
-}
 
-async function getRefundInformation(shopId: string, start: Date, end: Date) {
-  const refundCounts = await Refund.aggregate([
-    {
-      $match: {
-        user: new mongoose.Types.ObjectId(shopId),
-        createdAt: { $gte: start, $lte: end },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        totalRefundRequests: { $sum: 1 },
-        totalAcceptedRefundRequests: {
-          $sum: { $cond: [{ $eq: ["$refundStatus", "Confirmed"] }, 1, 0] },
-        },
-        totalRejectedRefundRequests: {
-          $sum: { $cond: [{ $eq: ["$refundStatus", "Rejected"] }, 1, 0] },
-        },
-      },
-    },
-  ]);
+    const response: ApiResponse<IShopAnalyticsReport> = {
+      status: "success",
 
-  return (
-    refundCounts[0] || {
-      totalRefundRequests: 0,
-      totalAcceptedRefundRequests: 0,
-      totalRejectedRefundRequests: 0,
+      data: report,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+export const getAllShopAnalyticsReports = catchAsync(
+  async (req: ShopAnalyticsRequest, res: Response, next: NextFunction) => {
+    const shopId = req.user.myShop;
+    const shop = await Shop.findById(shopId);
+    if (!shop) {
+      return next(new AppError("Shop not found", 404));
     }
-  );
-}
 
-async function getProductInformation(shopId: string, start: Date, end: Date) {
-  const productCounts = await Product.aggregate([
-    { $match: { shopId: new mongoose.Types.ObjectId(shopId) } },
-    {
-      $group: {
-        _id: null,
-        totalProducts: { $sum: 1 },
-        totalActiveProducts: {
-          $sum: {
-            $cond: [{ $eq: ["$availability_status", "Available"] }, 1, 0],
-          },
-        },
-        totalInactiveProducts: {
-          $sum: {
-            $cond: [{ $eq: ["$availability_status", "Unavailable"] }, 1, 0],
-          },
-        },
-        totalOutOfStockProducts: {
-          $sum: { $cond: [{ $eq: ["$stock_quantity", 0] }, 1, 0] },
-        },
-        totalInStockProducts: {
-          $sum: { $cond: [{ $gt: ["$stock_quantity", 0] }, 1, 0] },
-        },
-        totalFreezedProducts: {
-          $sum: { $cond: [{ $eq: ["$freezed", true] }, 1, 0] },
-        },
-        totalUnFreezedProducts: {
-          $sum: { $cond: [{ $eq: ["$freezed", false] }, 1, 0] },
-        },
-      },
-    },
-  ]);
+    const features = new APIFeatures(
+      ShopAnalyticsReportReport.find({ shopId }),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
 
-  const newProducts = await Product.countDocuments({
-    shopId: new mongoose.Types.ObjectId(shopId),
-    createdAt: { $gte: start, $lte: end },
-  });
+    const reports: any = await features.execute();
 
-  return {
-    ...(productCounts[0] || {
-      totalProducts: 0,
-      totalActiveProducts: 0,
-      totalInactiveProducts: 0,
-      totalOutOfStockProducts: 0,
-      totalInStockProducts: 0,
-      totalFreezedProducts: 0,
-      totalUnFreezedProducts: 0,
-    }),
-    newProducts,
-  };
-}
+    const response: ApiResponse<IShopAnalyticsReport[]> = {
+      status: "success",
+      results: reports.length,
+      data: reports,
+    };
+    sendResponse(200, response, res);
+  }
+);
+
+//----------------------------------------------------------------------
+// admin routes
+
+// get report by id
+export const getReport = catchAsync(
+  async (req: ShopAnalyticsRequest, res: Response, next: NextFunction) => {
+    const report = await ShopAnalyticsReportReport.findById(req.params.id);
+    if (!report) {
+      return next(new AppError("Report not found", 404));
+    }
+
+    const response: ApiResponse<IShopAnalyticsReport> = {
+      status: "success",
+      data: report,
+    };
+    sendResponse(200, response, res);
+  }
+);
+// get all reports
+export const getAllReports = catchAsync(
+  async (req: ShopAnalyticsRequest, res: Response, next: NextFunction) => {
+    const features = new APIFeatures(
+      ShopAnalyticsReportReport.find(),
+      req.query
+    )
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const reports: any = await features.execute();
+    const response: ApiResponse<IShopAnalyticsReport[]> = {
+      status: "success",
+      results: reports.length,
+      data: reports,
+    };
+    sendResponse(200, response, res);
+  }
+);
+// delete report
+export const deleteReport = catchAsync(
+  async (req: ShopAnalyticsRequest, res: Response, next: NextFunction) => {
+    const report = await ShopAnalyticsReportReport.findByIdAndDelete(
+      req.params.id
+    );
+    if (!report) {
+      return next(new AppError("Report not found", 404));
+    }
+
+    const response: ApiResponse<null> = {
+      status: "success",
+      message: "Report deleted successfully",
+      data: null,
+    };
+    sendResponse(204, response, res);
+  }
+);

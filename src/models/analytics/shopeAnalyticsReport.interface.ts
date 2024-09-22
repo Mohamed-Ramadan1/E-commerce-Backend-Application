@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 
-export interface IShopAnalyticsReport {
+export interface IShopAnalyticsReport extends Document {
   _id: ObjectId;
   shopId: ObjectId;
   shopName: string;
@@ -50,8 +50,6 @@ export interface IShopAnalyticsReport {
     totalUnFreezedProducts: number;
     newProducts: number;
   };
-
-  
 
   // Metadata
   createdAt: Date;

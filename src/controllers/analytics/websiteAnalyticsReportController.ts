@@ -6,7 +6,13 @@ import mongoose from "mongoose";
 import User from "../../models/user/userModel";
 import PrimeSubscription from "../../models/primeMemberShip/primeSubscriptionModel"; // system imports
 import DiscountCode from "../../models/discountCode/discountCodeModel";
-
+import Order from "../../models/order/orderModel";
+import Product from "../../models/product/productModel";
+import RefundRequest from "../../models/refundRequest/refundModel";
+import ReportShop from "../../models/reportShops/reportShopModel";
+import Shop from "../../models/shop/shopModal";
+import SupportTicket from "../../models/supportTickets/supportTicketsModel";
+import ShopSupportTicket from "../../models/supportTickets/shopSupportTicketModal";
 // interface imports
 import { ApiResponse } from "../../requestsInterfaces/shared/response.interface";
 import AppError from "../../utils/apiUtils/ApplicationError";
@@ -17,15 +23,15 @@ import { sendResponse } from "../../utils/apiUtils/sendResponse";
 
 /* 
 
-/* 
 import { ObjectId } from "mongoose";
 
-export interface IMonthlyWebsiteAnalyticsReport {
+export interface IWebsiteAnalyticsReport {
   _id: ObjectId;
   month: string;
   year: number;
 
   // Financial Summary for the Last 30 Days
+
   financialSummary: {
     totalSales: number;
     totalShopSales: number;
@@ -118,4 +124,9 @@ export interface IMonthlyWebsiteAnalyticsReport {
   createdAt: Date;
   updatedAt: Date;
 }
+
 */
+
+// export const getWebsiteAnalyticsReport = catchAsync(
+//   async (req: AnalyticsRequest, res: Response, next: NextFunction) => {}
+// );
