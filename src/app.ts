@@ -8,8 +8,8 @@ import cors from "cors";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
 
-import { startShopsCronJobs } from "./utils/cornJobs/shopCornJob";
-import { startWebsiteCronJobs } from "./utils/cornJobs/websiteCornJob";
+import { startShopsCronJobs } from "./jobs/cornJobs/shopCornJob";
+import { startWebsiteCronJobs } from "./jobs/cornJobs/websiteCornJob";
 
 import authRoutes from "./routes/auth/authRoutes";
 import userRoutes from "./routes/users/userRoutes";
