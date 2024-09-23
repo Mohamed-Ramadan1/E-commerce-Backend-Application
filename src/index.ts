@@ -18,7 +18,7 @@ mongoose.connect(DB).then(() => {
   console.log("Database is connected");
 });
 
-const io = initializeSocket(httpServer);
+initializeSocket(httpServer);
 
 // Socket.io setup for real-time notifications.
 httpServer.listen(PORT, () => {

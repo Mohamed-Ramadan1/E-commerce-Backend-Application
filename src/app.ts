@@ -7,9 +7,9 @@ import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 import mongoSanitize from "express-mongo-sanitize";
-
 import { startShopsCronJobs } from "./jobs/cornJobs/shopCornJob";
 import { startWebsiteCronJobs } from "./jobs/cornJobs/websiteCornJob";
+import swaggerDocs from "./config/swagger.config";
 
 import authRoutes from "./routes/auth/authRoutes";
 import userRoutes from "./routes/users/userRoutes";
@@ -157,6 +157,8 @@ app.use(
   "/api/v1/processed-delete-shops-requests",
   processedDeleteShopRequestRoutes
 );
+
+swaggerDocs(app, 3000);
 
 // Error handling middleware
 app.use("*", (req: Request, res: Response, next: NextFunction) => {
