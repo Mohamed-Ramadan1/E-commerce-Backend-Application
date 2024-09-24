@@ -10,10 +10,22 @@
 			"name": "Users",
 			"item": [
 				{
-					"name": "Admin-routes",
+					"name": "Admin End points",
 					"item": [
 						{
 							"name": "Create User",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -44,7 +56,8 @@
 									"path": [
 										"users"
 									]
-								}
+								},
+								"description": "### Create User\n\nThis endpoint allows the client to create a new user.\n\n#### Request Body\n\n- `name` (string, required): The name of the user.\n- `email` (string, required): The email address of the user.\n- `password` (string, required): The password for the user account.\n- `passwordConfirmation` (string, required): Confirmation of the password.\n- `phoneNumber` (string, required): The phone number of the user.\n    \n\n#### Response\n\nThe response is in JSON format and follows the schema below:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": {\n      \"type\": \"string\"\n    },\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"name\": {\n          \"type\": \"string\"\n        },\n        \"email\": {\n          \"type\": \"string\"\n        },\n        \"isNotificationMuted\": {\n          \"type\": \"boolean\"\n        },\n        \"isPrimeUser\": {\n          \"type\": \"boolean\"\n        },\n        \"phoneNumber\": {\n          \"type\": \"string\"\n        },\n        \"giftCard\": {\n          \"type\": \"number\"\n        },\n        \"photo\": {\n          \"type\": \"string\"\n        },\n        \"password\": {\n          \"type\": \"string\"\n        },\n        \"role\": {\n          \"type\": \"string\"\n        },\n        \"purchaseHistory\": {\n          \"type\": \"array\",\n          \"items\": {}\n        },\n        \"active\": {\n          \"type\": \"boolean\"\n        },\n        \"loyaltyPoints\": {\n          \"type\": \"number\"\n        },\n        \"verified\": {\n          \"type\": \"boolean\"\n        },\n        \"_id\": {\n          \"type\": \"string\"\n        },\n        \"createdAt\": {\n          \"type\": \"string\"\n        },\n        \"updatedAt\": {\n          \"type\": \"string\"\n        },\n        \"__v\": {\n          \"type\": \"number\"\n        }\n      }\n    }\n  }\n}\n\n ```"
 							},
 							"response": []
 						},
@@ -64,15 +77,16 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/users/666719c81d5372a336f515a6",
+									"raw": "{{URL}}/users/66c7b52d0e42a9164eb755ac",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"users",
-										"666719c81d5372a336f515a6"
+										"66c7b52d0e42a9164eb755ac"
 									]
-								}
+								},
+								"description": "# Get User Details\n\nThis endpoint retrieves the details of a specific user.\n\n## Request\n\n### Endpoint\n\n`GET /users/66c7b52d0e42a9164eb755ac`\n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"status\": \"\",\n    \"data\": {\n        \"loyaltyPoints\": 0,\n        \"_id\": \"\",\n        \"name\": \"\",\n        \"email\": \"\",\n        \"phoneNumber\": \"\",\n        \"giftCard\": 0,\n        \"photo\": \"\",\n        \"role\": \"\",\n        \"purchaseHistory\": [\"\"],\n        \"active\": true,\n        \"verified\": true,\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0,\n        \"shoppingCart\": \"\",\n        \"isNotificationMuted\": true,\n        \"isPrimeUser\": true,\n        \"lastPrimeSubscriptionDocument\": \"\",\n        \"primeSubscriptionStatus\": \"\"\n    }\n}\n\n ```\n\n## Headers\n\nNo specific headers are required for this request."
 							},
 							"response": []
 						},
@@ -99,7 +113,8 @@
 									"path": [
 										"users"
 									]
-								}
+								},
+								"description": "\n### Get Users\n\nThis endpoint retrieves a list of users.\n\n#### Request\n\nThere are no request parameters for this endpoint.\n\n#### Response\n\nThe response is in JSON format and follows the schema below:\n\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"results\": {\n            \"type\": \"integer\"\n        },\n        \"data\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"_id\": {\n                        \"type\": \"string\"\n                    },\n                    \"name\": {\n                        \"type\": \"string\"\n                    },\n                    \"email\": {\n                        \"type\": \"string\"\n                    },\n                    \"isNotificationMuted\": {\n                        \"type\": \"boolean\"\n                    },\n                    \"isPrimeUser\": {\n                        \"type\": \"boolean\"\n                    },\n                    \"phoneNumber\": {\n                        \"type\": \"string\"\n                    },\n                    \"giftCard\": {\n                        \"type\": \"integer\"\n                    },\n                    \"photo\": {\n                        \"type\": \"string\"\n                    },\n                    \"role\": {\n                        \"type\": \"string\"\n                    },\n                    \"purchaseHistory\": {\n                        \"type\": \"array\"\n                    },\n                    \"active\": {\n                        \"type\": \"boolean\"\n                    },\n                    \"loyaltyPoints\": {\n                        \"type\": \"integer\"\n                    },\n                    \"verified\": {\n                        \"type\": \"boolean\"\n                    },\n                    \"createdAt\": {\n                        \"type\": \"string\"\n                    },\n                    \"updatedAt\": {\n                        \"type\": \"string\"\n                    }\n                },\n                \"required\": [\n                    \"_id\",\n                    \"name\",\n                    \"email\",\n                    \"isNotificationMuted\",\n                    \"isPrimeUser\",\n                    \"phoneNumber\",\n                    \"giftCard\",\n                    \"photo\",\n                    \"role\",\n                    \"purchaseHistory\",\n                    \"active\",\n                    \"loyaltyPoints\",\n                    \"verified\",\n                    \"createdAt\",\n                    \"updatedAt\"\n                ]\n            }\n        }\n    },\n    \"required\": [\n        \"status\",\n        \"results\",\n        \"data\"\n    ]\n}\n```\n\n"
 							},
 							"response": []
 						},
@@ -120,7 +135,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\":\"admin\"\n}",
+									"raw": "{\n    \"name\":\"Jonas\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -128,15 +143,16 @@
 									}
 								},
 								"url": {
-									"raw": "{{URL}}/users/666817f2324c8dadc2f512d3",
+									"raw": "{{URL}}/users/66c7b52d0e42a9164eb755ac",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"users",
-										"666817f2324c8dadc2f512d3"
+										"66c7b52d0e42a9164eb755ac"
 									]
-								}
+								},
+								"description": "### Update User Details\n\nThis endpoint allows the client to update user details by sending an HTTP PATCH request to the specified user's ID.\n\n#### Request\n\n- Method: `PATCH`\n- URL: `{{URL}}/users/66c7b52d0e42a9164eb755ac`\n- Headers:\n    - Content-Type: application/json\n- Body (raw - JSON):\n    \n    ``` json\n      {\n          \"name\": \"\"\n      }\n    \n     ```\n    \n\n#### Response\n\nThe response for this request is a JSON object with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"data\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"loyaltyPoints\": {\n                    \"type\": \"integer\"\n                },\n                \"_id\": {\n                    \"type\": \"string\"\n                },\n                \"name\": {\n                    \"type\": \"string\"\n                },\n                \"email\": {\n                    \"type\": \"string\"\n                },\n                \"phoneNumber\": {\n                    \"type\": \"string\"\n                },\n                \"giftCard\": {\n                    \"type\": \"integer\"\n                },\n                \"photo\": {\n                    \"type\": \"string\"\n                },\n                \"role\": {\n                    \"type\": \"string\"\n                },\n                \"purchaseHistory\": {\n                    \"type\": \"array\",\n                    \"items\": {\n                        \"type\": \"string\"\n                    }\n                },\n                \"active\": {\n                    \"type\": \"boolean\"\n                },\n                \"verified\": {\n                    \"type\": \"boolean\"\n                },\n                \"createdAt\": {\n                    \"type\": \"string\"\n                },\n                \"updatedAt\": {\n                    \"type\": \"string\"\n                },\n                \"__v\": {\n                    \"type\": \"integer\"\n                },\n                \"shoppingCart\": {\n                    \"type\": \"string\"\n                },\n                \"isNotificationMuted\": {\n                    \"type\": \"boolean\"\n                },\n                \"isPrimeUser\": {\n                    \"type\": \"boolean\"\n                },\n                \"lastPrimeSubscriptionDocument\": {\n                    \"type\": \"string\"\n                },\n                \"primeSubscriptionStatus\": {\n                    \"type\": \"string\"\n                }\n            }\n        }\n    }\n}\n\n ```"
 							},
 							"response": []
 						},
@@ -156,15 +172,16 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/users/666e78b0076f4ea9a74cf68b",
+									"raw": "{{URL}}/users/66c7b52d0e42a9164eb755ac",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"users",
-										"666e78b0076f4ea9a74cf68b"
+										"66c7b52d0e42a9164eb755ac"
 									]
-								}
+								},
+								"description": "### Delete User\n\nThis endpoint is used to delete a specific user by providing the user ID in the URL.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\n- Status: 204\n- Content-Type: text/xml\n- The response body is empty (null)."
 							},
 							"response": []
 						},
@@ -184,16 +201,17 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/users/6697dfab5d7e24acce20ffea/activate",
+									"raw": "{{URL}}/users/66ca43572e5ee503c060bb91/activate",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"users",
-										"6697dfab5d7e24acce20ffea",
+										"66ca43572e5ee503c060bb91",
 										"activate"
 									]
-								}
+								},
+								"description": "### Activate User\n\nThis endpoint is used to activate a specific user.\n\n#### Request Body\n\n- No request body is required for this endpoint.\n    \n\n#### Response\n\n- **status**: (string) The status of the activation process.\n- **data**: (object) Additional data related to the activation process.\n    \n\nExample Response:\n\n``` json\n{\n    \"status\": \"\",\n    \"data\": null\n}\n\n ```"
 							},
 							"response": []
 						},
@@ -213,16 +231,17 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/users/6697dfab5d7e24acce20ffea/deactivate",
+									"raw": "{{URL}}/users/66ca43572e5ee503c060bb91/deactivate",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"users",
-										"6697dfab5d7e24acce20ffea",
+										"66ca43572e5ee503c060bb91",
 										"deactivate"
 									]
-								}
+								},
+								"description": "### Deactivate User\n\nThis endpoint is used to deactivate a specific user.\n\n**Request Body**\n\n- No request body is required for this endpoint.\n    \n\n**Response**  \nThe response for this request is a JSON object with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"data\": {\n            \"type\": \"null\"\n        }\n    }\n}\n\n ```"
 							},
 							"response": []
 						},
@@ -255,14 +274,15 @@
 											"value": "admin"
 										}
 									]
-								}
+								},
+								"description": "# Get Users by Role\n\nThis endpoint retrieves users with a specific role.\n\n## Request\n\n### URL\n\n`GET /users?role=admin`\n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"status\": \"\",\n    \"results\": 0,\n    \"data\": [\n        {\n            \"isPrimeUser\": true,\n            \"loyaltyPoints\": 0,\n            \"_id\": \"\",\n            \"name\": \"\",\n            \"email\": \"\",\n            \"phoneNumber\": \"\",\n            \"giftCard\": 0,\n            \"photo\": \"\",\n            \"role\": \"\",\n            \"purchaseHistory\": [\"\"],\n            \"active\": true,\n            \"verified\": true,\n            \"createdAt\": \"\",\n            \"updatedAt\": \"\",\n            \"emailVerificationToken\": \"\",\n            \"shoppingCart\": \"\",\n            \"isNotificationMuted\": true\n        }\n    ]\n}\n\n ```"
 							},
 							"response": []
 						}
 					]
 				},
 				{
-					"name": "User-Routes",
+					"name": "User End  Points",
 					"item": [
 						{
 							"name": "Update My Password",
@@ -281,7 +301,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"currentPassword\":\"123456789\",\n     \"newPassword\":\"123456789101\",\n    \"passwordConfirmation\":\"123456789101\"\n}",
+									"raw": "{\n    \"currentPassword\":\"123456789\",\n     \"newPassword\":\"123456789\",\n    \"passwordConfirmation\":\"123456789\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -298,7 +318,8 @@
 										"me",
 										"password"
 									]
-								}
+								},
+								"description": "# Update User Password\n\nThis endpoint is used to update the password for the currently authenticated user.\n\n## Request\n\n- Method: PATCH\n- URL: {{URL}}/users/me/password\n- Headers:\n    - Content-Type: application/json\n- Body (raw, JSON):\n    \n    ``` json\n    {\n        \"currentPassword\": \"\",\n        \"newPassword\": \"\",\n        \"passwordConfirmation\": \"\"\n    }\n    \n     ```\n    \n\n## Response\n\n- Status: 200\n- Content-Type: application/json\n- Body:\n    \n    ``` json\n    {\n        \"status\": \"\",\n        \"token\": \"\",\n        \"data\": {\n            \"user\": {\n                \"_id\": \"\",\n                \"name\": \"\",\n                \"email\": \"\",\n                \"phoneNumber\": \"\",\n                \"giftCard\": 0,\n                \"photo\": \"\",\n                \"password\": \"\",\n                \"role\": \"\",\n                \"purchaseHistory\": [\"\"],\n                \"active\": true,\n                \"verified\": true,\n                \"createdAt\": \"\",\n                \"updatedAt\": \"\",\n                \"__v\": 0,\n                \"shoppingCart\": \"\",\n                \"isNotificationMuted\": true,\n                \"isPrimeUser\": true,\n                \"lastPrimeSubscriptionDocument\": \"\",\n                \"primeSubscriptionStatus\": \"\",\n                \"myShop\": \"\",\n                \"loyaltyPoints\": 0\n            }\n        }\n    }\n    \n     ```"
 							},
 							"response": []
 						},
@@ -326,7 +347,8 @@
 										"users",
 										"me"
 									]
-								}
+								},
+								"description": "The endpoint retrieves the details of the authenticated user.\n\nThe response is a JSON object with the following schema:\n\n``` json\n{\n    \"status\": \"\",\n    \"data\": {\n        \"_id\": \"\",\n        \"name\": \"\",\n        \"email\": \"\",\n        \"phoneNumber\": \"\",\n        \"giftCard\": 0,\n        \"photo\": \"\",\n        \"role\": \"\",\n        \"purchaseHistory\": [\"\"],\n        \"active\": true,\n        \"verified\": true,\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0,\n        \"shoppingCart\": \"\",\n        \"isNotificationMuted\": true,\n        \"isPrimeUser\": true,\n        \"lastPrimeSubscriptionDocument\": \"\",\n        \"primeSubscriptionStatus\": \"\",\n        \"myShop\": \"\",\n        \"loyaltyPoints\": 0\n    }\n}\n\n ```"
 							},
 							"response": []
 						},
@@ -354,7 +376,8 @@
 										"users",
 										"me"
 									]
-								}
+								},
+								"description": "### Delete User Profile\n\nThis endpoint is used to delete the user's own profile.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\n- `status`: Indicates the status of the request, where a successful deletion would return a status code of 200.\n- `message`: A message confirming the successful deletion of the user profile."
 							},
 							"response": []
 						},
@@ -383,7 +406,8 @@
 										"me",
 										"deactivate"
 									]
-								}
+								},
+								"description": "### Deactivate Current User\n\nThis endpoint is used to deactivate the current user.\n\n#### Request\n\n- Method: `PATCH`\n- URL: `{{URL}}/users/me/deactivate`\n    \n\n#### Request Body\n\n- No request body is required for this endpoint.\n    \n\n#### Response\n\nThe response for this request is a JSON object with the following schema:\n\n``` json\n{\n  \"status\": \"string\",\n  \"message\": \"string\"\n}\n\n ```\n\n- `status` (string) - The status of the deactivation request.\n- `message` (string) - A message indicating the result of the deactivation process."
 							},
 							"response": []
 						},
@@ -421,7 +445,8 @@
 										"me",
 										"info"
 									]
-								}
+								},
+								"description": "\n### Update User Information\n\nThis endpoint is used to update the information of the currently authenticated user.\n\n#### Request Body\n- `active` (boolean): Indicates whether the user is active.\n- `password` (string): The new password for the user.\n- `role` (string): The role of the user.\n\n#### Response\nThe response will contain the updated user information.\n"
 							},
 							"response": []
 						},
@@ -450,13 +475,15 @@
 										"me",
 										"loyalty-points"
 									]
-								}
+								},
+								"description": "# Update User Loyalty Points\n\nThis endpoint is used to update the loyalty points of the authenticated user.\n\n## Request\n\n- Method: `PATCH`\n- URL: `{{URL}}/users/me/loyalty-points`\n    \n\n### Request Body\n\n- No request body parameters are required for this request.\n    \n\n## Response\n\nThe response will be in JSON format and will have the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"error\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"statusCode\": {\n                    \"type\": \"integer\"\n                },\n                \"status\": {\n                    \"type\": \"string\"\n                }\n            }\n        },\n        \"message\": {\n            \"type\": \"string\"\n        },\n        \"stack\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
 							},
 							"response": []
 						}
 					]
 				}
-			]
+			],
+			"description": "This collection contains API endpoints related to user management and operations. It is divided into two main categories: admin end points and user end points.\n\n## Structure\n\nThe collection is organized as follows:\n\n- Users  \n    \n    - Admin Operations\n        \n    - User Operations"
 		},
 		{
 			"name": "Products",
@@ -477,7 +504,8 @@
 							"path": [
 								"products"
 							]
-						}
+						},
+						"description": "\nThe endpoint retrieves a list of products from the server.\n\nThe response schema for the request is as follows:\n\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\"type\": \"string\"},\n        \"results\": {\"type\": \"integer\"},\n        \"data\": {\n            \"type\": \"array\",\n            \"items\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"_id\": {\"type\": \"string\"},\n                    \"sourceType\": {\"type\": \"string\"},\n                    \"shopId\": {\"type\": \"string\"},\n                    \"name\": {\"type\": \"string\"},\n                    \"description\": {\"type\": \"string\"},\n                    \"category\": {\"type\": \"string\"},\n                    \"brand\": {\"type\": \"string\"},\n                    \"price\": {\"type\": \"number\"},\n                    \"discount\": {\"type\": \"number\"},\n                    \"discountCodes\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                    \"stock_quantity\": {\"type\": \"integer\"},\n                    \"images\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                    \"videos\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                    \"color\": {\"type\": \"string\"},\n                    \"material\": {\"type\": \"string\"},\n                    \"averageRating\": {\"type\": \"number\"},\n                    \"totalReviews\": {\"type\": \"integer\"},\n                    \"shipping_methods\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                    \"availability_status\": {\"type\": \"string\"},\n                    \"manufacturer\": {\"type\": \"string\"},\n                    \"freezed\": {\"type\": \"boolean\"},\n                    \"return_policy\": {\"type\": \"string\"},\n                    \"createdAt\": {\"type\": \"string\"},\n                    \"updatedAt\": {\"type\": \"string\"}\n                }\n            }\n        }\n    }\n}\n```\n"
 					},
 					"response": []
 				},
@@ -498,7 +526,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\n  \"name\": \"Wireless Bluetooth Headphones5556\",\n  \"description\": \"High-quality wireless Bluetooth headphones with noise-canceling feature and long battery life.\",\n  \"category\": \"electronics\",\n  \"brand\": \"AudioTech\",\n  \"price\": 99.99,\n  \"discount\": 10,\n  \"discountCodes\": [\"SUMMER10\", \"WELCOME5\"],\n  \"stock_quantity\": 150,\n  \"images\": [\n    \"https://example.com/images/headphones1.jpg\",\n    \"https://example.com/images/headphones2.jpg\"\n  ],\n  \"videos\": [\n    \"https://example.com/videos/headphones_demo.mp4\"\n  ],\n  \"color\": \"Black\",\n  \"material\": \"Plastic\",\n  \"averageRating\": 4.5,\n  \"totalReviews\": 120,\n  \"shipping_cost\": 5.99,\n  \"shipping_methods\": [\"standard\", \"express\"],\n  \"availability_status\": \"available\",\n  \"manufacturer\": \"AudioTech Ltd.\",\n  \"supplier\": \"TechSuppliers Inc.\",\n  \"return_policy\": \"30-days return policy\",\n  \"freezed\": false,\n  \"createdAt\": \"2024-07-30T12:34:56.789Z\",\n  \"updatedAt\": \"2024-07-30T12:34:56.789Z\"\n}",
+							"raw": "{\n\n\n  \"name\": \"lesb akons valorint \",\n  \"description\": \"High-quality wireless Bluetooth headphones with noise-canceling feature and long battery life.\",\n  \"category\": \"electronics\",\n  \"brand\": \"AudioTech\",\n  \"price\": 99.99,\n  \"discount\": 10,\n  \"discountCodes\": [\"SUMMER10\", \"WELCOME5\"],\n  \"stock_quantity\": 150,\n  \"images\": [\n    \"https://example.com/images/headphones1.jpg\",\n    \"https://example.com/images/headphones2.jpg\"\n  ],\n  \"videos\": [\n    \"https://example.com/videos/headphones_demo.mp4\"\n  ],\n  \"color\": \"Black\",\n  \"material\": \"Plastic\",\n  \"averageRating\": 4.5,\n  \"totalReviews\": 120,\n  \"shipping_cost\": 5.99,\n  \"shipping_methods\": [\"standard\", \"express\"],\n  \"availability_status\": \"available\",\n  \"manufacturer\": \"AudioTech Ltd.\",\n  \"supplier\": \"TechSuppliers Inc.\",\n  \"return_policy\": \"30-days return policy\",\n  \"freezed\": false,\n  \"createdAt\": \"2024-07-30T12:34:56.789Z\",\n  \"updatedAt\": \"2024-07-30T12:34:56.789Z\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -513,7 +541,8 @@
 							"path": [
 								"products"
 							]
-						}
+						},
+						"description": "### POST /products\n\nThis endpoint is used to create a new product.\n\n#### Request Body\n\n- `name` (string, required): The name of the product.\n- `description` (string, required): A brief description of the product.\n- `category` (string, required): The category to which the product belongs.\n- `brand` (string, required): The brand of the product.\n- `price` (number, required): The price of the product.\n- `discount` (number, required): The discount on the product.\n- `discountCodes` (array of strings, required): The discount codes applicable to the product.\n- `stock_quantity` (number, required): The available quantity of the product in stock.\n- `images` (array of strings, required): URLs of the images of the product.\n- `videos` (array of strings, required): URLs of the videos of the product.\n- `color` (string, required): The color of the product.\n- `material` (string, required): The material used in the product.\n- `averageRating` (number, required): The average rating of the product.\n- `totalReviews` (number, required): The total number of reviews for the product.\n- `shipping_cost` (number, required): The shipping cost of the product.\n- `shipping_methods` (array of strings, required): The available shipping methods for the product.\n- `availability_status` (string, required): The availability status of the product.\n- `manufacturer` (string, required): The manufacturer of the product.\n- `supplier` (string, required): The supplier of the product.\n- `return_policy` (string, required): The return policy for the product.\n- `freezed` (boolean, required): Indicates if the product is freezed.\n- `createdAt` (string, required): The date and time when the product was created.\n- `updatedAt` (string, required): The date and time when the product was last updated.\n    \n\n#### Response (201 - Created)\n\nThe response is in JSON format and follows the schema below:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": { \"type\": \"string\" },\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"sourceType\": { \"type\": \"string\" },\n        \"name\": { \"type\": \"string\" },\n        \"description\": { \"type\": \"string\" },\n        \"category\": { \"type\": \"string\" },\n        \"brand\": { \"type\": \"string\" },\n        \"price\": { \"type\": \"number\" },\n        \"discount\": { \"type\": \"number\" },\n        \"discountCodes\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"stock_quantity\": { \"type\": \"number\" },\n        \"images\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videos\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"color\": { \"type\": \"string\" },\n        \"material\": { \"type\": \"string\" },\n        \"averageRating\": { \"type\": \"number\" },\n        \"totalReviews\": { \"type\": \"number\" },\n        \"shipping_cost\": { \"type\": \"number\" },\n        \"shipping_methods\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"availability_status\": { \"type\": \"string\" },\n        \"manufacturer\": { \"type\": \"string\" },\n        \"supplier\": { \"type\": \"string\" },\n        \"freezed\": { \"type\": \"boolean\" },\n        \"return_policy\": { \"type\": \"string\" },\n        \"_id\": { \"type\": \"string\" },\n        \"createdAt\": { \"type\": \"string\" },\n        \"updatedAt\": { \"type\": \"string\" },\n        \"__v\": { \"type\": \"number\" }\n      }\n    }\n  }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -542,15 +571,16 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/products/6667871d64e8d0af4538dbe9",
+							"raw": "{{URL}}/products/66f27e34928623602137fa3e",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"products",
-								"6667871d64e8d0af4538dbe9"
+								"66f27e34928623602137fa3e"
 							]
-						}
+						},
+						"description": "### PATCH /products/66f27e34928623602137fa3e\n\nThis endpoint is used to update a specific product with the provided ID.\n\n#### Request Body\n\n- `name` (string, required): The updated name of the product.\n    \n\n#### Response\n\nThe response will be in JSON format with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\"type\": \"string\"},\n        \"data\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"_id\": {\"type\": \"string\"},\n                \"sourceType\": {\"type\": \"string\"},\n                \"name\": {\"type\": \"string\"},\n                \"description\": {\"type\": \"string\"},\n                \"category\": {\"type\": \"string\"},\n                \"brand\": {\"type\": \"string\"},\n                \"price\": {\"type\": \"number\"},\n                \"discount\": {\"type\": \"number\"},\n                \"discountCodes\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                \"stock_quantity\": {\"type\": \"number\"},\n                \"images\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                \"videos\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                \"color\": {\"type\": \"string\"},\n                \"material\": {\"type\": \"string\"},\n                \"averageRating\": {\"type\": \"number\"},\n                \"totalReviews\": {\"type\": \"number\"},\n                \"shipping_cost\": {\"type\": \"number\"},\n                \"shipping_methods\": {\"type\": \"array\", \"items\": {\"type\": \"string\"}},\n                \"availability_status\": {\"type\": \"string\"},\n                \"manufacturer\": {\"type\": \"string\"},\n                \"supplier\": {\"type\": \"string\"},\n                \"freezed\": {\"type\": \"boolean\"},\n                \"return_policy\": {\"type\": \"string\"},\n                \"createdAt\": {\"type\": \"string\"},\n                \"updatedAt\": {\"type\": \"string\"},\n                \"__v\": {\"type\": \"number\"}\n            }\n        }\n    }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -568,7 +598,8 @@
 								"products",
 								"66ad32a45ef7087659c3cd78"
 							]
-						}
+						},
+						"description": "\n### Get Product Details\nThis endpoint retrieves the details of a specific product by its ID.\n\n#### Request\n- Method: GET\n- URL: `{{URL}}/products/66ad32a45ef7087659c3cd78`\n\n#### Response\n- Status: 200\n- Content-Type: application/json\n- Body:\n  ```json\n  {\n    \"status\": \"\",\n    \"data\": {\n      \"_id\": \"\",\n      \"sourceType\": \"\",\n      \"shopId\": \"\",\n      \"name\": \"\",\n      \"description\": \"\",\n      \"category\": \"\",\n      \"brand\": \"\",\n      \"price\": 0,\n      \"discount\": 0,\n      \"discountCodes\": [],\n      \"stock_quantity\": 0,\n      \"images\": [],\n      \"videos\": [],\n      \"color\": \"\",\n      \"material\": \"\",\n      \"averageRating\": 0,\n      \"totalReviews\": 0,\n      \"shipping_methods\": [\"\"],\n      \"availability_status\": \"\",\n      \"manufacturer\": \"\",\n      \"freezed\": true,\n      \"return_policy\": \"\",\n      \"createdAt\": \"\",\n      \"updatedAt\": \"\",\n      \"__v\": 0\n    }\n  }\n  ```\n"
 					},
 					"response": []
 				},
@@ -588,15 +619,16 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/products/6667871d64e8d0af4538dbe9",
+							"raw": "{{URL}}/products/66f27e34928623602137fa3e",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"products",
-								"6667871d64e8d0af4538dbe9"
+								"66f27e34928623602137fa3e"
 							]
-						}
+						},
+						"description": "### DELETE /products/66f27e34928623602137fa3e\n\nThis endpoint is used to delete a specific product with the given ID.\n\n#### Request Body\n\nThis endpoint does not require a request body.\n\n#### Response\n\n- Status: 204\n- Content-Type: text/xml\n    \n\nThe response for this request does not include a body.\n\n#### JSON Schema\n\n``` json\n{}\n\n ```"
 					},
 					"response": []
 				}
@@ -814,7 +846,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"Mohamed Ramadan\",\n    \"email\":\"mohamedramadanmeray@gmail.com\",\n    \"password\":\"123456789\",\n    \"passwordConfirmation\":\"123456789\",\n    \"phoneNumber\":\"01149627698\"\n}",
+							"raw": "{\n    \"name\":\"Mohamed Ramadan\",\n    \"email\":\"mohamedramadan11b@gmail.com\",\n    \"password\":\"123456789\",\n    \"passwordConfirmation\":\"123456789\",\n    \"phoneNumber\":\"01149627698\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -830,7 +862,8 @@
 								"auth",
 								"signup"
 							]
-						}
+						},
+						"description": "## Auth Signup\n\nThis endpoint is used to sign up a new user.\n\n### Request Body\n\n- name (string, required): The name of the user.\n- email (string, required): The email address of the user.\n- password (string, required): The password for the user account.\n- passwordConfirmation (string, required): Confirmation of the password.\n- phoneNumber (string, required): The phone number of the user.\n    \n\n### Response\n\nThe response for this request follows the JSON schema below:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"userId\": {\n      \"type\": \"string\"\n    },\n    \"token\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -853,7 +886,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"email\":\"mohamedramadanmeray@gmail.com\",\n    \"password\":\"123456789\"\n}",
+							"raw": "{\n \"email\":\"mohamedramadanmeray@gmail.com\",\n    \"password\":\"12345678910\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -869,7 +902,8 @@
 								"auth",
 								"login"
 							]
-						}
+						},
+						"description": "The endpoint `/auth/login` is a POST request used for user authentication.\n\n### Request Body\n\n- The request body should be in raw format with JSON type, and should include the following parameters:\n    - `email` (string): The email of the user.\n    - `password` (string): The password of the user.\n\n### Response\n\nUpon a successful execution, the response will have a status code of 200 and a JSON content type. The response body will follow the schema below:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": { \"type\": \"string\" },\n    \"token\": { \"type\": \"string\" },\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"user\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"_id\": { \"type\": \"string\" },\n            \"name\": { \"type\": \"string\" },\n            \"email\": { \"type\": \"string\" },\n            \"phoneNumber\": { \"type\": \"string\" },\n            \"giftCard\": { \"type\": \"number\" },\n            \"photo\": { \"type\": \"string\" },\n            \"password\": { \"type\": \"string\" },\n            \"role\": { \"type\": \"string\" },\n            \"purchaseHistory\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"active\": { \"type\": \"boolean\" },\n            \"verified\": { \"type\": \"boolean\" },\n            \"createdAt\": { \"type\": \"string\" },\n            \"updatedAt\": { \"type\": \"string\" },\n            \"__v\": { \"type\": \"number\" },\n            \"shoppingCart\": { \"type\": \"string\" },\n            \"isNotificationMuted\": { \"type\": \"boolean\" },\n            \"isPrimeUser\": { \"type\": \"boolean\" },\n            \"lastPrimeSubscriptionDocument\": { \"type\": \"string\" },\n            \"primeSubscriptionStatus\": { \"type\": \"string\" },\n            \"myShop\": { \"type\": \"string\" },\n            \"loyaltyPoints\": { \"type\": \"number\" }\n          }\n        }\n      }\n    }\n  }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -909,7 +943,8 @@
 								"auth",
 								"logout"
 							]
-						}
+						},
+						"description": "### /auth/logout\n\nThis endpoint is used to log out the user and invalidate the authentication token.\n\n#### Request Body\n\nThis request does not require a request body.\n\n#### Response\n\nThe response for this request is a JSON object with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"token\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```\n\nThe response contains the status and token fields, both of type string."
 					},
 					"response": []
 				},
@@ -919,16 +954,17 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/auth/verify-email/3edc0d5b77bd6f1a1c42a02924f4e98bbf7c7abaa9dcd22b09fa89b14467402d",
+							"raw": "{{URL}}/auth/verify-email/0958daf3b8e5215f397f447bca08899e962dcab6f2652e74f598acb9d6eadb78",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"auth",
 								"verify-email",
-								"3edc0d5b77bd6f1a1c42a02924f4e98bbf7c7abaa9dcd22b09fa89b14467402d"
+								"0958daf3b8e5215f397f447bca08899e962dcab6f2652e74f598acb9d6eadb78"
 							]
-						}
+						},
+						"description": "\nThis endpoint makes an HTTP GET request to verify the email using the provided verification token. The response will be in JSON format with a status and message field.\n\n### Request\n\n- No request body is required for this request.\n\n### Response\n\n- `status` (string): The status of the email verification.\n- `message` (string): Any additional message related to the email verification process.\n\n"
 					},
 					"response": []
 				},
@@ -947,16 +983,17 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/auth/reset-password/d072ebfc5284285893c215c88cc7807ad1f9f4efcb7721731997e301130f7e99",
+							"raw": "{{URL}}/auth/reset-password/b62d4f72129a0a1d85ac35c880a50757e1810824bc73a4c1b0c43fc6bac3f5cd",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"auth",
 								"reset-password",
-								"d072ebfc5284285893c215c88cc7807ad1f9f4efcb7721731997e301130f7e99"
+								"b62d4f72129a0a1d85ac35c880a50757e1810824bc73a4c1b0c43fc6bac3f5cd"
 							]
-						}
+						},
+						"description": "### PATCH /auth/reset-password/{resetToken}\n\nThis endpoint is used to reset the password by providing a new password and confirming the password.\n\n#### Request Body\n\n- `password` (string, required): The new password.\n- `passwordConfirmation` (string, required): Confirmation of the new password.\n    \n\n#### Response\n\nThe response of this request is a JSON object with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"error\": {\n            \"type\": \"object\",\n            \"properties\": {\n                \"statusCode\": {\n                    \"type\": \"integer\"\n                },\n                \"status\": {\n                    \"type\": \"string\"\n                }\n            }\n        },\n        \"message\": {\n            \"type\": \"string\"\n        },\n        \"stack\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
 					},
 					"response": []
 				},
@@ -967,7 +1004,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"mohamedramadanmeray@gmail.com\"\n}",
+							"raw": "{\n    \"email\":\"mohamedramadan11b@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -983,7 +1020,8 @@
 								"auth",
 								"forgot-password"
 							]
-						}
+						},
+						"description": "\n### POST /auth/forgot-password\n\nThis endpoint is used to initiate the process of resetting a user's password by sending a reset link to the provided email address.\n\n#### Request Body\n- email (string, required): The email address of the user for whom the password reset link needs to be sent.\n\n#### Response\nThe response is in JSON format and follows the schema below:\n\n```json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"status\": {\n            \"type\": \"string\"\n        },\n        \"message\": {\n            \"type\": \"string\"\n        }\n    }\n}\n```\n- status (string): Indicates the status of the request, whether it was successful or not.\n- message (string): Provides additional information about the status of the request.\n\n"
 					},
 					"response": []
 				}
@@ -1031,7 +1069,8 @@
 										"shopping-cart",
 										"me"
 									]
-								}
+								},
+								"description": "This endpoint retrieves the shopping cart details for the currently authenticated user.\n\n### Request\n\n- Method: `GET`\n- URL: `{{URL}}/shopping-cart/me`\n    \n\n### Response\n\n- Status: 200 OK\n- Content-Type: application/json\n    \n\n``` json\n{\n    \"status\": \"\",\n    \"data\": {\n        \"_id\": \"\",\n        \"user\": \"\",\n        \"items\": [],\n        \"total_quantity\": 0,\n        \"discount_code_applied\": true,\n        \"total_discount\": 0,\n        \"total_price\": 0,\n        \"total_shipping_cost\": 0,\n        \"payment_status\": \"\",\n        \"payment_method\": \"\",\n        \"createdAt\": \"\",\n        \"updatedAt\": \"\",\n        \"__v\": 0\n    }\n}\n\n ```"
 							},
 							"response": []
 						},
@@ -1060,16 +1099,17 @@
 									}
 								},
 								"url": {
-									"raw": "{{URL}}/shopping-cart/items/66ad32f15ef7087659c3cd88",
+									"raw": "{{URL}}/shopping-cart/items/66e4bb69db01933aefa67277",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"shopping-cart",
 										"items",
-										"66ad32f15ef7087659c3cd88"
+										"66e4bb69db01933aefa67277"
 									]
-								}
+								},
+								"description": "The API endpoint sends an HTTP DELETE request to remove a specific item from the shopping cart.\n\n### Response\n\nThe response for this request can be documented as a JSON schema. The schema will define the structure of the response data returned by the API endpoint."
 							},
 							"response": []
 						},
@@ -1090,7 +1130,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"productId\":\"66ad33055ef7087659c3cd94\",\n    \"quantity\":2\n}",
+									"raw": "{\n    \"productId\":\"66ad32f15ef7087659c3cd88\",\n    \"quantity\":2\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2983,13 +3023,13 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/shops-requests/66997a228841fdbf7e6a0257/approve",
+									"raw": "{{URL}}/shops-requests/66f33c1bc78fbfbd3ef7ad67/approve",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"shops-requests",
-										"66997a228841fdbf7e6a0257",
+										"66f33c1bc78fbfbd3ef7ad67",
 										"approve"
 									]
 								}
@@ -7232,14 +7272,14 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{URL}}/website/analytics-reports/",
+									"raw": "{{URL}}/website/analytics-reports/66f073beb2eea2b5e5681cf4",
 									"host": [
 										"{{URL}}"
 									],
 									"path": [
 										"website",
 										"analytics-reports",
-										""
+										"66f073beb2eea2b5e5681cf4"
 									]
 								}
 							},

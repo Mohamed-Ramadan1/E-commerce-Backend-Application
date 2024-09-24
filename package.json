@@ -9,6 +9,7 @@
     "build": "webpack --mode production",
     "test": "jest"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",

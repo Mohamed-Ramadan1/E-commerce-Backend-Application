@@ -2,6 +2,10 @@
 
 MultiVend is a cutting-edge, feature-rich multi-vendor e-commerce platform that revolutionizes online trading by empowering both shoppers and entrepreneurs. Our platform creates a dynamic marketplace where users can not only shop but also establish and manage their own online stores with ease.
 
+# API documentation
+
+## [Postman-Documentation](https://documenter.getpostman.com/view/31297722/2sAXqwXeqK)
+
 # Installation
 
 Follow these steps to set up the E-commerce Backend Application:

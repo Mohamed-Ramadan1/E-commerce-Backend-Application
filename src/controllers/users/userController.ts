@@ -290,7 +290,6 @@ export const deleteMe = catchAsync(
       await cascadeUserDeletion(me, session, next);
 
       await session.commitTransaction();
-      session.endSession();
 
       const response: ApiResponse<null> = {
         status: "success",
